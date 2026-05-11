@@ -740,8 +740,8 @@ table tr:hover td{background:rgba(212,175,55,.03)}
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Город / Офис</label>
-                <input type="text" class="form-input" id="cCity" placeholder="Ош / Бишкек">
+                <label class="form-label">Адрес офиса</label>
+                <input type="text" class="form-input" id="cCity" placeholder="Улица Медерова, 1в, Бишкек">
               </div>
               <div class="form-group">
                 <label class="form-label">Часы работы</label>
@@ -1273,9 +1273,10 @@ const defaultData = {
     instagram: 'https://www.instagram.com/tilek_auto_dubai/',
     igUsername: '@tilek_auto_dubai',
     whatsappGroup: 'https://chat.whatsapp.com/D1IHhSbhKkH5vlnxzsdA4R',
-    twoGisUrl: 'https://2gis.kg/search/Tilek%20Auto%20Dubai',
+    twoGisUrl: 'https://2gis.kg/bishkek/geo/70030076498216967',
+    twoGisWidgetUrl: 'https://widgets.2gis.com/widget?options=%7B%22pos%22%3A%7B%22lat%22%3A42.846%2C%22lon%22%3A74.626%2C%22zoom%22%3A16%7D%2C%22opt%22%3A%7B%22city%22%3A%22bishkek%22%7D%2C%22org%22%3A%2270030076498216967%22%7D&type=firmsonmap',
     leadWebhook: '',
-    city: 'Ош / Бишкек',
+    city: 'Улица Медерова, 1в, Бишкек',
     hours: '09:00 – 22:00',
     heroTitle: 'Авто из Дубая под ключ — от аукциона до доставки',
     heroSub: 'Подберём, проверим, купим и поможем доставить автомобиль из ОАЭ в Кыргызстан, Казахстан и другие страны СНГ.',
@@ -1312,6 +1313,8 @@ function isDefaultPlaceholder(key, value) {
   if (!text) return true;
   if (key === 'whatsapp') return text.replace(/\D/g, '') === '000000000000';
   if (key === 'instagram') return /^https?:\/\/(www\.)?instagram\.com\/?$/i.test(text);
+  if (key === 'twoGisUrl') return text === 'https://2gis.kg/search/Tilek%20Auto%20Dubai';
+  if (key === 'city') return text === 'Ош / Бишкек' || text === 'Ош / Бишкек, Кыргызстан';
   if (key === 'followers') return text === '33900';
   if (key === 'posts') return text === '700';
   return false;
@@ -1319,7 +1322,7 @@ function isDefaultPlaceholder(key, value) {
 
 function mergeContentDefaults(content = {}) {
   const merged = { ...defaultData.content, ...content };
-  ['whatsapp', 'instagram', 'followers', 'posts', 'whatsappGroup', 'twoGisUrl'].forEach(key => {
+  ['whatsapp', 'instagram', 'followers', 'posts', 'whatsappGroup', 'twoGisUrl', 'twoGisWidgetUrl', 'city'].forEach(key => {
     if (isDefaultPlaceholder(key, merged[key])) merged[key] = defaultData.content[key];
   });
   return merged;
