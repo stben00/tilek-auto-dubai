@@ -631,6 +631,9 @@ table tr:hover td{background:rgba(212,175,55,.03)}
       </div>
       <div class="section-card">
         <div class="section-card-body">
+          <p style="font-size:13px;color:var(--text-light);line-height:1.6;margin-bottom:16px">
+            Лайфхак: на главную добавляйте 6-12 самых сильных Reels, а не все подряд. Для полного потока используйте кнопку Instagram и WhatsApp-группу — так сайт остаётся быстрым, а клиент всё равно видит весь свежий контент.
+          </p>
           <div class="table-wrap">
             <table>
               <thead>
@@ -749,6 +752,19 @@ table tr:hover td{background:rgba(212,175,55,.03)}
               <label class="form-label">Instagram @ ник</label>
               <input type="text" class="form-input" id="cIgUsername" placeholder="@tilek_auto_dubai">
             </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Ссылка на WhatsApp-группу</label>
+                <input type="url" class="form-input" id="cWhatsappGroup" placeholder="https://chat.whatsapp.com/...">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Ссылка 2GIS</label>
+                <input type="url" class="form-input" id="cTwoGisUrl" placeholder="https://2gis.kg/...">
+              </div>
+            </div>
+            <p style="font-size:12px;color:var(--text-dim);margin:-4px 0 18px;line-height:1.5">
+              Если точной карточки 2GIS нет, оставьте поисковую ссылку. Когда владелец даст ссылку из 2GIS через «Поделиться», просто вставьте её сюда.
+            </p>
             <div class="form-group">
               <label class="form-label">Webhook для заявок (Formspree / CRM / Telegram gateway)</label>
               <input type="url" class="form-input" id="cLeadWebhook" placeholder="https://formspree.io/f/xxxxxxx">
@@ -1248,21 +1264,23 @@ const defaultData = {
     { id: 8, q: 'Можно ли заказать расчёт без покупки?', a: 'Да, можно сначала получить консультацию и понять примерную стоимость.' },
   ],
   videos: [
-    { id: 1, title: 'Land Cruiser 250 — обзор и цена под ключ', url: 'https://instagram.com/', views: '12.4K' },
-    { id: 2, title: 'Wrangler с аукциона — что важно проверить', url: 'https://instagram.com/', views: '8.2K' },
-    { id: 3, title: 'Гибрид Lexus RX — стоит ли брать в 2025?', url: 'https://instagram.com/', views: '15.6K' },
+    { id: 1, title: 'Land Cruiser 250 — обзор и цена под ключ', url: 'https://www.instagram.com/tilek_auto_dubai/', views: '12.4K' },
+    { id: 2, title: 'Wrangler с аукциона — что важно проверить', url: 'https://www.instagram.com/tilek_auto_dubai/', views: '8.2K' },
+    { id: 3, title: 'Гибрид Lexus RX — стоит ли брать в 2025?', url: 'https://www.instagram.com/tilek_auto_dubai/', views: '15.6K' },
   ],
   content: {
-    whatsapp: '000000000000',
-    instagram: 'https://instagram.com/',
+    whatsapp: '996551333360',
+    instagram: 'https://www.instagram.com/tilek_auto_dubai/',
     igUsername: '@tilek_auto_dubai',
+    whatsappGroup: 'https://chat.whatsapp.com/D1IHhSbhKkH5vlnxzsdA4R',
+    twoGisUrl: 'https://2gis.kg/search/Tilek%20Auto%20Dubai',
     leadWebhook: '',
     city: 'Ош / Бишкек',
     hours: '09:00 – 22:00',
     heroTitle: 'Авто из Дубая под ключ — от аукциона до доставки',
     heroSub: 'Подберём, проверим, купим и поможем доставить автомобиль из ОАЭ в Кыргызстан, Казахстан и другие страны СНГ.',
-    followers: '33900',
-    posts: '700',
+    followers: '34000',
+    posts: '779',
     aboutTitle: 'Почему клиенты выбирают Tilek Auto Dubai',
     aboutText: 'Tilek Auto Dubai помогает клиентам подобрать и купить автомобили из Дубая: с аукционов, площадок и проверенных источников.',
     brandTagline: 'Доверие, как рукопожатие — основа каждой нашей сделки',
@@ -1289,6 +1307,24 @@ const defaultData = {
 
 let DATA = loadData();
 
+function isDefaultPlaceholder(key, value) {
+  const text = String(value ?? '').trim();
+  if (!text) return true;
+  if (key === 'whatsapp') return text.replace(/\D/g, '') === '000000000000';
+  if (key === 'instagram') return /^https?:\/\/(www\.)?instagram\.com\/?$/i.test(text);
+  if (key === 'followers') return text === '33900';
+  if (key === 'posts') return text === '700';
+  return false;
+}
+
+function mergeContentDefaults(content = {}) {
+  const merged = { ...defaultData.content, ...content };
+  ['whatsapp', 'instagram', 'followers', 'posts', 'whatsappGroup', 'twoGisUrl'].forEach(key => {
+    if (isDefaultPlaceholder(key, merged[key])) merged[key] = defaultData.content[key];
+  });
+  return merged;
+}
+
 function loadData() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -1298,7 +1334,7 @@ function loadData() {
     return {
       ...defaultData,
       ...parsed,
-      content: { ...defaultData.content, ...(parsed.content || {}) },
+      content: mergeContentDefaults(parsed.content || {}),
       stats: { ...defaultData.stats, ...(parsed.stats || {}) }
     };
   } catch (e) {
@@ -1829,7 +1865,7 @@ function saveVideo() {
   if (!title) { toast('Введите название', 'error'); return; }
   const v = {
     title,
-    url: document.getElementById('videoUrl').value.trim() || 'https://instagram.com/',
+    url: document.getElementById('videoUrl').value.trim() || DATA.content.instagram || 'https://www.instagram.com/tilek_auto_dubai/',
     views: document.getElementById('videoViews').value.trim() || '0',
   };
   if (id) {
@@ -1859,6 +1895,8 @@ function loadContentForm() {
   document.getElementById('cWhatsapp').value = c.whatsapp || '';
   document.getElementById('cInstagram').value = c.instagram || '';
   document.getElementById('cIgUsername').value = c.igUsername || '';
+  document.getElementById('cWhatsappGroup').value = c.whatsappGroup || '';
+  document.getElementById('cTwoGisUrl').value = c.twoGisUrl || '';
   document.getElementById('cLeadWebhook').value = c.leadWebhook || '';
   document.getElementById('cCity').value = c.city || '';
   document.getElementById('cHours').value = c.hours || '';
@@ -1893,6 +1931,8 @@ function saveContent() {
     whatsapp: document.getElementById('cWhatsapp').value.replace(/\D/g, ''),
     instagram: document.getElementById('cInstagram').value.trim(),
     igUsername: document.getElementById('cIgUsername').value.trim(),
+    whatsappGroup: document.getElementById('cWhatsappGroup').value.trim(),
+    twoGisUrl: document.getElementById('cTwoGisUrl').value.trim(),
     leadWebhook: document.getElementById('cLeadWebhook').value.trim(),
     city: document.getElementById('cCity').value.trim(),
     hours: document.getElementById('cHours').value.trim(),

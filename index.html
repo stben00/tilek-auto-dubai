@@ -25,11 +25,15 @@
 <link rel="apple-touch-icon" href="assets/logo.png">
 <script>
 window.TILEK_PUBLIC_CONFIG = {
-  whatsapp: '000000000000',
-  instagram: 'https://instagram.com/',
+  whatsapp: '996551333360',
+  instagram: 'https://www.instagram.com/tilek_auto_dubai/',
   igUsername: '@tilek_auto_dubai',
+  whatsappGroup: 'https://chat.whatsapp.com/D1IHhSbhKkH5vlnxzsdA4R',
+  twoGisUrl: 'https://2gis.kg/search/Tilek%20Auto%20Dubai',
   city: 'Ош / Бишкек',
   hours: '09:00–22:00',
+  followers: '34000',
+  posts: '779',
   leadWebhook: ''
 };
 </script>
@@ -40,6 +44,7 @@ window.TILEK_PUBLIC_CONFIG = {
   "name": "Tilek Auto Dubai",
   "description": "Подбор, проверка, покупка и доставка авто из Дубая в Кыргызстан, Казахстан и страны СНГ.",
   "image": "assets/logo.png",
+  "telephone": "+996551333360",
   "priceRange": "$$",
   "areaServed": ["Kyrgyzstan", "Kazakhstan", "Russia", "Tajikistan", "Uzbekistan"],
   "address": {
@@ -47,7 +52,10 @@ window.TILEK_PUBLIC_CONFIG = {
     "addressLocality": "Ош / Бишкек",
     "addressCountry": "KG"
   },
-  "sameAs": [],
+  "sameAs": [
+    "https://www.instagram.com/tilek_auto_dubai/",
+    "https://chat.whatsapp.com/D1IHhSbhKkH5vlnxzsdA4R"
+  ],
   "openingHours": "Mo-Su 09:00-22:00"
 }
 </script>
@@ -674,6 +682,61 @@ svg{flex-shrink:0}
   font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.8px;
 }
 
+/* ============ COMMUNITY / SOCIAL ============ */
+.community-section{
+  background:linear-gradient(180deg,#0a0a0a 0%,#0d0d0d 100%);
+  position:relative;overflow:hidden;
+}
+.community-section::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 20% 20%,rgba(37,211,102,.1) 0%,transparent 44%),
+             radial-gradient(ellipse at 80% 70%,rgba(212,175,55,.1) 0%,transparent 46%);
+  pointer-events:none;
+}
+.community-grid{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center;
+}
+.community-copy h2{
+  font-size:clamp(28px,5vw,52px);font-weight:800;line-height:1.1;color:#fff;
+  letter-spacing:-.02em;margin-bottom:18px;
+}
+.community-copy h2 .gold{
+  background:linear-gradient(135deg,var(--gold-light),var(--gold-deep));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.community-copy p{font-size:16px;color:var(--gray-light);line-height:1.75;max-width:620px;margin-bottom:28px}
+.community-actions{display:flex;flex-wrap:wrap;gap:12px}
+.community-panel{
+  background:linear-gradient(160deg,#151515 0%,#090909 100%);
+  border:1px solid var(--line);border-radius:28px;padding:28px;
+  box-shadow:var(--shadow-card);position:relative;overflow:hidden;
+}
+.community-panel::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.community-phone{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:16px 18px;border:1px solid var(--line-soft);border-radius:18px;
+  background:rgba(255,255,255,.035);margin-bottom:16px;
+}
+.community-phone strong{display:block;color:#fff;font-size:15px;margin-bottom:4px}
+.community-phone span{display:block;color:var(--gray-light);font-size:12.5px;line-height:1.4}
+.community-phone-badge{
+  width:44px;height:44px;border-radius:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#2ed478,var(--whatsapp-dark));
+}
+.community-phone-badge svg{width:22px;height:22px;color:#fff}
+.community-feed{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.community-feed-item{
+  border:1px solid var(--line-soft);border-radius:16px;padding:16px;
+  background:rgba(212,175,55,.04);min-height:112px;
+}
+.community-feed-label{font-size:11px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.community-feed-text{font-size:13.5px;color:#fff;line-height:1.45;font-weight:600}
+
 /* ============ MAP / CONTACT ============ */
 .contact-section{background:#0a0a0a}
 .contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:32px}
@@ -1070,6 +1133,7 @@ svg{flex-shrink:0}
   .footer-grid{grid-template-columns:1fr 1fr;gap:30px}
   .process-grid{grid-template-columns:repeat(2,1fr)}
   .video-grid{grid-template-columns:repeat(2,1fr)}
+  .community-grid{grid-template-columns:1fr}
   .contact-grid{grid-template-columns:1fr}
 }
 @media (max-width:768px){
@@ -1099,6 +1163,9 @@ svg{flex-shrink:0}
   .process-grid{grid-template-columns:1fr}
   .video-grid{grid-template-columns:1fr;gap:16px}
   .video-card{aspect-ratio:9/14}
+  .community-panel{padding:22px}
+  .community-feed{grid-template-columns:1fr}
+  .community-actions .btn{width:100%}
   .filters{padding:12px;gap:8px}
   .filter-select{min-width:100%;flex:none}
   .calc-form{padding:28px 22px}
@@ -1168,6 +1235,7 @@ svg{flex-shrink:0}
       <a href="#home">Главная</a>
       <a href="#services">Услуги</a>
       <a href="#catalog">Авто</a>
+      <a href="#community">Группа</a>
       <a href="#process">Как работаем</a>
       <a href="#reviews">Отзывы</a>
       <a href="#faq">FAQ</a>
@@ -1191,6 +1259,7 @@ svg{flex-shrink:0}
   <a href="#home">Главная</a>
   <a href="#services">Услуги</a>
   <a href="#catalog">Авто</a>
+  <a href="#community">Группа</a>
   <a href="#process">Как работаем</a>
   <a href="#reviews">Отзывы</a>
   <a href="#faq">FAQ</a>
@@ -1337,12 +1406,12 @@ svg{flex-shrink:0}
     <div class="about-grid">
       <div class="stat-card fade-up">
         <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
-        <div class="stat-num"><span class="gold">33 900+</span></div>
+        <div class="stat-num"><span class="gold" data-followers-count>34 000+</span></div>
         <div class="stat-label">подписчиков в Instagram</div>
       </div>
       <div class="stat-card fade-up">
         <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-        <div class="stat-num"><span class="gold">700+</span></div>
+        <div class="stat-num"><span class="gold" data-posts-count>779+</span></div>
         <div class="stat-label">публикаций и обзоров авто</div>
       </div>
       <div class="stat-card fade-up">
@@ -1713,7 +1782,7 @@ svg{flex-shrink:0}
     </div>
     <div class="video-grid" id="videoGrid">
       <!-- Video 1 -->
-      <a href="https://instagram.com/" target="_blank" rel="noopener" class="video-card fade-up">
+      <a href="https://www.instagram.com/tilek_auto_dubai/" target="_blank" rel="noopener" class="video-card fade-up" data-instagram-link>
         <span class="video-badge">▶ Reels</span>
         <div class="video-thumb">
           <svg viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -1748,7 +1817,7 @@ svg{flex-shrink:0}
         </div>
       </a>
       <!-- Video 2 -->
-      <a href="https://instagram.com/" target="_blank" rel="noopener" class="video-card fade-up">
+      <a href="https://www.instagram.com/tilek_auto_dubai/" target="_blank" rel="noopener" class="video-card fade-up" data-instagram-link>
         <span class="video-badge">▶ Reels</span>
         <div class="video-thumb">
           <svg viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -1786,7 +1855,7 @@ svg{flex-shrink:0}
         </div>
       </a>
       <!-- Video 3 -->
-      <a href="https://instagram.com/" target="_blank" rel="noopener" class="video-card fade-up">
+      <a href="https://www.instagram.com/tilek_auto_dubai/" target="_blank" rel="noopener" class="video-card fade-up" data-instagram-link>
         <span class="video-badge">▶ Reels</span>
         <div class="video-thumb">
           <svg viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -1822,10 +1891,61 @@ svg{flex-shrink:0}
       </a>
     </div>
     <div style="text-align:center;margin-top:36px" class="fade-up">
-      <a href="https://instagram.com/" target="_blank" rel="noopener" class="btn btn-ghost btn-lg">
+      <a href="https://www.instagram.com/tilek_auto_dubai/" target="_blank" rel="noopener" class="btn btn-ghost btn-lg" data-instagram-link>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
         Все обзоры в Instagram
       </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMMUNITY / SOCIAL PROOF ============ -->
+<section class="section community-section" id="community">
+  <div class="container">
+    <div class="community-grid">
+      <div class="community-copy fade-up">
+        <span class="section-tag">Живые поступления</span>
+        <h2>WhatsApp-группа и Reels — <span class="gold">быстрее сайта</span></h2>
+        <p>В группу удобно выкладывать свежие авто, короткие видео, цены старта и быстрые варианты с аукциона. На сайте оставляем лучшие позиции и сильные Reels, а весь поток клиент смотрит в WhatsApp и Instagram.</p>
+        <div class="community-actions">
+          <a href="https://chat.whatsapp.com/D1IHhSbhKkH5vlnxzsdA4R" target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg" data-whatsapp-group-link>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Вступить в группу
+          </a>
+          <a href="https://www.instagram.com/tilek_auto_dubai/" target="_blank" rel="noopener" class="btn btn-ghost btn-lg" data-instagram-link>
+            Смотреть Reels
+          </a>
+        </div>
+      </div>
+      <div class="community-panel fade-up">
+        <div class="community-phone">
+          <div>
+            <strong>TILEK_AUTO_DUBAI 🇰🇬 & 🇦🇪</strong>
+            <span>Группа с новыми авто, видеообзорами, ценами старта и срочными вариантами.</span>
+          </div>
+          <div class="community-phone-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          </div>
+        </div>
+        <div class="community-feed">
+          <div class="community-feed-item">
+            <div class="community-feed-label">Reels</div>
+            <div class="community-feed-text">Короткие видео по авто: состояние, цена, пробег и важные нюансы.</div>
+          </div>
+          <div class="community-feed-item">
+            <div class="community-feed-label">Группа</div>
+            <div class="community-feed-text">Быстрые предложения для тех, кто хочет поймать вариант первым.</div>
+          </div>
+          <div class="community-feed-item">
+            <div class="community-feed-label">Аукцион</div>
+            <div class="community-feed-text">Стартовая цена, год, объём и краткая оценка риска до решения.</div>
+          </div>
+          <div class="community-feed-item">
+            <div class="community-feed-label">Контакт</div>
+            <div class="community-feed-text">Официальный WhatsApp: +996 551 333 360.</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -2248,18 +2368,25 @@ svg{flex-shrink:0}
         <h3>Прямые контакты</h3>
         <p>Выберите удобный способ — ответим в течение часа</p>
         <div class="contact-list">
-          <a href="https://wa.me/000000000000" target="_blank" rel="noopener" class="contact-item">
+          <a href="https://wa.me/000000000000" target="_blank" rel="noopener" class="contact-item" data-contact="whatsapp">
             <div class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg></div>
             <div>
               <div class="contact-label">WhatsApp</div>
-              <div class="contact-value">+000 00 000 0000</div>
+              <div class="contact-value">+996 551 333 360</div>
             </div>
           </a>
-          <a href="https://instagram.com/" target="_blank" rel="noopener" class="contact-item">
+          <a href="https://www.instagram.com/tilek_auto_dubai/" target="_blank" rel="noopener" class="contact-item" data-instagram-link>
             <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
             <div>
               <div class="contact-label">Instagram</div>
               <div class="contact-value">@tilek_auto_dubai</div>
+            </div>
+          </a>
+          <a href="https://chat.whatsapp.com/D1IHhSbhKkH5vlnxzsdA4R" target="_blank" rel="noopener" class="contact-item" data-whatsapp-group-link>
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg></div>
+            <div>
+              <div class="contact-label">WhatsApp-группа</div>
+              <div class="contact-value">TILEK_AUTO_DUBAI 🇰🇬 & 🇦🇪</div>
             </div>
           </a>
           <div class="contact-item">
@@ -2269,6 +2396,13 @@ svg{flex-shrink:0}
               <div class="contact-value">Ош / Бишкек, Кыргызстан</div>
             </div>
           </div>
+          <a href="https://2gis.kg/search/Tilek%20Auto%20Dubai" target="_blank" rel="noopener" class="contact-item" data-2gis-link>
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg></div>
+            <div>
+              <div class="contact-label">2GIS</div>
+              <div class="contact-value">Открыть адрес на карте</div>
+            </div>
+          </a>
           <div class="contact-item">
             <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
             <div>
@@ -2363,6 +2497,7 @@ svg{flex-shrink:0}
             <div class="map-city"><div class="map-city-dot"></div>Ош</div>
           </div>
           <div class="map-cta">Доставка по всем странам СНГ — детали рассчитываем индивидуально по маршруту.</div>
+          <a href="https://2gis.kg/search/Tilek%20Auto%20Dubai" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" data-2gis-link style="margin-top:18px">Открыть адрес в 2GIS</a>
         </div>
       </div>
     </div>
@@ -2412,7 +2547,7 @@ svg{flex-shrink:0}
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
           </a>
           <!-- Replace with real Instagram link -->
-          <a href="https://instagram.com/" target="_blank" rel="noopener" class="footer-social" aria-label="Instagram">
+          <a href="https://www.instagram.com/tilek_auto_dubai/" target="_blank" rel="noopener" class="footer-social" aria-label="Instagram" data-instagram-link>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
           </a>
           <a href="tel:+000000000000" class="footer-social" aria-label="Phone">
@@ -2426,6 +2561,7 @@ svg{flex-shrink:0}
         <ul>
           <li><a href="#services">Услуги</a></li>
           <li><a href="#catalog">Авто</a></li>
+          <li><a href="#community">Группа</a></li>
           <li><a href="#process">Как работаем</a></li>
           <li><a href="#reviews">Отзывы</a></li>
           <li><a href="#faq">FAQ</a></li>
@@ -2558,16 +2694,31 @@ const leadWhatsappLink = document.getElementById('leadWhatsappLink');
 const copyLeadMessageBtn = document.getElementById('copyLeadMessage');
 let lastLeadMessage = '';
 
+function isPlaceholderContentValue(key, value) {
+  const text = String(value ?? '').trim();
+  if (!text) return true;
+  if (key === 'whatsapp') return text.replace(/\D/g, '') === '000000000000';
+  if (key === 'instagram') return /^https?:\/\/(www\.)?instagram\.com\/?$/i.test(text);
+  if (key === 'followers') return text === '33900';
+  if (key === 'posts') return text === '700';
+  return false;
+}
+
+function mergeContentWithPublic(storedContent = {}) {
+  const publicConfig = window.TILEK_PUBLIC_CONFIG || {};
+  const merged = { ...publicConfig };
+  Object.entries(storedContent || {}).forEach(([key, value]) => {
+    if (!isPlaceholderContentValue(key, value)) merged[key] = value;
+  });
+  return merged;
+}
+
 function getSiteData() {
   try {
-    const publicConfig = window.TILEK_PUBLIC_CONFIG || {};
     const stored = JSON.parse(localStorage.getItem(SITE_STORAGE_KEY) || '{}') || {};
     return {
       ...stored,
-      content: {
-        ...publicConfig,
-        ...(stored.content || {})
-      }
+      content: mergeContentWithPublic(stored.content || {})
     };
   } catch (err) {
     return { content: window.TILEK_PUBLIC_CONFIG || {} };
@@ -2578,6 +2729,14 @@ function getWhatsappNumber() {
   const data = getSiteData();
   const number = String(data.content?.whatsapp || '000000000000').replace(/\D/g, '');
   return number || '000000000000';
+}
+
+function formatWhatsappNumber(number) {
+  const digits = String(number || '').replace(/\D/g, '');
+  if (digits.length === 12 && digits.startsWith('996')) {
+    return `+${digits.slice(0,3)} ${digits.slice(3,6)} ${digits.slice(6,9)} ${digits.slice(9)}`;
+  }
+  return digits ? `+${digits}` : '+996 551 333 360';
 }
 
 function makeWhatsappUrl(message) {
@@ -2886,8 +3045,12 @@ function renderManagedVideos(videos) {
     grid.innerHTML = '<div class="empty visible" style="grid-column:1/-1"><h4>Видео пока не добавлены</h4><p>Добавьте Reels или ссылки в админ-панели.</p></div>';
     return;
   }
-  grid.innerHTML = videos.map(video => `
-    <a href="${escapeAttr(video.url || '#')}" target="_blank" rel="noopener" class="video-card fade-up visible">
+  const instagramProfile = getSiteData().content?.instagram || 'https://www.instagram.com/tilek_auto_dubai/';
+  grid.innerHTML = videos.map(video => {
+    const rawUrl = String(video.url || '').trim();
+    const url = /^https?:\/\/(www\.)?instagram\.com\/?$/i.test(rawUrl) || !rawUrl ? instagramProfile : rawUrl;
+    return `
+    <a href="${escapeAttr(url)}" target="_blank" rel="noopener" class="video-card fade-up visible">
       <span class="video-badge">▶ Reels</span>
       <div class="video-thumb">
         <svg viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -2908,7 +3071,8 @@ function renderManagedVideos(videos) {
         </div>
       </div>
     </a>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function renderManagedReviews(reviews) {
@@ -2970,9 +3134,8 @@ function renderManagedContent(data) {
 (function() {
   try {
     const STORAGE_KEY = 'tilek_auto_data';
-    const publicConfig = window.TILEK_PUBLIC_CONFIG || {};
     const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    const c = { ...publicConfig, ...(data.content || {}) };
+    const c = mergeContentWithPublic(data.content || {});
     const whatsappDigits = String(c.whatsapp || '').replace(/\D/g, '');
     renderManagedContent(data);
 
@@ -2987,8 +3150,21 @@ function renderManagedContent(data) {
     }
     // Replace Instagram links
     if (c.instagram) {
+      document.querySelectorAll('[data-instagram-link]').forEach(a => {
+        a.href = c.instagram;
+      });
       document.querySelectorAll('a[href="https://instagram.com/"]').forEach(a => {
         a.href = c.instagram;
+      });
+    }
+    if (c.whatsappGroup) {
+      document.querySelectorAll('[data-whatsapp-group-link]').forEach(a => {
+        a.href = c.whatsappGroup;
+      });
+    }
+    if (c.twoGisUrl) {
+      document.querySelectorAll('[data-2gis-link]').forEach(a => {
+        a.href = c.twoGisUrl;
       });
     }
     // Update Instagram username
@@ -3001,10 +3177,22 @@ function renderManagedContent(data) {
       const label = item.querySelector('.contact-label')?.textContent.trim();
       const value = item.querySelector('.contact-value');
       if (!value) return;
-      if (label === 'WhatsApp' && whatsappDigits) value.textContent = '+' + whatsappDigits;
+      if (label === 'WhatsApp' && whatsappDigits) value.textContent = formatWhatsappNumber(whatsappDigits);
       if (label === 'Офис' && c.city) value.textContent = c.city;
       if (label === 'Часы работы' && c.hours) value.textContent = c.hours;
     });
+    if (c.followers) {
+      const followers = parseInt(String(c.followers).replace(/\D/g, ''), 10);
+      document.querySelectorAll('[data-followers-count]').forEach(el => {
+        el.textContent = followers ? followers.toLocaleString('ru-RU') + '+' : c.followers;
+      });
+    }
+    if (c.posts) {
+      const posts = parseInt(String(c.posts).replace(/\D/g, ''), 10);
+      document.querySelectorAll('[data-posts-count]').forEach(el => {
+        el.textContent = posts ? posts.toLocaleString('ru-RU') + '+' : c.posts;
+      });
+    }
     if (c.seoTitle) document.title = c.seoTitle;
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc && c.seoDesc) metaDesc.content = c.seoDesc;
