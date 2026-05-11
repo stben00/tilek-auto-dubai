@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Админ-панель — Tilek Auto Dubai</title>
+<link rel="icon" type="image/png" href="assets/logo.png">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#d4af37;--gold-light:#f4d977;--gold-deep:#b8941f;
+  --bg:#0a0a0a;--bg-2:#111;--bg-3:#161616;--bg-4:#1c1c1c;
+  --text:#e8e8e8;--text-dim:#8a8a8a;--text-light:#b8b8b8;
+  --line:rgba(212,175,55,.18);--line-soft:rgba(255,255,255,.06);
+  --green:#25d366;--red:#e85c41;--blue:#3b82f6;--purple:#a855f7;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Arial,sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea,select{font-family:inherit}
+
+/* ============ LOGIN ============ */
+.login-screen{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at center,rgba(212,175,55,.15) 0%,transparent 60%),var(--bg);
+  padding:20px;z-index:100;
+}
+.login-screen.hidden{display:none}
+.login-box{
+  width:100%;max-width:420px;
+  background:linear-gradient(160deg,var(--bg-3),var(--bg-2));
+  border:1px solid var(--line);border-radius:24px;padding:48px 40px;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);position:relative;
+}
+.login-box::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.login-logo{
+  width:90px;height:90px;border-radius:50%;margin:0 auto 24px;
+  background:radial-gradient(circle at 30% 30%,#1a1a1a,#000);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 15px 40px rgba(212,175,55,.4),0 0 0 1px rgba(212,175,55,.4);
+}
+.login-logo img{width:70px;height:70px;object-fit:contain}
+.login-box h1{font-size:24px;font-weight:800;color:#fff;text-align:center;margin-bottom:8px}
+.login-box .subtitle{font-size:14px;color:var(--text-dim);text-align:center;margin-bottom:32px}
+.form-group{margin-bottom:18px}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--gold);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.form-input,.form-textarea,.form-select{
+  width:100%;padding:13px 16px;background:var(--bg);
+  border:1px solid var(--line-soft);border-radius:10px;color:#fff;font-size:14px;
+  transition:.2s;
+}
+.form-input:focus,.form-textarea:focus,.form-select:focus{outline:none;border-color:var(--gold);background:var(--bg-3)}
+.form-textarea{resize:vertical;min-height:90px}
+.form-select{
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1.5L6 6.5L11 1.5' stroke='%23d4af37' stroke-width='1.5' stroke-linecap='round' fill='none'/></svg>");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 22px;border-radius:10px;font-weight:600;font-size:14px;
+  transition:.2s;white-space:nowrap;cursor:pointer;
+}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold-light),var(--gold-deep));
+  color:#1a1300;font-weight:700;
+  box-shadow:0 8px 20px -8px rgba(212,175,55,.5);
+}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 12px 28px -8px rgba(212,175,55,.6)}
+.btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--line-soft);color:#fff}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-danger{background:linear-gradient(135deg,#f87171,#dc2626);color:#fff}
+.btn-danger:hover{transform:translateY(-1px)}
+.btn-success{background:linear-gradient(135deg,#34d399,var(--green));color:#fff}
+.btn-success:hover{transform:translateY(-1px)}
+.btn-block{width:100%}
+.btn-sm{padding:8px 14px;font-size:12px}
+.btn-icon{padding:8px;width:36px;height:36px}
+.login-hint{
+  margin-top:18px;padding:12px 14px;background:rgba(212,175,55,.06);
+  border:1px solid var(--line-soft);border-radius:10px;
+  font-size:12px;color:var(--text-light);line-height:1.5;
+}
+.login-error{
+  margin-top:14px;padding:10px 14px;background:rgba(232,92,65,.1);
+  border:1px solid rgba(232,92,65,.3);border-radius:8px;
+  color:#fca5a5;font-size:13px;display:none;
+}
+.login-error.show{display:block}
+
+/* ============ MAIN LAYOUT ============ */
+.layout{display:none;min-height:100vh}
+.layout.active{display:flex}
+
+.sidebar{
+  width:260px;background:var(--bg-2);border-right:1px solid var(--line-soft);
+  padding:24px 16px;display:flex;flex-direction:column;
+  position:fixed;left:0;top:0;height:100vh;overflow-y:auto;z-index:50;
+  transition:transform .3s;
+}
+.sidebar-logo{
+  display:flex;align-items:center;gap:12px;padding:8px 12px 24px;
+  border-bottom:1px solid var(--line-soft);margin-bottom:16px;
+}
+.sidebar-logo-mark{
+  width:44px;height:44px;border-radius:10px;
+  background:radial-gradient(circle at 30% 30%,#1a1a1a,#000);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 0 1px rgba(212,175,55,.3);flex-shrink:0;
+}
+.sidebar-logo-mark img{width:36px;height:36px;object-fit:contain}
+.sidebar-logo-text{display:flex;flex-direction:column}
+.sidebar-logo-name{font-size:14px;font-weight:800;color:#fff;letter-spacing:1px}
+.sidebar-logo-tag{font-size:10px;color:var(--gold);letter-spacing:1.5px;margin-top:2px}
+
+.nav-item{
+  display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;
+  color:var(--text-light);font-size:14px;font-weight:500;cursor:pointer;
+  transition:.2s;margin-bottom:4px;position:relative;
+}
+.nav-item:hover{background:rgba(212,175,55,.06);color:#fff}
+.nav-item.active{
+  background:linear-gradient(135deg,rgba(212,175,55,.15),rgba(212,175,55,.05));
+  color:var(--gold);
+}
+.nav-item.active::before{
+  content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;
+  background:var(--gold);border-radius:0 3px 3px 0;
+}
+.nav-item svg{width:18px;height:18px;flex-shrink:0}
+.nav-badge{
+  margin-left:auto;background:var(--red);color:#fff;
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;min-width:20px;text-align:center;
+}
+.sidebar-footer{margin-top:auto;padding-top:16px;border-top:1px solid var(--line-soft)}
+.sidebar-footer .btn{width:100%;margin-top:8px}
+
+.main{
+  flex:1;margin-left:260px;padding:32px 36px;min-height:100vh;
+  background:var(--bg);
+}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:32px;gap:20px;flex-wrap:wrap;
+}
+.topbar-left h1{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.topbar-left p{font-size:13px;color:var(--text-dim);margin-top:4px}
+.topbar-right{display:flex;gap:10px;flex-wrap:wrap}
+
+.burger-btn{
+  display:none;width:42px;height:42px;border-radius:10px;
+  background:var(--bg-3);border:1px solid var(--line-soft);
+  align-items:center;justify-content:center;flex-direction:column;gap:4px;
+}
+.burger-btn span{width:18px;height:2px;background:var(--gold);border-radius:2px}
+
+/* ============ DASHBOARD ============ */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.stat-card{
+  background:linear-gradient(160deg,var(--bg-3),var(--bg-2));
+  border:1px solid var(--line-soft);border-radius:16px;padding:22px;
+  transition:.25s;position:relative;overflow:hidden;
+}
+.stat-card:hover{border-color:var(--line);transform:translateY(-2px)}
+.stat-card-icon{
+  width:42px;height:42px;border-radius:11px;
+  background:linear-gradient(135deg,rgba(212,175,55,.2),rgba(212,175,55,.05));
+  border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;margin-bottom:14px;
+}
+.stat-card-icon svg{width:20px;height:20px;color:var(--gold)}
+.stat-card-num{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1}
+.stat-card-label{font-size:12px;color:var(--text-dim);margin-top:6px;text-transform:uppercase;letter-spacing:.3px}
+.stat-card-change{font-size:11px;margin-top:8px;display:inline-flex;align-items:center;gap:4px}
+.stat-card-change.up{color:#34d399}
+.stat-card-change.down{color:#f87171}
+
+.chart-card{
+  background:linear-gradient(160deg,var(--bg-3),var(--bg-2));
+  border:1px solid var(--line-soft);border-radius:16px;padding:24px;
+  margin-bottom:24px;
+}
+.chart-card h3{font-size:16px;font-weight:700;color:#fff;margin-bottom:16px}
+.chart-bars{display:flex;align-items:flex-end;gap:8px;height:200px;padding:10px 0}
+.chart-bar{
+  flex:1;background:linear-gradient(180deg,var(--gold),var(--gold-deep));
+  border-radius:8px 8px 0 0;position:relative;min-height:8px;
+  transition:.3s;cursor:pointer;
+}
+.chart-bar:hover{filter:brightness(1.2)}
+.chart-bar-value{
+  position:absolute;top:-22px;left:50%;transform:translateX(-50%);
+  font-size:11px;font-weight:600;color:var(--gold);
+}
+.chart-labels{display:flex;gap:8px;margin-top:8px}
+.chart-label{flex:1;text-align:center;font-size:11px;color:var(--text-dim)}
+
+/* ============ TABLE ============ */
+.section-card{
+  background:linear-gradient(160deg,var(--bg-3),var(--bg-2));
+  border:1px solid var(--line-soft);border-radius:16px;overflow:hidden;
+  margin-bottom:24px;
+}
+.section-card-header{
+  padding:20px 24px;border-bottom:1px solid var(--line-soft);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.section-card-header h3{font-size:16px;font-weight:700;color:#fff;display:flex;align-items:center;gap:10px}
+.section-card-header h3 svg{width:18px;height:18px;color:var(--gold)}
+.section-card-body{padding:24px}
+
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.search-input{
+  flex:1;min-width:200px;padding:11px 16px 11px 40px;
+  background:var(--bg);border:1px solid var(--line-soft);border-radius:10px;color:#fff;font-size:14px;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a8a8a' stroke-width='2' stroke-linecap='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+  background-repeat:no-repeat;background-position:14px center;
+}
+.search-input:focus{outline:none;border-color:var(--gold)}
+
+.table-wrap{overflow-x:auto;margin:-24px;padding:0 24px}
+table{width:100%;border-collapse:collapse;min-width:600px}
+table th{
+  text-align:left;font-size:11px;font-weight:600;color:var(--text-dim);
+  padding:14px 16px;text-transform:uppercase;letter-spacing:.5px;
+  border-bottom:1px solid var(--line-soft);
+}
+table td{
+  padding:16px;font-size:14px;color:#fff;
+  border-bottom:1px solid var(--line-soft);
+}
+table tr:last-child td{border-bottom:0}
+table tr:hover td{background:rgba(212,175,55,.03)}
+.td-image{width:80px}
+.td-image-box{
+  width:60px;height:40px;border-radius:8px;
+  background:linear-gradient(135deg,var(--bg-4),var(--bg));
+  border:1px solid var(--line-soft);
+  display:flex;align-items:center;justify-content:center;
+}
+.td-image-box svg{width:24px;height:24px;color:var(--gold);opacity:.5}
+.td-actions{display:flex;gap:6px;justify-content:flex-end}
+.badge{
+  display:inline-block;padding:3px 10px;border-radius:100px;
+  font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;
+}
+.badge-popular{background:rgba(212,175,55,.15);color:var(--gold);border:1px solid var(--line)}
+.badge-premium{background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.3)}
+.badge-auction{background:rgba(59,130,246,.15);color:#60a5fa;border:1px solid rgba(59,130,246,.3)}
+.badge-hybrid{background:rgba(37,211,102,.15);color:#34d399;border:1px solid rgba(37,211,102,.3)}
+.badge-reliable{background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--line-soft)}
+.badge-urgent{background:rgba(232,92,65,.15);color:#fca5a5;border:1px solid rgba(232,92,65,.3)}
+.badge-new{background:rgba(232,92,65,.15);color:#fca5a5;border:1px solid rgba(232,92,65,.3)}
+.badge-read{background:rgba(255,255,255,.06);color:var(--text-dim);border:1px solid var(--line-soft)}
+.badge-done{background:rgba(37,211,102,.15);color:#34d399;border:1px solid rgba(37,211,102,.3)}
+
+.empty{padding:60px 30px;text-align:center;color:var(--text-dim)}
+.empty svg{width:48px;height:48px;color:var(--gold);opacity:.4;margin-bottom:14px}
+.empty h4{font-size:16px;color:var(--text);margin-bottom:6px}
+.empty p{font-size:13px}
+
+/* ============ MODAL ============ */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);
+  z-index:200;display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto;
+}
+.modal-bg.active{display:flex}
+.modal{
+  background:linear-gradient(160deg,var(--bg-3),var(--bg-2));
+  border:1px solid var(--line);border-radius:18px;padding:32px;
+  max-width:600px;width:100%;position:relative;max-height:90vh;overflow-y:auto;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);
+}
+.modal h3{font-size:20px;font-weight:800;color:#fff;margin-bottom:6px}
+.modal .modal-sub{font-size:13px;color:var(--text-dim);margin-bottom:24px}
+.modal-close{
+  position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:22px;
+}
+.modal-close:hover{background:rgba(255,255,255,.1)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-actions{display:flex;gap:10px;margin-top:24px;justify-content:flex-end;flex-wrap:wrap}
+
+/* ============ TEXT EDITOR ============ */
+.text-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.text-card{
+  background:var(--bg);border:1px solid var(--line-soft);
+  border-radius:12px;padding:18px;
+}
+.text-card-title{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:10px}
+
+/* ============ TOAST ============ */
+.toast{
+  position:fixed;top:24px;right:24px;z-index:300;
+  background:linear-gradient(135deg,var(--bg-3),var(--bg-2));
+  border:1px solid var(--gold);border-radius:12px;padding:14px 20px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:0 15px 40px rgba(0,0,0,.6);
+  transform:translateX(120%);transition:transform .3s;max-width:400px;
+}
+.toast.show{transform:translateX(0)}
+.toast.success{border-color:var(--green)}
+.toast.error{border-color:var(--red)}
+.toast-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.toast.success .toast-icon{background:rgba(37,211,102,.2);color:var(--green)}
+.toast.error .toast-icon{background:rgba(232,92,65,.2);color:var(--red)}
+.toast-text{font-size:14px;color:#fff;font-weight:500}
+
+/* ============ TABS ============ */
+.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--line-soft);overflow-x:auto}
+.tab{
+  padding:10px 18px;font-size:13px;font-weight:600;color:var(--text-dim);
+  cursor:pointer;border-radius:8px 8px 0 0;transition:.2s;white-space:nowrap;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+}
+.tab:hover{color:#fff}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ============ VIEWS ============ */
+.view{display:none}
+.view.active{display:block;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.active{transform:translateX(0)}
+  .main{margin-left:0;padding:20px}
+  .burger-btn{display:flex}
+  .text-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .login-box{padding:36px 26px}
+  .main{padding:16px}
+  .topbar{flex-direction:column;align-items:flex-start}
+  .topbar-right{width:100%}
+  .topbar-right .btn{flex:1}
+  .section-card-header{flex-direction:column;align-items:stretch}
+  .section-card-body{padding:18px}
+  .table-wrap{margin:-18px;padding:0 18px}
+  .modal{padding:24px 20px}
+  .stat-card-num{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <img src="assets/logo.png" alt="Logo" onerror="this.style.display='none'">
+    </div>
+    <h1>Tilek Auto Dubai</h1>
+    <p class="subtitle">Вход в админ-панель</p>
+    <form id="loginForm">
+      <div class="form-group">
+        <label class="form-label">Логин</label>
+        <input type="text" id="loginUser" class="form-input" placeholder="admin" autocomplete="username" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Пароль</label>
+        <input type="password" id="loginPass" class="form-input" placeholder="••••••••" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn btn-gold btn-block" style="margin-top:8px">Войти в панель</button>
+      <div class="login-error" id="loginError">Неверный логин или пароль</div>
+      <div class="login-hint">
+        <strong style="color:var(--gold)">Данные по умолчанию:</strong><br>
+        Логин: <code style="color:var(--gold-light)">admin</code> · Пароль: <code style="color:var(--gold-light)">tilek2025</code><br>
+        <span style="color:var(--text-dim);margin-top:6px;display:block">Смените их в разделе «Настройки»</span>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ LAYOUT ============ -->
+<div class="layout" id="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-mark">
+        <img src="assets/logo.png" alt="Logo" onerror="this.style.display='none'">
+      </div>
+      <div class="sidebar-logo-text">
+        <span class="sidebar-logo-name">TILEK AUTO</span>
+        <span class="sidebar-logo-tag">ADMIN</span>
+      </div>
+    </div>
+    <div class="nav-item active" data-view="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+      Дашборд
+    </div>
+    <div class="nav-item" data-view="cars">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
+      Авто
+      <span class="nav-badge" id="carsBadge">0</span>
+    </div>
+    <div class="nav-item" data-view="leads">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Заявки
+      <span class="nav-badge" id="leadsBadge">0</span>
+    </div>
+    <div class="nav-item" data-view="reviews">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 15,8.5 22,9.3 17,14 18.2,21 12,17.7 5.8,21 7,14 2,9.3 9,8.5"/></svg>
+      Отзывы
+    </div>
+    <div class="nav-item" data-view="faq">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      FAQ
+    </div>
+    <div class="nav-item" data-view="videos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      Видео / Reels
+    </div>
+    <div class="nav-item" data-view="content">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Тексты сайта
+    </div>
+    <div class="nav-item" data-view="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Настройки
+    </div>
+    <div class="sidebar-footer">
+      <a href="index.html" target="_blank" class="btn btn-ghost btn-sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Открыть сайт
+      </a>
+      <button class="btn btn-danger btn-sm" id="logoutBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Выйти
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <!-- ===== DASHBOARD ===== -->
+    <div class="view active" id="view-dashboard">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="burger-btn" id="burgerBtn"><span></span><span></span><span></span></button>
+          <h1>Дашборд</h1>
+          <p>Обзор сайта Tilek Auto Dubai</p>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost" onclick="exportAll()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Экспорт всех данных
+          </button>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h3>🚀 Быстрый запуск для продаж</h3>
+          <button class="btn btn-gold btn-sm" onclick="showView('content')">Заполнить контакты</button>
+        </div>
+        <div class="section-card-body">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px">
+            <div style="padding:14px 16px;background:rgba(255,255,255,.035);border:1px solid var(--line-soft);border-radius:12px">
+              <div style="font-size:12px;color:var(--text-dim);margin-bottom:6px">WhatsApp</div>
+              <div id="launchWhatsappStatus" class="badge badge-urgent">Нужно указать</div>
+            </div>
+            <div style="padding:14px 16px;background:rgba(255,255,255,.035);border:1px solid var(--line-soft);border-radius:12px">
+              <div style="font-size:12px;color:var(--text-dim);margin-bottom:6px">Instagram</div>
+              <div id="launchInstagramStatus" class="badge badge-urgent">Нужно указать</div>
+            </div>
+            <div style="padding:14px 16px;background:rgba(255,255,255,.035);border:1px solid var(--line-soft);border-radius:12px">
+              <div style="font-size:12px;color:var(--text-dim);margin-bottom:6px">Фото владельца</div>
+              <div id="launchOwnerStatus" class="badge badge-read">Желательно</div>
+            </div>
+            <div style="padding:14px 16px;background:rgba(255,255,255,.035);border:1px solid var(--line-soft);border-radius:12px">
+              <div style="font-size:12px;color:var(--text-dim);margin-bottom:6px">Webhook заявок</div>
+              <div id="launchWebhookStatus" class="badge badge-read">Опционально</div>
+            </div>
+          </div>
+          <p style="color:var(--text-light);font-size:13px;margin-top:14px;line-height:1.6">
+            Для срочного запуска минимум: реальный WhatsApp, Instagram и проверка всех кнопок на телефоне. Заявки теперь дополнительно превращаются в готовое сообщение WhatsApp, чтобы они не терялись на статическом сайте.
+          </p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg></div>
+          <div class="stat-card-num" id="statCars">0</div>
+          <div class="stat-card-label">Авто в каталоге</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div class="stat-card-num" id="statLeads">0</div>
+          <div class="stat-card-label">Всего заявок</div>
+          <div class="stat-card-change up" id="statLeadsNew">+0 новых</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <div class="stat-card-num" id="statViews">0</div>
+          <div class="stat-card-label">Просмотров сайта</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15,8.5 22,9.3 17,14 18.2,21 12,17.7 5.8,21 7,14 2,9.3 9,8.5"/></svg></div>
+          <div class="stat-card-num" id="statReviews">0</div>
+          <div class="stat-card-label">Отзывов</div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h3>📊 Просмотры за последние 7 дней</h3>
+        <div class="chart-bars" id="chartBars"></div>
+        <div class="chart-labels" id="chartLabels"></div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header">
+          <h3>📨 Последние заявки</h3>
+          <button class="btn btn-ghost btn-sm" onclick="showView('leads')">Все заявки →</button>
+        </div>
+        <div class="section-card-body">
+          <div class="table-wrap" id="recentLeadsTable"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CARS ===== -->
+    <div class="view" id="view-cars">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="burger-btn"><span></span><span></span><span></span></button>
+          <h1>Управление авто</h1>
+          <p>Добавляйте, редактируйте и удаляйте автомобили</p>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-gold" onclick="openCarModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Добавить авто
+          </button>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-body">
+          <div class="toolbar">
+            <input type="text" class="search-input" id="carSearch" placeholder="Поиск по названию, марке, году...">
+          </div>
+          <div class="table-wrap">
+            <table id="carsTable">
+              <thead>
+                <tr>
+                  <th>Авто</th>
+                  <th>Год</th>
+                  <th>Двигатель</th>
+                  <th>Топливо</th>
+                  <th>Бюджет</th>
+                  <th>Цена</th>
+                  <th>Метка</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="carsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LEADS ===== -->
+    <div class="view" id="view-leads">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="burger-btn"><span></span><span></span><span></span></button>
+          <h1>Заявки с сайта</h1>
+          <p>Все заявки сохраняются автоматически</p>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost" onclick="exportLeads()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Экспорт в CSV
+          </button>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-body">
+          <div class="toolbar">
+            <input type="text" class="search-input" id="leadSearch" placeholder="Поиск по имени, телефону, авто...">
+          </div>
+          <div class="table-wrap">
+            <table id="leadsTable">
+              <thead>
+                <tr>
+                  <th>Дата</th>
+                  <th>Имя</th>
+                  <th>Телефон</th>
+                  <th>Авто</th>
+                  <th>Бюджет</th>
+                  <th>Город</th>
+                  <th>Статус</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="leadsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== REVIEWS ===== -->
+    <div class="view" id="view-reviews">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="burger-btn"><span></span><span></span><span></span></button>
+          <h1>Отзывы</h1>
+          <p>Управление отзывами клиентов</p>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-gold" onclick="openReviewModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Добавить отзыв
+          </button>
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="section-card-body">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Имя</th><th>Авто</th><th>Текст</th><th>Оценка</th><th></th></tr>
+              </thead>
+              <tbody id="reviewsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FAQ ===== -->
+    <div class="view" id="view-faq">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="burger-btn"><span></span><span></span><span></span></button>
+          <h1>FAQ — вопросы и ответы</h1>
+          <p>Управление частыми вопросами</p>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-gold" onclick="openFaqModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Добавить вопрос
+          </button>
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="section-card-body">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Вопрос</th><th>Ответ</th><th></th></tr></thead>
+              <tbody id="faqTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== VIDEOS ===== -->
+    <div class="view" id="view-videos">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="burger-btn"><span></span><span></span><span></span></button>
+          <h1>Видео / Reels</h1>
+          <p>Управление видеообзорами</p>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-gold" onclick="openVideoModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Добавить видео
+          </button>
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="section-card-body">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Название</th><th>Ссылка</th><th>Просмотры</th><th></th></tr></thead>
+              <tbody id="videosTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="view" id="view-content">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="burger-btn"><span></span><span></span><span></span></button>
+          <h1>Тексты сайта</h1>
+          <p>Редактирование контента и контактов</p>
+        </div>
+        <div class="topbar-right">
+          <button class="btn btn-gold" onclick="saveContent()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Сохранить
+          </button>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" data-tab="contacts">📞 Контакты</div>
+        <div class="tab" data-tab="logo">🎨 Логотип</div>
+        <div class="tab" data-tab="owner">👤 О владельце</div>
+        <div class="tab" data-tab="hero">🏠 Главная (Hero)</div>
+        <div class="tab" data-tab="about">ℹ️ О компании</div>
+        <div class="tab" data-tab="seo">🔍 SEO</div>
+      </div>
+
+      <div class="tab-content active" id="tab-contacts">
+        <div class="section-card">
+          <div class="section-card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">WhatsApp номер (без + и пробелов)</label>
+                <input type="text" class="form-input" id="cWhatsapp" placeholder="996555123456">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Instagram URL</label>
+                <input type="text" class="form-input" id="cInstagram" placeholder="https://instagram.com/...">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Город / Офис</label>
+                <input type="text" class="form-input" id="cCity" placeholder="Ош / Бишкек">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Часы работы</label>
+                <input type="text" class="form-input" id="cHours" placeholder="09:00 – 22:00">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Instagram @ ник</label>
+              <input type="text" class="form-input" id="cIgUsername" placeholder="@tilek_auto_dubai">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Webhook для заявок (Formspree / CRM / Telegram gateway)</label>
+              <input type="url" class="form-input" id="cLeadWebhook" placeholder="https://formspree.io/f/xxxxxxx">
+              <p style="font-size:12px;color:var(--text-dim);margin-top:8px;line-height:1.5">
+                Необязательно. Если указать URL, сайт будет дополнительно отправлять заявки туда. WhatsApp всё равно остаётся главным каналом быстрого контакта.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOGO TAB -->
+      <div class="tab-content" id="tab-logo" style="display:none">
+        <div class="section-card">
+          <div class="section-card-body">
+            <p style="color:var(--text-light);font-size:14px;margin-bottom:20px;line-height:1.6">
+              Загрузите логотип вашего бизнеса. Он автоматически появится в шапке сайта, на эмблеме, в подвале и как иконка вкладки браузера. <strong style="color:var(--gold)">Рекомендуемый размер:</strong> квадратный PNG/JPG от 200×200px.
+            </p>
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start;margin-bottom:20px">
+              <div id="logoPreview" style="width:140px;height:140px;border-radius:24px;background:radial-gradient(circle at 30% 30%,#1a1a1a,#000);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 0 0 1px rgba(212,175,55,.3) inset">
+                <img id="logoPreviewImg" src="" style="width:120px;height:120px;object-fit:contain;display:none">
+                <div id="logoPreviewPlaceholder" style="color:var(--text-dim);font-size:11px;text-align:center;padding:10px">Логотип<br>не загружен</div>
+              </div>
+              <div>
+                <label class="btn btn-gold" style="cursor:pointer;display:inline-flex;margin-bottom:10px">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Загрузить логотип
+                  <input type="file" accept="image/*" style="display:none" onchange="uploadLogo(event)">
+                </label>
+                <button class="btn btn-danger btn-sm" onclick="resetLogo()" style="display:block;margin-top:6px">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                  Сбросить (стандартный)
+                </button>
+                <p style="font-size:12px;color:var(--text-dim);margin-top:10px;line-height:1.5">
+                  Лимит: до 2 МБ. Лучшие форматы: PNG с прозрачным фоном или квадратный JPG.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OWNER TAB -->
+      <div class="tab-content" id="tab-owner" style="display:none">
+        <div class="section-card">
+          <div class="section-card-header"><h3>👤 Карточка владельца на главной</h3></div>
+          <div class="section-card-body">
+            <p style="color:var(--text-light);font-size:14px;margin-bottom:24px;line-height:1.6">
+              Эти данные показываются в правом блоке Hero — это сильный психологический якорь доверия. Фото реального человека работает лучше любых иллюстраций.
+            </p>
+
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start;margin-bottom:24px">
+              <div id="ownerPhotoPreview" style="width:140px;height:140px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#1a1a1a,#000);border:3px solid #0a0a0a;box-shadow:0 0 0 4px rgba(212,175,55,.3);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0">
+                <img id="ownerPhotoImg" src="" style="width:100%;height:100%;object-fit:cover;display:none">
+                <div id="ownerPhotoPlaceholder" style="color:var(--gold);opacity:.5;text-align:center">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:4px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  <div style="font-size:10px;text-transform:uppercase;letter-spacing:.5px">Нет фото</div>
+                </div>
+              </div>
+              <div>
+                <label class="btn btn-gold" style="cursor:pointer;display:inline-flex;margin-bottom:10px">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Загрузить фото
+                  <input type="file" accept="image/*" style="display:none" onchange="uploadOwnerPhoto(event)">
+                </label>
+                <button class="btn btn-danger btn-sm" onclick="removeOwnerPhoto()" style="display:block;margin-top:6px">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                  Удалить фото
+                </button>
+                <p style="font-size:12px;color:var(--text-dim);margin-top:10px;line-height:1.5">
+                  Квадратное фото, лицо в центре. Размер от 300×300px.
+                </p>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Подпись (бейдж)</label>
+                <input type="text" class="form-input" id="cOwnerLabel" placeholder="Основатель компании">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Имя</label>
+                <input type="text" class="form-input" id="cOwnerName" placeholder="Тилек">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Должность / опыт</label>
+              <input type="text" class="form-input" id="cOwnerPosition" placeholder="Эксперт по авто из ОАЭ · 5+ лет в Дубае">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Цитата / обращение (краткое)</label>
+              <textarea class="form-textarea" id="cOwnerBio" placeholder="Я лично проверяю каждое авто перед покупкой..."></textarea>
+            </div>
+
+            <div style="margin-top:8px;margin-bottom:14px;font-size:12px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px">Преимущества (4 чек-бокса)</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Преимущество 1</label>
+                <input type="text" class="form-input" id="cOwnerFeat1" placeholder="Лично в Дубае">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Преимущество 2</label>
+                <input type="text" class="form-input" id="cOwnerFeat2" placeholder="500+ сделок">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Преимущество 3</label>
+                <input type="text" class="form-input" id="cOwnerFeat3" placeholder="Знаю аукционы">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Преимущество 4</label>
+                <input type="text" class="form-input" id="cOwnerFeat4" placeholder="Связи в ОАЭ">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-hero" style="display:none">
+        <div class="section-card">
+          <div class="section-card-body">
+            <div class="form-group">
+              <label class="form-label">Заголовок Hero</label>
+              <input type="text" class="form-input" id="cHeroTitle">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Подзаголовок</label>
+              <textarea class="form-textarea" id="cHeroSub"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Подписчиков (в счётчике)</label>
+                <input type="text" class="form-input" id="cFollowers" placeholder="33900">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Публикаций</label>
+                <input type="text" class="form-input" id="cPosts" placeholder="700">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-about" style="display:none">
+        <div class="section-card">
+          <div class="section-card-body">
+            <div class="form-group">
+              <label class="form-label">Заголовок секции "О компании"</label>
+              <input type="text" class="form-input" id="cAboutTitle">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Описание</label>
+              <textarea class="form-textarea" id="cAboutText"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Лозунг под эмблемой</label>
+              <input type="text" class="form-input" id="cBrandTagline">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Цитата под лозунгом</label>
+              <textarea class="form-textarea" id="cBrandQuote"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-seo" style="display:none">
+        <div class="section-card">
+          <div class="section-card-body">
+            <div class="form-group">
+              <label class="form-label">Title (заголовок страницы)</label>
+              <input type="text" class="form-input" id="cSeoTitle">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Description (мета-описание)</label>
+              <textarea class="form-textarea" id="cSeoDesc"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Keywords</label>
+              <input type="text" class="form-input" id="cSeoKeywords">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SETTINGS ===== -->
+    <div class="view" id="view-settings">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="burger-btn"><span></span><span></span><span></span></button>
+          <h1>Настройки</h1>
+          <p>Управление доступом и данными</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header"><h3>🔐 Смена пароля</h3></div>
+        <div class="section-card-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Новый логин</label>
+              <input type="text" class="form-input" id="newLogin" placeholder="admin">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Новый пароль</label>
+              <input type="password" class="form-input" id="newPassword" placeholder="Минимум 6 символов">
+            </div>
+          </div>
+          <button class="btn btn-gold" onclick="changePassword()">Сохранить новый пароль</button>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header"><h3>💾 Резервное копирование</h3></div>
+        <div class="section-card-body">
+          <p style="color:var(--text-light);font-size:14px;margin-bottom:16px;line-height:1.6">
+            Скачайте JSON-файл со всеми данными или загрузите готовый бэкап. Полезно при переносе на сервер.
+          </p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-success" onclick="exportAll()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Скачать бэкап
+            </button>
+            <label class="btn btn-ghost" style="cursor:pointer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Загрузить бэкап
+              <input type="file" accept=".json" style="display:none" onchange="importAll(event)">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header"><h3 style="color:#fca5a5">⚠️ Опасная зона</h3></div>
+        <div class="section-card-body">
+          <p style="color:var(--text-light);font-size:14px;margin-bottom:16px;line-height:1.6">
+            Полное удаление всех данных. Это действие <strong style="color:#fca5a5">нельзя отменить</strong>.
+          </p>
+          <button class="btn btn-danger" onclick="resetAll()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            Удалить все данные
+          </button>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-header"><h3>ℹ️ О системе</h3></div>
+        <div class="section-card-body">
+          <p style="color:var(--text-light);font-size:14px;line-height:1.7">
+            <strong style="color:#fff">Версия:</strong> 1.0 (LocalStorage)<br>
+            <strong style="color:#fff">Хранение:</strong> Браузер (localStorage)<br>
+            <strong style="color:#fff">Как использовать:</strong><br>
+            • Все изменения сохраняются автоматически<br>
+            • Сайт <code style="color:var(--gold)">index.html</code> читает данные из этой админки при открытии в том же браузере<br>
+            • Для публикации на хостинге используйте «Скачать бэкап» и интегрируйте с сервером<br>
+            • Заявки с формы сайта появляются автоматически
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== CAR MODAL ===== -->
+<div class="modal-bg" id="carModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('carModal')">×</button>
+    <h3 id="carModalTitle">Добавить авто</h3>
+    <p class="modal-sub">Заполните данные автомобиля</p>
+    <input type="hidden" id="carId">
+    <div class="form-group">
+      <label class="form-label">Название</label>
+      <input type="text" class="form-input" id="carTitle" placeholder="Toyota Land Cruiser 250">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Фото авто (URL или путь к файлу)</label>
+      <input type="text" class="form-input" id="carImage" placeholder="assets/land-cruiser.jpg или https://...">
+      <p style="font-size:12px;color:var(--text-dim);margin-top:8px;line-height:1.5">
+        Необязательно. Если оставить пустым, сайт покажет аккуратную графическую карточку авто.
+      </p>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Марка</label>
+        <select class="form-select" id="carBrand">
+          <option value="Toyota">Toyota</option>
+          <option value="Lexus">Lexus</option>
+          <option value="BMW">BMW</option>
+          <option value="Mercedes">Mercedes</option>
+          <option value="Jeep">Jeep</option>
+          <option value="Nissan">Nissan</option>
+          <option value="Honda">Honda</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Год</label>
+        <input type="number" class="form-input" id="carYear" placeholder="2024" min="1990" max="2030">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Двигатель</label>
+        <input type="text" class="form-input" id="carEngine" placeholder="2.4">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Топливо</label>
+        <select class="form-select" id="carFuel">
+          <option value="бензин">Бензин</option>
+          <option value="гибрид">Гибрид</option>
+          <option value="дизель">Дизель</option>
+          <option value="электро">Электро</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Кузов</label>
+        <select class="form-select" id="carBody">
+          <option value="suv">Внедорожник</option>
+          <option value="sedan">Седан</option>
+          <option value="coupe">Купе</option>
+          <option value="pickup">Пикап</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Бюджет</label>
+        <select class="form-select" id="carBudget">
+          <option value="low">До $15 000</option>
+          <option value="mid">$15 000 — $30 000</option>
+          <option value="high">От $30 000</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Цена (текст)</label>
+        <input type="text" class="form-input" id="carPrice" placeholder="от $35 000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Метка</label>
+        <select class="form-select" id="carTag">
+          <option value="popular">Популярный</option>
+          <option value="premium">Premium</option>
+          <option value="auction">Аукцион</option>
+          <option value="hybrid">Гибрид</option>
+          <option value="reliable">Надёжный</option>
+          <option value="urgent">Срочно</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('carModal')">Отмена</button>
+      <button class="btn btn-gold" onclick="saveCar()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REVIEW MODAL ===== -->
+<div class="modal-bg" id="reviewModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('reviewModal')">×</button>
+    <h3 id="reviewModalTitle">Добавить отзыв</h3>
+    <p class="modal-sub">Отзыв клиента о покупке</p>
+    <input type="hidden" id="reviewId">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Имя</label>
+        <input type="text" class="form-input" id="reviewName" placeholder="Азамат">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Авто</label>
+        <input type="text" class="form-input" id="reviewCar" placeholder="Toyota Land Cruiser">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Текст отзыва</label>
+      <textarea class="form-textarea" id="reviewText" placeholder="Что говорит клиент..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Оценка (1-5 звёзд)</label>
+      <select class="form-select" id="reviewRating">
+        <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+        <option value="4">⭐⭐⭐⭐ (4)</option>
+        <option value="3">⭐⭐⭐ (3)</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('reviewModal')">Отмена</button>
+      <button class="btn btn-gold" onclick="saveReview()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FAQ MODAL ===== -->
+<div class="modal-bg" id="faqModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('faqModal')">×</button>
+    <h3 id="faqModalTitle">Добавить вопрос</h3>
+    <p class="modal-sub">FAQ для секции на сайте</p>
+    <input type="hidden" id="faqId">
+    <div class="form-group">
+      <label class="form-label">Вопрос</label>
+      <input type="text" class="form-input" id="faqQuestion" placeholder="Сколько стоит доставка?">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Ответ</label>
+      <textarea class="form-textarea" id="faqAnswer" placeholder="Развёрнутый ответ..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('faqModal')">Отмена</button>
+      <button class="btn btn-gold" onclick="saveFaq()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== VIDEO MODAL ===== -->
+<div class="modal-bg" id="videoModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('videoModal')">×</button>
+    <h3 id="videoModalTitle">Добавить видео</h3>
+    <p class="modal-sub">Ссылка на Reels или YouTube</p>
+    <input type="hidden" id="videoId">
+    <div class="form-group">
+      <label class="form-label">Название</label>
+      <input type="text" class="form-input" id="videoTitle" placeholder="Обзор Land Cruiser 250">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Ссылка</label>
+      <input type="text" class="form-input" id="videoUrl" placeholder="https://instagram.com/reel/...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Кол-во просмотров (для отображения)</label>
+      <input type="text" class="form-input" id="videoViews" placeholder="12.4K">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('videoModal')">Отмена</button>
+      <button class="btn btn-gold" onclick="saveVideo()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LEAD MODAL ===== -->
+<div class="modal-bg" id="leadModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('leadModal')">×</button>
+    <h3>Детали заявки</h3>
+    <p class="modal-sub">Информация о клиенте</p>
+    <div id="leadDetails"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('leadModal')">Закрыть</button>
+      <button class="btn btn-success" id="leadWhatsappBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.1-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1s-1.3-.5-2.4-1.5c-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.2-.2.2-.3.3-.5.1-.2.1-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.5 1.1 2.9 1.2 3.1 2.1 3.2 5.1 4.5c.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>
+        Написать в WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon">✓</div>
+  <div class="toast-text" id="toastText">Сохранено</div>
+</div>
+
+<script>
+// ============ DATA STORE ============
+const STORAGE_KEY = 'tilek_auto_data';
+
+const defaultData = {
+  auth: { user: 'admin', pass: 'tilek2025' },
+  cars: [
+    { id: 1, title: 'Toyota Land Cruiser 250', brand: 'Toyota', year: 2024, engine: '2.4', fuel: 'бензин', body: 'suv', budget: 'high', price: 'от $35 000', tag: 'popular' },
+    { id: 2, title: 'Jeep Wrangler', brand: 'Jeep', year: 2022, engine: '2.0', fuel: 'бензин', body: 'suv', budget: 'low', price: 'от $12 000', tag: 'auction' },
+    { id: 3, title: 'BMW 550i', brand: 'BMW', year: 2022, engine: '4.4', fuel: 'бензин', body: 'sedan', budget: 'high', price: 'по запросу', tag: 'premium' },
+    { id: 4, title: 'Lexus RX 500', brand: 'Lexus', year: 2023, engine: '2.4', fuel: 'гибрид', body: 'suv', budget: 'high', price: 'от $32 000', tag: 'hybrid' },
+    { id: 5, title: 'Toyota 4Runner', brand: 'Toyota', year: 2020, engine: '4.0', fuel: 'бензин', body: 'suv', budget: 'mid', price: 'от $15 000', tag: 'reliable' },
+    { id: 6, title: 'Lexus ES 300', brand: 'Lexus', year: 2019, engine: '2.5', fuel: 'гибрид', body: 'sedan', budget: 'low', price: 'от $10 800', tag: 'urgent' },
+  ],
+  leads: [],
+  reviews: [
+    { id: 1, name: 'Азамат', car: 'Toyota Land Cruiser', text: 'Объяснили весь процесс, показали варианты и помогли понять итоговую стоимость.', rating: 5 },
+    { id: 2, name: 'Нурлан', car: 'Lexus ES', text: 'Было важно не попасть на мошенников. Получил консультацию и понятный расчёт.', rating: 5 },
+    { id: 3, name: 'Бек', car: 'BMW 550i', text: 'Понравилось, что сразу объяснили риски и не давили на покупку.', rating: 5 },
+    { id: 4, name: 'Эльдар', car: 'Jeep Wrangler', text: 'Нашли интересный вариант с аукциона и помогли разобраться по доставке.', rating: 5 },
+  ],
+  faq: [
+    { id: 1, q: 'Сколько стоит доставка авто из Дубая?', a: 'Стоимость зависит от автомобиля, маршрута, города доставки и дополнительных расходов. Лучше сделать индивидуальный расчёт под ваш случай.' },
+    { id: 2, q: 'Можно ли купить авто дешевле рынка?', a: 'Да, иногда на аукционах можно найти выгодные варианты, но важно учитывать состояние, доставку и риски.' },
+    { id: 3, q: 'Какие авто лучше брать с аукциона?', a: 'Чаще всего смотрят Toyota, Lexus, BMW, Mercedes, Jeep и другие популярные модели.' },
+    { id: 4, q: 'Можно ли проверить авто перед покупкой?', a: 'Да, перед решением важно проверить состояние, комплектацию, историю и возможные повреждения.' },
+    { id: 5, q: 'Сколько времени занимает доставка?', a: 'Срок зависит от направления, документов и логистики.' },
+    { id: 6, q: 'Как проходит оплата?', a: 'Детали оплаты обсуждаются индивидуально после консультации и подбора автомобиля.' },
+    { id: 7, q: 'Работаете ли вы с Кыргызстаном и Казахстаном?', a: 'Да, компания ориентирована на клиентов из Кыргызстана, Казахстана и других стран СНГ.' },
+    { id: 8, q: 'Можно ли заказать расчёт без покупки?', a: 'Да, можно сначала получить консультацию и понять примерную стоимость.' },
+  ],
+  videos: [
+    { id: 1, title: 'Land Cruiser 250 — обзор и цена под ключ', url: 'https://instagram.com/', views: '12.4K' },
+    { id: 2, title: 'Wrangler с аукциона — что важно проверить', url: 'https://instagram.com/', views: '8.2K' },
+    { id: 3, title: 'Гибрид Lexus RX — стоит ли брать в 2025?', url: 'https://instagram.com/', views: '15.6K' },
+  ],
+  content: {
+    whatsapp: '000000000000',
+    instagram: 'https://instagram.com/',
+    igUsername: '@tilek_auto_dubai',
+    leadWebhook: '',
+    city: 'Ош / Бишкек',
+    hours: '09:00 – 22:00',
+    heroTitle: 'Авто из Дубая под ключ — от аукциона до доставки',
+    heroSub: 'Подберём, проверим, купим и поможем доставить автомобиль из ОАЭ в Кыргызстан, Казахстан и другие страны СНГ.',
+    followers: '33900',
+    posts: '700',
+    aboutTitle: 'Почему клиенты выбирают Tilek Auto Dubai',
+    aboutText: 'Tilek Auto Dubai помогает клиентам подобрать и купить автомобили из Дубая: с аукционов, площадок и проверенных источников.',
+    brandTagline: 'Доверие, как рукопожатие — основа каждой нашей сделки',
+    brandQuote: 'Мы строим отношения с клиентами на честности и прозрачности. Каждое авто из Дубая — это наша репутация и ваше спокойствие.',
+    seoTitle: 'Tilek Auto Dubai — Авто из Дубая под ключ',
+    seoDesc: 'Подбор, проверка, покупка и доставка авто из Дубая в Кыргызстан, Казахстан и страны СНГ.',
+    seoKeywords: 'авто из Дубая, машины из ОАЭ, аукционы Дубая, авто под ключ',
+    logoData: '',
+    ownerPhoto: '',
+    ownerLabel: 'Основатель компании',
+    ownerName: 'Тилек',
+    ownerPosition: 'Эксперт по авто из ОАЭ · 5+ лет в Дубае',
+    ownerBio: 'Я лично проверяю каждое авто перед покупкой. Моя задача — чтобы вы получили честную сделку, а не "кота в мешке". Работаю с клиентами из СНГ как со своими.',
+    ownerFeat1: 'Лично в Дубае',
+    ownerFeat2: '500+ сделок',
+    ownerFeat3: 'Знаю аукционы',
+    ownerFeat4: 'Связи в ОАЭ',
+  },
+  stats: {
+    views: 0,
+    viewsByDay: {},
+  }
+};
+
+let DATA = loadData();
+
+function loadData() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return JSON.parse(JSON.stringify(defaultData));
+    const parsed = JSON.parse(stored);
+    // merge with defaults to ensure new fields exist
+    return {
+      ...defaultData,
+      ...parsed,
+      content: { ...defaultData.content, ...(parsed.content || {}) },
+      stats: { ...defaultData.stats, ...(parsed.stats || {}) }
+    };
+  } catch (e) {
+    return JSON.parse(JSON.stringify(defaultData));
+  }
+}
+
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA));
+}
+
+// ============ AUTH ============
+const SESSION_KEY = 'tilek_admin_session';
+
+function checkAuth() {
+  const session = sessionStorage.getItem(SESSION_KEY);
+  if (session === 'authenticated') {
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('layout').classList.add('active');
+    initApp();
+  }
+}
+
+document.getElementById('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const user = document.getElementById('loginUser').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  const err = document.getElementById('loginError');
+  if (user === DATA.auth.user && pass === DATA.auth.pass) {
+    sessionStorage.setItem(SESSION_KEY, 'authenticated');
+    err.classList.remove('show');
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('layout').classList.add('active');
+    initApp();
+  } else {
+    err.classList.add('show');
+    setTimeout(() => err.classList.remove('show'), 3000);
+  }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  sessionStorage.removeItem(SESSION_KEY);
+  location.reload();
+});
+
+// ============ NAV ============
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => showView(item.dataset.view));
+});
+
+function showView(view) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  document.querySelector(`.nav-item[data-view="${view}"]`).classList.add('active');
+  document.getElementById('sidebar').classList.remove('active');
+  if (view === 'dashboard') renderDashboard();
+  if (view === 'cars') renderCars();
+  if (view === 'leads') renderLeads();
+  if (view === 'reviews') renderReviews();
+  if (view === 'faq') renderFaq();
+  if (view === 'videos') renderVideos();
+  if (view === 'content') loadContentForm();
+}
+
+document.querySelectorAll('.burger-btn').forEach(b => {
+  b.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('active'));
+});
+
+// ============ TABS ============
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).style.display = 'block';
+  });
+});
+
+// ============ DASHBOARD ============
+function renderDashboard() {
+  document.getElementById('statCars').textContent = DATA.cars.length;
+  document.getElementById('statLeads').textContent = DATA.leads.length;
+  document.getElementById('statReviews').textContent = DATA.reviews.length;
+  document.getElementById('statViews').textContent = DATA.stats.views.toLocaleString('ru-RU');
+  const newLeads = DATA.leads.filter(l => l.status === 'new').length;
+  document.getElementById('statLeadsNew').textContent = `+${newLeads} новых`;
+  renderLaunchChecklist();
+
+  // chart
+  const bars = document.getElementById('chartBars');
+  const labels = document.getElementById('chartLabels');
+  bars.innerHTML = '';
+  labels.innerHTML = '';
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0,10);
+    const val = DATA.stats.viewsByDay[key] || 0;
+    days.push({ key, val, label: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'][d.getDay()] });
+  }
+  const maxVal = Math.max(...days.map(d => d.val), 1);
+  days.forEach(d => {
+    const bar = document.createElement('div');
+    bar.className = 'chart-bar';
+    bar.style.height = Math.max((d.val / maxVal) * 100, 5) + '%';
+    bar.innerHTML = `<div class="chart-bar-value">${d.val}</div>`;
+    bars.appendChild(bar);
+    const lbl = document.createElement('div');
+    lbl.className = 'chart-label';
+    lbl.textContent = d.label;
+    labels.appendChild(lbl);
+  });
+
+  // recent leads
+  const recentBox = document.getElementById('recentLeadsTable');
+  const recent = DATA.leads.slice(0, 5);
+  if (!recent.length) {
+    recentBox.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><h4>Пока нет заявок</h4><p>Заявки с формы сайта появятся здесь</p></div>';
+  } else {
+    let html = '<table><thead><tr><th>Дата</th><th>Имя</th><th>Телефон</th><th>Авто</th><th>Статус</th></tr></thead><tbody>';
+    recent.forEach(l => {
+      const badge = l.status === 'new' ? 'badge-new' : (l.status === 'done' ? 'badge-done' : 'badge-read');
+      const statusText = l.status === 'new' ? 'Новая' : (l.status === 'done' ? 'Готово' : 'В работе');
+      html += `<tr>
+        <td style="color:var(--text-dim);font-size:12px">${formatDate(l.date)}</td>
+        <td><strong>${escape(l.name)}</strong></td>
+        <td style="color:var(--gold)">${escape(l.phone)}</td>
+        <td>${escape(l.car || '—')}</td>
+        <td><span class="badge ${badge}">${statusText}</span></td>
+      </tr>`;
+    });
+    html += '</tbody></table>';
+    recentBox.innerHTML = html;
+  }
+}
+
+function setLaunchBadge(id, ok, readyText, missingText, optional) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = `badge ${ok ? 'badge-done' : (optional ? 'badge-read' : 'badge-urgent')}`;
+  el.textContent = ok ? readyText : missingText;
+}
+
+function renderLaunchChecklist() {
+  const whatsappDigits = String(DATA.content.whatsapp || '').replace(/\D/g, '');
+  const whatsappReady = whatsappDigits && whatsappDigits !== '000000000000';
+  const instagramReady = DATA.content.instagram && DATA.content.instagram !== 'https://instagram.com/';
+  setLaunchBadge('launchWhatsappStatus', whatsappReady, 'Готово', 'Нужно указать');
+  setLaunchBadge('launchInstagramStatus', instagramReady, 'Готово', 'Нужно указать');
+  setLaunchBadge('launchOwnerStatus', !!DATA.content.ownerPhoto, 'Фото есть', 'Желательно', true);
+  setLaunchBadge('launchWebhookStatus', !!DATA.content.leadWebhook, 'Подключён', 'Опционально', true);
+}
+
+// ============ CARS ============
+function renderCars() {
+  const tbody = document.getElementById('carsTableBody');
+  const query = (document.getElementById('carSearch').value || '').toLowerCase();
+  const cars = DATA.cars.filter(c =>
+    !query || c.title.toLowerCase().includes(query) || c.brand.toLowerCase().includes(query) || String(c.year).includes(query)
+  );
+  if (!cars.length) {
+    tbody.innerHTML = '<tr><td colspan="8"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg><h4>Авто не найдены</h4><p>Добавьте первый автомобиль</p></div></td></tr>';
+  } else {
+    tbody.innerHTML = cars.map(c => `
+      <tr>
+        <td><strong>${escape(c.title)}</strong><br><small style="color:var(--text-dim)">${escape(c.brand)}</small></td>
+        <td>${c.year}</td>
+        <td>${escape(c.engine)}</td>
+        <td>${escape(c.fuel)}</td>
+        <td>${budgetLabel(c.budget)}</td>
+        <td style="color:var(--gold);font-weight:600">${escape(c.price)}</td>
+        <td><span class="badge badge-${c.tag}">${tagLabel(c.tag)}</span></td>
+        <td><div class="td-actions">
+          <button class="btn btn-ghost btn-icon" onclick="editCar(${c.id})" title="Редактировать">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="btn btn-danger btn-icon" onclick="deleteCar(${c.id})" title="Удалить">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+          </button>
+        </div></td>
+      </tr>
+    `).join('');
+  }
+  document.getElementById('carsBadge').textContent = DATA.cars.length;
+}
+
+document.getElementById('carSearch').addEventListener('input', renderCars);
+
+function openCarModal() {
+  document.getElementById('carModalTitle').textContent = 'Добавить авто';
+  document.getElementById('carId').value = '';
+  document.getElementById('carTitle').value = '';
+  document.getElementById('carImage').value = '';
+  document.getElementById('carBrand').value = 'Toyota';
+  document.getElementById('carYear').value = new Date().getFullYear();
+  document.getElementById('carEngine').value = '';
+  document.getElementById('carFuel').value = 'бензин';
+  document.getElementById('carBody').value = 'suv';
+  document.getElementById('carBudget').value = 'mid';
+  document.getElementById('carPrice').value = '';
+  document.getElementById('carTag').value = 'popular';
+  document.getElementById('carModal').classList.add('active');
+}
+
+function editCar(id) {
+  const car = DATA.cars.find(c => c.id === id);
+  if (!car) return;
+  document.getElementById('carModalTitle').textContent = 'Редактировать авто';
+  document.getElementById('carId').value = car.id;
+  document.getElementById('carTitle').value = car.title;
+  document.getElementById('carImage').value = car.image || '';
+  document.getElementById('carBrand').value = car.brand;
+  document.getElementById('carYear').value = car.year;
+  document.getElementById('carEngine').value = car.engine;
+  document.getElementById('carFuel').value = car.fuel;
+  document.getElementById('carBody').value = car.body;
+  document.getElementById('carBudget').value = car.budget;
+  document.getElementById('carPrice').value = car.price;
+  document.getElementById('carTag').value = car.tag;
+  document.getElementById('carModal').classList.add('active');
+}
+
+function saveCar() {
+  const id = document.getElementById('carId').value;
+  const title = document.getElementById('carTitle').value.trim();
+  if (!title) { toast('Введите название', 'error'); return; }
+  const car = {
+    title,
+    image: document.getElementById('carImage').value.trim(),
+    brand: document.getElementById('carBrand').value,
+    year: parseInt(document.getElementById('carYear').value) || 2024,
+    engine: document.getElementById('carEngine').value.trim(),
+    fuel: document.getElementById('carFuel').value,
+    body: document.getElementById('carBody').value,
+    budget: document.getElementById('carBudget').value,
+    price: document.getElementById('carPrice').value.trim() || 'по запросу',
+    tag: document.getElementById('carTag').value,
+  };
+  if (id) {
+    const idx = DATA.cars.findIndex(c => c.id == id);
+    if (idx > -1) DATA.cars[idx] = { ...DATA.cars[idx], ...car };
+  } else {
+    car.id = Date.now();
+    DATA.cars.unshift(car);
+  }
+  saveData();
+  closeModal('carModal');
+  renderCars();
+  toast(id ? 'Авто обновлено' : 'Авто добавлено');
+}
+
+function deleteCar(id) {
+  if (!confirm('Удалить этот автомобиль?')) return;
+  DATA.cars = DATA.cars.filter(c => c.id !== id);
+  saveData();
+  renderCars();
+  toast('Удалено');
+}
+
+// ============ LEADS ============
+function renderLeads() {
+  const tbody = document.getElementById('leadsTableBody');
+  const query = (document.getElementById('leadSearch').value || '').toLowerCase();
+  const leads = DATA.leads.filter(l =>
+    !query || l.name.toLowerCase().includes(query) || l.phone.toLowerCase().includes(query) || (l.car || '').toLowerCase().includes(query)
+  );
+  if (!leads.length) {
+    tbody.innerHTML = '<tr><td colspan="8"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><h4>Пока нет заявок</h4><p>Заявки с формы сайта появятся здесь автоматически</p></div></td></tr>';
+  } else {
+    tbody.innerHTML = leads.map(l => {
+      const badge = l.status === 'new' ? 'badge-new' : (l.status === 'done' ? 'badge-done' : 'badge-read');
+      const statusText = l.status === 'new' ? 'Новая' : (l.status === 'done' ? 'Готово' : 'В работе');
+      return `<tr>
+        <td style="color:var(--text-dim);font-size:12px">${formatDate(l.date)}</td>
+        <td><strong>${escape(l.name)}</strong></td>
+        <td style="color:var(--gold)">${escape(l.phone)}</td>
+        <td>${escape(l.car || '—')}</td>
+        <td>${escape(l.budget || '—')}</td>
+        <td>${escape(l.city || '—')}</td>
+        <td><span class="badge ${badge}">${statusText}</span></td>
+        <td><div class="td-actions">
+          <button class="btn btn-ghost btn-icon" onclick="viewLead(${l.id})" title="Открыть"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          <button class="btn btn-danger btn-icon" onclick="deleteLead(${l.id})" title="Удалить"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  }
+  const newCount = DATA.leads.filter(l => l.status === 'new').length;
+  const badge = document.getElementById('leadsBadge');
+  badge.textContent = newCount;
+  badge.style.display = newCount > 0 ? '' : 'none';
+}
+
+document.getElementById('leadSearch').addEventListener('input', renderLeads);
+
+function viewLead(id) {
+  const lead = DATA.leads.find(l => l.id === id);
+  if (!lead) return;
+  if (lead.status === 'new') {
+    lead.status = 'read';
+    saveData();
+    renderLeads();
+  }
+  const details = document.getElementById('leadDetails');
+  details.innerHTML = `
+    <div style="background:var(--bg);border:1px solid var(--line-soft);border-radius:12px;padding:18px;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px">Поступила: ${formatDate(lead.date)}</div>
+      <div style="display:grid;gap:10px">
+        ${field('Имя', lead.name)}
+        ${field('Телефон', lead.phone, true)}
+        ${field('Авто', lead.car)}
+        ${field('Бюджет', lead.budget)}
+        ${field('Город', lead.city)}
+        ${field('Комментарий', lead.comment)}
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-success btn-sm" onclick="setLeadStatus(${lead.id},'done')">✓ Готово</button>
+      <button class="btn btn-ghost btn-sm" onclick="setLeadStatus(${lead.id},'read')">В работе</button>
+      <button class="btn btn-ghost btn-sm" onclick="setLeadStatus(${lead.id},'new')">Новая</button>
+    </div>
+  `;
+  const waBtn = document.getElementById('leadWhatsappBtn');
+  const phone = lead.phone.replace(/\D/g, '');
+  waBtn.onclick = () => window.open(`https://wa.me/${phone}?text=${encodeURIComponent('Здравствуйте, ' + lead.name + '! Спасибо за заявку на сайте Tilek Auto Dubai.')}`, '_blank');
+  document.getElementById('leadModal').classList.add('active');
+}
+
+function field(label, value, gold) {
+  if (!value) return '';
+  return `<div><div style="font-size:11px;color:var(--text-dim);text-transform:uppercase;margin-bottom:3px">${label}</div><div style="color:${gold ? 'var(--gold)' : '#fff'};font-weight:${gold ? '700' : '500'}">${escape(value)}</div></div>`;
+}
+
+function setLeadStatus(id, status) {
+  const lead = DATA.leads.find(l => l.id === id);
+  if (lead) { lead.status = status; saveData(); renderLeads(); viewLead(id); toast('Статус обновлён'); }
+}
+
+function deleteLead(id) {
+  if (!confirm('Удалить заявку?')) return;
+  DATA.leads = DATA.leads.filter(l => l.id !== id);
+  saveData();
+  renderLeads();
+  toast('Удалено');
+}
+
+// ============ REVIEWS ============
+function renderReviews() {
+  const tbody = document.getElementById('reviewsTableBody');
+  if (!DATA.reviews.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12,2 15,8.5 22,9.3 17,14 18.2,21 12,17.7 5.8,21 7,14 2,9.3 9,8.5"/></svg><h4>Нет отзывов</h4><p>Добавьте первый отзыв</p></div></td></tr>';
+  } else {
+    tbody.innerHTML = DATA.reviews.map(r => `
+      <tr>
+        <td><strong>${escape(r.name)}</strong></td>
+        <td style="color:var(--gold)">${escape(r.car)}</td>
+        <td style="max-width:400px;color:var(--text-light)">${escape(r.text)}</td>
+        <td>${'⭐'.repeat(r.rating)}</td>
+        <td><div class="td-actions">
+          <button class="btn btn-ghost btn-icon" onclick="editReview(${r.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="btn btn-danger btn-icon" onclick="deleteReview(${r.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+        </div></td>
+      </tr>
+    `).join('');
+  }
+}
+
+function openReviewModal() {
+  document.getElementById('reviewModalTitle').textContent = 'Добавить отзыв';
+  document.getElementById('reviewId').value = '';
+  document.getElementById('reviewName').value = '';
+  document.getElementById('reviewCar').value = '';
+  document.getElementById('reviewText').value = '';
+  document.getElementById('reviewRating').value = '5';
+  document.getElementById('reviewModal').classList.add('active');
+}
+
+function editReview(id) {
+  const r = DATA.reviews.find(x => x.id === id);
+  if (!r) return;
+  document.getElementById('reviewModalTitle').textContent = 'Редактировать отзыв';
+  document.getElementById('reviewId').value = r.id;
+  document.getElementById('reviewName').value = r.name;
+  document.getElementById('reviewCar').value = r.car;
+  document.getElementById('reviewText').value = r.text;
+  document.getElementById('reviewRating').value = r.rating;
+  document.getElementById('reviewModal').classList.add('active');
+}
+
+function saveReview() {
+  const id = document.getElementById('reviewId').value;
+  const name = document.getElementById('reviewName').value.trim();
+  if (!name) { toast('Введите имя', 'error'); return; }
+  const r = {
+    name,
+    car: document.getElementById('reviewCar').value.trim(),
+    text: document.getElementById('reviewText').value.trim(),
+    rating: parseInt(document.getElementById('reviewRating').value),
+  };
+  if (id) {
+    const idx = DATA.reviews.findIndex(x => x.id == id);
+    if (idx > -1) DATA.reviews[idx] = { ...DATA.reviews[idx], ...r };
+  } else {
+    r.id = Date.now();
+    DATA.reviews.unshift(r);
+  }
+  saveData();
+  closeModal('reviewModal');
+  renderReviews();
+  toast(id ? 'Отзыв обновлён' : 'Отзыв добавлен');
+}
+
+function deleteReview(id) {
+  if (!confirm('Удалить отзыв?')) return;
+  DATA.reviews = DATA.reviews.filter(r => r.id !== id);
+  saveData();
+  renderReviews();
+  toast('Удалено');
+}
+
+// ============ FAQ ============
+function renderFaq() {
+  const tbody = document.getElementById('faqTableBody');
+  if (!DATA.faq.length) {
+    tbody.innerHTML = '<tr><td colspan="3"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><h4>Нет вопросов</h4></div></td></tr>';
+  } else {
+    tbody.innerHTML = DATA.faq.map(f => `
+      <tr>
+        <td style="max-width:300px"><strong>${escape(f.q)}</strong></td>
+        <td style="max-width:400px;color:var(--text-light)">${escape(f.a)}</td>
+        <td><div class="td-actions">
+          <button class="btn btn-ghost btn-icon" onclick="editFaq(${f.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="btn btn-danger btn-icon" onclick="deleteFaq(${f.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+        </div></td>
+      </tr>
+    `).join('');
+  }
+}
+
+function openFaqModal() {
+  document.getElementById('faqModalTitle').textContent = 'Добавить вопрос';
+  document.getElementById('faqId').value = '';
+  document.getElementById('faqQuestion').value = '';
+  document.getElementById('faqAnswer').value = '';
+  document.getElementById('faqModal').classList.add('active');
+}
+
+function editFaq(id) {
+  const f = DATA.faq.find(x => x.id === id);
+  if (!f) return;
+  document.getElementById('faqModalTitle').textContent = 'Редактировать вопрос';
+  document.getElementById('faqId').value = f.id;
+  document.getElementById('faqQuestion').value = f.q;
+  document.getElementById('faqAnswer').value = f.a;
+  document.getElementById('faqModal').classList.add('active');
+}
+
+function saveFaq() {
+  const id = document.getElementById('faqId').value;
+  const q = document.getElementById('faqQuestion').value.trim();
+  const a = document.getElementById('faqAnswer').value.trim();
+  if (!q || !a) { toast('Заполните вопрос и ответ', 'error'); return; }
+  if (id) {
+    const idx = DATA.faq.findIndex(x => x.id == id);
+    if (idx > -1) DATA.faq[idx] = { ...DATA.faq[idx], q, a };
+  } else {
+    DATA.faq.unshift({ id: Date.now(), q, a });
+  }
+  saveData();
+  closeModal('faqModal');
+  renderFaq();
+  toast(id ? 'Обновлено' : 'Добавлено');
+}
+
+function deleteFaq(id) {
+  if (!confirm('Удалить вопрос?')) return;
+  DATA.faq = DATA.faq.filter(f => f.id !== id);
+  saveData();
+  renderFaq();
+  toast('Удалено');
+}
+
+// ============ VIDEOS ============
+function renderVideos() {
+  const tbody = document.getElementById('videosTableBody');
+  if (!DATA.videos.length) {
+    tbody.innerHTML = '<tr><td colspan="4"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg><h4>Нет видео</h4></div></td></tr>';
+  } else {
+    tbody.innerHTML = DATA.videos.map(v => `
+      <tr>
+        <td><strong>${escape(v.title)}</strong></td>
+        <td><a href="${escape(v.url)}" target="_blank" style="color:var(--gold);font-size:13px">${escape(v.url.length > 40 ? v.url.slice(0,40)+'…' : v.url)}</a></td>
+        <td>${escape(v.views)}</td>
+        <td><div class="td-actions">
+          <button class="btn btn-ghost btn-icon" onclick="editVideo(${v.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="btn btn-danger btn-icon" onclick="deleteVideo(${v.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+        </div></td>
+      </tr>
+    `).join('');
+  }
+}
+
+function openVideoModal() {
+  document.getElementById('videoModalTitle').textContent = 'Добавить видео';
+  document.getElementById('videoId').value = '';
+  document.getElementById('videoTitle').value = '';
+  document.getElementById('videoUrl').value = '';
+  document.getElementById('videoViews').value = '';
+  document.getElementById('videoModal').classList.add('active');
+}
+
+function editVideo(id) {
+  const v = DATA.videos.find(x => x.id === id);
+  if (!v) return;
+  document.getElementById('videoModalTitle').textContent = 'Редактировать видео';
+  document.getElementById('videoId').value = v.id;
+  document.getElementById('videoTitle').value = v.title;
+  document.getElementById('videoUrl').value = v.url;
+  document.getElementById('videoViews').value = v.views;
+  document.getElementById('videoModal').classList.add('active');
+}
+
+function saveVideo() {
+  const id = document.getElementById('videoId').value;
+  const title = document.getElementById('videoTitle').value.trim();
+  if (!title) { toast('Введите название', 'error'); return; }
+  const v = {
+    title,
+    url: document.getElementById('videoUrl').value.trim() || 'https://instagram.com/',
+    views: document.getElementById('videoViews').value.trim() || '0',
+  };
+  if (id) {
+    const idx = DATA.videos.findIndex(x => x.id == id);
+    if (idx > -1) DATA.videos[idx] = { ...DATA.videos[idx], ...v };
+  } else {
+    v.id = Date.now();
+    DATA.videos.unshift(v);
+  }
+  saveData();
+  closeModal('videoModal');
+  renderVideos();
+  toast(id ? 'Видео обновлено' : 'Видео добавлено');
+}
+
+function deleteVideo(id) {
+  if (!confirm('Удалить видео?')) return;
+  DATA.videos = DATA.videos.filter(v => v.id !== id);
+  saveData();
+  renderVideos();
+  toast('Удалено');
+}
+
+// ============ CONTENT ============
+function loadContentForm() {
+  const c = DATA.content;
+  document.getElementById('cWhatsapp').value = c.whatsapp || '';
+  document.getElementById('cInstagram').value = c.instagram || '';
+  document.getElementById('cIgUsername').value = c.igUsername || '';
+  document.getElementById('cLeadWebhook').value = c.leadWebhook || '';
+  document.getElementById('cCity').value = c.city || '';
+  document.getElementById('cHours').value = c.hours || '';
+  document.getElementById('cHeroTitle').value = c.heroTitle || '';
+  document.getElementById('cHeroSub').value = c.heroSub || '';
+  document.getElementById('cFollowers').value = c.followers || '';
+  document.getElementById('cPosts').value = c.posts || '';
+  document.getElementById('cAboutTitle').value = c.aboutTitle || '';
+  document.getElementById('cAboutText').value = c.aboutText || '';
+  document.getElementById('cBrandTagline').value = c.brandTagline || '';
+  document.getElementById('cBrandQuote').value = c.brandQuote || '';
+  document.getElementById('cSeoTitle').value = c.seoTitle || '';
+  document.getElementById('cSeoDesc').value = c.seoDesc || '';
+  document.getElementById('cSeoKeywords').value = c.seoKeywords || '';
+  // Owner
+  document.getElementById('cOwnerLabel').value = c.ownerLabel || '';
+  document.getElementById('cOwnerName').value = c.ownerName || '';
+  document.getElementById('cOwnerPosition').value = c.ownerPosition || '';
+  document.getElementById('cOwnerBio').value = c.ownerBio || '';
+  document.getElementById('cOwnerFeat1').value = c.ownerFeat1 || '';
+  document.getElementById('cOwnerFeat2').value = c.ownerFeat2 || '';
+  document.getElementById('cOwnerFeat3').value = c.ownerFeat3 || '';
+  document.getElementById('cOwnerFeat4').value = c.ownerFeat4 || '';
+  // Previews
+  refreshLogoPreview();
+  refreshOwnerPhotoPreview();
+}
+
+function saveContent() {
+  DATA.content = {
+    ...DATA.content,
+    whatsapp: document.getElementById('cWhatsapp').value.replace(/\D/g, ''),
+    instagram: document.getElementById('cInstagram').value.trim(),
+    igUsername: document.getElementById('cIgUsername').value.trim(),
+    leadWebhook: document.getElementById('cLeadWebhook').value.trim(),
+    city: document.getElementById('cCity').value.trim(),
+    hours: document.getElementById('cHours').value.trim(),
+    heroTitle: document.getElementById('cHeroTitle').value.trim(),
+    heroSub: document.getElementById('cHeroSub').value.trim(),
+    followers: document.getElementById('cFollowers').value.trim(),
+    posts: document.getElementById('cPosts').value.trim(),
+    aboutTitle: document.getElementById('cAboutTitle').value.trim(),
+    aboutText: document.getElementById('cAboutText').value.trim(),
+    brandTagline: document.getElementById('cBrandTagline').value.trim(),
+    brandQuote: document.getElementById('cBrandQuote').value.trim(),
+    seoTitle: document.getElementById('cSeoTitle').value.trim(),
+    seoDesc: document.getElementById('cSeoDesc').value.trim(),
+    seoKeywords: document.getElementById('cSeoKeywords').value.trim(),
+    ownerLabel: document.getElementById('cOwnerLabel').value.trim(),
+    ownerName: document.getElementById('cOwnerName').value.trim(),
+    ownerPosition: document.getElementById('cOwnerPosition').value.trim(),
+    ownerBio: document.getElementById('cOwnerBio').value.trim(),
+    ownerFeat1: document.getElementById('cOwnerFeat1').value.trim(),
+    ownerFeat2: document.getElementById('cOwnerFeat2').value.trim(),
+    ownerFeat3: document.getElementById('cOwnerFeat3').value.trim(),
+    ownerFeat4: document.getElementById('cOwnerFeat4').value.trim(),
+  };
+  saveData();
+  toast('Тексты сохранены');
+}
+
+// ============ LOGO UPLOAD ============
+function refreshLogoPreview() {
+  const img = document.getElementById('logoPreviewImg');
+  const placeholder = document.getElementById('logoPreviewPlaceholder');
+  if (DATA.content.logoData) {
+    img.src = DATA.content.logoData;
+    img.style.display = 'block';
+    placeholder.style.display = 'none';
+  } else {
+    // try loading default file
+    img.src = 'assets/logo.png';
+    img.onload = () => { img.style.display = 'block'; placeholder.style.display = 'none'; };
+    img.onerror = () => { img.style.display = 'none'; placeholder.style.display = 'block'; };
+  }
+}
+
+function uploadLogo(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { toast('Файл больше 2 МБ', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    DATA.content.logoData = e.target.result;
+    saveData();
+    refreshLogoPreview();
+    toast('Логотип загружен');
+  };
+  reader.readAsDataURL(file);
+  event.target.value = '';
+}
+
+function resetLogo() {
+  if (!confirm('Сбросить логотип на стандартный?')) return;
+  DATA.content.logoData = '';
+  saveData();
+  refreshLogoPreview();
+  toast('Логотип сброшен');
+}
+
+// ============ OWNER PHOTO UPLOAD ============
+function refreshOwnerPhotoPreview() {
+  const img = document.getElementById('ownerPhotoImg');
+  const placeholder = document.getElementById('ownerPhotoPlaceholder');
+  if (DATA.content.ownerPhoto) {
+    img.src = DATA.content.ownerPhoto;
+    img.style.display = 'block';
+    placeholder.style.display = 'none';
+  } else {
+    img.style.display = 'none';
+    placeholder.style.display = 'block';
+  }
+}
+
+function uploadOwnerPhoto(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { toast('Файл больше 2 МБ', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    DATA.content.ownerPhoto = e.target.result;
+    saveData();
+    refreshOwnerPhotoPreview();
+    toast('Фото загружено');
+  };
+  reader.readAsDataURL(file);
+  event.target.value = '';
+}
+
+function removeOwnerPhoto() {
+  if (!confirm('Удалить фото владельца?')) return;
+  DATA.content.ownerPhoto = '';
+  saveData();
+  refreshOwnerPhotoPreview();
+  toast('Фото удалено');
+}
+
+// ============ SETTINGS ============
+function changePassword() {
+  const login = document.getElementById('newLogin').value.trim();
+  const pass = document.getElementById('newPassword').value;
+  if (!login || pass.length < 6) { toast('Логин и пароль (минимум 6 символов)', 'error'); return; }
+  DATA.auth = { user: login, pass };
+  saveData();
+  document.getElementById('newLogin').value = '';
+  document.getElementById('newPassword').value = '';
+  toast('Пароль изменён');
+}
+
+function exportAll() {
+  const blob = new Blob([JSON.stringify(DATA, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `tilek-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Бэкап скачан');
+}
+
+function importAll(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (!parsed.cars || !parsed.content) throw new Error('Invalid format');
+      if (confirm('Заменить все текущие данные данными из файла?')) {
+        DATA = parsed;
+        saveData();
+        toast('Данные загружены');
+        setTimeout(() => location.reload(), 600);
+      }
+    } catch (err) {
+      toast('Файл повреждён', 'error');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function exportLeads() {
+  if (!DATA.leads.length) { toast('Нет заявок для экспорта', 'error'); return; }
+  const headers = ['Дата','Имя','Телефон','Авто','Бюджет','Город','Комментарий','Статус'];
+  const rows = DATA.leads.map(l => [
+    formatDate(l.date), l.name, l.phone, l.car || '', l.budget || '', l.city || '', (l.comment || '').replace(/\n/g,' '), l.status
+  ].map(v => `"${String(v).replace(/"/g,'""')}"`).join(','));
+  const csv = '\uFEFF' + headers.join(',') + '\n' + rows.join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `tilek-leads-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Заявки экспортированы');
+}
+
+function resetAll() {
+  if (!confirm('Точно удалить ВСЕ данные? Это необратимо!')) return;
+  if (!confirm('Подтвердите ещё раз. Все авто, отзывы, заявки и настройки будут стёрты.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  toast('Все данные удалены');
+  setTimeout(() => location.reload(), 800);
+}
+
+// ============ HELPERS ============
+function escape(str) {
+  if (!str) return '';
+  return String(str).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+function formatDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleString('ru-RU', { day:'2-digit', month:'2-digit', year:'2-digit', hour:'2-digit', minute:'2-digit' });
+}
+function budgetLabel(b) {
+  return { low: 'До $15K', mid: '$15–30K', high: 'От $30K' }[b] || b;
+}
+function tagLabel(t) {
+  return { popular: 'Популярный', premium: 'Premium', auction: 'Аукцион', hybrid: 'Гибрид', reliable: 'Надёжный', urgent: 'Срочно' }[t] || t;
+}
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+function toast(text, type) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastText').textContent = text;
+  t.className = 'toast show ' + (type || 'success');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// close modals on backdrop click
+document.querySelectorAll('.modal-bg').forEach(bg => {
+  bg.addEventListener('click', e => {
+    if (e.target === bg) bg.classList.remove('active');
+  });
+});
+
+// ============ INIT ============
+function applyCustomLogo() {
+  if (DATA.content && DATA.content.logoData) {
+    document.querySelectorAll('img[src*="assets/logo.png"]').forEach(img => {
+      img.src = DATA.content.logoData;
+    });
+  }
+}
+
+function initApp() {
+  applyCustomLogo();
+  renderDashboard();
+  renderCars();
+  renderLeads();
+  renderReviews();
+  renderFaq();
+  renderVideos();
+  loadContentForm();
+}
+
+checkAuth();
+
+// Sync leads from site (localStorage event from index.html)
+window.addEventListener('storage', e => {
+  if (e.key === STORAGE_KEY) {
+    DATA = loadData();
+    renderDashboard();
+    renderLeads();
+  }
+});
+</script>
+</body>
+</html>
