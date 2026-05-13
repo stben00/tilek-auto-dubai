@@ -245,7 +245,7 @@ svg{flex-shrink:0}
 
 /* ============ HERO ============ */
 .hero{
-  position:relative;padding:140px 0 80px;overflow:hidden;
+  position:relative;padding:118px 0 64px;overflow:hidden;
   background:radial-gradient(ellipse at 70% 20%,rgba(212,175,55,.18) 0%,transparent 55%),
              radial-gradient(ellipse at 10% 80%,rgba(212,175,55,.08) 0%,transparent 50%),
              #0a0a0a;
@@ -275,15 +275,15 @@ svg{flex-shrink:0}
 .hero-badge::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold)}
 
 .hero h1{
-  font-size:clamp(34px,5.5vw,68px);font-weight:800;line-height:1.05;letter-spacing:-.025em;
-  color:#fff;margin-bottom:24px;
+  font-size:clamp(34px,4.65vw,60px);font-weight:800;line-height:1.04;letter-spacing:-.025em;
+  color:#fff;margin-bottom:20px;
 }
 .hero h1 .gold{
   background:linear-gradient(135deg,var(--gold-light) 0%,var(--gold) 50%,var(--gold-deep) 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
   display:inline-block;
 }
-.hero-sub{font-size:clamp(15px,1.8vw,18px);color:var(--gray-light);margin-bottom:36px;max-width:560px;line-height:1.7}
+.hero-sub{font-size:clamp(15px,1.55vw,17px);color:var(--gray-light);margin-bottom:26px;max-width:580px;line-height:1.65}
 
 .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px}
 
@@ -312,14 +312,14 @@ svg{flex-shrink:0}
 .hero-trust-item svg{width:18px;height:18px;color:var(--gold);flex-shrink:0}
 
 /* ============ OWNER CARD (HERO VISUAL) ============ */
-.hero-visual{position:relative;min-height:560px;display:flex;align-items:center}
+.hero-visual{position:relative;min-height:520px;display:flex;align-items:center}
 .owner-card{
   position:relative;width:100%;
   background:
     radial-gradient(ellipse at 50% 0%,rgba(212,175,55,.15) 0%,transparent 60%),
     linear-gradient(160deg,#1a1a1a 0%,#0d0d0d 100%);
   border:1px solid var(--line);border-radius:32px;overflow:hidden;
-  padding:36px 32px 32px;
+  padding:32px 30px 28px;
   box-shadow:var(--shadow-card),inset 0 1px 0 rgba(255,255,255,.05);
 }
 .owner-bg-pattern{
@@ -351,7 +351,7 @@ svg{flex-shrink:0}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
 
 .owner-photo-wrap{
-  position:relative;width:140px;height:140px;margin:0 auto 24px;
+  position:relative;width:124px;height:124px;margin:0 auto 20px;
   display:flex;align-items:center;justify-content:center;
 }
 .owner-photo-ring{
@@ -361,7 +361,7 @@ svg{flex-shrink:0}
 }
 @keyframes ownerRingRotate{to{transform:rotate(360deg)}}
 .owner-photo{
-  position:relative;z-index:2;width:140px;height:140px;border-radius:50%;overflow:hidden;
+  position:relative;z-index:2;width:124px;height:124px;border-radius:50%;overflow:hidden;
   background:linear-gradient(135deg,#1a1a1a,#000);
   border:3px solid #0a0a0a;
   box-shadow:0 15px 40px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.05);
