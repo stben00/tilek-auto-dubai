@@ -752,6 +752,67 @@ svg{flex-shrink:0}
   transition:transform .4s ease;
 }
 .video-card:hover .video-thumb-img{transform:scale(1.04)}
+
+/* ============ CAR VIDEO BADGE + PLAY OVERLAY ============ */
+.car-video-badge{
+  position:absolute;top:14px;right:14px;z-index:3;
+  background:linear-gradient(135deg,#d4af37,#b8941f);
+  color:#0a0a0a;font-weight:700;font-size:11px;letter-spacing:.5px;
+  padding:5px 10px;border-radius:6px;
+  box-shadow:0 4px 12px rgba(0,0,0,.4);
+}
+.car-play-overlay{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4;
+  width:64px;height:64px;border-radius:50%;border:none;cursor:pointer;
+  background:rgba(212,175,55,.95);color:#0a0a0a;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.5);
+  transition:transform .25s ease,background .25s ease;
+}
+.car-play-overlay svg{width:28px;height:28px;margin-left:3px}
+.car-play-overlay:hover{transform:translate(-50%,-50%) scale(1.1);background:#d4af37}
+.car-card:hover .car-play-overlay{transform:translate(-50%,-50%) scale(1.05)}
+
+/* ============ VIDEO MODAL ============ */
+.vmodal-bg{
+  position:fixed;inset:0;z-index:9999;display:none;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:20px;
+  animation:vmodalFade .2s ease;
+}
+.vmodal-bg.active{display:flex}
+@keyframes vmodalFade{from{opacity:0}to{opacity:1}}
+.vmodal{
+  position:relative;width:100%;max-width:880px;
+  background:#111;border:1px solid rgba(212,175,55,.3);border-radius:16px;
+  overflow:hidden;display:flex;flex-direction:column;max-height:92vh;
+}
+.vmodal-close{
+  position:absolute;top:10px;right:10px;z-index:5;
+  width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;
+  background:rgba(0,0,0,.6);color:#fff;font-size:22px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s ease;
+}
+.vmodal-close:hover{background:rgba(212,175,55,.9);color:#0a0a0a}
+.vmodal-player{position:relative;width:100%;background:#000;aspect-ratio:16/9}
+.vmodal-player video,.vmodal-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.vmodal-insta{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center;
+  background:radial-gradient(ellipse at center,rgba(212,175,55,.18),#0a0a0a 65%);
+}
+.vmodal-insta svg{width:64px;height:64px;color:#d4af37}
+.vmodal-insta p{color:#ccc;font-size:15px;max-width:420px}
+.vmodal-meta{padding:18px 22px;color:#fff;background:#0a0a0a;border-top:1px solid rgba(212,175,55,.15)}
+.vmodal-title{font-size:20px;font-weight:700;margin-bottom:6px;color:#fff}
+.vmodal-sub{font-size:14px;color:#aaa;margin-bottom:14px}
+.vmodal-actions{display:flex;gap:10px;flex-wrap:wrap}
+@media(max-width:640px){
+  .vmodal{max-height:96vh}
+  .vmodal-title{font-size:17px}
+  .vmodal-meta{padding:14px 16px}
+}
 .video-thumb-overlay{
   position:absolute;inset:0;z-index:2;
   background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.85) 100%);
@@ -3243,12 +3304,21 @@ function renderManagedCars(cars) {
     const price = escapeHtml(car.price || 'по запросу');
     const image = String(car.image || '').trim();
     const message = encodeURIComponent(`Здравствуйте! Интересует ${car.title || 'авто из Дубая'}${car.year ? ' ' + car.year : ''}`);
+    const videoUrl = String(car.videoUrl || '').trim();
+    const videoType = String(car.videoType || '').trim() || (videoUrl ? (/youtube|youtu\.be/i.test(videoUrl) ? 'youtube' : (/instagram/i.test(videoUrl) ? 'instagram' : (/\.(mp4|mov|webm|m4v)(\?|$)/i.test(videoUrl) ? 'local' : 'external'))) : '');
+    const videoPoster = String(car.videoPoster || image || '').trim();
+    const hasVideo = !!videoUrl;
+    const videoBadge = hasVideo ? `<span class="car-video-badge">▶ Видео</span>` : '';
+    const playOverlay = hasVideo ? `<button type="button" class="car-play-overlay" data-open-video="${escapeAttr(videoUrl)}" data-video-type="${escapeAttr(videoType)}" data-video-poster="${escapeAttr(videoPoster)}" data-video-title="${escapeAttr(car.videoTitle || car.title || '')}" data-car-title="${title}" data-car-price="${escapeAttr(car.price || '')}" data-car-year="${escapeAttr(car.year || '')}" aria-label="Смотреть видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>` : '';
+    const videoBtn = hasVideo ? `<button type="button" class="btn btn-ghost btn-sm" data-open-video="${escapeAttr(videoUrl)}" data-video-type="${escapeAttr(videoType)}" data-video-poster="${escapeAttr(videoPoster)}" data-video-title="${escapeAttr(car.videoTitle || car.title || '')}" data-car-title="${title}" data-car-price="${escapeAttr(car.price || '')}" data-car-year="${escapeAttr(car.year || '')}">▶ Видео</button>` : '';
     return `
       <article class="car-card fade-up visible" data-brand="${brand}" data-year="${year}" data-budget="${budget}" data-fuel="${fuel}" data-body="${body}">
         <div class="car-image">
           <span class="car-tag tag-${tag}">${escapeHtml(carTagLabel(car.tag))}</span>
+          ${videoBadge}
           <div class="car-reel"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
           ${image ? `<img class="car-photo" src="${escapeAttr(image)}" alt="${title}" loading="lazy" onerror="this.style.display='none';var f=this.nextElementSibling;if(f&&f.classList.contains('car-photo-fade'))f.style.display='none'"><div class="car-photo-fade"></div>` : carIllustration()}
+          ${playOverlay}
         </div>
         <div class="car-content">
           <div class="car-title-row">
@@ -3262,6 +3332,7 @@ function renderManagedCars(cars) {
           </div>
           <div class="car-actions">
             <a href="#calculator" class="btn btn-gold btn-sm">Расчёт</a>
+            ${videoBtn}
             <a href="${makeWhatsappUrl(decodeURIComponent(message))}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-sm">WhatsApp</a>
           </div>
         </div>
@@ -3281,8 +3352,12 @@ function renderManagedVideos(videos) {
   const instagramProfile = getSiteData().content?.instagram || 'https://www.instagram.com/tilek_auto_dubai/';
   grid.innerHTML = videos.map(video => {
     const rawUrl = String(video.url || '').trim();
-    const url = /^https?:\/\/(www\.)?instagram\.com\/?$/i.test(rawUrl) || !rawUrl ? instagramProfile : rawUrl;
-    const thumb = String(video.thumb || '').trim();
+    const fallbackUrl = /^https?:\/\/(www\.)?instagram\.com\/?$/i.test(rawUrl) || !rawUrl ? instagramProfile : rawUrl;
+    const thumb = String(video.thumb || video.videoPoster || '').trim();
+    const videoType = String(video.type || video.videoType || '').trim() || (rawUrl ? (/youtube|youtu\.be/i.test(rawUrl) ? 'youtube' : (/instagram/i.test(rawUrl) ? 'instagram' : (/\.(mp4|mov|webm|m4v)(\?|$)/i.test(rawUrl) ? 'local' : 'external'))) : '');
+    const inlineOpen = rawUrl && videoType !== 'instagram'
+      ? `data-open-video="${escapeAttr(rawUrl)}" data-video-type="${escapeAttr(videoType)}" data-video-poster="${escapeAttr(thumb)}" data-video-title="${escapeAttr(video.title || '')}" data-car-title="${escapeAttr(video.title || 'Tilek Auto Dubai')}"`
+      : '';
     const thumbHtml = thumb
       ? `<img class="video-thumb-img" src="${escapeAttr(thumb)}" alt="${escapeAttr(video.title || '')}" loading="lazy"><div class="video-thumb-overlay"></div>`
       : `<svg viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -3293,20 +3368,20 @@ function renderManagedVideos(videos) {
           <circle cx="100" cy="370" r="32" fill="#0a0a0a" stroke="#d4af37" stroke-width="2"/>
           <circle cx="290" cy="370" r="32" fill="#0a0a0a" stroke="#d4af37" stroke-width="2"/>
         </svg>`;
-    return `
-    <a href="${escapeAttr(url)}" target="_blank" rel="noopener" class="video-card fade-up visible">
-      <span class="video-badge">▶ Reels</span>
+    const inner = `
+      <span class="video-badge">▶ ${videoType === 'local' ? 'Видео' : 'Reels'}</span>
       <div class="video-thumb">${thumbHtml}</div>
       <div class="video-play" style="z-index:4"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
       <div class="video-meta" style="z-index:4">
         <div class="video-title">${escapeHtml(video.title || 'Видео Tilek Auto Dubai')}</div>
         <div class="video-info">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span>${escapeHtml(video.views || '0')} просмотров</span>
+          <span>${escapeHtml(video.views || 'новое')}</span>
         </div>
-      </div>
-    </a>
-  `;
+      </div>`;
+    return inlineOpen
+      ? `<button type="button" class="video-card fade-up visible" style="cursor:pointer;border:none;background:transparent;padding:0;text-align:left;color:inherit;font:inherit" ${inlineOpen}>${inner}</button>`
+      : `<a href="${escapeAttr(fallbackUrl)}" target="_blank" rel="noopener" class="video-card fade-up visible">${inner}</a>`;
   }).join('');
 }
 
@@ -3374,32 +3449,47 @@ function renderManagedContent(data) {
     const whatsappDigits = String(c.whatsapp || '').replace(/\D/g, '');
     renderManagedContent(data);
 
-    // ===== cars.json compatibility (from Telegram AI Uploader) =====
-    // Loads cars.json from the site root and merges with admin-panel cars.
-    // Fails silently if cars.json is missing — falls back to existing data.
-    (function loadCarsJson() {
-      fetch('cars.json', { cache: 'no-store' })
+    // ===== site-data.json compatibility (shared source of truth) =====
+    // Loads data/site-data.json from the site root and re-renders all sections.
+    // Falls back silently to localStorage data if file is missing.
+    (function loadSiteData() {
+      const bodyMap = { 'внедорожник':'suv','suv':'suv','кроссовер':'crossover','crossover':'crossover','седан':'sedan','sedan':'sedan','пикап':'pickup','pickup':'pickup','грузовик':'truck','truck':'truck','минивэн':'minivan','minivan':'minivan','купе':'coupe','coupe':'coupe','хэтчбек':'hatchback','hatchback':'hatchback' };
+      const fuelMap = { 'бензин':'petrol','дизель':'diesel','гибрид':'hybrid','электро':'electric','газ':'gas' };
+      function mapCar(x) {
+        if (!x || typeof x !== 'object') return null;
+        return {
+          id: x.id,
+          title: x.title || [x.brand, x.model, x.year].filter(Boolean).join(' '),
+          brand: x.brand || '',
+          year: x.year || '',
+          price: x.price || 'по запросу',
+          engine: x.engine || '',
+          fuel: fuelMap[String(x.fuel||'').toLowerCase()] || x.fuel || '',
+          body: bodyMap[String(x.bodyType||x.body||'').toLowerCase()] || x.body || '',
+          budget: x.budget || '',
+          tag: x.tag || 'reliable',
+          image: x.image || x.mainImage || (Array.isArray(x.images) && x.images[0]) || '',
+          description: x.description || '',
+          videoUrl: x.videoUrl || x.videoFile || '',
+          videoPoster: x.videoPoster || x.image || x.mainImage || '',
+          videoType: x.videoType || (x.videoUrl ? (/youtube|youtu\.be/i.test(x.videoUrl) ? 'youtube' : (/instagram/i.test(x.videoUrl) ? 'instagram' : 'external')) : (x.videoFile ? 'local' : '')),
+          videoTitle: x.videoTitle || '',
+          videoDuration: x.videoDuration || '',
+          instagramUrl: x.instagramUrl || '',
+          whatsapp: x.whatsapp || ''
+        };
+      }
+      fetch('data/site-data.json', { cache: 'no-store' })
         .then(r => r.ok ? r.json() : null)
-        .then(extCars => {
-          if (!Array.isArray(extCars) || !extCars.length) return;
-          const bodyMap = { 'внедорожник':'suv','suv':'suv','кроссовер':'crossover','crossover':'crossover','седан':'sedan','sedan':'sedan','пикап':'pickup','pickup':'pickup','грузовик':'truck','truck':'truck','минивэн':'minivan','minivan':'minivan','купе':'coupe','coupe':'coupe','хэтчбек':'hatchback','hatchback':'hatchback' };
-          const fuelMap = { 'бензин':'petrol','дизель':'diesel','гибрид':'hybrid','электро':'electric','газ':'gas' };
-          const mapped = extCars.map(x => ({
-            title: x.title || [x.brand, x.model, x.year].filter(Boolean).join(' '),
-            brand: x.brand || '',
-            year: x.year || '',
-            price: x.price || 'по запросу',
-            engine: x.engine || '',
-            fuel: fuelMap[String(x.fuel||'').toLowerCase()] || x.fuel || '',
-            body: bodyMap[String(x.bodyType||'').toLowerCase()] || '',
-            budget: '',
-            tag: 'reliable',
-            image: x.mainImage || (Array.isArray(x.images) && x.images[0]) || '',
-            description: x.description || ''
-          }));
+        .then(site => {
+          if (!site || typeof site !== 'object') return;
+          window.__siteData = site;
+          const carsArr = Array.isArray(site.cars) ? site.cars.map(mapCar).filter(Boolean) : [];
           const adminCars = Array.isArray(data.cars) ? data.cars : [];
-          const merged = mapped.concat(adminCars);
-          renderManagedCars(merged);
+          if (carsArr.length) renderManagedCars(carsArr.concat(adminCars));
+          if (Array.isArray(site.videos) && site.videos.length) renderManagedVideos(site.videos);
+          if (Array.isArray(site.reviews) && site.reviews.length) renderManagedReviews(site.reviews);
+          if (Array.isArray(site.faq) && site.faq.length) renderManagedFaq(site.faq);
         })
         .catch(() => {});
     })();
@@ -3506,6 +3596,136 @@ function renderManagedContent(data) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
   } catch (err) { console.error('Admin sync failed', err); }
+})();
+
+// ============ VIDEO MODAL ============
+(function initVideoModal() {
+  if (document.getElementById('videoPlayerModal')) return;
+  const modal = document.createElement('div');
+  modal.className = 'vmodal-bg';
+  modal.id = 'videoPlayerModal';
+  modal.innerHTML = `
+    <div class="vmodal" role="dialog" aria-modal="true" aria-labelledby="vmodalTitle">
+      <button type="button" class="vmodal-close" aria-label="Закрыть">×</button>
+      <div class="vmodal-player" id="vmodalPlayer"></div>
+      <div class="vmodal-meta">
+        <div class="vmodal-title" id="vmodalTitle"></div>
+        <div class="vmodal-sub" id="vmodalSub"></div>
+        <div class="vmodal-actions">
+          <a href="#contact" class="btn btn-gold btn-sm" id="vmodalCta">Хочу эту машину</a>
+          <a href="#" target="_blank" rel="noopener" class="btn btn-whatsapp btn-sm" id="vmodalWa">WhatsApp</a>
+        </div>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+
+  const playerEl = document.getElementById('vmodalPlayer');
+  const titleEl = document.getElementById('vmodalTitle');
+  const subEl = document.getElementById('vmodalSub');
+  const waBtn = document.getElementById('vmodalWa');
+  const closeBtn = modal.querySelector('.vmodal-close');
+
+  function detectType(url, hint) {
+    if (hint) return hint;
+    const u = String(url || '').toLowerCase();
+    if (!u) return '';
+    if (/youtube\.com|youtu\.be/.test(u)) return 'youtube';
+    if (/instagram\.com|instagr\.am/.test(u)) return 'instagram';
+    if (/\.(mp4|mov|webm|m4v)(\?|$)/.test(u)) return 'local';
+    return 'external';
+  }
+
+  function youtubeEmbed(url) {
+    const m = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?&]+)/) || url.match(/youtube\.com\/embed\/([^?&]+)/) || url.match(/youtube\.com\/shorts\/([^?&]+)/);
+    const id = m ? m[1] : '';
+    return id ? `https://www.youtube.com/embed/${id}?autoplay=1&rel=0` : url;
+  }
+
+  function openModal(opts) {
+    const url = opts.url || '';
+    const type = detectType(url, opts.type);
+    const poster = opts.poster || '';
+    const carTitle = opts.carTitle || 'Авто из Дубая';
+    const carYear = opts.carYear || '';
+    const carPrice = opts.carPrice || '';
+    const videoTitle = opts.videoTitle || carTitle;
+
+    titleEl.textContent = videoTitle;
+    const subParts = [];
+    if (carYear) subParts.push(carYear);
+    if (carPrice) subParts.push(carPrice);
+    subEl.textContent = subParts.join(' · ');
+
+    let waNumber = '';
+    try {
+      const stored = JSON.parse(localStorage.getItem('tilek_auto_data') || '{}');
+      waNumber = (stored.content && stored.content.whatsapp) || (window.__siteData && window.__siteData.content && window.__siteData.content.whatsapp) || '';
+    } catch(e){}
+    waNumber = String(waNumber || '').replace(/\D/g,'');
+    const waMsg = encodeURIComponent(`Здравствуйте! Меня интересует эта машина: ${carTitle}. Я посмотрел видео-обзор на сайте. Можете рассказать подробнее?`);
+    waBtn.href = waNumber ? `https://wa.me/${waNumber}?text=${waMsg}` : `https://wa.me/?text=${waMsg}`;
+
+    playerEl.innerHTML = '';
+    if (type === 'local' && url) {
+      const v = document.createElement('video');
+      v.controls = true; v.autoplay = true; v.playsInline = true; v.preload = 'metadata';
+      if (poster) v.poster = poster;
+      v.src = url;
+      playerEl.appendChild(v);
+    } else if (type === 'youtube' && url) {
+      const f = document.createElement('iframe');
+      f.src = youtubeEmbed(url);
+      f.allow = 'autoplay; encrypted-media; picture-in-picture';
+      f.allowFullscreen = true;
+      playerEl.appendChild(f);
+    } else if (type === 'instagram' && url) {
+      const posterImg = poster ? `<img src="${poster}" alt="" style="max-width:240px;max-height:300px;border-radius:14px;object-fit:cover">` : '';
+      playerEl.innerHTML = `
+        <div class="vmodal-insta">
+          ${posterImg}
+          <p>Это видео-обзор в Instagram Reels. Откройте по кнопке ниже:</p>
+          <a href="${url}" target="_blank" rel="noopener" class="btn btn-gold">Открыть в Instagram</a>
+        </div>`;
+    } else if (url) {
+      playerEl.innerHTML = `
+        <div class="vmodal-insta">
+          <p>Откройте видео по внешней ссылке:</p>
+          <a href="${url}" target="_blank" rel="noopener" class="btn btn-gold">Смотреть видео</a>
+        </div>`;
+    }
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    const v = playerEl.querySelector('video');
+    if (v) { try { v.pause(); } catch(e){} v.src = ''; }
+    playerEl.innerHTML = '';
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+
+  document.addEventListener('click', e => {
+    const trigger = e.target.closest('[data-open-video]');
+    if (!trigger) return;
+    e.preventDefault();
+    openModal({
+      url: trigger.getAttribute('data-open-video'),
+      type: trigger.getAttribute('data-video-type'),
+      poster: trigger.getAttribute('data-video-poster'),
+      videoTitle: trigger.getAttribute('data-video-title'),
+      carTitle: trigger.getAttribute('data-car-title'),
+      carPrice: trigger.getAttribute('data-car-price'),
+      carYear: trigger.getAttribute('data-car-year'),
+    });
+  });
+
+  window.openCarVideo = openModal;
 })();
 </script>
 </body>

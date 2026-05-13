@@ -449,10 +449,17 @@ table tr:hover td{background:rgba(212,175,55,.03)}
           <h1>Дашборд</h1>
           <p>Обзор сайта Tilek Auto Dubai</p>
         </div>
-        <div class="topbar-right">
-          <button class="btn btn-ghost" onclick="exportAll()">
+        <div class="topbar-right" style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-gold btn-sm" onclick="downloadSiteDataJson()" title="Скачать site-data.json для сайта">
+            ⬇️ Скачать site-data.json
+          </button>
+          <label class="btn btn-ghost btn-sm" style="cursor:pointer;margin:0">
+            ⬆️ Импорт site-data.json
+            <input type="file" accept="application/json" style="display:none" onchange="importSiteDataJson(event)">
+          </label>
+          <button class="btn btn-ghost btn-sm" onclick="exportAll()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Экспорт всех данных
+            Экспорт всех
           </button>
         </div>
       </div>
@@ -1129,6 +1136,58 @@ table tr:hover td{background:rgba(212,175,55,.03)}
         </select>
       </div>
     </div>
+    <!-- ===== VIDEO BLOCK INSIDE CAR ===== -->
+    <div class="form-group" style="border-top:1px solid var(--line-soft);padding-top:14px;margin-top:14px">
+      <label class="form-label">🎬 Видео-обзор автомобиля (опционально)</label>
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:10px">Если есть видео — клиенты увидят кнопку «▶ Видео» на карточке.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Тип видео</label>
+          <select class="form-select" id="carVideoType" onchange="syncCarVideoFields()">
+            <option value="">— нет видео —</option>
+            <option value="local">Локальный файл (MP4)</option>
+            <option value="youtube">YouTube</option>
+            <option value="instagram">Instagram Reels</option>
+            <option value="external">Другая ссылка</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Длительность</label>
+          <input type="text" class="form-input" id="carVideoDuration" placeholder="1:24">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Видео файл MP4 (≤ 50 МБ)</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <label class="btn btn-ghost btn-sm" style="cursor:pointer;margin:0">
+            📹 Загрузить видео
+            <input type="file" accept="video/mp4,video/quicktime,video/webm" style="display:none" onchange="uploadCarVideo(event)">
+          </label>
+          <span id="carVideoFileInfo" style="font-size:12px;color:var(--text-dim)"></span>
+          <button class="btn btn-ghost btn-sm" type="button" onclick="clearCarVideoFile()">✕</button>
+        </div>
+        <input type="hidden" id="carVideoData">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Или ссылка на видео</label>
+        <input type="text" class="form-input" id="carVideoUrl" placeholder="https://youtube.com/... или https://instagram.com/reel/...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Превью видео (URL)</label>
+          <input type="text" class="form-input" id="carVideoPoster" placeholder="ссылка на превью или оставьте пустым">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Заголовок видео</label>
+          <input type="text" class="form-input" id="carVideoTitle" placeholder="Видео-обзор Toyota Land Cruiser 250">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Instagram / Reels ссылка</label>
+        <input type="text" class="form-input" id="carInstagramUrl" placeholder="https://www.instagram.com/reel/...">
+      </div>
+    </div>
+
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('carModal')">Отмена</button>
       <button class="btn btn-gold" onclick="saveCar()">Сохранить</button>
@@ -1586,6 +1645,7 @@ function openCarModal() {
   document.getElementById('carBudget').value = 'mid';
   document.getElementById('carPrice').value = '';
   document.getElementById('carTag').value = 'popular';
+  resetCarVideoFields();
   document.getElementById('carModal').classList.add('active');
 }
 
@@ -1605,13 +1665,60 @@ function editCar(id) {
   document.getElementById('carBudget').value = car.budget;
   document.getElementById('carPrice').value = car.price;
   document.getElementById('carTag').value = car.tag;
+  document.getElementById('carVideoType').value = car.videoType || '';
+  document.getElementById('carVideoUrl').value = car.videoUrl && !String(car.videoUrl).startsWith('data:') ? car.videoUrl : '';
+  document.getElementById('carVideoData').value = car.videoUrl && String(car.videoUrl).startsWith('data:') ? car.videoUrl : '';
+  document.getElementById('carVideoFileInfo').textContent = car.videoUrl && String(car.videoUrl).startsWith('data:') ? 'файл загружен' : '';
+  document.getElementById('carVideoPoster').value = car.videoPoster || '';
+  document.getElementById('carVideoTitle').value = car.videoTitle || '';
+  document.getElementById('carVideoDuration').value = car.videoDuration || '';
+  document.getElementById('carInstagramUrl').value = car.instagramUrl || '';
   document.getElementById('carModal').classList.add('active');
+}
+
+function resetCarVideoFields() {
+  document.getElementById('carVideoType').value = '';
+  document.getElementById('carVideoUrl').value = '';
+  document.getElementById('carVideoData').value = '';
+  document.getElementById('carVideoFileInfo').textContent = '';
+  document.getElementById('carVideoPoster').value = '';
+  document.getElementById('carVideoTitle').value = '';
+  document.getElementById('carVideoDuration').value = '';
+  document.getElementById('carInstagramUrl').value = '';
+}
+
+function syncCarVideoFields() { /* placeholder for future UI toggles */ }
+
+function uploadCarVideo(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  event.target.value = '';
+  const allowed = ['video/mp4','video/quicktime','video/webm'];
+  if (!allowed.includes(file.type)) { toast('Только MP4 / MOV / WebM', 'error'); return; }
+  if (file.size > 50 * 1024 * 1024) { toast('Файл больше 50 МБ', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('carVideoData').value = e.target.result;
+    document.getElementById('carVideoFileInfo').textContent = `✓ ${file.name} (${(file.size/1024/1024).toFixed(1)} МБ)`;
+    if (!document.getElementById('carVideoType').value) document.getElementById('carVideoType').value = 'local';
+    toast('Видео загружено в браузер');
+  };
+  reader.onerror = () => toast('Ошибка чтения файла', 'error');
+  reader.readAsDataURL(file);
+}
+
+function clearCarVideoFile() {
+  document.getElementById('carVideoData').value = '';
+  document.getElementById('carVideoFileInfo').textContent = '';
 }
 
 function saveCar() {
   const id = document.getElementById('carId').value;
   const title = document.getElementById('carTitle').value.trim();
   if (!title) { toast('Введите название', 'error'); return; }
+  const videoFile = document.getElementById('carVideoData').value;
+  const videoLink = document.getElementById('carVideoUrl').value.trim();
+  const videoType = document.getElementById('carVideoType').value;
   const car = {
     title,
     image: document.getElementById('carImage').value.trim(),
@@ -1623,6 +1730,12 @@ function saveCar() {
     budget: document.getElementById('carBudget').value,
     price: document.getElementById('carPrice').value.trim() || 'по запросу',
     tag: document.getElementById('carTag').value,
+    videoUrl: videoFile || videoLink || '',
+    videoType: videoType || (videoFile ? 'local' : (videoLink ? (/youtube|youtu\.be/i.test(videoLink) ? 'youtube' : (/instagram/i.test(videoLink) ? 'instagram' : 'external')) : '')),
+    videoPoster: document.getElementById('carVideoPoster').value.trim(),
+    videoTitle: document.getElementById('carVideoTitle').value.trim(),
+    videoDuration: document.getElementById('carVideoDuration').value.trim(),
+    instagramUrl: document.getElementById('carInstagramUrl').value.trim(),
   };
   if (id) {
     const idx = DATA.cars.findIndex(c => c.id == id);
@@ -2204,6 +2317,53 @@ function exportAll() {
   a.click();
   URL.revokeObjectURL(url);
   toast('Бэкап скачан');
+}
+
+function buildSiteData() {
+  return {
+    cars: Array.isArray(DATA.cars) ? DATA.cars : [],
+    videos: Array.isArray(DATA.videos) ? DATA.videos : [],
+    reviews: Array.isArray(DATA.reviews) ? DATA.reviews : [],
+    faq: Array.isArray(DATA.faq) ? DATA.faq : [],
+    content: DATA.content || {}
+  };
+}
+
+function downloadSiteDataJson() {
+  const data = buildSiteData();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'site-data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('site-data.json скачан — положите в /data/ репозитория');
+}
+
+function importSiteDataJson(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (!parsed || typeof parsed !== 'object') throw new Error('bad JSON');
+      if (!confirm('Заменить cars / videos / reviews / faq / content данными из файла?')) return;
+      if (Array.isArray(parsed.cars)) DATA.cars = parsed.cars;
+      if (Array.isArray(parsed.videos)) DATA.videos = parsed.videos;
+      if (Array.isArray(parsed.reviews)) DATA.reviews = parsed.reviews;
+      if (Array.isArray(parsed.faq)) DATA.faq = parsed.faq;
+      if (parsed.content && typeof parsed.content === 'object') DATA.content = { ...DATA.content, ...parsed.content };
+      saveData();
+      renderCars(); renderVideos(); renderReviews(); renderFaq();
+      toast('site-data.json импортирован');
+    } catch (err) {
+      toast('Ошибка чтения JSON: ' + err.message, 'error');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
 }
 
 function importAll(event) {

@@ -2,7 +2,7 @@
 import re
 
 BRAND_MAP = {
-    # English
+    # English (canonical)
     "toyota": "Toyota", "lexus": "Lexus", "mercedes": "Mercedes", "mercedes-benz": "Mercedes",
     "bmw": "BMW", "audi": "Audi", "nissan": "Nissan", "hyundai": "Hyundai", "kia": "Kia",
     "honda": "Honda", "mitsubishi": "Mitsubishi", "mazda": "Mazda", "land rover": "Land Rover",
@@ -10,14 +10,39 @@ BRAND_MAP = {
     "scania": "Scania", "daf": "DAF", "ford": "Ford", "chevrolet": "Chevrolet",
     "porsche": "Porsche", "tesla": "Tesla", "infiniti": "Infiniti", "cadillac": "Cadillac",
     "gmc": "GMC", "dodge": "Dodge", "subaru": "Subaru", "suzuki": "Suzuki",
+    # Common English typos / variants
+    "hundai": "Hyundai", "hunday": "Hyundai", "huynday": "Hyundai", "hyunday": "Hyundai",
+    "huyndai": "Hyundai", "hyundia": "Hyundai", "tayota": "Toyota", "toyoda": "Toyota",
+    "merc": "Mercedes", "mers": "Mercedes", "benz": "Mercedes",
+    "rangerover": "Range Rover", "landrover": "Land Rover",
     # Russian
-    "тойота": "Toyota", "лексус": "Lexus", "мерседес": "Mercedes", "бмв": "BMW",
-    "ауди": "Audi", "ниссан": "Nissan", "хонда": "Honda", "хюндай": "Hyundai",
-    "хундай": "Hyundai", "киа": "Kia", "митсубиси": "Mitsubishi", "митсубиши": "Mitsubishi",
-    "мазда": "Mazda", "вольво": "Volvo", "ман": "MAN", "скания": "Scania",
-    "форд": "Ford", "шевроле": "Chevrolet", "порше": "Porsche", "тесла": "Tesla",
-    "ленд ровер": "Land Rover", "рендж ровер": "Range Rover", "ренж ровер": "Range Rover",
-    "джип": "Jeep", "инфинити": "Infiniti", "кадиллак": "Cadillac",
+    "тойота": "Toyota", "тоета": "Toyota",
+    "лексус": "Lexus", "лехус": "Lexus",
+    "мерседес": "Mercedes", "мерс": "Mercedes",
+    "бмв": "BMW",
+    "ауди": "Audi", "аудю": "Audi",
+    "ниссан": "Nissan",
+    "хонда": "Honda",
+    "хюндай": "Hyundai", "хундай": "Hyundai", "хёндай": "Hyundai", "хендай": "Hyundai",
+    "хундэй": "Hyundai", "хюндэй": "Hyundai",
+    "киа": "Kia", "кия": "Kia",
+    "митсубиси": "Mitsubishi", "митсубиши": "Mitsubishi", "мицубиси": "Mitsubishi",
+    "мазда": "Mazda",
+    "вольво": "Volvo",
+    "ман": "MAN", "скания": "Scania",
+    "форд": "Ford",
+    "шевроле": "Chevrolet", "шевролет": "Chevrolet",
+    "порше": "Porsche", "поршэ": "Porsche",
+    "тесла": "Tesla",
+    "ленд ровер": "Land Rover", "лендровер": "Land Rover",
+    "рендж ровер": "Range Rover", "ренж ровер": "Range Rover", "рейндж ровер": "Range Rover",
+    "ренджровер": "Range Rover", "рейнджровер": "Range Rover",
+    "джип": "Jeep",
+    "инфинити": "Infiniti",
+    "кадиллак": "Cadillac",
+    "гмс": "GMC",
+    "субару": "Subaru",
+    "сузуки": "Suzuki",
 }
 
 MODEL_HINTS = [
@@ -42,6 +67,31 @@ MODEL_HINTS = [
     "QX60", "QX80", "Q50",
     "Escalade",
 ]
+
+# Common typos / variants → canonical model
+MODEL_TYPOS = {
+    "tukson": "Tucson", "tuskon": "Tucson", "tucsan": "Tucson",
+    "тусан": "Tucson", "тукcон": "Tucson", "туксон": "Tucson", "тусон": "Tucson",
+    "хайландер": "Highlander", "хайлендер": "Highlander", "хайлайндер": "Highlander",
+    "ленд крузер": "Land Cruiser", "лэнд крузер": "Land Cruiser", "ландкрузер": "Land Cruiser",
+    "крузер": "Land Cruiser",
+    "прадо": "Prado", "прада": "Prado",
+    "камри": "Camry", "королла": "Corolla", "коралла": "Corolla",
+    "рав4": "RAV4", "рав 4": "RAV4",
+    "хайлюкс": "Hilux", "хилюкс": "Hilux",
+    "вранглер": "Wrangler", "ренглер": "Wrangler", "рангелер": "Wrangler",
+    "патрол": "Patrol", "патруль": "Patrol",
+    "соната": "Sonata", "санта фе": "Santa Fe", "санта-фе": "Santa Fe",
+    "паджеро": "Pajero", "поджеро": "Pajero",
+    "кайен": "Cayenne", "кайенн": "Cayenne", "каен": "Cayenne",
+    "макан": "Macan", "панамера": "Panamera",
+    "мустанг": "Mustang",
+    "акорд": "Accord", "аккорд": "Accord", "сивик": "Civic", "цивик": "Civic",
+    "тахо": "Tahoe", "субурбан": "Suburban",
+    "эскалейд": "Escalade", "эскалад": "Escalade",
+    "пилот": "Pilot",
+    "соренто": "Sorento", "спортейдж": "Sportage", "спортэйдж": "Sportage",
+}
 
 SUV_MODELS = {
     "land cruiser", "highlander", "prado", "rav4", "rx350", "rx450", "lx570", "lx600",
@@ -79,6 +129,12 @@ def _detect_brand(text_low: str):
 
 
 def _detect_model(text: str):
+    text_low = text.lower()
+    # First: typo dictionary
+    for k in sorted(MODEL_TYPOS.keys(), key=len, reverse=True):
+        if re.search(rf"\b{re.escape(k)}\b", text_low):
+            return MODEL_TYPOS[k]
+    # Then: canonical models
     for m in sorted(MODEL_HINTS, key=len, reverse=True):
         if re.search(rf"\b{re.escape(m)}\b", text, re.IGNORECASE):
             return m
@@ -245,6 +301,17 @@ def parse_car_text(text: str) -> dict:
 
     title_parts = [p for p in [brand, model, year] if p]
     title = " ".join(title_parts)
+    # Fallback: if title is empty or just a year, use first line of the message
+    if not title or title == year:
+        first_line = next((ln.strip() for ln in text.splitlines() if ln.strip() and not ln.startswith("http")), "")
+        if first_line and len(first_line) < 80:
+            # Strip trailing year if same as detected
+            clean = re.sub(r"\s+", " ", first_line).strip()
+            if year and clean.endswith(year):
+                pass
+            elif year:
+                clean = f"{clean} {year}"
+            title = clean
 
     # description: original text minus URLs and obvious phone numbers, trimmed
     desc = re.sub(r"https?://\S+", "", text).strip()
