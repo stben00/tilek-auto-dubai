@@ -1,5 +1,28 @@
 [
   {
+    "id": "car_20260513_195556",
+    "title": "",
+    "brand": "",
+    "model": "",
+    "year": "",
+    "engine": "",
+    "fuel": "",
+    "bodyType": "",
+    "price": "",
+    "mileage": "",
+    "location": "Dubai / UAE",
+    "description": "",
+    "whatsapp": "",
+    "instagramUrl": "",
+    "videoUrl": "",
+    "videoFile": "",
+    "images": [],
+    "mainImage": "",
+    "status": "available",
+    "source": "telegram_ai_uploader",
+    "createdAt": "2026-05-13T19:55:56Z"
+  },
+  {
     "id": "car_20260513_195524",
     "title": "Hyundai Tucson 2025",
     "brand": "Hyundai",
