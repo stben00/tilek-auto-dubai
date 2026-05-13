@@ -20,8 +20,8 @@ from ai_parser import parse_with_ai, REQUIRED_KEYS
 from parser import parse_car_text
 from media_storage import (
     now_id, now_iso, photo_filename, video_filename,
-    save_bytes, read_bytes, remove_temp,
-    video_too_large, human_size,
+    save_bytes, read_bytes, remove_temp, temp_path,
+    video_too_large, human_size, extract_video_poster,
 )
 from github_client import publish_car
 from instagram_fetcher import fetch_instagram
@@ -272,31 +272,48 @@ async def on_video(message: Message):
     save_bytes(fname, data)
     draft.videos.append({"name": fname, "size": len(data)})
 
-    # Auto-save video's thumbnail as a photo if user hasn't sent any photos yet.
-    # This makes the car card on the site show the video poster instead of empty placeholder.
+    # Auto-save high-quality video frame as a photo if user hasn't sent any photos yet.
+    # 1) Try ffmpeg to grab a HD frame from 30% of the video (best quality, brightness-corrected)
+    # 2) Fallback to Telegram's auto thumbnail (low-res but always works)
     thumb_added = False
+    poster_source = ""
     if not draft.photos:
-        thumb = getattr(file_obj, "thumbnail", None) or getattr(file_obj, "thumb", None)
-        if thumb:
-            try:
-                tfile = await bot.get_file(thumb.file_id)
-                tbuf = await bot.download_file(tfile.file_path)
-                tdata = tbuf.read()
+        # Try ffmpeg first
+        try:
+            poster_bytes = extract_video_poster(temp_path(fname))
+            if poster_bytes:
                 tidx = len(draft.photos) + 1
                 tfname = photo_filename(draft.car_id, tidx, "jpg")
-                save_bytes(tfname, tdata)
-                draft.photos.append({"name": tfname, "size": len(tdata)})
+                save_bytes(tfname, poster_bytes)
+                draft.photos.append({"name": tfname, "size": len(poster_bytes)})
                 thumb_added = True
-            except Exception as e:
-                log.warning(f"Could not save video thumbnail: {e}")
+                poster_source = "HD кадр из видео"
+        except Exception as e:
+            log.warning(f"ffmpeg poster extraction failed: {e}")
+        # Fallback to Telegram thumbnail
+        if not thumb_added:
+            thumb = getattr(file_obj, "thumbnail", None) or getattr(file_obj, "thumb", None)
+            if thumb:
+                try:
+                    tfile = await bot.get_file(thumb.file_id)
+                    tbuf = await bot.download_file(tfile.file_path)
+                    tdata = tbuf.read()
+                    tidx = len(draft.photos) + 1
+                    tfname = photo_filename(draft.car_id, tidx, "jpg")
+                    save_bytes(tfname, tdata)
+                    draft.photos.append({"name": tfname, "size": len(tdata)})
+                    thumb_added = True
+                    poster_source = "превью из Telegram"
+                except Exception as e:
+                    log.warning(f"Could not save video thumbnail: {e}")
 
     if message.caption:
         draft.raw_texts.append(message.caption)
         parsed = await parse_with_ai(message.caption)
         merge_parsed(draft, parsed)
 
-    extra = " (превью из видео сохранено как фото)" if thumb_added else ""
-    await message.answer(f"🎥 Video saved ({human_size(len(data))}). Total videos: {len(draft.videos)}{extra}")
+    extra = f" · {poster_source} сохранён как фото" if thumb_added else ""
+    await message.answer(f"🎥 Видео {human_size(len(data))}, всего: {len(draft.videos)}{extra}")
 
 
 # ---------- Text handler ----------
