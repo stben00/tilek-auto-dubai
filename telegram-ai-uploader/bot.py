@@ -272,12 +272,31 @@ async def on_video(message: Message):
     save_bytes(fname, data)
     draft.videos.append({"name": fname, "size": len(data)})
 
+    # Auto-save video's thumbnail as a photo if user hasn't sent any photos yet.
+    # This makes the car card on the site show the video poster instead of empty placeholder.
+    thumb_added = False
+    if not draft.photos:
+        thumb = getattr(file_obj, "thumbnail", None) or getattr(file_obj, "thumb", None)
+        if thumb:
+            try:
+                tfile = await bot.get_file(thumb.file_id)
+                tbuf = await bot.download_file(tfile.file_path)
+                tdata = tbuf.read()
+                tidx = len(draft.photos) + 1
+                tfname = photo_filename(draft.car_id, tidx, "jpg")
+                save_bytes(tfname, tdata)
+                draft.photos.append({"name": tfname, "size": len(tdata)})
+                thumb_added = True
+            except Exception as e:
+                log.warning(f"Could not save video thumbnail: {e}")
+
     if message.caption:
         draft.raw_texts.append(message.caption)
         parsed = await parse_with_ai(message.caption)
         merge_parsed(draft, parsed)
 
-    await message.answer(f"🎥 Video saved ({human_size(len(data))}). Total videos: {len(draft.videos)}")
+    extra = " (превью из видео сохранено как фото)" if thumb_added else ""
+    await message.answer(f"🎥 Video saved ({human_size(len(data))}). Total videos: {len(draft.videos)}{extra}")
 
 
 # ---------- Text handler ----------
