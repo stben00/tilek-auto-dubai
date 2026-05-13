@@ -1375,7 +1375,22 @@ function loadData() {
 }
 
 function saveData() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA));
+  } catch (e) {
+    if (e.name === 'QuotaExceededError' || e.code === 22) {
+      toast('❌ Хранилище переполнено! Удалите старые фото/превью или сожмите изображения.', 'error');
+    } else {
+      toast('Ошибка сохранения данных', 'error');
+    }
+  }
+}
+
+function getStorageUsageKB() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY) || '';
+    return Math.round(raw.length * 2 / 1024);
+  } catch { return 0; }
 }
 
 // ============ AUTH ============
@@ -1893,17 +1908,41 @@ function refreshVideoThumbPreview(src) {
   }
 }
 
+// ============ IMAGE COMPRESSION ============
+// Сжимает любое фото до нужного размера через Canvas.
+// Было: 1–3 МБ на фото → можно хранить 2–3 штуки.
+// Стало: 40–80 КБ на фото → можно хранить 50+ штук.
+function compressImage(file, maxW, maxH, quality) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+        if (h > maxH) { w = Math.round(w * maxH / h); h = maxH; }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality || 0.75));
+      };
+      img.onerror = reject;
+      img.src = ev.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 function uploadVideoThumb(event) {
   const file = event.target.files[0];
   if (!file) return;
-  if (file.size > 3 * 1024 * 1024) { toast('Файл больше 3 МБ', 'error'); return; }
-  const reader = new FileReader();
-  reader.onload = e => {
-    document.getElementById('videoThumbData').value = e.target.result;
-    refreshVideoThumbPreview(e.target.result);
-  };
-  reader.readAsDataURL(file);
   event.target.value = '';
+  compressImage(file, 300, 450, 0.65).then(data => {
+    document.getElementById('videoThumbData').value = data;
+    refreshVideoThumbPreview(data);
+    toast('Превью загружено');
+  }).catch(() => toast('Ошибка загрузки', 'error'));
 }
 
 function clearVideoThumb() {
@@ -2072,14 +2111,12 @@ function refreshCarPhotoPreview(src) {
 function uploadCarPhoto(event) {
   const file = event.target.files[0];
   if (!file) return;
-  if (file.size > 3 * 1024 * 1024) { toast('Файл больше 3 МБ', 'error'); return; }
-  const reader = new FileReader();
-  reader.onload = e => {
-    document.getElementById('carImage').value = e.target.result;
-    refreshCarPhotoPreview(e.target.result);
-  };
-  reader.readAsDataURL(file);
   event.target.value = '';
+  compressImage(file, 900, 600, 0.78).then(data => {
+    document.getElementById('carImage').value = data;
+    refreshCarPhotoPreview(data);
+    toast('Фото авто загружено');
+  }).catch(() => toast('Ошибка загрузки', 'error'));
 }
 
 function clearCarPhoto() {
@@ -2095,16 +2132,13 @@ function syncCarPhotoPreview() {
 function uploadLogo(event) {
   const file = event.target.files[0];
   if (!file) return;
-  if (file.size > 2 * 1024 * 1024) { toast('Файл больше 2 МБ', 'error'); return; }
-  const reader = new FileReader();
-  reader.onload = e => {
-    DATA.content.logoData = e.target.result;
+  event.target.value = '';
+  compressImage(file, 400, 400, 0.9).then(data => {
+    DATA.content.logoData = data;
     saveData();
     refreshLogoPreview();
     toast('Логотип загружен');
-  };
-  reader.readAsDataURL(file);
-  event.target.value = '';
+  }).catch(() => toast('Ошибка загрузки', 'error'));
 }
 
 function resetLogo() {
@@ -2132,16 +2166,13 @@ function refreshOwnerPhotoPreview() {
 function uploadOwnerPhoto(event) {
   const file = event.target.files[0];
   if (!file) return;
-  if (file.size > 2 * 1024 * 1024) { toast('Файл больше 2 МБ', 'error'); return; }
-  const reader = new FileReader();
-  reader.onload = e => {
-    DATA.content.ownerPhoto = e.target.result;
+  event.target.value = '';
+  compressImage(file, 600, 600, 0.85).then(data => {
+    DATA.content.ownerPhoto = data;
     saveData();
     refreshOwnerPhotoPreview();
     toast('Фото загружено');
-  };
-  reader.readAsDataURL(file);
-  event.target.value = '';
+  }).catch(() => toast('Ошибка загрузки', 'error'));
 }
 
 function removeOwnerPhoto() {
