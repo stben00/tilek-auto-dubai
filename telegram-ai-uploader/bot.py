@@ -24,7 +24,11 @@ from media_storage import (
     video_too_large, human_size,
 )
 from github_client import publish_car
+from instagram_fetcher import fetch_instagram
 from keyboards import main_kb, edit_kb, confirm_kb, EDIT_FIELDS
+
+import re as _re
+INSTAGRAM_URL_RE = _re.compile(r"https?://(?:www\.)?(?:instagram\.com|instagr\.am)/[^\s]+", _re.IGNORECASE)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s — %(message)s")
 log = logging.getLogger("bot")
@@ -300,6 +304,60 @@ async def on_text(message: Message):
         draft.data["instagramUrl"] = text
         draft.awaiting = None
         await message.answer("🔗 Instagram link saved.")
+        await show_preview(message, draft)
+        return
+
+    # Auto-fetch Instagram if URL is present
+    insta_match = INSTAGRAM_URL_RE.search(text)
+    if insta_match:
+        insta_url = insta_match.group(0).rstrip(").,;")
+        draft.data["instagramUrl"] = insta_url
+        await message.answer("📥 Тяну фото/видео/подпись из Instagram... (может занять до 30 сек)")
+        fetched = await fetch_instagram(insta_url)
+        if fetched.get("ok"):
+            count_photos = 0
+            for raw in fetched.get("photos", []):
+                idx = len(draft.photos) + 1
+                fname = photo_filename(draft.car_id, idx, "jpg")
+                save_bytes(fname, raw)
+                draft.photos.append({"name": fname, "size": len(raw)})
+                count_photos += 1
+            video_added = False
+            if fetched.get("video"):
+                vdata = fetched["video"]
+                if not video_too_large(len(vdata)):
+                    fname = video_filename(draft.car_id, "mp4")
+                    save_bytes(fname, vdata)
+                    draft.videos.append({"name": fname, "size": len(vdata)})
+                    video_added = True
+            # If no photos but we got a video thumbnail, save it as a photo
+            if count_photos == 0 and fetched.get("video_thumb"):
+                idx = len(draft.photos) + 1
+                fname = photo_filename(draft.car_id, idx, "jpg")
+                save_bytes(fname, fetched["video_thumb"])
+                draft.photos.append({"name": fname, "size": len(fetched["video_thumb"])})
+                count_photos += 1
+            caption = fetched.get("caption", "")
+            if caption:
+                draft.raw_texts.append(caption)
+                parsed = await parse_with_ai(caption)
+                merge_parsed(draft, parsed)
+            await message.answer(
+                f"✅ Instagram OK: фото {count_photos}, видео {1 if video_added else 0}, "
+                f"подпись {'есть' if caption else 'нет'}"
+            )
+        else:
+            err = fetched.get("error") or "unknown"
+            await message.answer(
+                f"⚠️ Не смог скачать из Instagram: {err}\n"
+                "Пришли фото/видео/подпись вручную."
+            )
+        # Also parse the remaining text (around the URL)
+        rest = INSTAGRAM_URL_RE.sub(" ", text).strip()
+        if rest:
+            draft.raw_texts.append(rest)
+            parsed = await parse_with_ai(rest)
+            merge_parsed(draft, parsed)
         await show_preview(message, draft)
         return
 
