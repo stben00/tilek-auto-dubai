@@ -159,11 +159,17 @@ async def cmd_start(message: Message):
     ai_note = "🤖 AI parsing: ON" if HAS_AI else "⚙️ AI parsing: OFF (regex only)"
     gh_note = "📦 GitHub: configured" if GITHUB_TOKEN else "⚠️ GitHub token missing — publish disabled"
     await message.answer(
-        "<b>Tilek Auto AI Uploader 🚗</b>\n"
-        "Send me Instagram link, caption, photos or video.\n"
-        "I will prepare the car card automatically.\n\n"
+        "<b>Tilek Auto AI Uploader 🚗</b>\n\n"
+        "<b>Порядок добавления машины:</b>\n"
+        "1️⃣ Сначала пришли <b>фото машины</b> (можно несколько)\n"
+        "2️⃣ Потом <b>видео</b> машины\n"
+        "3️⃣ Потом <b>описание</b> (марка, модель, год, цена, WhatsApp)\n"
+        "4️⃣ Нажми ✅ Publish — машина появится на сайте\n\n"
+        "💎 <b>Совет про качество фото:</b>\n"
+        "В Telegram отправляй фото как <b>Файл</b> (📎 → Файл) — не как «Фото». "
+        "Так оно сохранится в оригинальном качестве без сжатия Telegram.\n\n"
         f"{ai_note}\n{gh_note}\n\n"
-        "Commands: /new to start fresh, /preview to see current draft, /help",
+        "Команды: /new — новый черновик, /preview — карточка, /help",
     )
 
 
@@ -172,13 +178,14 @@ async def cmd_help(message: Message):
     if not is_admin(message.from_user.id):
         return
     await message.answer(
-        "<b>How to use:</b>\n"
-        "1. Send Instagram/Reel link\n"
-        "2. Send caption text\n"
-        "3. Send photos (album OK)\n"
-        "4. Send video file OR video link\n"
-        "5. Tap ✅ Publish to add the car to the site\n\n"
-        "Commands: /new /preview /cancel"
+        "<b>Как добавить машину:</b>\n\n"
+        "1️⃣ Пришли <b>фото</b> машины (1 или больше)\n"
+        "   💎 Для лучшего качества → 📎 → <b>Файл</b> (не «Фото»)\n"
+        "2️⃣ Пришли <b>видео</b> машины (до 20 МБ)\n"
+        "3️⃣ Пришли <b>описание</b>, например:\n"
+        "<code>Toyota Camry 2022\n2.5 Hybrid\nЦена 22000$\nWhatsApp 0551234567</code>\n"
+        "4️⃣ Нажми ✅ <b>Publish</b>\n\n"
+        "Команды: /new /preview /cancel"
     )
 
 
@@ -187,7 +194,12 @@ async def cmd_new(message: Message):
     if not is_admin(message.from_user.id):
         return
     reset_draft(message.from_user.id)
-    await message.answer("🆕 New draft started. Send link/caption/photos/video.")
+    await message.answer(
+        "🆕 <b>Новый черновик.</b>\n\n"
+        "1️⃣ Пришли <b>фото</b> машины (📎 → Файл = лучшее качество)\n"
+        "2️⃣ Потом <b>видео</b>\n"
+        "3️⃣ Потом <b>описание</b> (марка, год, цена, WhatsApp)"
+    )
 
 
 @dp.message(Command("cancel"))
@@ -213,7 +225,7 @@ async def on_photo(message: Message):
     if not is_admin(message.from_user.id):
         return
     draft = get_draft(message.from_user.id)
-    # take largest photo
+    # Telegram compresses photos sent as "photo" to max ~1280px JPEG
     photo = message.photo[-1]
     file = await bot.get_file(photo.file_id)
     buf = await bot.download_file(file.file_path)
@@ -223,13 +235,18 @@ async def on_photo(message: Message):
     save_bytes(fname, data)
     draft.photos.append({"name": fname, "size": len(data)})
 
-    # If caption present, parse it too
     if message.caption:
         draft.raw_texts.append(message.caption)
         parsed = await parse_with_ai(message.caption)
         merge_parsed(draft, parsed)
 
-    await message.answer(f"📸 Photo {idx} saved ({human_size(len(data))}). Total: {len(draft.photos)}")
+    hint = ""
+    if len(draft.photos) == 1 and not draft.videos:
+        hint = "\n👉 Теперь пришли <b>видео</b> машины (или ещё фото)"
+        hint += "\n💎 Совет: для оригинального качества отправляй фото как 📎 → <b>Файл</b>"
+    elif draft.videos and not draft.data.get("title"):
+        hint = "\n👉 Теперь пришли <b>описание</b> (марка, год, цена, WhatsApp)"
+    await message.answer(f"📸 Фото {idx} ({human_size(len(data))}), всего: {len(draft.photos)}{hint}")
 
 
 @dp.message(F.video | F.document)
@@ -240,10 +257,51 @@ async def on_video(message: Message):
     file_obj = message.video or message.document
     if not file_obj:
         return
-    # Reject if it's a document but not a video
     mime = (getattr(file_obj, "mime_type", "") or "").lower()
+
+    # If document is an IMAGE — save as uncompressed photo (original quality)
+    if message.document and mime.startswith("image/"):
+        size = file_obj.file_size or 0
+        if size > 25 * 1024 * 1024:
+            await message.answer(f"⚠️ Фото {human_size(size)} — больше 25 МБ. Сожми и пришли заново.")
+            return
+        try:
+            file = await bot.get_file(file_obj.file_id)
+        except Exception as e:
+            await message.answer(f"⚠️ Не смог скачать фото: {e}")
+            return
+        buf = await bot.download_file(file.file_path)
+        data = buf.read()
+        ext = "jpg"
+        if mime == "image/png":
+            ext = "png"
+        elif mime == "image/webp":
+            ext = "webp"
+        elif "/" in mime:
+            sub = mime.split("/", 1)[1]
+            if sub in ("jpeg", "jpg", "png", "webp"):
+                ext = "jpg" if sub == "jpeg" else sub
+        idx = len(draft.photos) + 1
+        fname = photo_filename(draft.car_id, idx, ext)
+        save_bytes(fname, data)
+        draft.photos.append({"name": fname, "size": len(data)})
+        if message.caption:
+            draft.raw_texts.append(message.caption)
+            parsed = await parse_with_ai(message.caption)
+            merge_parsed(draft, parsed)
+        hint = ""
+        if len(draft.photos) == 1 and not draft.videos:
+            hint = "\n👉 Теперь пришли <b>видео</b> машины"
+        elif draft.videos and not draft.data.get("title"):
+            hint = "\n👉 Теперь пришли <b>описание</b>"
+        await message.answer(
+            f"📸✨ Фото в HD-качестве сохранено ({human_size(len(data))}, без сжатия). Всего: {len(draft.photos)}{hint}"
+        )
+        return
+
+    # If document is not a video and not an image → reject
     if message.document and not mime.startswith("video/"):
-        await message.answer("⚠️ This document is not a video. Send a video file or photo.")
+        await message.answer("⚠️ Это не видео и не изображение. Пришли фото, видео или PDF/MP4.")
         return
 
     size = file_obj.file_size or 0
@@ -312,8 +370,16 @@ async def on_video(message: Message):
         parsed = await parse_with_ai(message.caption)
         merge_parsed(draft, parsed)
 
-    extra = f" · {poster_source} сохранён как фото" if thumb_added else ""
-    await message.answer(f"🎥 Видео {human_size(len(data))}, всего: {len(draft.videos)}{extra}")
+    extra = f"\n🖼 {poster_source} сохранён как фото-обложка" if thumb_added else ""
+    next_hint = ""
+    if not draft.data.get("title"):
+        next_hint = (
+            "\n\n👉 Теперь пришли <b>описание</b> машины, например:\n"
+            "<code>Toyota Camry 2022\n2.5 Hybrid\nЦена 22000$\nWhatsApp 0551234567</code>"
+        )
+    await message.answer(
+        f"🎥 Видео сохранено ({human_size(len(data))}). Всего видео: {len(draft.videos)}{extra}{next_hint}"
+    )
 
 
 # ---------- Text handler ----------
