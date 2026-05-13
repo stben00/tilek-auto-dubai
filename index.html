@@ -658,6 +658,16 @@ svg{flex-shrink:0}
   display:flex;align-items:center;justify-content:center;
 }
 .video-thumb svg{width:100%;height:100%;opacity:.8}
+.video-thumb-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;z-index:1;
+  transition:transform .4s ease;
+}
+.video-card:hover .video-thumb-img{transform:scale(1.04)}
+.video-thumb-overlay{
+  position:absolute;inset:0;z-index:2;
+  background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.85) 100%);
+}
 .video-play{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
   width:72px;height:72px;border-radius:50%;
@@ -3108,21 +3118,23 @@ function renderManagedVideos(videos) {
   grid.innerHTML = videos.map(video => {
     const rawUrl = String(video.url || '').trim();
     const url = /^https?:\/\/(www\.)?instagram\.com\/?$/i.test(rawUrl) || !rawUrl ? instagramProfile : rawUrl;
-    return `
-    <a href="${escapeAttr(url)}" target="_blank" rel="noopener" class="video-card fade-up visible">
-      <span class="video-badge">▶ Reels</span>
-      <div class="video-thumb">
-        <svg viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    const thumb = String(video.thumb || '').trim();
+    const thumbHtml = thumb
+      ? `<img class="video-thumb-img" src="${escapeAttr(thumb)}" alt="${escapeAttr(video.title || '')}" loading="lazy"><div class="video-thumb-overlay"></div>`
+      : `<svg viewBox="0 0 360 640" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
           <rect width="360" height="640" fill="#111"/>
           <circle cx="180" cy="260" r="140" fill="#d4af37" opacity=".12"/>
           <ellipse cx="180" cy="380" rx="130" ry="8" fill="#000" opacity=".6"/>
           <path d="M50,340 L85,255 Q100,235 130,235 L160,235 L195,205 L290,205 L320,235 Q345,235 355,255 L370,340 Z" fill="#151515" stroke="#d4af37" stroke-width="1"/>
           <circle cx="100" cy="370" r="32" fill="#0a0a0a" stroke="#d4af37" stroke-width="2"/>
           <circle cx="290" cy="370" r="32" fill="#0a0a0a" stroke="#d4af37" stroke-width="2"/>
-        </svg>
-      </div>
-      <div class="video-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
-      <div class="video-meta">
+        </svg>`;
+    return `
+    <a href="${escapeAttr(url)}" target="_blank" rel="noopener" class="video-card fade-up visible">
+      <span class="video-badge">▶ Reels</span>
+      <div class="video-thumb">${thumbHtml}</div>
+      <div class="video-play" style="z-index:4"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="video-meta" style="z-index:4">
         <div class="video-title">${escapeHtml(video.title || 'Видео Tilek Auto Dubai')}</div>
         <div class="video-info">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
