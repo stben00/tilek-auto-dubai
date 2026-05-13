@@ -285,7 +285,27 @@ svg{flex-shrink:0}
 }
 .hero-sub{font-size:clamp(15px,1.8vw,18px);color:var(--gray-light);margin-bottom:36px;max-width:560px;line-height:1.7}
 
-.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:40px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+
+.hero-offer{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
+  margin:0 0 34px;max-width:650px;
+}
+.hero-offer a{
+  display:flex;flex-direction:column;gap:5px;min-height:92px;
+  padding:15px 16px;border:1px solid var(--line-soft);border-radius:16px;
+  background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.02));
+  transition:all .25s;position:relative;overflow:hidden;
+}
+.hero-offer a::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(212,175,55,.16),transparent 45%);
+  opacity:0;transition:.25s;
+}
+.hero-offer a:hover{transform:translateY(-2px);border-color:var(--gold);background:rgba(212,175,55,.07)}
+.hero-offer a:hover::before{opacity:1}
+.hero-offer strong{position:relative;z-index:1;color:#fff;font-size:13.5px;line-height:1.25}
+.hero-offer span{position:relative;z-index:1;color:var(--gray-light);font-size:12px;line-height:1.35}
 
 .hero-trust{display:flex;flex-wrap:wrap;gap:20px;padding-top:32px;border-top:1px solid var(--line-soft)}
 .hero-trust-item{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--gray-light);min-width:0}
@@ -456,6 +476,74 @@ svg{flex-shrink:0}
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .brand-quote{font-size:15px;color:var(--gray-light);max-width:560px;line-height:1.7;font-style:italic}
+
+/* ============ SALES OFFER ============ */
+.offer-section{
+  position:relative;overflow:hidden;
+  background:linear-gradient(180deg,#0a0a0a 0%,#0d0d0d 100%);
+}
+.offer-section::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 12% 10%,rgba(212,175,55,.12),transparent 42%),
+             radial-gradient(ellipse at 88% 80%,rgba(37,211,102,.09),transparent 38%);
+  pointer-events:none;
+}
+.offer-layout{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:.9fr 1.1fr;gap:34px;align-items:stretch;
+}
+.offer-main{
+  border:1px solid var(--line);border-radius:30px;padding:36px;
+  background:linear-gradient(160deg,#171717,#090909);
+  box-shadow:var(--shadow-card);overflow:hidden;position:relative;
+}
+.offer-main::after{
+  content:"";position:absolute;right:-80px;bottom:-80px;width:260px;height:260px;border-radius:50%;
+  border:1px solid rgba(212,175,55,.18);
+  background:radial-gradient(circle,rgba(212,175,55,.1),transparent 62%);
+}
+.offer-main h2{
+  position:relative;z-index:1;
+  font-size:clamp(28px,4.5vw,48px);line-height:1.08;color:#fff;
+  letter-spacing:-.02em;margin:16px 0 16px;
+}
+.offer-main h2 .gold{
+  background:linear-gradient(135deg,var(--gold-light),var(--gold-deep));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.offer-main p{
+  position:relative;z-index:1;color:var(--gray-light);font-size:16px;line-height:1.7;
+  max-width:520px;margin-bottom:26px;
+}
+.offer-proof{
+  position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:26px;
+}
+.offer-proof div{
+  padding:14px;border:1px solid var(--line-soft);border-radius:16px;
+  background:rgba(255,255,255,.035);
+}
+.offer-proof strong{display:block;color:var(--gold);font-size:22px;line-height:1}
+.offer-proof span{display:block;color:var(--gray-light);font-size:11.5px;line-height:1.35;margin-top:7px}
+.offer-actions{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:12px}
+.offer-stack{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.offer-card{
+  background:linear-gradient(160deg,#151515,#0a0a0a);
+  border:1px solid var(--line-soft);border-radius:22px;padding:24px;
+  min-height:190px;transition:all .25s;position:relative;overflow:hidden;
+}
+.offer-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.45;
+}
+.offer-card:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:var(--shadow-card)}
+.offer-card .num{
+  width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  color:#1a1300;font-weight:800;background:linear-gradient(135deg,var(--gold-light),var(--gold-deep));
+  margin-bottom:18px;
+}
+.offer-card h3{color:#fff;font-size:18px;line-height:1.18;margin-bottom:10px}
+.offer-card p{color:var(--gray-light);font-size:13.5px;line-height:1.55}
 
 /* ============ TRUST / ABOUT ============ */
 .about{background:linear-gradient(180deg,#0a0a0a 0%,#0e0e0e 100%);position:relative}
@@ -1166,6 +1254,7 @@ svg{flex-shrink:0}
   .catalog-grid{grid-template-columns:repeat(2,1fr)}
   .hero-inner{grid-template-columns:1fr;gap:40px}
   .hero-visual{min-height:auto;max-width:520px;margin:0 auto;width:100%}
+  .offer-layout{grid-template-columns:1fr}
   .calc-grid{grid-template-columns:1fr}
   .safety-grid{grid-template-columns:1fr 1fr}
   .warning-grid{grid-template-columns:1fr;gap:30px}
@@ -1189,6 +1278,8 @@ svg{flex-shrink:0}
   .hero-trust{gap:14px}
   .hero-cta{flex-direction:column;width:100%}
   .hero-cta .btn{width:100%;letter-spacing:0}
+  .hero-offer{grid-template-columns:1fr;margin-bottom:28px}
+  .hero-offer a{min-height:0}
   .hero-visual{min-height:auto}
   .owner-card{padding:30px 22px 26px}
   .owner-name{font-size:24px}
@@ -1205,6 +1296,11 @@ svg{flex-shrink:0}
   .community-panel{padding:22px}
   .community-feed{grid-template-columns:1fr}
   .community-actions .btn{width:100%}
+  .offer-main{padding:28px 22px;border-radius:24px}
+  .offer-proof{grid-template-columns:1fr}
+  .offer-actions .btn{width:100%}
+  .offer-stack{grid-template-columns:1fr}
+  .offer-card{min-height:0}
   .filters{padding:12px;gap:8px}
   .filter-select{min-width:100%;flex:none}
   .calc-form{padding:28px 22px}
@@ -1333,15 +1429,28 @@ svg{flex-shrink:0}
           <span class="hero-badge">Аукционы и площадки</span>
           <span class="hero-badge">Под ключ</span>
         </div>
-        <h1>Авто из Дубая <span class="gold">под ключ</span> — от аукциона до доставки</h1>
-        <p class="hero-sub">Подберём, проверим, купим и поможем доставить автомобиль из ОАЭ в Кыргызстан, Казахстан и страны СНГ — без лишнего риска и переплат. <strong style="color:var(--gold)">Авто от $10 800.</strong></p>
+        <h1>Авто из Дубая <span class="gold">под ключ</span> — с понятным расчётом до покупки</h1>
+        <p class="hero-sub">Подберём 3–5 реальных вариантов под ваш бюджет, проверим состояние, покажем риски и посчитаем доставку в Кыргызстан, Казахстан или СНГ. <strong style="color:var(--gold)">Стартовые варианты — от $10 800.</strong></p>
         <div class="hero-cta">
-          <!-- Replace with real WhatsApp number -->
-          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу получить консультацию по авто из Дубая." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
+          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу получить подборку авто из Дубая под мой бюджет." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
-            Получить консультацию
+            Получить подборку
           </a>
           <a href="#catalog" class="btn btn-ghost btn-lg">Посмотреть авто</a>
+        </div>
+        <div class="hero-offer" aria-label="Быстрые сценарии заявки">
+          <a href="https://wa.me/000000000000?text=Здравствуйте! У меня бюджет до $15 000. Какие авто из Дубая можно рассмотреть?" target="_blank" rel="noopener">
+            <strong>Бюджет до $15 000</strong>
+            <span>Получить реалистичные варианты без лишних ожиданий</span>
+          </a>
+          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу 3-5 вариантов авто из Дубая под мой бюджет." target="_blank" rel="noopener">
+            <strong>3–5 вариантов</strong>
+            <span>Подборка машин с кратким объяснением плюсов и рисков</span>
+          </a>
+          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу понять полную стоимость авто из Дубая с доставкой." target="_blank" rel="noopener">
+            <strong>Расчёт под ключ</strong>
+            <span>Цена авто, доставка, документы и ориентир по срокам</span>
+          </a>
         </div>
         <div class="hero-trust">
           <div class="hero-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Офис: Ош / Бишкек</div>
@@ -1366,7 +1475,7 @@ svg{flex-shrink:0}
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                   <circle cx="12" cy="7" r="4"/>
                 </svg>
-                <span>Фото владельца</span>
+                <span>Персональный менеджер</span>
               </div>
             </div>
             <div class="owner-badge">
@@ -1377,7 +1486,7 @@ svg{flex-shrink:0}
           <div class="owner-info">
             <div class="owner-label" id="ownerLabel">Основатель компании</div>
             <h3 class="owner-name" id="ownerName">Тилек</h3>
-            <p class="owner-position" id="ownerPosition">Эксперт по авто из ОАЭ · 5+ лет в Дубае</p>
+            <p class="owner-position" id="ownerPosition">Эксперт по авто из ОАЭ · подбор, проверка, доставка</p>
 
             <div class="owner-bio" id="ownerBio">
               «Я лично проверяю каждое авто перед покупкой. Моя задача — чтобы вы получили честную сделку, а не "кота в мешке". Работаю с клиентами из СНГ как со своими.»
@@ -1433,6 +1542,61 @@ svg{flex-shrink:0}
       </div>
       <div class="brand-tagline">Доверие, как <span class="gold">рукопожатие</span></div>
       <p class="brand-quote">Мы строим отношения с клиентами на честности и прозрачности. Каждое авто из Дубая — это наша репутация и ваше спокойствие.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SALES OFFER ============ -->
+<section class="section offer-section" id="offer">
+  <div class="container">
+    <div class="offer-layout">
+      <div class="offer-main fade-up">
+        <span class="section-tag">Готово для показа</span>
+        <h2>Сайт сразу объясняет, <span class="gold">почему стоит написать</span></h2>
+        <p>Первый экран ведёт клиента к простому действию: отправить бюджет, получить подборку и увидеть расчёт до покупки. Это удобно показать партнёру, клиенту или человеку, которому нужно быстро понять ценность услуги.</p>
+        <div class="offer-proof">
+          <div>
+            <strong>30 сек</strong>
+            <span>чтобы понять оффер и нажать WhatsApp</span>
+          </div>
+          <div>
+            <strong>3–5</strong>
+            <span>вариантов авто под бюджет в заявке</span>
+          </div>
+          <div>
+            <strong>1 чат</strong>
+            <span>все детали остаются в WhatsApp</span>
+          </div>
+        </div>
+        <div class="offer-actions">
+          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу быстро понять, какие авто из Дубая подходят под мой бюджет." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
+            Быстрый расчёт в WhatsApp
+          </a>
+          <a href="#calculator" class="btn btn-ghost btn-lg">Оставить заявку</a>
+        </div>
+      </div>
+      <div class="offer-stack">
+        <div class="offer-card fade-up">
+          <div class="num">01</div>
+          <h3>Чёткий оффер</h3>
+          <p>Не “мы привозим машины”, а конкретно: подборка, проверка, расчёт и сопровождение до получения авто.</p>
+        </div>
+        <div class="offer-card fade-up">
+          <div class="num">02</div>
+          <h3>Быстрые сценарии</h3>
+          <p>Клиент выбирает готовую кнопку: бюджет до $15 000, 3–5 вариантов или полный расчёт под ключ.</p>
+        </div>
+        <div class="offer-card fade-up">
+          <div class="num">03</div>
+          <h3>Доверие до оплаты</h3>
+          <p>Сайт заранее показывает, что клиент получит фото, видео, оценку рисков и понятную смету.</p>
+        </div>
+        <div class="offer-card fade-up">
+          <div class="num">04</div>
+          <h3>Удобно продавать</h3>
+          <p>Ссылку можно отправить в мессенджере как готовую презентацию сервиса, а не объяснять всё голосом.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -3209,6 +3373,36 @@ function renderManagedContent(data) {
     const c = mergeContentWithPublic(data.content || {});
     const whatsappDigits = String(c.whatsapp || '').replace(/\D/g, '');
     renderManagedContent(data);
+
+    // ===== cars.json compatibility (from Telegram AI Uploader) =====
+    // Loads cars.json from the site root and merges with admin-panel cars.
+    // Fails silently if cars.json is missing — falls back to existing data.
+    (function loadCarsJson() {
+      fetch('cars.json', { cache: 'no-store' })
+        .then(r => r.ok ? r.json() : null)
+        .then(extCars => {
+          if (!Array.isArray(extCars) || !extCars.length) return;
+          const bodyMap = { 'внедорожник':'suv','suv':'suv','кроссовер':'crossover','crossover':'crossover','седан':'sedan','sedan':'sedan','пикап':'pickup','pickup':'pickup','грузовик':'truck','truck':'truck','минивэн':'minivan','minivan':'minivan','купе':'coupe','coupe':'coupe','хэтчбек':'hatchback','hatchback':'hatchback' };
+          const fuelMap = { 'бензин':'petrol','дизель':'diesel','гибрид':'hybrid','электро':'electric','газ':'gas' };
+          const mapped = extCars.map(x => ({
+            title: x.title || [x.brand, x.model, x.year].filter(Boolean).join(' '),
+            brand: x.brand || '',
+            year: x.year || '',
+            price: x.price || 'по запросу',
+            engine: x.engine || '',
+            fuel: fuelMap[String(x.fuel||'').toLowerCase()] || x.fuel || '',
+            body: bodyMap[String(x.bodyType||'').toLowerCase()] || '',
+            budget: '',
+            tag: 'reliable',
+            image: x.mainImage || (Array.isArray(x.images) && x.images[0]) || '',
+            description: x.description || ''
+          }));
+          const adminCars = Array.isArray(data.cars) ? data.cars : [];
+          const merged = mapped.concat(adminCars);
+          renderManagedCars(merged);
+        })
+        .catch(() => {});
+    })();
 
     // Replace WhatsApp links
     if (whatsappDigits) {
