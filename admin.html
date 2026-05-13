@@ -374,9 +374,7 @@ table tr:hover td{background:rgba(212,175,55,.03)}
       <button type="submit" class="btn btn-gold btn-block" style="margin-top:8px">Войти в панель</button>
       <div class="login-error" id="loginError">Неверный логин или пароль</div>
       <div class="login-hint">
-        <strong style="color:var(--gold)">Данные по умолчанию:</strong><br>
-        Логин: <code style="color:var(--gold-light)">admin</code> · Пароль: <code style="color:var(--gold-light)">tilek2025</code><br>
-        <span style="color:var(--text-dim);margin-top:6px;display:block">Смените их в разделе «Настройки»</span>
+        <span style="color:var(--text-dim)">Данные для входа можно сменить в разделе «Настройки» после авторизации.</span>
       </div>
     </form>
   </div>
@@ -1043,10 +1041,23 @@ table tr:hover td{background:rgba(212,175,55,.03)}
       <input type="text" class="form-input" id="carTitle" placeholder="Toyota Land Cruiser 250">
     </div>
     <div class="form-group">
-      <label class="form-label">Фото авто (URL или путь к файлу)</label>
-      <input type="text" class="form-input" id="carImage" placeholder="assets/land-cruiser.jpg или https://...">
+      <label class="form-label">Фото авто</label>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+        <div id="carPhotoPreview" style="width:80px;height:56px;border-radius:8px;background:var(--bg-4);border:1px solid var(--line-soft);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center">
+          <svg id="carPhotoPlaceholderIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity=".4"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>
+          <img id="carPhotoPreviewImg" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none">
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <label class="btn btn-ghost btn-sm" style="cursor:pointer;margin:0">
+            📁 Загрузить с устройства
+            <input type="file" accept="image/*" style="display:none" onchange="uploadCarPhoto(event)">
+          </label>
+          <button class="btn btn-ghost btn-sm" type="button" onclick="clearCarPhoto()">✕ Очистить</button>
+        </div>
+      </div>
+      <input type="text" class="form-input" id="carImage" placeholder="или вставьте ссылку: https://example.com/photo.jpg" oninput="syncCarPhotoPreview()">
       <p style="font-size:12px;color:var(--text-dim);margin-top:8px;line-height:1.5">
-        Необязательно. Если оставить пустым, сайт покажет аккуратную графическую карточку авто.
+        Загрузите фото с устройства или вставьте ссылку. Если оставить пустым — сайт покажет красивую графику авто.
       </p>
     </div>
     <div class="form-row">
@@ -1533,6 +1544,7 @@ function openCarModal() {
   document.getElementById('carId').value = '';
   document.getElementById('carTitle').value = '';
   document.getElementById('carImage').value = '';
+  refreshCarPhotoPreview('');
   document.getElementById('carBrand').value = 'Toyota';
   document.getElementById('carYear').value = new Date().getFullYear();
   document.getElementById('carEngine').value = '';
@@ -1551,6 +1563,7 @@ function editCar(id) {
   document.getElementById('carId').value = car.id;
   document.getElementById('carTitle').value = car.title;
   document.getElementById('carImage').value = car.image || '';
+  refreshCarPhotoPreview(car.image || '');
   document.getElementById('carBrand').value = car.brand;
   document.getElementById('carYear').value = car.year;
   document.getElementById('carEngine').value = car.engine;
@@ -1977,6 +1990,45 @@ function refreshLogoPreview() {
     img.onload = () => { img.style.display = 'block'; placeholder.style.display = 'none'; };
     img.onerror = () => { img.style.display = 'none'; placeholder.style.display = 'block'; };
   }
+}
+
+// ============ CAR PHOTO UPLOAD ============
+function refreshCarPhotoPreview(src) {
+  const img = document.getElementById('carPhotoPreviewImg');
+  const icon = document.getElementById('carPhotoPlaceholderIcon');
+  if (!img) return;
+  if (src) {
+    img.src = src;
+    img.style.display = 'block';
+    if (icon) icon.style.display = 'none';
+  } else {
+    img.src = '';
+    img.style.display = 'none';
+    if (icon) icon.style.display = 'block';
+  }
+}
+
+function uploadCarPhoto(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 3 * 1024 * 1024) { toast('Файл больше 3 МБ', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('carImage').value = e.target.result;
+    refreshCarPhotoPreview(e.target.result);
+  };
+  reader.readAsDataURL(file);
+  event.target.value = '';
+}
+
+function clearCarPhoto() {
+  document.getElementById('carImage').value = '';
+  refreshCarPhotoPreview('');
+}
+
+function syncCarPhotoPreview() {
+  const val = document.getElementById('carImage').value.trim();
+  refreshCarPhotoPreview(val);
 }
 
 function uploadLogo(event) {

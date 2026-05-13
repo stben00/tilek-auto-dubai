@@ -3074,7 +3074,7 @@ function renderManagedCars(cars) {
         <div class="car-image">
           <span class="car-tag tag-${tag}">${escapeHtml(carTagLabel(car.tag))}</span>
           <div class="car-reel"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
-          ${image ? `<img class="car-photo" src="${escapeAttr(image)}" alt="${title}" loading="lazy"><div class="car-photo-fade"></div>` : carIllustration()}
+          ${image ? `<img class="car-photo" src="${escapeAttr(image)}" alt="${title}" loading="lazy" onerror="this.style.display='none';var f=this.nextElementSibling;if(f&&f.classList.contains('car-photo-fade'))f.style.display='none'"><div class="car-photo-fade"></div>` : carIllustration()}
         </div>
         <div class="car-content">
           <div class="car-title-row">
