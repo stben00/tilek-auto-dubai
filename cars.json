@@ -1,0 +1,29 @@
+[
+  {
+    "id": "car_20260513_145630",
+    "title": "2025",
+    "brand": "",
+    "model": "",
+    "year": "2025",
+    "engine": "",
+    "fuel": "",
+    "bodyType": "",
+    "price": "",
+    "mileage": "",
+    "location": "Dubai / UAE",
+    "description": "Video by tilek_auto_dubai",
+    "whatsapp": "",
+    "instagramUrl": "https://www.instagram.com/tilek_auto_dubai/reel/DUilVA9DAbh/",
+    "videoUrl": "",
+    "videoFile": "assets/videos/car_20260513_145630_video.mp4",
+    "images": [
+      "assets/cars/car_20260513_145630_1.jpg",
+      "assets/cars/car_20260513_145630_2.jpg",
+      "assets/cars/car_20260513_145630_3.jpg"
+    ],
+    "mainImage": "assets/cars/car_20260513_145630_1.jpg",
+    "status": "available",
+    "source": "telegram_ai_uploader",
+    "createdAt": "2026-05-13T15:26:03Z"
+  }
+]
