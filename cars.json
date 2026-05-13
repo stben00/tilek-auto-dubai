@@ -1,5 +1,30 @@
 [
   {
+    "id": "car_20260513_195559",
+    "title": "Hyundai Tucson 2025",
+    "brand": "Hyundai",
+    "model": "Tucson",
+    "year": "2025",
+    "engine": "2.5",
+    "fuel": "",
+    "bodyType": "Внедорожник",
+    "price": "$6 500",
+    "mileage": "",
+    "location": "Dubai / UAE",
+    "description": "HUNDAI TUKSON SE\nГод 2025\nОбьем 2.5\nСтартовая цена 6.500$💵",
+    "whatsapp": "",
+    "instagramUrl": "",
+    "videoUrl": "",
+    "videoFile": "",
+    "images": [
+      "assets/cars/car_20260513_195559_1.jpg"
+    ],
+    "mainImage": "assets/cars/car_20260513_195559_1.jpg",
+    "status": "available",
+    "source": "telegram_ai_uploader",
+    "createdAt": "2026-05-13T19:58:42Z"
+  },
+  {
     "id": "car_20260513_195556",
     "title": "",
     "brand": "",
