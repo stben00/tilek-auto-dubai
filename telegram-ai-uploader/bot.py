@@ -27,7 +27,7 @@ from github_client import publish_car, upload_binary_file
 from instagram_fetcher import fetch_instagram
 from keyboards import main_kb, edit_kb, confirm_kb, EDIT_FIELDS
 from marketing import generate_pitch, generate_whatsapp_share
-from image_generator import generate_ad_image
+from image_generator import generate_ad_image_with_template, pick_different_template, TEMPLATES
 from config import IMAGES_FOLDER
 
 import re as _re
@@ -65,6 +65,8 @@ class Draft:
         # generated ad poster bytes (user can regenerate)
         self.poster: bytes | None = None
         self.poster_filename: str = ""
+        # last template used (so 🎨 Regenerate picks a different one)
+        self.poster_template: str | None = None
 
     def cleanup_files(self):
         for p in self.photos:
@@ -229,21 +231,25 @@ async def _build_and_send_poster(target: Message | CallbackQuery, draft: Draft, 
     if draft.photos:
         main_photo_path = temp_path(draft.photos[0]["name"])
     msg = target.message if isinstance(target, CallbackQuery) else target
+    # Pick template: regenerate → different one, first time → smart auto
     if regenerate:
-        await msg.answer("🎨 Генерирую новый постер...")
+        template_name = pick_different_template(draft.data, draft.poster_template)
+        await msg.answer(f"🎨 Новый постер · шаблон: <code>{template_name}</code>")
+    else:
+        template_name = None  # let generator auto-select
     try:
-        poster_bytes = await generate_ad_image(draft.data, main_photo_path)
+        poster_bytes, used = await generate_ad_image_with_template(draft.data, main_photo_path, template_name=template_name)
         if not poster_bytes:
             await msg.answer("⚠️ Не получилось сгенерировать постер.")
             return
         draft.poster = poster_bytes
         draft.poster_filename = f"{draft.car_id}_poster.jpg"
-        # Save to temp so it survives across messages
+        draft.poster_template = used or template_name
         save_bytes(draft.poster_filename, poster_bytes)
-        # Send poster as photo
+        caption_tpl = f" · шаблон: <code>{draft.poster_template}</code>" if draft.poster_template else ""
         await msg.answer_photo(
             BufferedInputFile(poster_bytes, filename=draft.poster_filename),
-            caption="🎨 <b>Рекламный постер машины</b>\n(будет добавлен в карточку на сайте при публикации)",
+            caption=f"🎨 <b>Рекламный постер</b>{caption_tpl}\nДобавится в карточку машины на сайте.",
         )
     except Exception as e:
         log.exception("Poster generation failed")
@@ -697,10 +703,11 @@ async def cb_confirm_publish(cb: CallbackQuery):
         if not draft.poster:
             try:
                 main_p = temp_path(draft.photos[0]["name"]) if draft.photos else None
-                pb = await generate_ad_image(car, main_p)
+                pb, used = await generate_ad_image_with_template(car, main_p)
                 if pb:
                     draft.poster = pb
                     draft.poster_filename = f"{draft.car_id}_poster.jpg"
+                    draft.poster_template = used
                     save_bytes(draft.poster_filename, pb)
             except Exception as e:
                 log.warning(f"Poster fallback failed: {e}")
