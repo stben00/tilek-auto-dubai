@@ -1,0 +1,30 @@
+# Never bake secrets into the image — set them with `fly secrets set`
+.env
+.env.*
+!.env.example
+
+# Local Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Local temp media (the bot recreates this dir on boot)
+data/temp/*
+!data/temp/.gitkeep
+
+# macOS junk
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Git
+.git/
+.gitignore
+
+# Docs
+README.md

@@ -1,0 +1,22 @@
+# Fly.io deployment config for tilek-auto-upload-bot
+# Bot uses Telegram long-polling — no HTTP, no ports.
+# Choose a region close to you: fra (Frankfurt), ams (Amsterdam),
+# waw (Warsaw), sin (Singapore), iad (Ashburn). For Dubai/UAE → fra or sin.
+
+app = "tilek-auto-bot"
+primary_region = "fra"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PYTHONUNBUFFERED = "1"
+
+# IMPORTANT: never auto-stop — long-polling bot must stay connected.
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "512mb"
+
+# No [http_service] section because the bot doesn't serve HTTP.
+# Restart policy: Fly defaults to restart on crash, which is what we want.
