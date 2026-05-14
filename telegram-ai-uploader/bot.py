@@ -23,10 +23,12 @@ from media_storage import (
     save_bytes, read_bytes, remove_temp, temp_path,
     video_too_large, human_size, extract_video_poster,
 )
-from github_client import publish_car
+from github_client import publish_car, upload_binary_file
 from instagram_fetcher import fetch_instagram
 from keyboards import main_kb, edit_kb, confirm_kb, EDIT_FIELDS
 from marketing import generate_pitch, generate_whatsapp_share
+from image_generator import generate_ad_image
+from config import IMAGES_FOLDER
 
 import re as _re
 INSTAGRAM_URL_RE = _re.compile(r"https?://(?:www\.)?(?:instagram\.com|instagr\.am)/[^\s]+", _re.IGNORECASE)
@@ -58,6 +60,11 @@ class Draft:
         self.editing_field: str | None = None
         # mode: collecting media after button press
         self.awaiting: str | None = None  # "photo" | "video" | "insta" | None
+        # generated marketing pitch (user can regenerate)
+        self.pitch: str = ""
+        # generated ad poster bytes (user can regenerate)
+        self.poster: bytes | None = None
+        self.poster_filename: str = ""
 
     def cleanup_files(self):
         for p in self.photos:
@@ -199,6 +206,48 @@ async def cmd_help(message: Message):
         "4️⃣ Нажми ✅ <b>Publish</b>\n\n"
         "Команды: /new /preview /cancel"
     )
+
+
+@dp.message(Command("upload"))
+async def cmd_upload(message: Message):
+    if not is_admin(message.from_user.id):
+        return
+    reset_draft(message.from_user.id)
+    await message.answer(
+        "📤 <b>Готов принять пост из WhatsApp.</b>\n\n"
+        "Перешли мне сообщение из WhatsApp с машиной (текст + фото + видео в любом порядке).\n"
+        "Я сам распознаю данные, сделаю продающий текст и рекламный постер.\n\n"
+        "💎 Для лучшего качества фото отправляй как <b>📎 → Файл</b> (не «Фото»)"
+    )
+
+
+async def _build_and_send_poster(target: Message | CallbackQuery, draft: Draft, regenerate: bool = False):
+    """Generate ad poster from car data + main photo and send to user."""
+    if not draft.data.get("title") and not draft.data.get("brand"):
+        return
+    main_photo_path = None
+    if draft.photos:
+        main_photo_path = temp_path(draft.photos[0]["name"])
+    msg = target.message if isinstance(target, CallbackQuery) else target
+    if regenerate:
+        await msg.answer("🎨 Генерирую новый постер...")
+    try:
+        poster_bytes = await generate_ad_image(draft.data, main_photo_path)
+        if not poster_bytes:
+            await msg.answer("⚠️ Не получилось сгенерировать постер.")
+            return
+        draft.poster = poster_bytes
+        draft.poster_filename = f"{draft.car_id}_poster.jpg"
+        # Save to temp so it survives across messages
+        save_bytes(draft.poster_filename, poster_bytes)
+        # Send poster as photo
+        await msg.answer_photo(
+            BufferedInputFile(poster_bytes, filename=draft.poster_filename),
+            caption="🎨 <b>Рекламный постер машины</b>\n(будет добавлен в карточку на сайте при публикации)",
+        )
+    except Exception as e:
+        log.exception("Poster generation failed")
+        await msg.answer(f"⚠️ Ошибка постера: <code>{escape(str(e))}</code>")
 
 
 @dp.message(Command("new"))
@@ -480,6 +529,9 @@ async def on_text(message: Message):
     parsed = await parse_with_ai(text)
     merge_parsed(draft, parsed)
     await show_preview(message, draft)
+    # Auto-generate poster once we have enough data
+    if (draft.data.get("title") or draft.data.get("brand")) and draft.photos and not draft.poster:
+        await _build_and_send_poster(message, draft)
 
 
 # ---------- Callback handlers ----------
@@ -538,6 +590,35 @@ async def cb_add_insta(cb: CallbackQuery):
     draft = get_draft(cb.from_user.id)
     draft.awaiting = "insta"
     await cb.message.answer("🔗 Send Instagram or Reels URL.")
+    await cb.answer()
+
+
+@dp.callback_query(F.data == "regen_text")
+async def cb_regen_text(cb: CallbackQuery):
+    if not is_admin(cb.from_user.id):
+        return
+    draft = get_draft(cb.from_user.id)
+    if not draft.data.get("title") and not draft.data.get("brand"):
+        await cb.answer("Сначала пришли описание машины.", show_alert=True)
+        return
+    try:
+        draft.pitch = generate_pitch(draft.data)
+        draft.data["description"] = draft.pitch
+        await cb.message.answer(f"📣 <b>Новый рекламный текст:</b>\n\n{draft.pitch}")
+    except Exception as e:
+        await cb.message.answer(f"⚠️ Ошибка: <code>{escape(str(e))}</code>")
+    await cb.answer()
+
+
+@dp.callback_query(F.data == "regen_image")
+async def cb_regen_image(cb: CallbackQuery):
+    if not is_admin(cb.from_user.id):
+        return
+    draft = get_draft(cb.from_user.id)
+    if not draft.data.get("title") and not draft.data.get("brand"):
+        await cb.answer("Сначала пришли описание машины.", show_alert=True)
+        return
+    await _build_and_send_poster(cb, draft, regenerate=True)
     await cb.answer()
 
 
@@ -612,6 +693,20 @@ async def cb_confirm_publish(cb: CallbackQuery):
             except Exception as e:
                 log.warning(f"Pitch generation failed: {e}")
         photo_files = [(p["name"], read_bytes(p["name"])) for p in draft.photos]
+        # Generate poster if not yet generated (e.g. user skipped preview)
+        if not draft.poster:
+            try:
+                main_p = temp_path(draft.photos[0]["name"]) if draft.photos else None
+                pb = await generate_ad_image(car, main_p)
+                if pb:
+                    draft.poster = pb
+                    draft.poster_filename = f"{draft.car_id}_poster.jpg"
+                    save_bytes(draft.poster_filename, pb)
+            except Exception as e:
+                log.warning(f"Poster fallback failed: {e}")
+        # Add poster as an extra car photo (appended so original photos stay first)
+        if draft.poster and draft.poster_filename:
+            photo_files.append((draft.poster_filename, draft.poster))
         video_files = [(v["name"], read_bytes(v["name"])) for v in draft.videos]
         result = await publish_car(car, photo_files, video_files)
         await cb.message.answer(

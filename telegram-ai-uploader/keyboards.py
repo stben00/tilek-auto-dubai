@@ -23,6 +23,8 @@ def main_kb() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="✅ Publish", callback_data="publish"),
          InlineKeyboardButton(text="✏️ Edit", callback_data="edit")],
+        [InlineKeyboardButton(text="🔁 Regenerate text", callback_data="regen_text"),
+         InlineKeyboardButton(text="🎨 Regenerate poster", callback_data="regen_image")],
         [InlineKeyboardButton(text="🖼 Add Photos", callback_data="add_photos"),
          InlineKeyboardButton(text="🎥 Add Video", callback_data="add_video")],
         [InlineKeyboardButton(text="🔗 Add Instagram Link", callback_data="add_insta"),
