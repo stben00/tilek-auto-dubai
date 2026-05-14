@@ -26,6 +26,7 @@ from media_storage import (
 from github_client import publish_car
 from instagram_fetcher import fetch_instagram
 from keyboards import main_kb, edit_kb, confirm_kb, EDIT_FIELDS
+from marketing import generate_pitch, generate_whatsapp_share
 
 import re as _re
 INSTAGRAM_URL_RE = _re.compile(r"https?://(?:www\.)?(?:instagram\.com|instagr\.am)/[^\s]+", _re.IGNORECASE)
@@ -130,6 +131,17 @@ def preview_text(draft: Draft) -> str:
     if d.get("instagramUrl"):
         lines.append("")
         lines.append(f"🔗 {escape(d['instagramUrl'])}")
+    # Marketing pitch preview — shows how the description will look on the site
+    if d.get("title") and d.get("price"):
+        try:
+            pitch = generate_pitch(d)
+            lines.append("")
+            lines.append("━━━━━━━━━━━━━━━━━━")
+            lines.append("📣 <b>Рекламный текст (для сайта + WhatsApp):</b>")
+            lines.append("")
+            lines.append(pitch)
+        except Exception:
+            pass
     return "\n".join(lines)
 
 
@@ -590,21 +602,36 @@ async def cb_confirm_publish(cb: CallbackQuery):
     if not is_admin(cb.from_user.id):
         return
     draft = get_draft(cb.from_user.id)
-    await cb.message.answer("⏳ Uploading to GitHub...")
+    await cb.message.answer("⏳ Загружаю на GitHub...")
     try:
         car = build_car_object(draft)
+        # Auto-generate marketing pitch if no custom description provided
+        if not car.get("description") or len(car.get("description", "")) < 40:
+            try:
+                car["description"] = generate_pitch(car)
+            except Exception as e:
+                log.warning(f"Pitch generation failed: {e}")
         photo_files = [(p["name"], read_bytes(p["name"])) for p in draft.photos]
         video_files = [(v["name"], read_bytes(v["name"])) for v in draft.videos]
         result = await publish_car(car, photo_files, video_files)
         await cb.message.answer(
-            f"✅ Published: <b>{escape(result.get('title') or '')}</b>\n"
-            f"Photos: {len(result.get('images', []))}\n"
+            f"✅ <b>Опубликовано:</b> {escape(result.get('title') or '')}\n"
+            f"Фото: {len(result.get('images', []))} · Видео: {1 if result.get('videoFile') else 0}\n"
             f"🌐 {WEBSITE_URL}"
         )
+        # Generate WhatsApp share text
+        try:
+            wa_text = generate_whatsapp_share(result, site_url=WEBSITE_URL)
+            await cb.message.answer(
+                "📋 <b>Готовый текст для WhatsApp — скопируй и вставь в группу:</b>\n\n"
+                f"<code>{escape(wa_text)}</code>"
+            )
+        except Exception as e:
+            log.warning(f"WhatsApp share generation failed: {e}")
         reset_draft(cb.from_user.id)
     except Exception as e:
         log.exception("Publish failed")
-        await cb.message.answer(f"❌ Publish failed: <code>{escape(str(e))}</code>")
+        await cb.message.answer(f"❌ Ошибка публикации: <code>{escape(str(e))}</code>")
     await cb.answer()
 
 
