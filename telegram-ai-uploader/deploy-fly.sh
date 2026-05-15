@@ -36,8 +36,12 @@ if ! flyctl auth whoami >/dev/null 2>&1; then
 fi
 echo "▶ Залогинен как: $(flyctl auth whoami)"
 
-# 3. Read app name from fly.toml
-APP_NAME=$(grep -E '^app\s*=' fly.toml | head -1 | sed -E 's/.*=\s*"([^"]+)".*/\1/')
+# 3. Read app name from fly.toml (BSD-sed safe on macOS)
+APP_NAME=$(awk -F'"' '/^app[[:space:]]*=/{print $2; exit}' fly.toml)
+if [ -z "$APP_NAME" ]; then
+  echo "❌ Не смог прочитать имя приложения из fly.toml"
+  exit 1
+fi
 echo "▶ App: $APP_NAME"
 
 # 4. Create app if it doesn't exist
