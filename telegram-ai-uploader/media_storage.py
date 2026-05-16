@@ -59,19 +59,69 @@ def human_size(size_bytes: int) -> str:
     return f"{kb:.0f} KB"
 
 
-def extract_video_poster(video_path: Path | str, timestamp_pct: float = 0.30) -> bytes | None:
+def _extract_frame_at(video_path: str, seek: float, out_path: str) -> bool:
+    """Extract one frame at `seek` seconds. Returns True on success."""
+    try:
+        result = subprocess.run(
+            [
+                "ffmpeg", "-y",
+                "-ss", f"{seek:.2f}",
+                "-i", video_path,
+                "-frames:v", "1",
+                "-vf", "scale=1280:-2:flags=lanczos,eq=brightness=0.04:contrast=1.15:saturation=1.10",
+                "-q:v", "2",
+                out_path,
+            ],
+            capture_output=True, timeout=30,
+        )
+        return result.returncode == 0 and os.path.exists(out_path)
+    except Exception:
+        return False
+
+
+def _score_frame(path: str) -> float:
     """
-    Extract a high-quality frame from the given video file using ffmpeg.
-    - Picks a frame at `timestamp_pct` of the video duration (default 30%)
-    - Outputs 1280px wide JPEG with mild brightness/contrast boost for dark scenes
-    - Returns the JPEG bytes, or None if ffmpeg is missing or extraction fails.
+    Score a candidate frame for poster use.
+    Higher = better. Looks for:
+      - Brightness in mid range (not too dark, not blown out)
+      - Sharpness (variance of grayscale)
+      - File size (proxy for detail richness)
+    Pure-PIL implementation, no OpenCV needed.
+    """
+    try:
+        from PIL import Image, ImageStat
+        with Image.open(path) as img:
+            img = img.convert("L")  # grayscale
+            stat = ImageStat.Stat(img)
+            mean = stat.mean[0]      # 0..255
+            stddev = stat.stddev[0]  # contrast/sharpness proxy
+        # Penalize too-dark (<60) or too-bright (>200)
+        if mean < 60:
+            brightness_score = mean / 60.0
+        elif mean > 200:
+            brightness_score = (255 - mean) / 55.0
+        else:
+            brightness_score = 1.0
+        # Reward higher stddev (more variance = more detail)
+        sharpness_score = min(stddev / 60.0, 1.5)
+        size_score = min(os.path.getsize(path) / 200_000, 1.0)
+        return brightness_score * 1.0 + sharpness_score * 1.2 + size_score * 0.3
+    except Exception:
+        return 0.0
+
+
+def extract_video_poster(video_path: Path | str, candidates_pct: tuple = (0.15, 0.30, 0.50, 0.70, 0.85)) -> bytes | None:
+    """
+    Extract the BEST frame from the given video.
+    - Tries 5 timestamps across the video
+    - Scores each by brightness + sharpness + detail
+    - Returns the highest-scoring JPEG bytes
     """
     if not shutil.which("ffmpeg") or not shutil.which("ffprobe"):
         return None
     video_path = str(video_path)
     if not os.path.exists(video_path):
         return None
-    # 1. Probe duration
     try:
         out = subprocess.run(
             ["ffprobe", "-v", "error", "-show_entries", "format=duration",
@@ -81,33 +131,40 @@ def extract_video_poster(video_path: Path | str, timestamp_pct: float = 0.30) ->
         duration = float(out.stdout.strip()) if out.stdout.strip() else 0.0
     except Exception:
         duration = 0.0
-    # Clamp seek time: avoid first 0.3s (frame may be black/transition)
-    seek = max(0.3, duration * timestamp_pct) if duration > 0 else 0.5
 
-    # 2. Extract frame with quality enhancements
-    out_path = tempfile.mktemp(suffix=".jpg")
-    try:
-        result = subprocess.run(
-            [
-                "ffmpeg", "-y",
-                "-ss", f"{seek:.2f}",
-                "-i", video_path,
-                "-frames:v", "1",
-                "-vf", "scale=1280:-2:flags=lanczos,eq=brightness=0.04:contrast=1.15:saturation=1.10",
-                "-q:v", "2",  # 2 = best JPEG quality in ffmpeg's scale 2..31
-                out_path,
-            ],
-            capture_output=True, timeout=30,
-        )
-        if result.returncode != 0 or not os.path.exists(out_path):
-            return None
-        with open(out_path, "rb") as f:
-            return f.read()
-    except Exception:
-        return None
-    finally:
+    if duration <= 0:
+        # Single shot fallback
+        out_path = tempfile.mktemp(suffix=".jpg")
         try:
-            if os.path.exists(out_path):
-                os.remove(out_path)
-        except OSError:
-            pass
+            if _extract_frame_at(video_path, 0.5, out_path):
+                with open(out_path, "rb") as f:
+                    return f.read()
+        finally:
+            try: os.remove(out_path)
+            except OSError: pass
+        return None
+
+    # Try multiple frames
+    candidates = []
+    for pct in candidates_pct:
+        seek = max(0.3, duration * pct)
+        out_path = tempfile.mktemp(suffix=".jpg")
+        if _extract_frame_at(video_path, seek, out_path):
+            score = _score_frame(out_path)
+            candidates.append((score, out_path))
+
+    if not candidates:
+        return None
+
+    # Pick best, cleanup the rest
+    candidates.sort(reverse=True)
+    best_score, best_path = candidates[0]
+    try:
+        with open(best_path, "rb") as f:
+            data = f.read()
+    except OSError:
+        data = None
+    for _score, p in candidates:
+        try: os.remove(p)
+        except OSError: pass
+    return data

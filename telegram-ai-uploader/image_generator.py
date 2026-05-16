@@ -41,18 +41,32 @@ _FONT_CACHE: dict[str, str] = {}
 
 CANDIDATES = {
     "bold": [
+        # Linux (Fly.io container) — DejaVu + Noto, both ship with Cyrillic support
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf",
+        # macOS (local dev)
         "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
         "/System/Library/Fonts/Supplemental/Arial Black.ttf",
         "/System/Library/Fonts/Helvetica.ttc",
         "/Library/Fonts/Arial Bold.ttf",
+        # Windows
         "C:/Windows/Fonts/arialbd.ttf",
     ],
     "narrow": [
+        # Linux
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf",
+        "/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf",
+        # macOS
         "/System/Library/Fonts/Supplemental/Impact.ttf",
         "/System/Library/Fonts/Supplemental/Arial Narrow Bold.ttf",
         "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
     ],
     "regular": [
+        # Linux
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf",
+        # macOS
         "/System/Library/Fonts/Supplemental/Arial.ttf",
         "/System/Library/Fonts/Helvetica.ttc",
     ],
