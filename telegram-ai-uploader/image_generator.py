@@ -17,7 +17,7 @@ import random
 from pathlib import Path
 from typing import Optional
 
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps
 
 # ---------------------------------------------------------------------------
 # Configuration (env-tunable)
@@ -141,9 +141,33 @@ def _load_photo(path: Optional[Path | str]) -> Optional[Image.Image]:
         p = Path(path)
         if not p.exists():
             return None
-        return Image.open(p).convert("RGB")
+        img = Image.open(p).convert("RGB")
+        return _enhance_photo(img)
     except Exception:
         return None
+
+
+def _enhance_photo(img: Image.Image) -> Image.Image:
+    """
+    Light, lossless-ish enhancement before placing photo on the poster.
+    - Auto-contrast to fix flat washed-out frames from video
+    - Slight saturation boost so paint colour pops
+    - Mild unsharp mask for crisper edges (helps low-res Telegram frames)
+    Wrapped in try/except so a corrupt image still renders.
+    """
+    try:
+        img = ImageOps.autocontrast(img, cutoff=2)
+    except Exception:
+        pass
+    try:
+        img = ImageEnhance.Color(img).enhance(1.12)
+    except Exception:
+        pass
+    try:
+        img = img.filter(ImageFilter.UnsharpMask(radius=1.2, percent=120, threshold=3))
+    except Exception:
+        pass
+    return img
 
 
 def _diagonal_band(img: Image.Image, color: tuple[int, int, int, int], y_center: int, height: int = 70, angle: float = -8):

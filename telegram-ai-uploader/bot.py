@@ -10,7 +10,7 @@ from aiogram import Bot, Dispatcher, F
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart, Command
-from aiogram.types import Message, CallbackQuery, BufferedInputFile
+from aiogram.types import Message, CallbackQuery, BufferedInputFile, InlineKeyboardMarkup, InlineKeyboardButton
 
 from config import (
     BOT_TOKEN, ADMIN_TELEGRAM_IDS, is_admin,
@@ -29,6 +29,7 @@ from keyboards import main_kb, edit_kb, confirm_kb, EDIT_FIELDS
 from marketing import generate_pitch, generate_pitch_ai, generate_whatsapp_share
 from image_generator import generate_ad_image_with_template, pick_different_template, TEMPLATES
 from config import IMAGES_FOLDER
+from batch_session import BatchSession, BatchMedia, BatchText, parse_batch_text_message
 
 import re as _re
 INSTAGRAM_URL_RE = _re.compile(r"https?://(?:www\.)?(?:instagram\.com|instagr\.am)/[^\s]+", _re.IGNORECASE)
@@ -78,6 +79,7 @@ class Draft:
 
 
 drafts: dict[int, Draft] = defaultdict(Draft)
+batch_sessions: dict[int, BatchSession] = {}
 
 
 def get_draft(uid: int) -> Draft:
@@ -90,6 +92,25 @@ def reset_draft(uid: int):
     if uid in drafts:
         drafts[uid].cleanup_files()
     drafts[uid] = Draft()
+
+
+def get_batch(uid: int) -> BatchSession | None:
+    return batch_sessions.get(uid)
+
+
+def is_in_batch(uid: int) -> bool:
+    return uid in batch_sessions
+
+
+def reset_batch(uid: int):
+    if uid in batch_sessions:
+        batch_sessions[uid].cleanup_files()
+        for d in batch_sessions[uid].drafts:
+            try:
+                d.cleanup_files()
+            except Exception:
+                pass
+        del batch_sessions[uid]
 
 
 # ---------- Helpers ----------
@@ -190,7 +211,7 @@ async def cmd_start(message: Message):
         "В Telegram отправляй фото как <b>Файл</b> (📎 → Файл) — не как «Фото». "
         "Так оно сохранится в оригинальном качестве без сжатия Telegram.\n\n"
         f"{ai_note}\n{gh_note}\n\n"
-        "Команды: /new — новый черновик, /preview — карточка, /help",
+        "Команды: /new · /preview · /batch — несколько машин одним пакетом · /help",
     )
 
 
@@ -269,6 +290,388 @@ async def cmd_new(message: Message):
     )
 
 
+# ============ BATCH UPLOAD MODE ============
+
+def batch_collecting_media_kb() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="✅ Media Done", callback_data="batch_media_done")],
+        [InlineKeyboardButton(text="🧹 Clear Batch", callback_data="batch_clear"),
+         InlineKeyboardButton(text="❌ Cancel", callback_data="batch_cancel")],
+    ])
+
+
+def batch_collecting_text_kb(can_create: bool = False) -> InlineKeyboardMarkup:
+    rows = []
+    if can_create:
+        rows.append([InlineKeyboardButton(text="✅ Create Batch Drafts", callback_data="batch_create")])
+    rows.append([
+        InlineKeyboardButton(text="🧹 Clear Batch", callback_data="batch_clear"),
+        InlineKeyboardButton(text="❌ Cancel", callback_data="batch_cancel"),
+    ])
+    return InlineKeyboardMarkup(inline_keyboard=rows)
+
+
+def batch_review_kb(n: int) -> InlineKeyboardMarkup:
+    rows = [
+        [InlineKeyboardButton(text="✅ Publish ALL", callback_data="batch_publish_all"),
+         InlineKeyboardButton(text="👁 Preview ALL", callback_data="batch_preview_all")],
+        [InlineKeyboardButton(text="🎨 Regen ALL posters", callback_data="batch_regen_posters")],
+    ]
+    # Per-draft Edit buttons (up to 5 to avoid keyboard overflow)
+    edit_row = []
+    for i in range(1, min(n, 5) + 1):
+        edit_row.append(InlineKeyboardButton(text=f"✏️ #{i}", callback_data=f"batch_edit:{i}"))
+        if len(edit_row) == 5:
+            rows.append(edit_row)
+            edit_row = []
+    if edit_row:
+        rows.append(edit_row)
+    rows.append([
+        InlineKeyboardButton(text="🧹 Clear", callback_data="batch_clear"),
+        InlineKeyboardButton(text="❌ Cancel", callback_data="batch_cancel"),
+    ])
+    return InlineKeyboardMarkup(inline_keyboard=rows)
+
+
+@dp.message(Command("batch"))
+async def cmd_batch(message: Message):
+    if not is_admin(message.from_user.id):
+        return
+    uid = message.from_user.id
+    reset_batch(uid)
+    batch_sessions[uid] = BatchSession(user_id=uid, status="collecting_media")
+    await message.answer(
+        "📦 <b>Batch Upload</b>\n\n"
+        "Отправь <b>все видео/фото машин по очереди</b>. "
+        "Я их сохраню в порядке отправки.\n\n"
+        "Когда закончишь — нажми <b>✅ Media Done</b>, потом пришли тексты "
+        "(можно в одном сообщении с разделителями <code>1)</code> <code>2)</code> <code>3)</code> "
+        "или по одному).",
+        reply_markup=batch_collecting_media_kb(),
+    )
+
+
+async def _batch_handle_photo(message: Message, batch: BatchSession):
+    photo = message.photo[-1]
+    file = await bot.get_file(photo.file_id)
+    buf = await bot.download_file(file.file_path)
+    data = buf.read()
+    idx = len(batch.media) + 1
+    fname = f"batch_{batch.user_id}_{idx}_photo.jpg"
+    save_bytes(fname, data)
+    batch.media.append(BatchMedia(index=idx, file_name=fname, file_size=len(data), media_type="photo"))
+    await message.answer(
+        f"📸 Фото #{idx} добавлено ({human_size(len(data))}). Всего: {idx}",
+        reply_markup=batch_collecting_media_kb(),
+    )
+
+
+async def _batch_handle_document_image(message: Message, batch: BatchSession):
+    file_obj = message.document
+    size = file_obj.file_size or 0
+    if size > 25 * 1024 * 1024:
+        await message.answer(f"⚠️ Фото {human_size(size)} больше 25 МБ — пропускаю.")
+        return
+    try:
+        file = await bot.get_file(file_obj.file_id)
+    except Exception as e:
+        await message.answer(f"⚠️ Не смог скачать: {e}")
+        return
+    buf = await bot.download_file(file.file_path)
+    data = buf.read()
+    idx = len(batch.media) + 1
+    fname = f"batch_{batch.user_id}_{idx}_photo.jpg"
+    save_bytes(fname, data)
+    batch.media.append(BatchMedia(index=idx, file_name=fname, file_size=len(data), media_type="photo"))
+    await message.answer(
+        f"📸✨ Фото #{idx} HD добавлено ({human_size(len(data))}). Всего: {idx}",
+        reply_markup=batch_collecting_media_kb(),
+    )
+
+
+async def _batch_handle_video(message: Message, batch: BatchSession):
+    file_obj = message.video or message.document
+    size = file_obj.file_size or 0
+    if video_too_large(size):
+        await message.answer(f"⚠️ Видео {human_size(size)} слишком большое — пропускаю.")
+        return
+    try:
+        file = await bot.get_file(file_obj.file_id)
+    except Exception as e:
+        await message.answer(f"⚠️ Не смог скачать: {e}")
+        return
+    buf = await bot.download_file(file.file_path)
+    data = buf.read()
+    idx = len(batch.media) + 1
+    ext = "mp4"
+    if file.file_path and "." in file.file_path:
+        ext = file.file_path.rsplit(".", 1)[-1].lower()[:5] or "mp4"
+    fname = f"batch_{batch.user_id}_{idx}_video.{ext}"
+    save_bytes(fname, data)
+
+    # Pre-extract poster frame from video for later use
+    thumb_name = None
+    try:
+        from media_storage import extract_video_poster
+        poster_bytes = extract_video_poster(temp_path(fname))
+        if poster_bytes:
+            thumb_name = f"batch_{batch.user_id}_{idx}_thumb.jpg"
+            save_bytes(thumb_name, poster_bytes)
+    except Exception as e:
+        log.warning(f"Batch poster extract failed: {e}")
+
+    batch.media.append(BatchMedia(
+        index=idx,
+        file_name=fname,
+        file_size=len(data),
+        media_type="video",
+        caption=message.caption or "",
+        video_thumb_name=thumb_name,
+    ))
+    extra = " · HD кадр сохранён" if thumb_name else ""
+    await message.answer(
+        f"🎥 Видео #{idx} добавлено ({human_size(len(data))}){extra}. Всего: {idx}",
+        reply_markup=batch_collecting_media_kb(),
+    )
+
+
+async def _batch_add_text_items(message: Message, batch: BatchSession, raw_text: str):
+    parts = parse_batch_text_message(raw_text)
+    for p in parts:
+        idx = len(batch.texts) + 1
+        batch.texts.append(BatchText(index=idx, raw_text=p))
+
+    media_n = batch.media_count()
+    text_n = batch.text_count()
+    note = ""
+    if text_n > media_n:
+        note = f"\n⚠️ Текстов ({text_n}) больше чем видео ({media_n}). Удали лишние через 🧹 Clear или жми Cancel."
+    elif text_n < media_n:
+        note = f"\n👉 Пришли ещё {media_n - text_n} текст(а), чтобы было по одному на каждое видео."
+
+    await message.answer(
+        f"📝 Принято <b>{len(parts)}</b> текст(а). Видео: {media_n} · Текстов: {text_n}{note}",
+        reply_markup=batch_collecting_text_kb(can_create=batch.is_balanced()),
+    )
+
+
+@dp.callback_query(F.data == "batch_media_done")
+async def cb_batch_media_done(cb: CallbackQuery):
+    if not is_admin(cb.from_user.id):
+        return
+    batch = get_batch(cb.from_user.id)
+    if not batch:
+        await cb.answer("Batch не запущен. Нажми /batch", show_alert=True)
+        return
+    if not batch.media:
+        await cb.answer("Сначала пришли хотя бы одно видео/фото", show_alert=True)
+        return
+    batch.status = "collecting_texts"
+    await cb.message.answer(
+        f"📦 Принял <b>{batch.media_count()}</b> медиа.\n\n"
+        "Теперь пришли <b>тексты машин</b>.\n"
+        "Варианты:\n"
+        "• <b>Одним сообщением</b> с разделителями <code>1)</code> <code>2)</code> <code>3)</code>\n"
+        "• <b>По одному сообщению</b> на машину — я свяжу их в порядке отправки",
+        reply_markup=batch_collecting_text_kb(),
+    )
+    await cb.answer()
+
+
+@dp.callback_query(F.data == "batch_clear")
+async def cb_batch_clear(cb: CallbackQuery):
+    if not is_admin(cb.from_user.id):
+        return
+    reset_batch(cb.from_user.id)
+    await cb.message.answer("🧹 Batch очищен. Нажми /batch чтобы начать заново.")
+    await cb.answer()
+
+
+@dp.callback_query(F.data == "batch_cancel")
+async def cb_batch_cancel(cb: CallbackQuery):
+    if not is_admin(cb.from_user.id):
+        return
+    reset_batch(cb.from_user.id)
+    await cb.message.answer("❌ Batch отменён. Обычный режим восстановлен.")
+    await cb.answer()
+
+
+@dp.callback_query(F.data == "batch_create")
+async def cb_batch_create(cb: CallbackQuery):
+    if not is_admin(cb.from_user.id):
+        return
+    batch = get_batch(cb.from_user.id)
+    if not batch or not batch.is_balanced():
+        await cb.answer("Кол-во видео и текстов не совпадает", show_alert=True)
+        return
+    await cb.message.answer("⏳ Создаю карточки и постеры... (это займёт ~30 сек на машину)")
+    await _create_batch_drafts(cb.message, batch)
+    await cb.answer()
+
+
+async def _create_batch_drafts(message: Message, batch: BatchSession):
+    """Pair media[i] with texts[i], run AI parse + pitch + poster for each."""
+    batch.drafts = []
+    for i, (media, text) in enumerate(zip(batch.media, batch.texts), start=1):
+        d = Draft()
+        d.car_id = f"car_{batch.user_id}_{int(__import__('time').time())}_{i}"
+        # Copy media into draft's photo/video pools
+        if media.media_type == "video":
+            d.videos.append({"name": media.file_name, "size": media.file_size})
+            if media.video_thumb_name:
+                d.photos.append({"name": media.video_thumb_name, "size": 0})
+        else:
+            d.photos.append({"name": media.file_name, "size": media.file_size})
+
+        # Parse car text via AI
+        parsed = await parse_with_ai(text.raw_text)
+        text.parsed_data = parsed
+        merge_parsed(d, parsed)
+        d.raw_texts.append(text.raw_text)
+
+        # AI pitch
+        try:
+            d.pitch = await generate_pitch_ai(d.data)
+            d.data["description"] = d.pitch
+        except Exception as e:
+            log.warning(f"Batch pitch #{i} failed: {e}")
+
+        # Poster
+        try:
+            main_photo = temp_path(d.photos[0]["name"]) if d.photos else None
+            pb, used_template = await generate_ad_image_with_template(d.data, main_photo)
+            if pb:
+                d.poster = pb
+                d.poster_filename = f"{d.car_id}_poster.jpg"
+                d.poster_template = used_template
+                save_bytes(d.poster_filename, pb)
+        except Exception as e:
+            log.warning(f"Batch poster #{i} failed: {e}")
+
+        batch.drafts.append(d)
+        await message.answer(f"✅ Карточка #{i}: {d.data.get('title') or '(без названия)'}")
+
+    batch.status = "review"
+    await _show_batch_review(message, batch)
+
+
+async def _show_batch_review(target: Message | CallbackQuery, batch: BatchSession):
+    msg = target.message if isinstance(target, CallbackQuery) else target
+    lines = [f"📦 <b>Batch готов</b> — {len(batch.drafts)} машин:"]
+    for i, d in enumerate(batch.drafts, 1):
+        title = d.data.get("title") or "(без названия)"
+        price = d.data.get("price") or "—"
+        has_video = "🎥" if d.videos else "·"
+        has_pitch = "📣" if d.pitch else "·"
+        has_poster = "🎨" if d.poster else "·"
+        lines.append(f"<b>{i}.</b> {escape(title)} · {escape(price)} {has_video}{has_pitch}{has_poster}")
+    await msg.answer("\n".join(lines), reply_markup=batch_review_kb(len(batch.drafts)))
+
+
+@dp.callback_query(F.data == "batch_preview_all")
+async def cb_batch_preview_all(cb: CallbackQuery):
+    if not is_admin(cb.from_user.id):
+        return
+    batch = get_batch(cb.from_user.id)
+    if not batch or not batch.drafts:
+        await cb.answer("Batch пуст", show_alert=True)
+        return
+    for i, d in enumerate(batch.drafts, 1):
+        if d.poster:
+            await cb.message.answer_photo(
+                BufferedInputFile(d.poster, filename=d.poster_filename or f"poster_{i}.jpg"),
+                caption=f"<b>#{i}. {escape(d.data.get('title') or '')}</b>\n{escape(d.data.get('price') or '')}",
+            )
+        else:
+            await cb.message.answer(f"<b>#{i}. {escape(d.data.get('title') or '')}</b> (без постера)")
+    await cb.answer()
+
+
+@dp.callback_query(F.data == "batch_regen_posters")
+async def cb_batch_regen_posters(cb: CallbackQuery):
+    if not is_admin(cb.from_user.id):
+        return
+    batch = get_batch(cb.from_user.id)
+    if not batch or not batch.drafts:
+        await cb.answer("Batch пуст", show_alert=True)
+        return
+    await cb.message.answer("🎨 Перегенерирую постеры...")
+    for i, d in enumerate(batch.drafts, 1):
+        try:
+            main_photo = temp_path(d.photos[0]["name"]) if d.photos else None
+            new_tpl = pick_different_template(d.data, d.poster_template)
+            pb, used = await generate_ad_image_with_template(d.data, main_photo, template_name=new_tpl)
+            if pb:
+                d.poster = pb
+                d.poster_filename = f"{d.car_id}_poster.jpg"
+                d.poster_template = used
+                save_bytes(d.poster_filename, pb)
+        except Exception as e:
+            log.warning(f"Batch regen #{i} failed: {e}")
+    await cb.message.answer("✅ Постеры обновлены")
+    await _show_batch_review(cb, batch)
+    await cb.answer()
+
+
+@dp.callback_query(F.data == "batch_publish_all")
+async def cb_batch_publish_all(cb: CallbackQuery):
+    if not is_admin(cb.from_user.id):
+        return
+    batch = get_batch(cb.from_user.id)
+    if not batch or not batch.drafts:
+        await cb.answer("Batch пуст", show_alert=True)
+        return
+    if not GITHUB_TOKEN:
+        await cb.message.answer("⚠️ GITHUB_TOKEN не настроен — публикация недоступна.")
+        await cb.answer()
+        return
+    await cb.message.answer(f"⏳ Публикую {len(batch.drafts)} машин на сайт...")
+    ok = 0
+    for i, d in enumerate(batch.drafts, 1):
+        try:
+            car = build_car_object(d)
+            if d.pitch:
+                car["description"] = d.pitch
+            photo_files = [(p["name"], read_bytes(p["name"])) for p in d.photos]
+            if d.poster and d.poster_filename:
+                photo_files.append((d.poster_filename, d.poster))
+            video_files = [(v["name"], read_bytes(v["name"])) for v in d.videos]
+            await publish_car(car, photo_files, video_files)
+            ok += 1
+            await cb.message.answer(f"✅ #{i} опубликовано: <b>{escape(d.data.get('title') or '')}</b>")
+        except Exception as e:
+            log.exception(f"Batch publish #{i} failed")
+            await cb.message.answer(f"❌ #{i}: <code>{escape(str(e))}</code>")
+    await cb.message.answer(f"🎉 Готово: {ok}/{len(batch.drafts)} опубликованы\n🌐 {WEBSITE_URL}")
+    reset_batch(cb.from_user.id)
+    await cb.answer()
+
+
+@dp.callback_query(F.data.startswith("batch_edit:"))
+async def cb_batch_edit(cb: CallbackQuery):
+    if not is_admin(cb.from_user.id):
+        return
+    try:
+        idx = int(cb.data.split(":", 1)[1])
+    except ValueError:
+        await cb.answer("Bad index", show_alert=True)
+        return
+    batch = get_batch(cb.from_user.id)
+    if not batch or idx < 1 or idx > len(batch.drafts):
+        await cb.answer("Нет такой машины", show_alert=True)
+        return
+    d = batch.drafts[idx - 1]
+    # Move the draft into the normal single-draft slot so existing Edit flow works
+    drafts[cb.from_user.id] = d
+    await cb.message.answer(
+        f"✏️ Редактирую #{idx}: <b>{escape(d.data.get('title') or '')}</b>\n"
+        "Открыл карточку в обычном режиме. Используй ✏️ Edit / 🔁 Regenerate / 🎨 Regenerate.\n"
+        "<i>Когда закончишь — нажми ✅ Publish (опубликует ТОЛЬКО эту машину) или возвращайся к /batch.</i>"
+    )
+    await show_preview(cb, d)
+    await cb.answer()
+
+
 @dp.message(Command("cancel"))
 async def cmd_cancel(message: Message):
     if not is_admin(message.from_user.id):
@@ -290,6 +693,14 @@ async def cmd_preview(message: Message):
 @dp.message(F.photo)
 async def on_photo(message: Message):
     if not is_admin(message.from_user.id):
+        return
+    # Batch mode takes priority
+    batch = get_batch(message.from_user.id)
+    if batch and batch.status == "collecting_media":
+        await _batch_handle_photo(message, batch)
+        return
+    if batch and batch.status == "collecting_texts":
+        await message.answer("⚠️ Сейчас режим текстов. Жми 🧹 Clear Batch если хочешь начать заново.")
         return
     draft = get_draft(message.from_user.id)
     # Telegram compresses photos sent as "photo" to max ~1280px JPEG
@@ -320,11 +731,26 @@ async def on_photo(message: Message):
 async def on_video(message: Message):
     if not is_admin(message.from_user.id):
         return
-    draft = get_draft(message.from_user.id)
     file_obj = message.video or message.document
     if not file_obj:
         return
     mime = (getattr(file_obj, "mime_type", "") or "").lower()
+
+    # Batch mode takes priority
+    batch = get_batch(message.from_user.id)
+    if batch and batch.status == "collecting_media":
+        if message.document and mime.startswith("image/"):
+            await _batch_handle_document_image(message, batch)
+        elif message.video or mime.startswith("video/"):
+            await _batch_handle_video(message, batch)
+        else:
+            await message.answer("⚠️ В batch принимаю только видео и фото.")
+        return
+    if batch and batch.status == "collecting_texts":
+        await message.answer("⚠️ Сейчас режим текстов. Жми 🧹 Clear Batch для перезапуска.")
+        return
+
+    draft = get_draft(message.from_user.id)
 
     # If document is an IMAGE — save as uncompressed photo (original quality)
     if message.document and mime.startswith("image/"):
@@ -457,6 +883,20 @@ async def on_text(message: Message):
         await message.answer("Access denied.")
         return
     text = message.text.strip()
+
+    # Batch mode takes priority
+    batch = get_batch(message.from_user.id)
+    if batch and batch.status == "collecting_media":
+        await message.answer(
+            "👀 Сейчас режим сбора <b>медиа</b>. Сначала пришли все видео/фото, "
+            "потом нажми <b>✅ Media Done</b>.",
+            reply_markup=batch_collecting_media_kb(),
+        )
+        return
+    if batch and batch.status == "collecting_texts":
+        await _batch_add_text_items(message, batch, text)
+        return
+
     draft = get_draft(message.from_user.id)
 
     # Editing a specific field
