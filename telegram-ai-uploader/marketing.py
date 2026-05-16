@@ -1,10 +1,18 @@
 """Marketing pitch generator — hype-style sales copy for car listings.
 
-Takes a parsed car dict and produces an attention-grabbing description
-in the style of "ТАКИЕ МАШИНЫ НЕ ЗАДЕРЖИВАЮТСЯ! УСПЕЙ ПЕРВЫМ! 🔥"
+Two modes:
+  generate_pitch(car)         — sync template fallback (always works)
+  generate_pitch_ai(car)      — async, uses OpenAI/Anthropic for fresh text;
+                                falls back to template if AI fails.
+
+Both return a multiline Russian marketing pitch like:
+  🔥 ШОК ЦЕНА! TOYOTA RAV4 2022 ✅ Универсальный — идеально для семьи ...
 """
+import os
 import random
 from datetime import datetime
+
+from config import OPENAI_API_KEY, ANTHROPIC_API_KEY
 
 # Headline hooks (top line)
 HOOKS = [
@@ -231,3 +239,126 @@ def generate_whatsapp_share(car: dict, site_url: str = "") -> str:
         lines.append(f"🌐 Полная карточка: {site_url}")
 
     return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
+# AI-powered pitch generation (uses OpenAI/Anthropic). Falls back to templates.
+# ---------------------------------------------------------------------------
+
+AI_PITCH_SYSTEM = """Ты — копирайтер автодилера в Дубае, специализирующегося на машинах из ОАЭ.
+Пишешь яркие продающие посты для Telegram/WhatsApp на русском языке.
+
+СТИЛЬ:
+- Используй эмодзи 🔥⚡✅💰💎⏰ — но не больше 8 на пост
+- Заглавные буквы для бренда/модели (TOYOTA RAV4 2022)
+- Создавай ощущение срочности: "успей", "разлетится", "только сегодня"
+- Адаптируй тон под класс машины:
+  * SUV/внедорожник → надёжный, мощный, семейный, готов к любым дорогам
+  * Седан → элегантный, комфортный, бизнес-класс
+  * Купе/спорткар → агрессивный, харизматичный, спортивный
+  * Гибрид → экономия каждый день, минимум на бензин
+  * Электро → ноль расходов на топливо, будущее
+  * Luxury (BMW/Mercedes/Lexus/Porsche) → премиум, эксклюзив, статус
+- Если пробег <30k км → "почти новая"
+- Если цена дёшевая → "золотая цена", "торг возможен"
+- Если свежий год (last 2-3 yrs) → "свежий год", "практически новая"
+
+ФОРМАТ ВЫВОДА (ВАЖНО):
+1. Хук в первой строке: "🔥 ШОК ЦЕНА!", "⚡ УСПЕЙ ПЕРВЫМ!", "💎 ЭКСКЛЮЗИВ", "⭐ ЛУЧШЕЕ ПРЕДЛОЖЕНИЕ" — выбери под машину
+2. Пустая строка
+3. <b>МАРКА МОДЕЛЬ ГОД</b> в HTML-тегах <b></b>
+4. Пустая строка
+5. Список с ✅ — 2-3 кратких преимуществ под класс машины
+6. 🔧 Двигатель: ...
+7. ⚡/⛽/🔌 Топливо с benefit-фразой
+8. 📊 Пробег: ... (если есть)
+9. 📍 Локация (по умолчанию Dubai / UAE)
+10. Пустая строка
+11. 💰 Цена крупно с эмоциональной фразой
+12. Пустая строка
+13. Призыв к действию: "Этот вариант разлетится — пиши сейчас! 📲" или похожий
+
+Без кавычек вокруг ответа. Без markdown ``` ```. Только готовый текст для отправки."""
+
+
+async def _generate_pitch_openai(car: dict) -> str | None:
+    if not OPENAI_API_KEY:
+        return None
+    try:
+        from openai import AsyncOpenAI
+        client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+        prompt = _format_car_for_ai(car)
+        resp = await client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": AI_PITCH_SYSTEM},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.85,  # creative variation between regens
+            max_tokens=500,
+        )
+        text = (resp.choices[0].message.content or "").strip()
+        return text or None
+    except Exception as e:
+        print(f"[marketing] OpenAI pitch failed: {e}")
+        return None
+
+
+async def _generate_pitch_anthropic(car: dict) -> str | None:
+    if not ANTHROPIC_API_KEY:
+        return None
+    try:
+        from anthropic import AsyncAnthropic
+        client = AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
+        prompt = _format_car_for_ai(car)
+        resp = await client.messages.create(
+            model="claude-haiku-4-5",
+            max_tokens=500,
+            temperature=0.85,
+            system=AI_PITCH_SYSTEM,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        text = resp.content[0].text.strip() if resp.content else ""
+        return text or None
+    except Exception as e:
+        print(f"[marketing] Anthropic pitch failed: {e}")
+        return None
+
+
+def _format_car_for_ai(car: dict) -> str:
+    lines = ["Машина для рекламного поста:"]
+    fields = [
+        ("Бренд", "brand"),
+        ("Модель", "model"),
+        ("Год", "year"),
+        ("Двигатель", "engine"),
+        ("Топливо", "fuel"),
+        ("Кузов", "bodyType"),
+        ("Цена", "price"),
+        ("Пробег", "mileage"),
+        ("Локация", "location"),
+    ]
+    for label, key in fields:
+        val = car.get(key)
+        if val:
+            lines.append(f"{label}: {val}")
+    return "\n".join(lines)
+
+
+async def generate_pitch_ai(car: dict) -> str:
+    """
+    Generate marketing pitch using AI (Anthropic preferred, OpenAI fallback,
+    template fallback if both fail or no keys set).
+    """
+    # Try Anthropic first if available
+    if ANTHROPIC_API_KEY:
+        text = await _generate_pitch_anthropic(car)
+        if text:
+            return text
+    # Then OpenAI
+    if OPENAI_API_KEY:
+        text = await _generate_pitch_openai(car)
+        if text:
+            return text
+    # Fallback: deterministic template
+    return generate_pitch(car)

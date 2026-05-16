@@ -26,7 +26,7 @@ from media_storage import (
 from github_client import publish_car, upload_binary_file
 from instagram_fetcher import fetch_instagram
 from keyboards import main_kb, edit_kb, confirm_kb, EDIT_FIELDS
-from marketing import generate_pitch, generate_whatsapp_share
+from marketing import generate_pitch, generate_pitch_ai, generate_whatsapp_share
 from image_generator import generate_ad_image_with_template, pick_different_template, TEMPLATES
 from config import IMAGES_FOLDER
 
@@ -534,6 +534,13 @@ async def on_text(message: Message):
     draft.raw_texts.append(text)
     parsed = await parse_with_ai(text)
     merge_parsed(draft, parsed)
+    # Auto-generate AI pitch once we have brand+model+price (only once per draft)
+    if (draft.data.get("title") or draft.data.get("brand")) and not draft.pitch:
+        try:
+            draft.pitch = await generate_pitch_ai(draft.data)
+            draft.data["description"] = draft.pitch
+        except Exception as e:
+            log.warning(f"Auto AI pitch failed: {e}")
     await show_preview(message, draft)
     # Auto-generate poster once we have enough data
     if (draft.data.get("title") or draft.data.get("brand")) and draft.photos and not draft.poster:
@@ -607,8 +614,9 @@ async def cb_regen_text(cb: CallbackQuery):
     if not draft.data.get("title") and not draft.data.get("brand"):
         await cb.answer("Сначала пришли описание машины.", show_alert=True)
         return
+    await cb.message.answer("⏳ Генерирую новый рекламный текст через AI...")
     try:
-        draft.pitch = generate_pitch(draft.data)
+        draft.pitch = await generate_pitch_ai(draft.data)
         draft.data["description"] = draft.pitch
         await cb.message.answer(f"📣 <b>Новый рекламный текст:</b>\n\n{draft.pitch}")
     except Exception as e:
@@ -692,12 +700,19 @@ async def cb_confirm_publish(cb: CallbackQuery):
     await cb.message.answer("⏳ Загружаю на GitHub...")
     try:
         car = build_car_object(draft)
-        # Auto-generate marketing pitch if no custom description provided
-        if not car.get("description") or len(car.get("description", "")) < 40:
+        # Auto-generate marketing pitch via AI (with template fallback inside generate_pitch_ai)
+        # Prefer cached draft.pitch if user already saw/edited it; else generate now.
+        if draft.pitch and len(draft.pitch) > 40:
+            car["description"] = draft.pitch
+        elif not car.get("description") or len(car.get("description", "")) < 40:
             try:
-                car["description"] = generate_pitch(car)
+                car["description"] = await generate_pitch_ai(car)
             except Exception as e:
-                log.warning(f"Pitch generation failed: {e}")
+                log.warning(f"AI pitch generation failed: {e}")
+                try:
+                    car["description"] = generate_pitch(car)
+                except Exception:
+                    pass
         photo_files = [(p["name"], read_bytes(p["name"])) for p in draft.photos]
         # Generate poster if not yet generated (e.g. user skipped preview)
         if not draft.poster:
