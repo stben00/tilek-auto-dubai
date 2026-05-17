@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /data/
+
+Sitemap: https://stben00.github.io/tilek-auto-dubai/sitemap.xml

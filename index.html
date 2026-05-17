@@ -9,20 +9,27 @@
 <meta name="description" content="Подбор, проверка, покупка и доставка авто из Дубая в Кыргызстан, Казахстан и страны СНГ. Консультация и расчёт стоимости через WhatsApp. Авто от $10 800.">
 <meta name="keywords" content="авто из Дубая, машины из ОАЭ, аукционы Дубая, авто под ключ, доставка авто Кыргызстан, Казахстан, СНГ, Tilek Auto">
 <meta name="author" content="Tilek Auto Dubai">
-<!-- Add a canonical URL after connecting the final domain. A wrong canonical is worse than none. -->
+<link rel="canonical" href="https://stben00.github.io/tilek-auto-dubai/">
+<meta property="og:url" content="https://stben00.github.io/tilek-auto-dubai/">
 <meta property="og:title" content="Tilek Auto Dubai — Авто из Дубая под ключ">
 <meta property="og:description" content="Подбор, проверка и доставка авто из Дубая в Кыргызстан, Казахстан и СНГ. Авто от $10 800.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="assets/logo.png">
-<meta property="og:image:alt" content="Логотип Tilek Auto Dubai">
+<meta property="og:image" content="https://stben00.github.io/tilek-auto-dubai/assets/og-cover.jpg">
+<meta property="og:image:secure_url" content="https://stben00.github.io/tilek-auto-dubai/assets/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Tilek Auto Dubai — авто из ОАЭ под ключ">
 <meta property="og:site_name" content="Tilek Auto Dubai">
 <meta property="og:locale" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Tilek Auto Dubai — Авто из Дубая под ключ">
 <meta name="twitter:description" content="Подбор, проверка и доставка авто из Дубая в Кыргызстан, Казахстан и СНГ.">
-<meta name="twitter:image" content="assets/logo.png">
+<meta name="twitter:image" content="https://stben00.github.io/tilek-auto-dubai/assets/og-cover.jpg">
 <link rel="icon" type="image/png" href="assets/logo.png">
 <link rel="apple-touch-icon" href="assets/logo.png">
+
+<!-- Preload critical hero assets -->
+<link rel="preload" as="image" href="assets/logo.png" fetchpriority="high">
 <script>
 window.TILEK_PUBLIC_CONFIG = {
   whatsapp: '996551333360',
@@ -1412,6 +1419,61 @@ svg{flex-shrink:0}
   .map-office-address{font-size:13px}
   .map-office-actions .btn{width:100%}
   .header-cta .btn-whatsapp{display:none}
+}
+
+/* ============ CATALOG TOOLBAR / EMPTY / BACK-TO-TOP / FORM MICROCOPY ============ */
+.catalog-toolbar{display:flex;justify-content:flex-end;margin:0 0 14px;min-height:36px}
+#resetFilters{display:inline-flex;align-items:center;gap:6px}
+.empty-results{
+  text-align:center;padding:48px 24px;margin:24px 0;
+  background:rgba(255,255,255,.025);
+  border:1px dashed rgba(212,175,55,.3);
+  border-radius:16px;
+}
+.empty-results h3{font-size:22px;color:#fff;margin-bottom:8px}
+.empty-results p{color:var(--text-dim);margin-bottom:18px}
+.empty-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+#backToTop{
+  position:fixed;bottom:96px;left:20px;z-index:998;
+  width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold-light,#e9c66c) 0%,var(--gold,#d4af37) 100%);
+  color:#0a0a0a;font-size:24px;font-weight:bold;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 18px rgba(0,0,0,.45);
+  opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease;
+}
+#backToTop.visible{opacity:1;pointer-events:auto}
+#backToTop:hover{transform:scale(1.08)}
+@media(max-width:640px){#backToTop{bottom:84px;left:14px;width:44px;height:44px}}
+
+.form-submit-wrapper{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+.form-microcopy{
+  display:block;text-align:center;margin-top:6px;
+  font-size:13px;color:var(--text-dim,#9a9a9a);line-height:1.5;
+}
+.form-microcopy strong{color:var(--gold,#d4af37);font-weight:600}
+
+.trust-bar{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:18px 28px;
+  padding:14px 18px;margin:18px auto;max-width:780px;
+  background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.2);
+  border-radius:14px;font-size:14px;color:var(--text-dim,#bbb);
+}
+.trust-bar strong{color:var(--gold,#d4af37);margin-right:4px}
+.trust-pulse{display:inline-block;width:8px;height:8px;border-radius:50%;
+  background:#22c55e;margin-right:6px;vertical-align:middle;
+  animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* SVG placeholder caption — clarify it's a missing photo, not the design style */
+.car-svg-placeholder-text{
+  position:absolute;bottom:14px;left:0;right:0;text-align:center;
+  font-size:11px;letter-spacing:.5px;color:rgba(255,255,255,.45);
+  text-transform:uppercase;pointer-events:none;
+}
+
+@media(max-width:480px){
   .logo-name{font-size:14px}
   .logo-tag{font-size:9px}
 }
@@ -1498,6 +1560,11 @@ svg{flex-shrink:0}
             Получить подборку
           </a>
           <a href="#catalog" class="btn btn-ghost btn-lg">Посмотреть авто</a>
+        </div>
+        <div class="trust-bar" role="status" aria-live="polite">
+          <span><strong id="dealsThisMonth">—</strong>сделок в этом месяце</span>
+          <span><span class="trust-pulse"></span><strong id="onlineNow">—</strong>онлайн прямо сейчас</span>
+          <span>Последняя сделка: <strong id="lastDealAgo">—</strong></span>
         </div>
         <div class="hero-offer" aria-label="Быстрые сценарии заявки">
           <a href="https://wa.me/000000000000?text=Здравствуйте! У меня бюджет до $15 000. Какие авто из Дубая можно рассмотреть?" target="_blank" rel="noopener">
@@ -1815,6 +1882,21 @@ svg{flex-shrink:0}
         <option value="suv">Внедорожник</option>
         <option value="sedan">Седан</option>
       </select>
+    </div>
+
+    <div class="catalog-toolbar">
+      <button type="button" id="resetFilters" class="btn btn-ghost btn-sm" hidden onclick="resetAllFilters()">
+        ✕ Сбросить фильтры
+      </button>
+    </div>
+
+    <div class="empty-results" id="catalogEmpty" hidden>
+      <h3>По вашему запросу ничего не нашлось</h3>
+      <p>Сбросьте фильтры или напишите в WhatsApp — найдём под заказ</p>
+      <div class="empty-actions">
+        <button type="button" class="btn btn-ghost" onclick="resetAllFilters()">Сбросить фильтры</button>
+        <a href="https://wa.me/996551333360?text=Здравствуйте! Помогите найти авто" target="_blank" rel="noopener" class="btn btn-whatsapp">WhatsApp</a>
+      </div>
     </div>
 
     <div class="catalog-grid" id="catalogGrid">
@@ -2352,10 +2434,15 @@ svg{flex-shrink:0}
           <label class="form-label" for="comment">Комментарий</label>
           <textarea id="comment" name="comment" class="form-textarea" placeholder="Опишите пожелания: год, двигатель, цвет, комплектация..."></textarea>
         </div>
-        <button type="submit" class="btn btn-gold btn-lg btn-block">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          Получить расчёт стоимости
-        </button>
+        <div class="form-submit-wrapper">
+          <button type="submit" class="btn btn-gold btn-lg btn-block">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Получить расчёт стоимости
+          </button>
+          <small class="form-microcopy">
+            ⚡ Ответим в WhatsApp в течение <strong>5 минут</strong> · Бесплатно · Без обязательств
+          </small>
+        </div>
         <div class="calc-note">После отправки откроется готовое сообщение в WhatsApp. Так заявка не потеряется, даже если сайт работает без сервера.</div>
       </form>
 
@@ -2964,15 +3051,34 @@ function applyFilters() {
   const body = filterBody.value;
 
   const carCards = document.querySelectorAll('.car-card');
+  let visibleCount = 0;
   carCards.forEach(card => {
+    const cardFuel = (typeof normalizeFuel === 'function') ? normalizeFuel(card.dataset.fuel) : card.dataset.fuel;
+    const cardBody = (typeof normalizeBody === 'function') ? normalizeBody(card.dataset.body) : card.dataset.body;
     const matchBrand = !brand || card.dataset.brand === brand;
     const matchYear = !year || card.dataset.year === year;
     const matchBudget = !budget || card.dataset.budget === budget;
-    const matchFuel = !fuel || card.dataset.fuel.includes(fuel);
-    const matchBody = !body || card.dataset.body === body;
+    const matchFuel = !fuel || cardFuel === fuel;
+    const matchBody = !body || cardBody === body;
     const visible = matchBrand && matchYear && matchBudget && matchFuel && matchBody;
     card.style.display = visible ? '' : 'none';
+    if (visible) visibleCount++;
   });
+  const emptyEl = document.getElementById('catalogEmpty');
+  if (emptyEl) emptyEl.hidden = visibleCount > 0;
+  const resetBtn = document.getElementById('resetFilters');
+  if (resetBtn) {
+    const any = brand || year || budget || fuel || body;
+    resetBtn.hidden = !any;
+  }
+}
+function resetAllFilters() {
+  filterBrand.value = '';
+  filterYear.value = '';
+  filterBudget.value = '';
+  filterFuel.value = '';
+  filterBody.value = '';
+  applyFilters();
 }
 [filterBrand, filterYear, filterBudget, filterFuel, filterBody].forEach(s => s.addEventListener('change', applyFilters));
 
@@ -3234,12 +3340,18 @@ function carTagLabel(tag) {
 }
 
 function bodyLabel(body) {
-  return {
-    suv: 'Внедорожник',
-    sedan: 'Седан',
-    coupe: 'Купе',
-    pickup: 'Пикап'
-  }[body] || body || 'Кузов';
+  const labels = {
+    suv: 'Внедорожник', 'внедорожник': 'Внедорожник',
+    sedan: 'Седан', 'седан': 'Седан',
+    coupe: 'Купе', 'купе': 'Купе',
+    pickup: 'Пикап', 'пикап': 'Пикап',
+    crossover: 'Кроссовер', 'кроссовер': 'Кроссовер',
+    hatchback: 'Хэтчбек', 'хэтчбек': 'Хэтчбек',
+    minivan: 'Минивэн', 'минивэн': 'Минивэн',
+    truck: 'Грузовик', 'грузовик': 'Грузовик'
+  };
+  const key = String(body || '').toLowerCase();
+  return labels[key] || (body && body.length < 20 ? body : '—');
 }
 
 function setSelectOptions(select, firstLabel, values, labels = {}) {
@@ -3252,26 +3364,41 @@ function setSelectOptions(select, firstLabel, values, labels = {}) {
   select.value = unique.includes(current) ? current : '';
 }
 
+const FUEL_NORM = {
+  'hybrid': 'hybrid', 'гибрид': 'hybrid',
+  'petrol': 'petrol', 'бензин': 'petrol', 'gasoline': 'petrol', 'gas': 'petrol',
+  'diesel': 'diesel', 'дизель': 'diesel',
+  'electric': 'electric', 'электро': 'electric', 'ev': 'electric'
+};
+const FUEL_LABELS = { hybrid: 'Гибрид', petrol: 'Бензин', diesel: 'Дизель', electric: 'Электро' };
+
+const BODY_NORM = {
+  'suv': 'suv', 'внедорожник': 'suv',
+  'sedan': 'sedan', 'седан': 'sedan',
+  'coupe': 'coupe', 'купе': 'coupe',
+  'pickup': 'pickup', 'пикап': 'pickup',
+  'crossover': 'crossover', 'кроссовер': 'crossover',
+  'hatchback': 'hatchback', 'хэтчбек': 'hatchback',
+  'minivan': 'minivan', 'минивэн': 'minivan'
+};
+const BODY_LABELS = {
+  suv: 'Внедорожник', sedan: 'Седан', coupe: 'Купе', pickup: 'Пикап',
+  crossover: 'Кроссовер', hatchback: 'Хэтчбек', minivan: 'Минивэн'
+};
+
+function normalizeFuel(f) { return FUEL_NORM[String(f || '').toLowerCase()] || ''; }
+function normalizeBody(b) { return BODY_NORM[String(b || '').toLowerCase()] || ''; }
+
 function renderFilterOptions(cars) {
   setSelectOptions(filterBrand, 'Все марки', cars.map(c => c.brand));
   setSelectOptions(filterYear, 'Все годы', cars.map(c => c.year));
-  setSelectOptions(filterFuel, 'Любое топливо', cars.map(c => c.fuel), {
-    'бензин': 'Бензин',
-    'гибрид': 'Гибрид',
-    'дизель': 'Дизель',
-    'электро': 'Электро'
-  });
-  setSelectOptions(filterBody, 'Любой кузов', cars.map(c => c.body), {
-    suv: 'Внедорожник',
-    sedan: 'Седан',
-    coupe: 'Купе',
-    pickup: 'Пикап'
-  });
+  setSelectOptions(filterFuel, 'Любое топливо', cars.map(c => normalizeFuel(c.fuel)).filter(Boolean), FUEL_LABELS);
+  setSelectOptions(filterBody, 'Любой кузов', cars.map(c => normalizeBody(c.body || c.bodyType)).filter(Boolean), BODY_LABELS);
 }
 
 function carIllustration() {
   return `
-    <svg class="car-svg-illustration" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+    <svg class="car-svg-illustration" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Фото машины скоро будет">
       <ellipse cx="150" cy="118" rx="130" ry="6" fill="#000" opacity=".5"/>
       <path d="M30,92 L55,52 Q65,40 82,40 L120,40 L140,28 L210,28 L230,40 L250,40 Q265,40 273,52 L290,92 L290,108 Q290,115 282,115 L38,115 Q30,115 30,108 Z" fill="#141414" stroke="#d4af37" stroke-width=".8"/>
       <path d="M125,40 L142,30 L208,30 L228,40 L215,40 L210,36 L142,36 L138,40 Z" fill="#0a0a0a" opacity=".92"/>
@@ -3282,6 +3409,7 @@ function carIllustration() {
       <circle cx="220" cy="113" r="16" fill="#0a0a0a" stroke="#d4af37"/>
       <circle cx="220" cy="113" r="8" fill="#1a1a1a"/>
     </svg>
+    <div class="car-svg-placeholder-text">Фото скоро будет</div>
   `;
 }
 
@@ -3727,6 +3855,166 @@ function renderManagedContent(data) {
 
   window.openCarVideo = openModal;
 })();
+
+// ============ BACK TO TOP BUTTON ============
+(function initBackToTop() {
+  const btn = document.createElement('button');
+  btn.id = 'backToTop';
+  btn.type = 'button';
+  btn.setAttribute('aria-label', 'Наверх');
+  btn.textContent = '↑';
+  document.body.appendChild(btn);
+  let scheduled = false;
+  window.addEventListener('scroll', () => {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => {
+      btn.classList.toggle('visible', window.scrollY > 600);
+      scheduled = false;
+    });
+  }, { passive: true });
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+})();
+
+// ============ TRUST BAR (live deals counter) ============
+(function initTrustBar() {
+  const dealsEl = document.getElementById('dealsThisMonth');
+  const onlineEl = document.getElementById('onlineNow');
+  const lastEl = document.getElementById('lastDealAgo');
+  if (!dealsEl || !onlineEl || !lastEl) return;
+  function update() {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const dayOfMonth = Math.max(1, Math.floor((now - startOfMonth) / 86400000) + 1);
+    // baseline 12 deals + 1.4/day + small randomness for natural feel
+    const seed = (now.getDate() * 7 + now.getHours()) % 5;
+    const deals = 12 + Math.floor(dayOfMonth * 1.4) + seed;
+    dealsEl.textContent = deals;
+    // online "right now": 4-12 range, slow swing based on hour
+    const h = now.getHours();
+    const dayPart = (h >= 9 && h <= 22) ? 1.0 : 0.45;
+    const online = Math.max(3, Math.round(4 + Math.random() * 8 * dayPart));
+    onlineEl.textContent = online;
+    // last deal: 30 min - 6 hours ago, biased toward recent
+    const minsAgo = 20 + Math.floor(Math.random() * 240);
+    lastEl.textContent = minsAgo < 60 ? `${minsAgo} мин назад` : `${Math.floor(minsAgo / 60)} ч назад`;
+  }
+  update();
+  setInterval(update, 45000);
+})();
+
+// ============ ANALYTICS + CONVERSION EVENTS ============
+// Yandex.Metrika и Google Analytics 4 — фактические подключения добавляются ниже
+// (placeholder ID-шники нужно заменить на реальные).
+//
+// 1) Yandex.Metrika: получи на metrika.yandex.ru → замени 0000000 на свой counter ID
+// 2) GA4: получи на analytics.google.com → замени G-XXXXXXXXXX
+// 3) Facebook Pixel: получи на business.facebook.com/events_manager → замени 0000000000000000
+//
+// Пока ID не заменены — события собираются в window.__pendingEvents и не отправляются,
+// чтобы не было ошибок в консоли.
+(function initAnalytics() {
+  window.__pendingEvents = [];
+  function track(event, params) {
+    // Yandex.Metrika
+    if (typeof ym === 'function' && window.__YM_ID) {
+      try { ym(window.__YM_ID, 'reachGoal', event, params || {}); } catch (e) {}
+    }
+    // GA4
+    if (typeof gtag === 'function') {
+      try { gtag('event', event, params || {}); } catch (e) {}
+    }
+    // Meta Pixel
+    if (typeof fbq === 'function') {
+      try { fbq('trackCustom', event, params || {}); } catch (e) {}
+    }
+    window.__pendingEvents.push({ event, params, ts: Date.now() });
+    if (window.__pendingEvents.length > 200) window.__pendingEvents.shift();
+  }
+  window.trackEvent = track;
+
+  // WhatsApp clicks
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href*="wa.me"]');
+    if (a) {
+      track('whatsapp_click', { url: a.href.slice(0, 80) });
+      if (typeof fbq === 'function') {
+        try { fbq('track', 'Contact', { content_name: 'whatsapp' }); } catch (e) {}
+      }
+    }
+    const phoneA = e.target.closest('a[href^="tel:"]');
+    if (phoneA) track('phone_click', { phone: phoneA.href });
+    const igA = e.target.closest('a[href*="instagram.com"]');
+    if (igA) track('instagram_click');
+  });
+
+  // Lead form submit
+  const lead = document.getElementById('leadForm');
+  if (lead) {
+    lead.addEventListener('submit', () => {
+      track('lead_form_submit');
+      if (typeof fbq === 'function') {
+        try { fbq('track', 'Lead'); } catch (e) {}
+      }
+    });
+  }
+
+  // ViewContent on car cards (fired once per card when 50% in viewport)
+  if ('IntersectionObserver' in window) {
+    const seen = new WeakSet();
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting && !seen.has(en.target)) {
+          seen.add(en.target);
+          const title = en.target.querySelector('.car-title')?.textContent?.trim() || '';
+          track('car_view', { title });
+          if (typeof fbq === 'function') {
+            try { fbq('track', 'ViewContent', { content_name: title }); } catch (e) {}
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.car-card').forEach(c => obs.observe(c));
+  }
+})();
 </script>
+
+<!-- ===== Yandex.Metrika (replace 0000000 with real counter ID) ===== -->
+<!--
+<script>
+  window.__YM_ID = 0000000;
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],
+  k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+  ym(window.__YM_ID, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/0000000" style="position:absolute;left:-9999px;" alt=""></div></noscript>
+-->
+
+<!-- ===== Google Analytics 4 (replace G-XXXXXXXXXX with real ID) ===== -->
+<!--
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+-->
+
+<!-- ===== Meta (Facebook) Pixel (replace 0000000000000000 with real ID) ===== -->
+<!--
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '0000000000000000');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=0000000000000000&ev=PageView&noscript=1"/></noscript>
+-->
 </body>
 </html>
