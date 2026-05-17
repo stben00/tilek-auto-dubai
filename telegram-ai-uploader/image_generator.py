@@ -264,12 +264,20 @@ def _draw_base_poster(car: dict, photo: Optional[Image.Image], style: dict) -> I
         _diagonal_band(img, style["accent_band_color"], photo_h - 150, height=70, angle=style.get("accent_band_angle", -8))
         draw = ImageDraw.Draw(img, "RGBA")  # rebind after paste
 
-    # Brand + Model (huge, near photo bottom)
+    # Brand + Model (huge, near photo bottom). Auto-shrink font instead of
+    # truncating with "...", so the full name always fits.
     brand = (car.get("brand") or "").upper()
     model = (car.get("model") or "").upper()
     title_text = (brand + " " + model).strip() or (car.get("title") or "AUTO").upper()
-    title_font = _load_font("narrow", 110)
-    title_text = _truncate(draw, title_text, title_font, W - 80)
+    title_font = None
+    for size in range(110, 60, -5):
+        candidate = _load_font("narrow", size)
+        if _text_w(draw, title_text, candidate) <= W - 80:
+            title_font = candidate
+            break
+    if title_font is None:
+        title_font = _load_font("narrow", 60)
+        title_text = _truncate(draw, title_text, title_font, W - 80)
     _shadow_text(draw, (40, photo_h - 200), title_text, title_font, style["brand_color"])
 
     # Year (under title)
