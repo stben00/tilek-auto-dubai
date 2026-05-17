@@ -1,6 +1,52 @@
 {
-  "cars": [],
-  "videos": [],
+  "cars": [
+    {
+      "id": "car_20260516_153156",
+      "title": "Toyota Corolla 2022",
+      "brand": "Toyota",
+      "model": "Corolla",
+      "year": "2022",
+      "engine": "1.8",
+      "fuel": "Гибрид",
+      "bodyType": "",
+      "body": "",
+      "budget": "",
+      "tag": "reliable",
+      "price": "$6 000",
+      "mileage": "",
+      "location": "Dubai / UAE",
+      "description": "🔥 ШОК ЦЕНА!\n\n<b>TOYOTA COROLLA 2022</b>\n\n✅ Экономия на топливе каждый день  \n✅ Практически новая, только ждёт своего владельца  \n✅ Гибридный двигатель — минимальные расходы  \n\n🔧 Двигатель: 1.8  \n\n🔌 Топливо: гибрид — ноль расходов на бензин!  \n\n📊 Пробег: менее 30k км  \n\n📍 Локация: Dubai / UAE  \n\n💰 Цена: всего $6 000 — отличная возможность!\n\nЭтот вариант разлетится — пиши сейчас! 📲",
+      "whatsapp": "",
+      "instagramUrl": "",
+      "image": "assets/cars/car_20260516_153156_1.jpg",
+      "mainImage": "assets/cars/car_20260516_153156_1.jpg",
+      "images": [
+        "assets/cars/car_20260516_153156_1.jpg",
+        "assets/cars/car_20260516_153156_poster.jpg"
+      ],
+      "videoUrl": "assets/videos/car_20260516_153156_video.mp4",
+      "videoFile": "assets/videos/car_20260516_153156_video.mp4",
+      "videoType": "local",
+      "videoPoster": "assets/cars/car_20260516_153156_1.jpg",
+      "videoTitle": "Видео-обзор Toyota Corolla 2022",
+      "videoDuration": "",
+      "status": "available",
+      "source": "telegram_ai_uploader",
+      "createdAt": "2026-05-17T18:20:20Z"
+    }
+  ],
+  "videos": [
+    {
+      "id": "car_20260516_153156",
+      "carId": "car_20260516_153156",
+      "title": "Toyota Corolla 2022 — видео-обзор",
+      "url": "assets/videos/car_20260516_153156_video.mp4",
+      "thumb": "assets/cars/car_20260516_153156_1.jpg",
+      "type": "local",
+      "views": "новое",
+      "instagramUrl": ""
+    }
+  ],
   "reviews": [],
   "faq": [],
   "content": {}
