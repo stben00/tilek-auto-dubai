@@ -624,6 +624,61 @@ _CATEGORY_PALETTES = {
 }
 
 
+# Brand-specific or category-specific bullet copy. Picked at render time so each
+# car gets its own mood instead of the four generic lines on every poster.
+_BRAND_BULLETS = {
+    "bmw":      ["Настоящий BMW character", "Динамика, на которую подсаживаешься",
+                 "Премиальная сборка и стиль",   "Машина, которая выглядит дороже своей цены"],
+    "mercedes": ["Эталон комфорта Mercedes",  "Премиум-сборка, всё на месте",
+                 "Тишина в салоне и плавный ход", "Машина для людей, которые знают что хотят"],
+    "lexus":   ["Японская надёжность + premium", "Тихий и мягкий ход",
+                 "Salon уровня бизнес-класса", "Машина без сюрпризов и поломок"],
+    "porsche": ["Настоящий Porsche DNA", "Управление, к которому привыкаешь сразу",
+                 "Premium-салон с deep aesthetic", "Машина из коллекции, а не из лоса"],
+    "audi":    ["Audi quattro — уверенность на дороге", "Premium-салон и LED-оптика",
+                 "Технологии Audi на каждый день", "Сборка, которая держит цену"],
+    "lexus":   ["Японская надёжность класса премиум", "Тихий, мягкий, безотказный",
+                 "Salon уровня бизнес-класса", "Машина без сюрпризов"],
+    "toyota":  ["Toyota, проверенная временем", "Минимум поломок, максимум километров",
+                 "Экономия на бензине и обслуживании", "Надёжный вариант на каждый день"],
+    "honda":   ["Honda — надёжность и практичность", "Мотор, который ходит 300 тысяч",
+                 "Экономный расход на трассе и в городе", "Машина без головной боли"],
+    "hyundai": ["Современная Hyundai в полной комплектации", "Гарантия надёжности и комфорт",
+                 "Технологии и комфорт за разумные деньги", "Топ выбор для города и дальних поездок"],
+    "kia":     ["Современная Kia, всё что нужно", "Богатая комплектация на каждый день",
+                 "Просторный салон и экономный мотор", "Машина, которая никогда не подведёт"],
+    "nissan":  ["Nissan — надёжность японского качества", "Мотор без капризов и сюрпризов",
+                 "Просторный салон для семьи", "Доступная цена + честная техника"],
+    "ford":    ["Мощность Ford для любых дорог", "Грузоподъёмность и тяга на 5+",
+                 "Машина для работы и отдыха", "Honest американский характер"],
+    "dodge":   ["Настоящий американский характер", "V-образный мотор для души",
+                 "Машина с personality", "Привезёт куда угодно, на чём ещё хочется ездить"],
+}
+
+_CATEGORY_BULLETS = {
+    "suv":    ["Уверенность на любой дороге", "Просторный салон для семьи и багажа",
+                "Полный привод — не страшен ни снег, ни песок", "Внедорожный комфорт без компромиссов"],
+    "sport":  ["Спортивная динамика прямо с педали", "Низкий центр тяжести и точное управление",
+                "Звук мотора, на который оборачиваются", "Машина для тех, кто любит ехать"],
+    "luxury": ["Премиум-сборка без шумов и сверчков", "Технологии, которые удивляют каждый день",
+                "Дорогой interior на каждой поездке", "Машина статуса и комфорта"],
+    "city":   ["Идеален для города и пробок", "Экономный расход на бензине",
+                "Лёгкая парковка и манёвренность", "Надёжный вариант на каждый день"],
+}
+
+
+def _bullets_for_category(category: str, brand: str = "", engine: str = "") -> list[str]:
+    """Pick 4 bullets — brand-specific copy if we have it, else category-default."""
+    if brand:
+        b = _BRAND_BULLETS.get(brand.lower().strip())
+        if b:
+            out = list(b)
+            if engine:
+                out[1] = f"{engine} — {out[1].split(' — ', 1)[-1]}" if " — " in out[1] else f"Мотор {engine} — {out[1]}"
+            return out[:4]
+    return _CATEGORY_BULLETS.get(category, _CATEGORY_BULLETS["city"])[:4]
+
+
 def _rounded_rect(draw: ImageDraw.ImageDraw, xy, radius: int, fill, outline=None, width: int = 0):
     draw.rounded_rectangle(xy, radius=radius, fill=fill, outline=outline, width=width)
 
@@ -746,14 +801,9 @@ def template_premium_dubai(car: dict, photo: Optional[Image.Image]) -> Image.Ima
     _rounded_rect(draw, pill_box, radius=14, fill=accent)
     draw.text((40 + 30, pill_y + 13), pill_text, font=pill_font, fill=(15, 15, 15))
 
-    # ===== Left: bullet list =====
+    # ===== Left: bullet list (dynamic by car category) =====
     bullet_font = _load_font("bold", 24)
-    bullets = [
-        "Премиальный комфорт",
-        f"Динамичный мотор{(' ' + engine) if engine else ''}",
-        "Идеален для города и трассы",
-        "Стильный, динамичный, надёжный",
-    ]
+    bullets = _bullets_for_category(detect_car_category(car), brand=brand, engine=engine)
     bullet_y = pill_y + pill_font.size + 70
     for line in bullets:
         line = _truncate(draw, line, bullet_font, int(W * 0.5))
@@ -820,6 +870,17 @@ def template_premium_dubai(car: dict, photo: Optional[Image.Image]) -> Image.Ima
               "Напишите — отправим", font=cta_sub_font, fill=(235, 235, 235))
     draw.text((40, cta_y + cta_pill_font.size + 66),
               "подробное видео автомобиля", font=cta_sub_font, fill=(235, 235, 235))
+
+    # ===== Bottom-right: "ЗВОНИТЕ ПРЯМО СЕЙЧАС" pill =====
+    call_text = "ЗВОНИТЕ ПРЯМО СЕЙЧАС"
+    call_font = _load_font("bold", 22)
+    cw2 = _text_w(draw, call_text, call_font) + 50
+    call_y = H - 90
+    call_box = (W - 40 - cw2, call_y, W - 40, call_y + call_font.size + 22)
+    _rounded_rect(draw, call_box, radius=14, fill=(15, 15, 18, 235))
+    # Thin yellow border for accent
+    _rounded_rect(draw, call_box, radius=14, fill=None, outline=accent, width=2)
+    draw.text((call_box[0] + 25, call_box[1] + 12), call_text, font=call_font, fill=accent)
 
     return img
 
