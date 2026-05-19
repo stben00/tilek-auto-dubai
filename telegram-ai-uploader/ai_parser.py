@@ -1,8 +1,13 @@
 """AI-based parser using Anthropic or OpenAI. Falls back to regex parser."""
 import json
+import logging
 import re
 from config import ANTHROPIC_API_KEY, OPENAI_API_KEY, HAS_AI
 from parser import parse_car_text
+
+log = logging.getLogger(__name__)
+
+AI_TIMEOUT_SECONDS = 20.0
 
 SYSTEM_PROMPT = """You are a strict JSON extractor for a used-car dealership in Dubai.
 Convert messy Instagram/WhatsApp/Telegram car descriptions (Russian, English, Kyrgyz, mixed) into ONE JSON object with EXACTLY these keys:
@@ -64,7 +69,7 @@ def _extract_json(text: str) -> dict | None:
 async def _anthropic_parse(text: str) -> dict | None:
     try:
         from anthropic import AsyncAnthropic
-        client = AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
+        client = AsyncAnthropic(api_key=ANTHROPIC_API_KEY, timeout=AI_TIMEOUT_SECONDS)
         resp = await client.messages.create(
             model="claude-sonnet-4-5",
             max_tokens=1024,
@@ -72,16 +77,19 @@ async def _anthropic_parse(text: str) -> dict | None:
             messages=[{"role": "user", "content": text}],
         )
         content = resp.content[0].text if resp.content else ""
-        return _extract_json(content)
+        parsed = _extract_json(content)
+        if parsed is None:
+            log.warning("Anthropic returned non-JSON content (len=%d)", len(content))
+        return parsed
     except Exception as e:
-        print(f"[ai_parser] Anthropic error: {e}")
+        log.warning("Anthropic call failed: %s", e)
         return None
 
 
 async def _openai_parse(text: str) -> dict | None:
     try:
         from openai import AsyncOpenAI
-        client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+        client = AsyncOpenAI(api_key=OPENAI_API_KEY, timeout=AI_TIMEOUT_SECONDS)
         resp = await client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
@@ -91,9 +99,13 @@ async def _openai_parse(text: str) -> dict | None:
             response_format={"type": "json_object"},
             temperature=0.1,
         )
-        return _extract_json(resp.choices[0].message.content or "")
+        content = resp.choices[0].message.content or ""
+        parsed = _extract_json(content)
+        if parsed is None:
+            log.warning("OpenAI returned non-JSON content (len=%d)", len(content))
+        return parsed
     except Exception as e:
-        print(f"[ai_parser] OpenAI error: {e}")
+        log.warning("OpenAI call failed: %s", e)
         return None
 
 
@@ -139,5 +151,6 @@ async def parse_with_ai(text: str) -> dict:
     if ai_raw is None and OPENAI_API_KEY:
         ai_raw = await _openai_parse(text)
     if ai_raw is None:
+        log.warning("AI parsing failed for input (len=%d), falling back to regex", len(text))
         return regex_result
     return _merge(_normalize(ai_raw), regex_result)

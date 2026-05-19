@@ -232,17 +232,30 @@ async def publish_car(car: dict, photo_files: list[tuple[str, bytes]], video_fil
     # Update data/site-data.json (primary source for the site)
     site = await read_site_data()
     site_car = _to_site_car(car)
-    site["cars"].insert(0, site_car)
+    # Prevent duplicate car IDs: if same id already published, replace it instead of stacking
+    existing_idx = next((i for i, c in enumerate(site.get("cars", [])) if c.get("id") == car.get("id")), None)
+    if existing_idx is not None:
+        site["cars"][existing_idx] = site_car
+    else:
+        site["cars"].insert(0, site_car)
     video_entry = _to_site_video(car)
     if video_entry:
-        site["videos"].insert(0, video_entry)
+        v_idx = next((i for i, v in enumerate(site.get("videos", [])) if v.get("id") == car.get("id")), None)
+        if v_idx is not None:
+            site["videos"][v_idx] = video_entry
+        else:
+            site["videos"].insert(0, video_entry)
     title = car.get("title") or car.get("id") or "car"
     await write_site_data(site, f"Add car: {title}")
 
-    # Also keep cars.json updated for legacy fallback
+    # Also keep cars.json updated for legacy fallback (with same dedupe logic)
     try:
         cars = await read_cars_json()
-        cars.insert(0, car)
+        legacy_idx = next((i for i, c in enumerate(cars) if c.get("id") == car.get("id")), None)
+        if legacy_idx is not None:
+            cars[legacy_idx] = car
+        else:
+            cars.insert(0, car)
         await write_cars_json(cars, f"Add car (legacy): {title}")
     except Exception as e:
         print(f"[publish_car] cars.json legacy update skipped: {e}")
