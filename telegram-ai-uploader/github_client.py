@@ -135,6 +135,12 @@ def _to_site_car(car: dict) -> dict:
     video_url = car.get("videoFile") or car.get("videoUrl") or ""
     video_type = _detect_video_type(video_url)
     main_image = car.get("mainImage") or (car.get("images")[0] if car.get("images") else "")
+    # Use a natural frame (not the marketing poster) for the video thumbnail,
+    # so the play button sits on a real photo of the car instead of "СРОЧНО САТЫЛАТ".
+    natural_frame = next(
+        (p for p in car.get("images", []) if "_poster" not in p),
+        main_image,
+    )
     return {
         "id": car.get("id"),
         "title": car.get("title", ""),
@@ -159,7 +165,7 @@ def _to_site_car(car: dict) -> dict:
         "videoUrl": video_url,
         "videoFile": car.get("videoFile", ""),
         "videoType": video_type,
-        "videoPoster": main_image,
+        "videoPoster": natural_frame,
         "videoTitle": f"Видео-обзор {car.get('title','')}".strip() if video_url else "",
         "videoDuration": car.get("videoDuration", ""),
         "status": car.get("status", "available"),
@@ -174,12 +180,16 @@ def _to_site_video(car: dict) -> dict | None:
     if not video_url:
         return None
     main_image = car.get("mainImage") or (car.get("images")[0] if car.get("images") else "")
+    natural_frame = next(
+        (p for p in car.get("images", []) if "_poster" not in p),
+        main_image,
+    )
     return {
         "id": car.get("id"),
         "carId": car.get("id"),
         "title": f"{car.get('title','')} — видео-обзор".strip(),
         "url": video_url,
-        "thumb": main_image,
+        "thumb": natural_frame,
         "type": _detect_video_type(video_url),
         "views": "новое",
         "instagramUrl": car.get("instagramUrl", ""),
@@ -208,6 +218,11 @@ async def publish_car(car: dict, photo_files: list[tuple[str, bytes]], video_fil
             await _put_file(client, path, data, f"Upload video {fname}", sha)
             video_paths.append(path)
 
+    # Prefer the generated ad poster as mainImage (the "СРОЧНО САТЫЛАТ" card),
+    # and reorder images so the poster is first.
+    poster_path = next((p for p in image_paths if "_poster" in p), None)
+    if poster_path and image_paths and image_paths[0] != poster_path:
+        image_paths = [poster_path] + [p for p in image_paths if p != poster_path]
     car["images"] = image_paths
     if image_paths:
         car["mainImage"] = image_paths[0]
