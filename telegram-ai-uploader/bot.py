@@ -1223,7 +1223,26 @@ def build_car_object(draft: Draft) -> dict:
 
 async def main():
     log.info("Bot starting. Admins: %s | AI: %s", ADMIN_TELEGRAM_IDS, HAS_AI)
-    await dp.start_polling(bot)
+
+    # Start the small HTTP API used by the admin panel (skip if disabled or
+    # ADMIN_API_SECRET missing — endpoint refuses requests anyway in that case).
+    api_runner = None
+    if os.getenv("ADMIN_API_ENABLED", "true").strip().lower() in ("1", "true", "yes"):
+        try:
+            from admin_api import start_server
+            port = int(os.getenv("PORT", "8080"))
+            api_runner = await start_server(port=port)
+        except Exception as e:
+            log.warning("Admin API failed to start: %s", e)
+
+    try:
+        await dp.start_polling(bot)
+    finally:
+        if api_runner is not None:
+            try:
+                await api_runner.cleanup()
+            except Exception:
+                pass
 
 
 if __name__ == "__main__":

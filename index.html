@@ -3352,13 +3352,15 @@ function renderManagedContent(data) {
 
 // ============ ADMIN SYNC ============
 // Sync content from admin panel + track page views
-(function() {
-  try {
-    const STORAGE_KEY = 'tilek_auto_data';
-    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    const c = mergeContentWithPublic(data.content || {});
-    const whatsappDigits = String(c.whatsapp || '').replace(/\D/g, '');
-    renderManagedContent(data);
+//
+// applyConfig() is defined on window so the site-data.json loader can call it
+// again after merging server-side contacts into TILEK_PUBLIC_CONFIG. Without
+// that, only the initial localStorage values would reach the DOM.
+window.applyConfig = function applyConfig() {
+  const STORAGE_KEY = 'tilek_auto_data';
+  const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  const c = mergeContentWithPublic(data.content || {});
+  const whatsappDigits = String(c.whatsapp || '').replace(/\D/g, '');
 
     // ===== site-data.json compatibility (shared source of truth) =====
     // Loads data/site-data.json from the site root and re-renders all sections.
@@ -3395,6 +3397,17 @@ function renderManagedContent(data) {
         .then(site => {
           if (!site || typeof site !== 'object') return;
           window.__siteData = site;
+          // Public contacts from site-data.json override the hardcoded TILEK_PUBLIC_CONFIG.
+          // This is what lets the admin panel push live contact changes through the bot.
+          if (site.content && typeof site.content === 'object') {
+            const live = site.content;
+            const cfg = window.TILEK_PUBLIC_CONFIG || (window.TILEK_PUBLIC_CONFIG = {});
+            ['whatsapp','instagram','igUsername','whatsappGroup','twoGisUrl','twoGisWidgetUrl','city','hours','followers','posts','leadWebhook']
+              .forEach(k => { if (live[k]) cfg[k] = live[k]; });
+            if (typeof applyConfig === 'function') {
+              try { applyConfig(); } catch (e) {}
+            }
+          }
           const carsArr = Array.isArray(site.cars) ? site.cars.map(mapCar).filter(Boolean) : [];
           const adminCars = Array.isArray(data.cars) ? data.cars : [];
           if (carsArr.length) renderManagedCars(carsArr.concat(adminCars));
@@ -3497,6 +3510,15 @@ function renderManagedContent(data) {
       }
     }
 
+};
+
+// Initial run (uses values from TILEK_PUBLIC_CONFIG + localStorage admin overrides)
+(function() {
+  try {
+    const STORAGE_KEY = 'tilek_auto_data';
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    renderManagedContent(data);
+    window.applyConfig();
     // Track view (one per session)
     if (!sessionStorage.getItem('tilek_viewed')) {
       sessionStorage.setItem('tilek_viewed', '1');

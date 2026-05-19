@@ -18,5 +18,13 @@ primary_region = "fra"
   cpus = 1
   memory = "512mb"
 
-# No [http_service] section because the bot doesn't serve HTTP.
+# HTTP service for the admin panel API (POST /api/admin/contacts).
+# Authentication is enforced inside the app via ADMIN_API_SECRET.
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
 # Restart policy: Fly defaults to restart on crash, which is what we want.

@@ -985,6 +985,26 @@ table tr:hover td{background:rgba(212,175,55,.03)}
       </div>
 
       <div class="section-card">
+        <div class="section-card-header"><h3>🌐 Синхронизация с сайтом</h3></div>
+        <div class="section-card-body">
+          <p style="color:var(--text-light);font-size:14px;margin-bottom:16px;line-height:1.6">
+            Чтобы изменения контактов (WhatsApp, Instagram, адрес, часы) попадали
+            на живой сайт <code>stben00.github.io/tilek-auto-dubai</code>, введите
+            секретный код синхронизации. Без него правки остаются только в этом браузере.
+          </p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <button class="btn btn-gold" onclick="setLiveSyncSecret()">
+              🔑 Ввести / сменить код
+            </button>
+            <button class="btn btn-ghost" onclick="syncContactsToLiveSite()">
+              🔄 Опубликовать контакты сейчас
+            </button>
+            <span id="syncStatus" style="color:var(--text-dim);font-size:13px"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
         <div class="section-card-header"><h3>💾 Резервное копирование</h3></div>
         <div class="section-card-body">
           <p style="color:var(--text-light);font-size:14px;margin-bottom:16px;line-height:1.6">
@@ -2170,7 +2190,62 @@ function saveContent() {
     ownerFeat4: document.getElementById('cOwnerFeat4').value.trim(),
   };
   saveData();
-  toast('Тексты сохранены');
+  toast('Тексты сохранены локально');
+  syncContactsToLiveSite();
+}
+
+// ============ LIVE SITE SYNC (bot proxy) ============
+// Pushes the public contact fields to the bot's /api/admin/contacts endpoint
+// so the live site (data/site-data.json on GitHub) is updated for everyone.
+// Local-only fields (SEO, hero, owner bio, ...) stay in localStorage.
+const LIVE_SYNC_URL = 'https://tilek-auto-bot.fly.dev/api/admin/contacts';
+const LIVE_SYNC_SECRET_KEY = 'tilek_admin_api_secret';
+const LIVE_SYNC_FIELDS = [
+  'whatsapp', 'instagram', 'igUsername', 'whatsappGroup',
+  'twoGisUrl', 'twoGisWidgetUrl', 'city', 'hours',
+  'followers', 'posts', 'leadWebhook',
+];
+
+function getLiveSyncSecret() {
+  return (localStorage.getItem(LIVE_SYNC_SECRET_KEY) || '').trim();
+}
+
+function setLiveSyncSecret() {
+  const cur = getLiveSyncSecret();
+  const v = prompt('Введите секретный код синхронизации (получили от разработчика):', cur);
+  if (v === null) return false;
+  localStorage.setItem(LIVE_SYNC_SECRET_KEY, v.trim());
+  toast(v.trim() ? 'Код сохранён' : 'Код очищен');
+  return Boolean(v.trim());
+}
+
+async function syncContactsToLiveSite() {
+  const secret = getLiveSyncSecret();
+  if (!secret) {
+    toast('⚠️ Локально сохранено. Чтобы изменения попали на сайт — введите код синхронизации (Настройки → Sync)');
+    return;
+  }
+  const payload = {};
+  LIVE_SYNC_FIELDS.forEach(k => {
+    if (DATA.content && DATA.content[k] !== undefined && DATA.content[k] !== null) {
+      payload[k] = DATA.content[k];
+    }
+  });
+  try {
+    const r = await fetch(LIVE_SYNC_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': secret },
+      body: JSON.stringify(payload),
+    });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok && j.ok) {
+      toast('✅ Контакты опубликованы на сайт (обновится через ~1 мин)');
+    } else {
+      toast('❌ Не удалось обновить сайт: ' + (j.error || r.status));
+    }
+  } catch (e) {
+    toast('❌ Ошибка связи с ботом: ' + e.message);
+  }
 }
 
 // ============ LOGO UPLOAD ============
