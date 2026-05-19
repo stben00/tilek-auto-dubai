@@ -166,6 +166,9 @@ async def _pick_best_exterior_frame_via_vision(frame_paths: list[str]) -> int | 
         "type": "text",
         "text": (
             "You are picking the cover photo for a car-sale poster.\n\n"
+            "🚗 RULE #1 — IF ANY FRAME SHOWS THE FRONT OF THE CAR (grille + headlights + "
+            "hood, even partially), YOU MUST PICK THAT FRAME. Don't compromise on this. "
+            "Buyers decide in the first 2 seconds, and the front is what sells.\n\n"
             "ABSOLUTE REJECTIONS — never choose a frame that primarily shows any of:\n"
             "  • paper documents, dealership sales sheets, receipts, invoices, VAT printouts\n"
             "  • VIN stickers, windshield price tags, auction lot papers, registration cards\n"
@@ -173,13 +176,15 @@ async def _pick_best_exterior_frame_via_vision(frame_paths: list[str]) -> int | 
             "  • interior shots (dashboard, steering wheel, seats, gear stick)\n"
             "  • close-ups of wheels, badges, mirrors, engine bay\n"
             "  • motion-blur, very dark frames, partial views where less than half the car body is visible\n\n"
-            "PREFERRED, in priority order:\n"
-            "  1. Sharp front view: grille + both headlights + full hood visible.\n"
+            "PREFERENCE ORDER (apply Rule #1 first, then break ties with this):\n"
+            "  1. Sharp front view, car centered: full grille + both headlights + hood + bumper.\n"
             "  2. 3/4 front angle (front + side together).\n"
             "  3. Clean side profile of the whole car.\n"
             "  4. 3/4 rear angle only if no front/side exists.\n\n"
-            f"If NONE of the {len(frame_paths)} frames meet even the rejection bar, you must still "
-            f"return the LEAST BAD frame number — never return 0 or text.\n"
+            "If MULTIPLE frames qualify under Rule #1, pick the one where the car is biggest "
+            "and the lighting is best.\n\n"
+            f"If NONE of the {len(frame_paths)} frames satisfy any preference, return the LEAST "
+            f"BAD frame number — never return 0 or text.\n"
             f"Reply with ONLY a single digit between 1 and {len(frame_paths)}. No words, no punctuation."
         ),
     }]
@@ -214,7 +219,7 @@ async def _pick_best_exterior_frame_via_vision(frame_paths: list[str]) -> int | 
     return None
 
 
-def extract_video_poster(video_path: Path | str, candidates_pct: tuple = (0.15, 0.30, 0.50, 0.70, 0.85)) -> bytes | None:
+def extract_video_poster(video_path: Path | str, candidates_pct: tuple = (0.0, 0.10, 0.25, 0.40, 0.55, 0.70, 0.85, 0.95)) -> bytes | None:
     """
     Sync poster extraction — fallback when caller can't await.
     Picks the highest-scoring frame by heuristics (brightness + sharpness + detail).
@@ -238,12 +243,19 @@ def extract_video_poster(video_path: Path | str, candidates_pct: tuple = (0.15, 
 
 async def extract_video_poster_smart(
     video_path: Path | str,
-    candidates_pct: tuple = (0.15, 0.30, 0.50, 0.70, 0.85),
+    candidates_pct: tuple = (0.0, 0.10, 0.25, 0.40, 0.55, 0.70, 0.85, 0.95),
 ) -> bytes | None:
     """
     Async poster extraction that uses GPT-4o-mini Vision to pick the frame
-    that best shows the EXTERIOR ("face") of the car. Falls back to the
-    heuristic scoring (extract_video_poster) on any error.
+    that best shows the EXTERIOR ("face") of the car.
+
+    Extracts 8 evenly-spaced frames including the very first (0%) and last (95%)
+    of the video — sellers often deliberately position the front shot at the
+    start of the clip, so the 0% frame is often pre-curated.
+
+    Fallback order if Vision can't pick:
+      1. The very first frame (most often the seller's "cover" shot)
+      2. Highest brightness/sharpness scoring frame
 
     Toggle off by setting USE_VISION_FRAME_PICKER=false on the deployment.
     """
@@ -253,15 +265,18 @@ async def extract_video_poster_smart(
     if not candidates:
         return None
 
+    # Candidates come back in the same order as the input percentages, so
+    # candidates[0] corresponds to the very first frame (0%).
     frame_paths = [p for _s, p in candidates]
     chosen_idx: int | None = None
     if use_vision and len(frame_paths) > 1:
         chosen_idx = await _pick_best_exterior_frame_via_vision(frame_paths)
 
     if chosen_idx is None:
-        # Heuristic fallback: highest scoring frame
-        candidates_sorted = sorted(candidates, key=lambda x: x[0], reverse=True)
-        best_path = candidates_sorted[0][1]
+        # First fallback: the 0% / cover frame. Sellers typically point the
+        # camera at the front of the car for the first second.
+        log.info("Vision picker undecided, defaulting to the cover (0%%) frame")
+        best_path = frame_paths[0]
     else:
         best_path = frame_paths[chosen_idx]
         log.info("Vision picker chose frame %d/%d", chosen_idx + 1, len(frame_paths))
