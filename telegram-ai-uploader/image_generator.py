@@ -535,61 +535,108 @@ AI_SIZE = os.getenv("OPENAI_IMAGE_SIZE", "1024x1536")     # vertical phone forma
 
 def _build_ai_prompt(car: dict) -> str:
     """
-    Build a detailed prompt that recreates the 'СРОЧНО САТЫЛАТ' style poster.
+    Premium Dubai-dealership "Срочно сатылат" poster prompt.
 
-    Kept intentionally minimal on text elements — gpt-image-1 frequently garbles
-    long Cyrillic strings. Sticking to a handful of high-contrast labels
-    produces cleaner, more reliable output.
+    The reference layout (matches the user's approved design):
+      - Top-left:  brand+model headline, year/engine line, yellow "СТАРТ: $price БАШТАЛАТ" pill, bullet list
+      - Top-right: black spec panel with year / engine / fuel / gearbox / drive / color rows
+      - Middle:   "🔥 ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ! ЛУЧШАЯ ЦЕНА НА РЫНКЕ" badge under spec panel
+      - Bottom-left CTA: "📷 ВИДЕО ПО ЗАПРОСУ! Напишите — отправим подробное видео автомобиля"
+      - Background: the user's car photo, cinematic luxury lighting, no body changes
     """
-    brand = (car.get("brand") or "").upper()
-    model = (car.get("model") or "").upper()
+    brand = (car.get("brand") or "").upper().strip()
+    model = (car.get("model") or "").upper().strip()
     year = str(car.get("year") or "").strip()
-    title_line = " ".join(p for p in [brand, model, year] if p) or (car.get("title") or "AUTO").upper()
-    price = str(car.get("price") or "по запросу").strip()
-    mileage = str(car.get("mileage") or "").strip()
+    title_line = (brand + " " + model).strip() or (car.get("title") or "AUTO").upper()
     engine = str(car.get("engine") or "").strip()
-    fuel = str(car.get("fuel") or "").strip()
+    fuel = str(car.get("fuel") or "Бензин").strip().capitalize()
+    price = str(car.get("price") or "по запросу").strip().replace("$", "").strip()
+    body_type = str(car.get("bodyType") or "").strip()
+    # Two-line under-title (year | engine). Omit pieces that are missing.
+    sub_parts = [p for p in [year, engine] if p]
+    sub_line = " | ".join(sub_parts) if sub_parts else "—"
 
-    chips = []
+    # Spec rows for the right-hand panel. Each line is "Label: Value" with an emoji-style icon.
+    spec_rows = []
+    if year:
+        spec_rows.append(f"📅  Год: {year}")
     if engine:
-        chips.append(f'"{engine}"')
-    chips.append('"4WD"')
+        spec_rows.append(f"🔧  Объём: {engine}")
     if fuel:
-        chips.append(f'"{fuel.upper()}"')
+        spec_rows.append(f"⛽  Топливо: {fuel}")
+    spec_rows.append("⚙️  Коробка: Автомат")
+    spec_rows.append("🚗  Привод: задний")
+    if body_type:
+        spec_rows.append(f"🎨  Кузов: {body_type}")
+    spec_block = "\n".join(spec_rows) if spec_rows else "—"
 
-    mileage_line = f"ПРОБЕГ {mileage}" if mileage else "ПРОБЕГ —"
+    return f"""# SYSTEM ROLE
+You are a premium automotive marketing designer for a luxury Dubai car marketplace.
+You are NOT generating a new AI car. You are converting the provided real car photo
+into a PREMIUM AUTO DEALERSHIP POSTER.
 
-    return f"""Vertical 2:3 used-car-sale advertising poster in the "Urgent Sale" Russian/Kyrgyz dealership style.
+# CRITICAL — KEEP THE ORIGINAL CAR
+Preserve the provided car exactly: body, headlights, grille, bumper, wheels, color,
+angle, all body details. Do NOT redraw, restyle or replace the vehicle. Only enhance
+lighting / contrast / reflections around it.
 
-MAIN IMAGE: place the provided car photo prominently in the center taking ~50% of the vertical space. Show the FRONT/EXTERIOR of the car (grille, headlights, hood). Slightly enhance contrast, saturation, and sharpness so the car looks dramatic and desirable. Lighting: cinematic, dark moody warehouse / underground parking with yellow rim light. Background must NOT be plain white.
+# CANVAS
+Vertical 2:3 advertising poster, like a premium Instagram ad for a Dubai dealership.
 
-LAYOUT — only render the following text elements, perfectly spelled in Cyrillic, no extra labels:
+# LAYOUT (this matches the approved reference exactly)
 
-TOP (yellow bold sans-serif, slight tilt, very large):
-"СРОЧНО САТЫЛАТ!!"
+TOP-LEFT BLOCK
+  Large bold white headline: "{title_line}"
+  Yellow accent line right under it: "{sub_line}"
+  Yellow rounded pill with black bold text: "СТАРТ: ${price} БАШТАЛАТ"
+  Below the pill, a column of 4–5 white bullet lines with small yellow check icons.
+  Use ONLY these bullets (do not invent extras):
+    ✔  Премиальный комфорт и технологии
+    ✔  Динамичный мотор {engine if engine else ''}
+    ✔  Идеален для города и трассы
+    ✔  Стильный, динамичный, надёжный
 
-UNDER HEADLINE (yellow pill with black bold text, centered):
-"{title_line}"
+TOP-RIGHT BLOCK
+  A dark rounded panel containing the spec list, each row with a small yellow icon:
+{chr(10).join("    " + line for line in spec_rows)}
 
-CHIP ROW (three small dark pills with yellow text, centered under title):
-{", ".join(chips)}
+MIDDLE-RIGHT BADGE (just below the spec panel)
+  Dark rounded pill with a flame icon on the left, white text on two lines:
+  "🔥 ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ!"
+  "ЛУЧШАЯ ЦЕНА НА РЫНКЕ"
 
-BOTTOM-LEFT BLOCK (black rounded panel):
-small white "ЦЕНА:" on top, huge yellow "{price}" below it, thick yellow underline.
+BOTTOM-LEFT CTA (small)
+  Yellow camera icon pill: "📷 ВИДЕО ПО ЗАПРОСУ!"
+  Under it, two white lines: "Напишите — отправим" / "подробное видео автомобиля"
 
-BOTTOM-RIGHT BLOCK (circular gauge, white-on-black, yellow arc):
-"{mileage_line}"
+MAIN IMAGE
+  The provided car photo, large, centered-right, the front/face of the car is the
+  focal point. Cinematic Dubai-showroom lighting: warm sunset tones, deep black
+  shadows, glossy reflections, soft glow on the headlights. The background can be
+  the original surroundings but enhanced for premium feel — no random objects or
+  text added.
 
-BOTTOM BAR (solid black bar across the full width, with a small yellow phone-handset icon and white text):
-"ЗВОНИТЕ ПРЯМО СЕЙЧАС!"
+# DESIGN STYLE
+- luxury automotive poster, Dubai dealership style, black + #FFD700 gold aesthetic
+- premium realistic reflections, cinematic lighting, deep shadows, soft glow
+- bold modern sans-serif typography, perfectly aligned, no text glitches
+- background never plain white
 
-STYLE: premium automotive marketing, bold #FFD700 yellow accents, deep blacks, sharp geometric blocks, high contrast, professional layout.
+# TYPOGRAPHY RULES
+- All Cyrillic text MUST be perfectly spelled. Do NOT garble or replace letters with
+  Latin lookalikes. Do NOT invent extra labels.
+- Render ONLY the text strings listed above.
+- No watermark, no logo, no phone number, no website URL.
 
-CRITICAL RULES:
-- All text MUST be in Cyrillic (Russian / Kyrgyz). DO NOT use any Latin substitutes or garbled characters. DO NOT invent extra Cyrillic labels not listed above.
-- DO NOT add the words "ПРЕМИУМ", "САЛОН", "МУЛЬТИМЕДИА", "НАДЁЖНОСТЬ", "КОМФОРТ" or any other side-text. Keep the bottom area clean.
-- DO NOT add a logo, watermark, website URL, phone number, or signature.
-- DO NOT crop or replace the provided car photo. Keep the actual vehicle visible.
+# NEGATIVE
+- no cartoon, no fake car, no replaced body, no distorted grille, no fake wheels
+- no AI artifacts, no broken reflections, no random background objects
+- no extra Cyrillic labels (ПРЕМИУМ САЛОН, МУЛЬТИМЕДИА, КОМФОРТ, etc.)
+
+# SALES PSYCHOLOGY
+The poster must trigger urgency, a sense of a great deal, and the desire to call /
+write the seller. It should look like a real, expensive Dubai dealership ad — NOT
+like an AI image.
 """
 
 
