@@ -165,14 +165,22 @@ async def _pick_best_exterior_frame_via_vision(frame_paths: list[str]) -> int | 
     content: list[dict] = [{
         "type": "text",
         "text": (
-            "Below are video frames of a used car for sale. Each frame is numbered. "
-            "Pick the SINGLE BEST frame for a marketing poster. Score them in this order:\n"
-            "  1. Front of the car visible (grille + both headlights + hood) — STRONGLY preferred.\n"
-            "  2. If no front shot exists, pick a 3/4-front angle (front + side).\n"
-            "  3. Side profile is acceptable if it shows the whole car body sharply.\n"
-            "  4. AVOID: rear/back view (taillights), interior (dashboard, steering wheel, seats), "
-            "wheel close-ups, blurry frames, very dark frames, frames where only part of the car is visible.\n"
-            f"Reply with ONLY a single digit between 1 and {len(frame_paths)} — the chosen frame number. No explanation."
+            "You are picking the cover photo for a car-sale poster.\n\n"
+            "ABSOLUTE REJECTIONS — never choose a frame that primarily shows any of:\n"
+            "  • paper documents, dealership sales sheets, receipts, invoices, VAT printouts\n"
+            "  • VIN stickers, windshield price tags, auction lot papers, registration cards\n"
+            "  • Arabic / English text close-ups, license-plate close-ups\n"
+            "  • interior shots (dashboard, steering wheel, seats, gear stick)\n"
+            "  • close-ups of wheels, badges, mirrors, engine bay\n"
+            "  • motion-blur, very dark frames, partial views where less than half the car body is visible\n\n"
+            "PREFERRED, in priority order:\n"
+            "  1. Sharp front view: grille + both headlights + full hood visible.\n"
+            "  2. 3/4 front angle (front + side together).\n"
+            "  3. Clean side profile of the whole car.\n"
+            "  4. 3/4 rear angle only if no front/side exists.\n\n"
+            f"If NONE of the {len(frame_paths)} frames meet even the rejection bar, you must still "
+            f"return the LEAST BAD frame number — never return 0 or text.\n"
+            f"Reply with ONLY a single digit between 1 and {len(frame_paths)}. No words, no punctuation."
         ),
     }]
     for path in frame_paths:
