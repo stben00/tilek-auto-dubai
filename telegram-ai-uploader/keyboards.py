@@ -27,8 +27,7 @@ def main_kb() -> InlineKeyboardMarkup:
          InlineKeyboardButton(text="🎨 Regenerate poster", callback_data="regen_image")],
         [InlineKeyboardButton(text="🖼 Add Photos", callback_data="add_photos"),
          InlineKeyboardButton(text="🎥 Add Video", callback_data="add_video")],
-        [InlineKeyboardButton(text="🔗 Add Instagram Link", callback_data="add_insta"),
-         InlineKeyboardButton(text="👁 Preview", callback_data="preview")],
+        [InlineKeyboardButton(text="👁 Preview", callback_data="preview")],
         [InlineKeyboardButton(text="🧹 Clear Draft", callback_data="clear"),
          InlineKeyboardButton(text="❌ Cancel", callback_data="cancel")],
     ])

@@ -156,25 +156,66 @@ def _load_photo(path: Optional[Path | str]) -> Optional[Image.Image]:
 
 def _enhance_photo(img: Image.Image) -> Image.Image:
     """
-    Light, lossless-ish enhancement before placing photo on the poster.
-    - Auto-contrast to fix flat washed-out frames from video
-    - Slight saturation boost so paint colour pops
-    - Mild unsharp mask for crisper edges (helps low-res Telegram frames)
-    Wrapped in try/except so a corrupt image still renders.
+    Premium dealership-look enhancement applied before the photo lands on the poster.
+    Each step is guarded so a corrupt image still renders.
+
+    Pipeline:
+      1. Stronger auto-contrast — recovers detail from flat / washed-out video frames.
+      2. Brightness lift — Dubai garage videos are usually dim.
+      3. Saturation boost — paint colour pops.
+      4. Contrast pass — deepens blacks, brightens highlights.
+      5. Larger unsharp mask — crisp grille / badge / wheel edges at poster scale.
     """
     try:
-        img = ImageOps.autocontrast(img, cutoff=2)
+        img = ImageOps.autocontrast(img, cutoff=1)
     except Exception:
         pass
     try:
-        img = ImageEnhance.Color(img).enhance(1.12)
+        img = ImageEnhance.Brightness(img).enhance(1.06)
     except Exception:
         pass
     try:
-        img = img.filter(ImageFilter.UnsharpMask(radius=1.2, percent=120, threshold=3))
+        img = ImageEnhance.Color(img).enhance(1.22)
+    except Exception:
+        pass
+    try:
+        img = ImageEnhance.Contrast(img).enhance(1.18)
+    except Exception:
+        pass
+    try:
+        img = img.filter(ImageFilter.UnsharpMask(radius=1.8, percent=170, threshold=2))
     except Exception:
         pass
     return img
+
+
+def _apply_vignette(img: Image.Image, strength: int = 130) -> Image.Image:
+    """Soft radial darkening of the corners for cinematic look.
+
+    Fast path: build a tiny 64x64 radial mask with concentric ellipses, then
+    resize + blur it up to the photo dimensions. Avoids the per-pixel Python
+    loop which is unusable on a 1080x1350 image.
+    """
+    try:
+        w, h = img.size
+        small = 96
+        mask_small = Image.new("L", (small, small), 0)
+        d = ImageDraw.Draw(mask_small)
+        # 0 alpha at centre → up to `strength` at the corner ring
+        steps = 24
+        for i in range(steps):
+            t = i / (steps - 1)
+            alpha = int(strength * (t ** 1.4))
+            radius = int((small / 2) * (1 - t * 0.92))
+            cx = cy = small // 2
+            d.ellipse([cx - radius, cy - radius, cx + radius, cy + radius],
+                      fill=strength - alpha)
+        mask = mask_small.resize((w, h), Image.Resampling.LANCZOS)
+        mask = mask.filter(ImageFilter.GaussianBlur(radius=60))
+        dark = Image.new("RGB", (w, h), (0, 0, 0))
+        return Image.composite(dark, img, mask)
+    except Exception:
+        return img
 
 
 def _diagonal_band(img: Image.Image, color: tuple[int, int, int, int], y_center: int, height: int = 70, angle: float = -8):
@@ -613,17 +654,13 @@ def _draw_spec_row(draw, x: int, y: int, label: str, value: str, font_label, fon
 
 
 def _photo_background(photo: Optional[Image.Image], W: int, H: int) -> Image.Image:
-    """Photo as full-bleed background with cinematic enhancement + dark gradient masks."""
+    """Photo as full-bleed background with cinematic enhancement + vignette + overlays."""
     if photo is None:
         bg = _gradient(W, H, (20, 20, 22), (5, 5, 7))
     else:
         bg = _cover_resize(_enhance_photo(photo), W, H)
-        # Boost contrast and saturation a notch beyond _enhance_photo
-        try:
-            bg = ImageEnhance.Contrast(bg).enhance(1.08)
-            bg = ImageEnhance.Color(bg).enhance(1.06)
-        except Exception:
-            pass
+        # Add cinematic vignette so corners darken and the car pulls the eye
+        bg = _apply_vignette(bg, strength=120)
 
     # Dark gradient masks for overlay legibility. Tuned to keep the car bright
     # in the center while darkening only the top-left / top-right / bottom edges.
