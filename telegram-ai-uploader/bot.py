@@ -1055,6 +1055,12 @@ async def cb_regen_text(cb: CallbackQuery):
     if not draft.data.get("title") and not draft.data.get("brand"):
         await cb.answer("Сначала пришли описание машины.", show_alert=True)
         return
+    # Acknowledge the button click IMMEDIATELY so Telegram doesn't expire the
+    # callback while we wait for the LLM (can take 10-30s).
+    try:
+        await cb.answer("⏳ Генерирую...")
+    except Exception:
+        pass
     await cb.message.answer("⏳ Генерирую новый рекламный текст через AI...")
     try:
         draft.pitch = await generate_pitch_ai(draft.data)
@@ -1062,7 +1068,6 @@ async def cb_regen_text(cb: CallbackQuery):
         await cb.message.answer(f"📣 <b>Новый рекламный текст:</b>\n\n{draft.pitch}")
     except Exception as e:
         await cb.message.answer(f"⚠️ Ошибка: <code>{escape(str(e))}</code>")
-    await cb.answer()
 
 
 @dp.callback_query(F.data == "regen_image")
@@ -1073,8 +1078,13 @@ async def cb_regen_image(cb: CallbackQuery):
     if not draft.data.get("title") and not draft.data.get("brand"):
         await cb.answer("Сначала пришли описание машины.", show_alert=True)
         return
+    # Acknowledge the button click IMMEDIATELY. gpt-image-1 with quality=high can
+    # take 60-120s; if we delay this Telegram throws "query is too old".
+    try:
+        await cb.answer("🎨 Генерирую постер...")
+    except Exception:
+        pass
     await _build_and_send_poster(cb, draft, regenerate=True)
-    await cb.answer()
 
 
 @dp.callback_query(F.data == "edit")
