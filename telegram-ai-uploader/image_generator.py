@@ -524,6 +524,270 @@ def generate_local_poster(car: dict, main_photo_path: Optional[Path | str], temp
 
 
 # ---------------------------------------------------------------------------
+# Premium Dubai-dealership Pillow template (photo-preserving)
+# ---------------------------------------------------------------------------
+#
+# This is the new default. It puts the client's ORIGINAL photo on the canvas
+# (lightly enhanced + dark gradient mask for legibility) and overlays the entire
+# layout — headline, СТАРТ pill, bullet list, spec panel, ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ
+# badge, ВИДЕО ПО ЗАПРОСУ CTA — via Pillow with proper Cyrillic fonts.
+#
+# No AI image is generated, so the real car is preserved exactly. Colour
+# palette adapts to the car category (luxury / sport / suv / city).
+
+PREMIUM_DUBAI_TEMPLATE = "premium_dubai"
+
+LUXURY_BRAND_SET = {
+    "bmw", "mercedes", "mercedes-benz", "lexus", "porsche", "audi",
+    "range rover", "land rover", "rolls-royce", "bentley", "maserati",
+    "jaguar", "infiniti", "cadillac", "tesla", "genesis",
+}
+SPORT_KEYWORDS = {
+    "m3", "m4", "m5", "m8", "amg", "rs", "type r", "type-r", "gtr",
+    "supra", "wrx", "sti", "z4", "z3", "s2000", "gt-r", "r8", "huracan",
+    "gallardo", "performance",
+}
+SUV_KEYWORD_SET = {
+    "x5", "x6", "x7", "land cruiser", "rav4", "highlander", "prado",
+    "patrol", "tucson", "santa fe", "wrangler", "explorer", "tahoe",
+    "suburban", "escalade", "cayenne", "macan", "q7", "q8", "gle", "gls",
+    "rx", "lx", "nx", "gx", "4runner", "pajero", "outlander", "x-trail",
+    "f-150", "f150", "ram", "silverado",
+}
+SUV_BODY_KEYWORDS = {"внедорожник", "кроссовер", "suv", "crossover", "pickup", "пикап"}
+
+
+def detect_car_category(car: dict) -> str:
+    """Returns one of: 'sport', 'luxury', 'suv', 'city'."""
+    brand = str(car.get("brand", "")).lower().strip()
+    model = str(car.get("model", "")).lower().strip()
+    title = str(car.get("title", "")).lower().strip()
+    body = str(car.get("bodyType", "")).lower().strip()
+    haystack = " ".join([brand, model, title])
+
+    if any(kw in haystack for kw in SPORT_KEYWORDS):
+        return "sport"
+    if any(kw in haystack for kw in SUV_KEYWORD_SET) or any(b in body for b in SUV_BODY_KEYWORDS):
+        return "suv"
+    if brand in LUXURY_BRAND_SET:
+        return "luxury"
+    return "city"
+
+
+# Category → (accent_rgb, accent_dark_rgb, headline_rgb, mood_label)
+_CATEGORY_PALETTES = {
+    "luxury": ((212, 175, 55),  (160, 130, 35),  (255, 255, 255), "PREMIUM"),
+    "sport":  ((230, 60, 60),   (170, 30, 30),   (255, 255, 255), "SPORT"),
+    "suv":    ((255, 200, 60),  (180, 130, 25),  (255, 255, 255), "POWER"),
+    "city":   ((255, 215, 0),   (200, 160, 0),   (255, 255, 255), "DAILY"),
+}
+
+
+def _rounded_rect(draw: ImageDraw.ImageDraw, xy, radius: int, fill, outline=None, width: int = 0):
+    draw.rounded_rectangle(xy, radius=radius, fill=fill, outline=outline, width=width)
+
+
+def _draw_check_glyph(draw, cx: int, cy: int, size: int, color):
+    """Draw a check mark as two strokes — works on any font system."""
+    half = size // 2
+    draw.line([(cx - half, cy), (cx - 2, cy + half - 2)], fill=color, width=4)
+    draw.line([(cx - 2, cy + half - 2), (cx + half, cy - half + 2)], fill=color, width=4)
+
+
+def _draw_check_bullet(draw, x: int, y: int, text: str, font, accent: tuple, text_color=(245, 245, 245)):
+    """Yellow rounded box with a stroke-drawn check mark + white text."""
+    box = 30
+    _rounded_rect(draw, [x, y, x + box, y + box], radius=6, fill=accent)
+    _draw_check_glyph(draw, x + box // 2, y + box // 2, size=18, color=(15, 15, 15))
+    draw.text((x + box + 14, y + 2), text, font=font, fill=text_color)
+
+
+def _draw_spec_row(draw, x: int, y: int, label: str, value: str, font_label, font_value, accent: tuple):
+    """A spec row: thick yellow vertical accent bar + label (grey) + value (white)."""
+    bar_w = 5
+    bar_h = 48
+    draw.rectangle([x, y + 6, x + bar_w, y + 6 + bar_h], fill=accent)
+    label_x = x + bar_w + 18
+    draw.text((label_x, y + 6), label, font=font_label, fill=(200, 200, 200))
+    draw.text((label_x, y + 30), value, font=font_value, fill=(255, 255, 255))
+
+
+def _photo_background(photo: Optional[Image.Image], W: int, H: int) -> Image.Image:
+    """Photo as full-bleed background with cinematic enhancement + dark gradient masks."""
+    if photo is None:
+        bg = _gradient(W, H, (20, 20, 22), (5, 5, 7))
+    else:
+        bg = _cover_resize(_enhance_photo(photo), W, H)
+        # Boost contrast and saturation a notch beyond _enhance_photo
+        try:
+            bg = ImageEnhance.Contrast(bg).enhance(1.08)
+            bg = ImageEnhance.Color(bg).enhance(1.06)
+        except Exception:
+            pass
+
+    # Top-left + top-right dark gradient masks so overlays are readable
+    overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay, "RGBA")
+    # Left vertical gradient (for headline+pill+bullets)
+    for x in range(W // 2):
+        alpha = int(220 * (1 - x / (W // 2)))
+        draw.line([(x, 0), (x, H)], fill=(0, 0, 0, alpha))
+    # Right top gradient (for spec panel area) — softer
+    for y in range(H // 2):
+        alpha = int(120 * (1 - y / (H // 2)))
+        draw.line([(W // 2, y), (W, y)], fill=(0, 0, 0, alpha))
+    # Bottom gradient for CTA legibility
+    for y in range(H // 3):
+        alpha = int(160 * (y / (H // 3)))
+        draw.line([(0, H - H // 3 + y), (W, H - H // 3 + y)], fill=(0, 0, 0, alpha))
+
+    bg = bg.convert("RGBA")
+    bg.alpha_composite(overlay)
+    return bg.convert("RGB")
+
+
+def template_premium_dubai(car: dict, photo: Optional[Image.Image]) -> Image.Image:
+    """
+    Premium Dubai-dealership poster that PRESERVES the original car photo.
+    Layout matches the user-approved BMW 330L reference.
+    """
+    W, H = POSTER_W, POSTER_H
+    accent, accent_dark, headline_color, _mood = _CATEGORY_PALETTES.get(
+        detect_car_category(car), _CATEGORY_PALETTES["city"]
+    )
+
+    img = _photo_background(photo, W, H)
+    draw = ImageDraw.Draw(img, "RGBA")
+
+    brand = str(car.get("brand", "") or "").upper().strip()
+    model = str(car.get("model", "") or "").upper().strip()
+    year = str(car.get("year", "") or "").strip()
+    engine = str(car.get("engine", "") or "").strip()
+    fuel = str(car.get("fuel", "Бензин") or "Бензин").strip().capitalize()
+    body_type = str(car.get("bodyType", "") or "").strip().capitalize()
+    price_raw = str(car.get("price", "по запросу") or "по запросу").strip()
+    price_digits = "".join(c for c in price_raw if c.isdigit())
+    price_pretty = f"${int(price_digits):,}".replace(",", " ") if price_digits else price_raw
+
+    # ===== Top-left: brand headline =====
+    title_text = (brand + " " + model).strip() or (car.get("title") or "AUTO").upper()
+    headline_font = None
+    for size in range(110, 56, -4):
+        f = _load_font("narrow", size)
+        if _text_w(draw, title_text, f) <= W * 0.55:
+            headline_font = f
+            break
+    if headline_font is None:
+        headline_font = _load_font("narrow", 56)
+        title_text = _truncate(draw, title_text, headline_font, int(W * 0.55))
+    _shadow_text(draw, (40, 50), title_text, headline_font, headline_color, offset=2)
+
+    # Year | Engine subline
+    sub_parts = [p for p in [year, engine] if p]
+    if sub_parts:
+        sub_text = " | ".join(sub_parts)
+        sub_font = _load_font("bold", 60)
+        _shadow_text(draw, (40, 50 + headline_font.size + 6), sub_text, sub_font, accent, offset=2)
+
+    # СТАРТ pill
+    pill_text = f"СТАРТ: {price_pretty}"
+    pill_font = _load_font("bold", 32)
+    pw = _text_w(draw, pill_text, pill_font)
+    pill_y = 50 + headline_font.size + 80
+    pill_box = (40, pill_y, 40 + pw + 60, pill_y + pill_font.size + 28)
+    _rounded_rect(draw, pill_box, radius=14, fill=accent)
+    draw.text((40 + 30, pill_y + 13), pill_text, font=pill_font, fill=(15, 15, 15))
+
+    # ===== Left: bullet list =====
+    bullet_font = _load_font("bold", 24)
+    bullets = [
+        "Премиальный комфорт",
+        f"Динамичный мотор{(' ' + engine) if engine else ''}",
+        "Идеален для города и трассы",
+        "Стильный, динамичный, надёжный",
+    ]
+    bullet_y = pill_y + pill_font.size + 70
+    for line in bullets:
+        line = _truncate(draw, line, bullet_font, int(W * 0.5))
+        _draw_check_bullet(draw, 40, bullet_y, line, bullet_font, accent)
+        bullet_y += 50
+
+    # ===== Top-right: spec panel =====
+    panel_x = int(W * 0.58)
+    panel_y = 50
+    panel_w = W - panel_x - 40
+    panel_pad = 24
+
+    specs = []
+    if year:
+        specs.append(("Год", year))
+    if engine:
+        specs.append(("Объём", engine))
+    if fuel:
+        specs.append(("Топливо", fuel))
+    specs.append(("Коробка", "Автомат"))
+    specs.append(("Привод", "Задний"))
+    if body_type:
+        specs.append(("Кузов", body_type))
+
+    row_h = 64
+    panel_h = panel_pad * 2 + row_h * len(specs)
+    _rounded_rect(draw, (panel_x, panel_y, panel_x + panel_w, panel_y + panel_h),
+                  radius=22, fill=(15, 15, 18, 215))
+
+    label_font = _load_font("regular", 18)
+    value_font = _load_font("bold", 24)
+    for i, (label, value) in enumerate(specs):
+        _draw_spec_row(draw, panel_x + panel_pad, panel_y + panel_pad + i * row_h,
+                       label, value, label_font, value_font, accent)
+
+    # ===== Middle-right: ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ badge =====
+    badge_y = panel_y + panel_h + 20
+    badge_pad_x = 26
+    badge_pad_y = 18
+    badge_line1 = "ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ!"
+    badge_line2 = "ЛУЧШАЯ ЦЕНА НА РЫНКЕ"
+    bf1 = _load_font("bold", 22)
+    bf2 = _load_font("bold", 20)
+    bw = max(_text_w(draw, badge_line1, bf1), _text_w(draw, badge_line2, bf2)) + badge_pad_x * 2
+    badge_box = (panel_x + (panel_w - bw) // 2, badge_y,
+                 panel_x + (panel_w + bw) // 2, badge_y + bf1.size + bf2.size + badge_pad_y * 2 + 4)
+    _rounded_rect(draw, badge_box, radius=16, fill=(15, 15, 18, 230))
+    draw.text((badge_box[0] + badge_pad_x, badge_box[1] + badge_pad_y),
+              badge_line1, font=bf1, fill=accent)
+    draw.text((badge_box[0] + badge_pad_x, badge_box[1] + badge_pad_y + bf1.size + 4),
+              badge_line2, font=bf2, fill=(255, 255, 255))
+
+    # ===== Bottom-left: ВИДЕО ПО ЗАПРОСУ CTA =====
+    cta_y = H - 200
+    cta_pill_text = "ВИДЕО ПО ЗАПРОСУ"
+    cta_pill_font = _load_font("bold", 26)
+    cw = _text_w(draw, cta_pill_text, cta_pill_font) + 50
+    cta_pill_box = (40, cta_y, 40 + cw, cta_y + cta_pill_font.size + 22)
+    _rounded_rect(draw, cta_pill_box, radius=14, fill=accent)
+    draw.text((40 + 25, cta_y + 11), cta_pill_text, font=cta_pill_font, fill=(15, 15, 15))
+
+    cta_sub_font = _load_font("regular", 22)
+    draw.text((40, cta_y + cta_pill_font.size + 38),
+              "Напишите — отправим", font=cta_sub_font, fill=(235, 235, 235))
+    draw.text((40, cta_y + cta_pill_font.size + 66),
+              "подробное видео автомобиля", font=cta_sub_font, fill=(235, 235, 235))
+
+    return img
+
+
+# Register the premium template in the same dispatcher so existing helpers
+# (generate_local_poster, pick_different_template) treat it as a first-class
+# option that wins over the legacy 5 templates.
+TEMPLATES[PREMIUM_DUBAI_TEMPLATE] = template_premium_dubai
+
+
+def select_template(car: dict) -> str:  # noqa: F811 — intentionally shadowing the older legacy selector
+    """Always prefer the premium photo-preserving template."""
+    return PREMIUM_DUBAI_TEMPLATE
+
+
+# ---------------------------------------------------------------------------
 # AI poster generation via OpenAI gpt-image-1
 # ---------------------------------------------------------------------------
 
