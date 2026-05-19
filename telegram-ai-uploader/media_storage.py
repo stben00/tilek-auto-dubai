@@ -72,7 +72,10 @@ def _extract_frame_at(video_path: str, seek: float, out_path: str) -> bool:
                 "-ss", f"{seek:.2f}",
                 "-i", video_path,
                 "-frames:v", "1",
-                "-vf", "scale=1280:-2:flags=lanczos,eq=brightness=0.04:contrast=1.15:saturation=1.10",
+                # Extract at full HD (1920px wide). Lanczos for sharp scaling, mild
+                # brightness/contrast/saturation lift so dim garage videos look better
+                # before the Pillow enhancement pass.
+                "-vf", "scale=1920:-2:flags=lanczos,eq=brightness=0.05:contrast=1.18:saturation=1.12",
                 "-q:v", "2",
                 out_path,
             ],
@@ -145,7 +148,7 @@ def _extract_candidate_frames(video_path: str, candidates_pct: tuple) -> list[tu
     return candidates
 
 
-async def _pick_best_exterior_frame_via_vision(frame_paths: list[str]) -> int | None:
+async def _pick_best_exterior_frame_via_vision(frame_paths: list[str], target_brand: str = "", target_model: str = "") -> int | None:
     """
     Ask gpt-4o-mini which frame best shows the FRONT/EXTERIOR of the car.
     Returns the 0-based index of the chosen frame, or None on failure.
@@ -162,10 +165,23 @@ async def _pick_best_exterior_frame_via_vision(frame_paths: list[str]) -> int | 
     except ImportError:
         return None
 
+    brand_hint = ""
+    if target_brand:
+        full_target = (target_brand + " " + target_model).strip()
+        brand_hint = (
+            f"🎯 BRAND MATCH — The seller is listing a {full_target}. The video was filmed in a "
+            f"dealership lot with many other cars in view. You MUST pick a frame showing the "
+            f"{target_brand} specifically — recognize its grille, badge, and overall body shape. "
+            f"If multiple cars are visible in a frame, the {target_brand} must be the largest / "
+            f"most centred one. NEVER pick a frame where a different brand is the main subject "
+            f"(e.g. a BMW in a Honda listing). If no frame shows a {target_brand} clearly, return "
+            f"the lowest-numbered frame.\n\n"
+        )
     content: list[dict] = [{
         "type": "text",
         "text": (
             "You are picking the cover photo for a car-sale poster.\n\n"
+            + brand_hint +
             "🚗 RULE #1 — IF ANY FRAME SHOWS THE FRONT OF THE CAR (grille + headlights + "
             "hood, even partially), YOU MUST PICK THAT FRAME. Don't compromise on this. "
             "Buyers decide in the first 2 seconds, and the front is what sells.\n\n"
@@ -247,7 +263,9 @@ def extract_video_poster(video_path: Path | str, candidates_pct: tuple = (0.0, 0
 
 async def extract_video_poster_smart(
     video_path: Path | str,
-    candidates_pct: tuple = (0.0, 0.10, 0.25, 0.40, 0.55, 0.70, 0.85, 0.95),
+    candidates_pct: tuple = (0.0, 0.04, 0.08, 0.12, 0.18, 0.25, 0.35, 0.50, 0.70, 0.90),
+    target_brand: str = "",
+    target_model: str = "",
 ) -> bytes | None:
     """
     Async poster extraction that uses GPT-4o-mini Vision to pick the frame
@@ -274,7 +292,7 @@ async def extract_video_poster_smart(
     frame_paths = [p for _s, p in candidates]
     chosen_idx: int | None = None
     if use_vision and len(frame_paths) > 1:
-        chosen_idx = await _pick_best_exterior_frame_via_vision(frame_paths)
+        chosen_idx = await _pick_best_exterior_frame_via_vision(frame_paths, target_brand=target_brand, target_model=target_model)
 
     if chosen_idx is None:
         # First fallback: the 0% / cover frame. Sellers typically point the

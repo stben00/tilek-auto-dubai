@@ -830,9 +830,15 @@ async def on_video(message: Message):
     thumb_added = False
     poster_source = ""
     if not draft.photos:
-        # Try ffmpeg first
+        # Try ffmpeg first. Pass the known brand/model so Vision rejects frames
+        # showing a different car (common in dealer-lot videos where many cars
+        # are in view at once).
         try:
-            poster_bytes = await extract_video_poster_smart(temp_path(fname))
+            poster_bytes = await extract_video_poster_smart(
+                temp_path(fname),
+                target_brand=draft.data.get("brand", ""),
+                target_model=draft.data.get("model", ""),
+            )
             if poster_bytes:
                 tidx = len(draft.photos) + 1
                 tfname = photo_filename(draft.car_id, tidx, "jpg")
