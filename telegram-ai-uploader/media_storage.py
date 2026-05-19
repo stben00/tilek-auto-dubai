@@ -1,4 +1,6 @@
 """Local temp media storage + filename helpers."""
+import base64
+import logging
 import os
 import shutil
 import subprocess
@@ -6,6 +8,8 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from config import TEMP_DIR, MAX_VIDEO_MB
+
+log = logging.getLogger(__name__)
 
 
 def now_id() -> str:
@@ -110,18 +114,12 @@ def _score_frame(path: str) -> float:
         return 0.0
 
 
-def extract_video_poster(video_path: Path | str, candidates_pct: tuple = (0.15, 0.30, 0.50, 0.70, 0.85)) -> bytes | None:
-    """
-    Extract the BEST frame from the given video.
-    - Tries 5 timestamps across the video
-    - Scores each by brightness + sharpness + detail
-    - Returns the highest-scoring JPEG bytes
-    """
+def _extract_candidate_frames(video_path: str, candidates_pct: tuple) -> list[tuple[float, str]]:
+    """Extract frames at the given percentages. Returns list of (heuristic_score, path)."""
     if not shutil.which("ffmpeg") or not shutil.which("ffprobe"):
-        return None
-    video_path = str(video_path)
+        return []
     if not os.path.exists(video_path):
-        return None
+        return []
     try:
         out = subprocess.run(
             ["ffprobe", "-v", "error", "-show_entries", "format=duration",
@@ -133,38 +131,137 @@ def extract_video_poster(video_path: Path | str, candidates_pct: tuple = (0.15, 
         duration = 0.0
 
     if duration <= 0:
-        # Single shot fallback
         out_path = tempfile.mktemp(suffix=".jpg")
-        try:
-            if _extract_frame_at(video_path, 0.5, out_path):
-                with open(out_path, "rb") as f:
-                    return f.read()
-        finally:
-            try: os.remove(out_path)
-            except OSError: pass
-        return None
+        if _extract_frame_at(video_path, 0.5, out_path):
+            return [(_score_frame(out_path), out_path)]
+        return []
 
-    # Try multiple frames
-    candidates = []
+    candidates: list[tuple[float, str]] = []
     for pct in candidates_pct:
         seek = max(0.3, duration * pct)
         out_path = tempfile.mktemp(suffix=".jpg")
         if _extract_frame_at(video_path, seek, out_path):
-            score = _score_frame(out_path)
-            candidates.append((score, out_path))
+            candidates.append((_score_frame(out_path), out_path))
+    return candidates
 
-    if not candidates:
+
+async def _pick_best_exterior_frame_via_vision(frame_paths: list[str]) -> int | None:
+    """
+    Ask gpt-4o-mini which frame best shows the FRONT/EXTERIOR of the car.
+    Returns the 0-based index of the chosen frame, or None on failure.
+
+    Cost: ~$0.0003 per call (5 small images via gpt-4o-mini Vision).
+    """
+    if not frame_paths:
+        return None
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        return None
+    try:
+        from openai import AsyncOpenAI
+    except ImportError:
         return None
 
-    # Pick best, cleanup the rest
+    content: list[dict] = [{
+        "type": "text",
+        "text": (
+            "Below are video frames of a used car for sale. "
+            "Pick the SINGLE frame that best shows the EXTERIOR of the car — "
+            "front grille, headlights, full body, hood — the kind of photo that makes "
+            "a buyer want to buy. Avoid interior dashboard, steering wheel, seat-only, "
+            "blurry, dark, or close-up detail shots. "
+            f"Reply with ONLY a single digit between 1 and {len(frame_paths)} — the frame number."
+        ),
+    }]
+    for path in frame_paths:
+        try:
+            with open(path, "rb") as f:
+                b64 = base64.b64encode(f.read()).decode()
+            content.append({
+                "type": "image_url",
+                "image_url": {"url": f"data:image/jpeg;base64,{b64}", "detail": "low"},
+            })
+        except OSError:
+            return None
+
+    client = AsyncOpenAI(api_key=api_key, timeout=30.0)
+    try:
+        resp = await client.chat.completions.create(
+            model="gpt-4o-mini",
+            max_tokens=4,
+            temperature=0,
+            messages=[{"role": "user", "content": content}],
+        )
+        raw = (resp.choices[0].message.content or "").strip()
+        for ch in raw:
+            if ch.isdigit():
+                idx = int(ch) - 1
+                if 0 <= idx < len(frame_paths):
+                    return idx
+                break
+    except Exception as e:
+        log.warning("Vision frame picker failed: %s", e)
+    return None
+
+
+def extract_video_poster(video_path: Path | str, candidates_pct: tuple = (0.15, 0.30, 0.50, 0.70, 0.85)) -> bytes | None:
+    """
+    Sync poster extraction — fallback when caller can't await.
+    Picks the highest-scoring frame by heuristics (brightness + sharpness + detail).
+    """
+    video_path = str(video_path)
+    candidates = _extract_candidate_frames(video_path, candidates_pct)
+    if not candidates:
+        return None
     candidates.sort(reverse=True)
-    best_score, best_path = candidates[0]
+    _best_score, best_path = candidates[0]
     try:
         with open(best_path, "rb") as f:
             data = f.read()
     except OSError:
         data = None
     for _score, p in candidates:
+        try: os.remove(p)
+        except OSError: pass
+    return data
+
+
+async def extract_video_poster_smart(
+    video_path: Path | str,
+    candidates_pct: tuple = (0.15, 0.30, 0.50, 0.70, 0.85),
+) -> bytes | None:
+    """
+    Async poster extraction that uses GPT-4o-mini Vision to pick the frame
+    that best shows the EXTERIOR ("face") of the car. Falls back to the
+    heuristic scoring (extract_video_poster) on any error.
+
+    Toggle off by setting USE_VISION_FRAME_PICKER=false on the deployment.
+    """
+    use_vision = os.getenv("USE_VISION_FRAME_PICKER", "true").strip().lower() in ("1", "true", "yes")
+    video_path = str(video_path)
+    candidates = _extract_candidate_frames(video_path, candidates_pct)
+    if not candidates:
+        return None
+
+    frame_paths = [p for _s, p in candidates]
+    chosen_idx: int | None = None
+    if use_vision and len(frame_paths) > 1:
+        chosen_idx = await _pick_best_exterior_frame_via_vision(frame_paths)
+
+    if chosen_idx is None:
+        # Heuristic fallback: highest scoring frame
+        candidates_sorted = sorted(candidates, key=lambda x: x[0], reverse=True)
+        best_path = candidates_sorted[0][1]
+    else:
+        best_path = frame_paths[chosen_idx]
+        log.info("Vision picker chose frame %d/%d", chosen_idx + 1, len(frame_paths))
+
+    try:
+        with open(best_path, "rb") as f:
+            data = f.read()
+    except OSError:
+        data = None
+    for p in frame_paths:
         try: os.remove(p)
         except OSError: pass
     return data

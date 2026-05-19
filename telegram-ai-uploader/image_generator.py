@@ -534,7 +534,13 @@ AI_SIZE = os.getenv("OPENAI_IMAGE_SIZE", "1024x1536")     # vertical phone forma
 
 
 def _build_ai_prompt(car: dict) -> str:
-    """Build a detailed prompt that recreates the 'СРОЧНО САТЫЛАТ' style poster."""
+    """
+    Build a detailed prompt that recreates the 'СРОЧНО САТЫЛАТ' style poster.
+
+    Kept intentionally minimal on text elements — gpt-image-1 frequently garbles
+    long Cyrillic strings. Sticking to a handful of high-contrast labels
+    produces cleaner, more reliable output.
+    """
     brand = (car.get("brand") or "").upper()
     model = (car.get("model") or "").upper()
     year = str(car.get("year") or "").strip()
@@ -544,30 +550,46 @@ def _build_ai_prompt(car: dict) -> str:
     engine = str(car.get("engine") or "").strip()
     fuel = str(car.get("fuel") or "").strip()
 
-    feature_chips = []
+    chips = []
     if engine:
-        feature_chips.append(f'"{engine}"')
-    feature_chips.append('"4WD ПОЛНЫЙ ПРИВОД"')
+        chips.append(f'"{engine}"')
+    chips.append('"4WD"')
     if fuel:
-        feature_chips.append(f'"{fuel.upper()}"')
+        chips.append(f'"{fuel.upper()}"')
 
-    return f"""Create a vertical car-sale poster in the "Urgent Sale" Russian/Kyrgyz auto-dealership style.
+    mileage_line = f"ПРОБЕГ {mileage}" if mileage else "ПРОБЕГ —"
 
-Use the provided car photo prominently in the upper-middle area, slightly enhanced for contrast and color pop.
+    return f"""Vertical 2:3 used-car-sale advertising poster in the "Urgent Sale" Russian/Kyrgyz dealership style.
 
-LAYOUT, top to bottom:
-1. Bold white-and-yellow headline "СРОЧНО САТЫЛАТ!!" at the very top — yellow outlined glow, slight tilt, perfect Cyrillic letters.
-2. Subtitle line "{title_line}" — yellow rectangular pill with black text, centered.
-3. A row of three small black chips with yellow icons: {", ".join(feature_chips)}.
-4. The car photo — large, centered, sharp, taking ~45% of the vertical space.
-5. Bottom-left: black rounded box with small white text "ЦЕНА:" above and huge yellow text "{price}" below, with a thick yellow underline.
-6. Bottom-right: circular speedometer-style indicator showing "ПРОБЕГ {mileage or 'по запросу'}" in white inside a black circle with a yellow gauge arc.
-7. Row of four tiny icon+label pills: "ПРЕМИУМ САЛОН", "СОВРЕМЕННАЯ МУЛЬТИМЕДИА", "НАДЁЖНОСТЬ И МОЩЬ", "КОМФОРТ И БЕЗОПАСНОСТЬ".
-8. Solid black bar at the very bottom with a small yellow phone-handset icon and white text: "ЗВОНИТЕ ПРЯМО СЕЙЧАС! ХОРОШАЯ МАШИНА — ХОРОШЕМУ ЧЕЛОВЕКУ".
+MAIN IMAGE: place the provided car photo prominently in the center taking ~50% of the vertical space. Show the FRONT/EXTERIOR of the car (grille, headlights, hood). Slightly enhance contrast, saturation, and sharpness so the car looks dramatic and desirable. Lighting: cinematic, dark moody warehouse / underground parking with yellow rim light. Background must NOT be plain white.
 
-VISUAL STYLE: dark moody background (warehouse / underground parking, dim industrial lighting), bold #FFD700 yellow accents, sharp geometric blocks, premium automotive marketing aesthetic, high contrast.
+LAYOUT — only render the following text elements, perfectly spelled in Cyrillic, no extra labels:
 
-CRITICAL: All Cyrillic text MUST be perfectly rendered with no spelling errors, no nonsense characters, no Latin substitutions. Russian and Kyrgyz only. Do NOT add a logo, watermark, or any text other than what is specified.
+TOP (yellow bold sans-serif, slight tilt, very large):
+"СРОЧНО САТЫЛАТ!!"
+
+UNDER HEADLINE (yellow pill with black bold text, centered):
+"{title_line}"
+
+CHIP ROW (three small dark pills with yellow text, centered under title):
+{", ".join(chips)}
+
+BOTTOM-LEFT BLOCK (black rounded panel):
+small white "ЦЕНА:" on top, huge yellow "{price}" below it, thick yellow underline.
+
+BOTTOM-RIGHT BLOCK (circular gauge, white-on-black, yellow arc):
+"{mileage_line}"
+
+BOTTOM BAR (solid black bar across the full width, with a small yellow phone-handset icon and white text):
+"ЗВОНИТЕ ПРЯМО СЕЙЧАС!"
+
+STYLE: premium automotive marketing, bold #FFD700 yellow accents, deep blacks, sharp geometric blocks, high contrast, professional layout.
+
+CRITICAL RULES:
+- All text MUST be in Cyrillic (Russian / Kyrgyz). DO NOT use any Latin substitutes or garbled characters. DO NOT invent extra Cyrillic labels not listed above.
+- DO NOT add the words "ПРЕМИУМ", "САЛОН", "МУЛЬТИМЕДИА", "НАДЁЖНОСТЬ", "КОМФОРТ" or any other side-text. Keep the bottom area clean.
+- DO NOT add a logo, watermark, website URL, phone number, or signature.
+- DO NOT crop or replace the provided car photo. Keep the actual vehicle visible.
 """
 
 

@@ -21,7 +21,7 @@ from parser import parse_car_text
 from media_storage import (
     now_id, now_iso, photo_filename, video_filename,
     save_bytes, read_bytes, remove_temp, temp_path,
-    video_too_large, human_size, extract_video_poster,
+    video_too_large, human_size, extract_video_poster, extract_video_poster_smart,
 )
 from github_client import publish_car, upload_binary_file
 from instagram_fetcher import fetch_instagram
@@ -409,11 +409,12 @@ async def _batch_handle_video(message: Message, batch: BatchSession):
     fname = f"batch_{batch.user_id}_{idx}_video.{ext}"
     save_bytes(fname, data)
 
-    # Pre-extract poster frame from video for later use
+    # Pre-extract poster frame from video for later use.
+    # Uses GPT-4o-mini Vision to pick the frame showing the FRONT/EXTERIOR of the car,
+    # falling back to heuristic scoring (brightness/sharpness) on any error.
     thumb_name = None
     try:
-        from media_storage import extract_video_poster
-        poster_bytes = extract_video_poster(temp_path(fname))
+        poster_bytes = await extract_video_poster_smart(temp_path(fname))
         if poster_bytes:
             thumb_name = f"batch_{batch.user_id}_{idx}_thumb.jpg"
             save_bytes(thumb_name, poster_bytes)
@@ -831,7 +832,7 @@ async def on_video(message: Message):
     if not draft.photos:
         # Try ffmpeg first
         try:
-            poster_bytes = extract_video_poster(temp_path(fname))
+            poster_bytes = await extract_video_poster_smart(temp_path(fname))
             if poster_bytes:
                 tidx = len(draft.photos) + 1
                 tfname = photo_filename(draft.car_id, tidx, "jpg")
