@@ -165,12 +165,14 @@ async def _pick_best_exterior_frame_via_vision(frame_paths: list[str]) -> int | 
     content: list[dict] = [{
         "type": "text",
         "text": (
-            "Below are video frames of a used car for sale. "
-            "Pick the SINGLE frame that best shows the EXTERIOR of the car — "
-            "front grille, headlights, full body, hood — the kind of photo that makes "
-            "a buyer want to buy. Avoid interior dashboard, steering wheel, seat-only, "
-            "blurry, dark, or close-up detail shots. "
-            f"Reply with ONLY a single digit between 1 and {len(frame_paths)} — the frame number."
+            "Below are video frames of a used car for sale. Each frame is numbered. "
+            "Pick the SINGLE BEST frame for a marketing poster. Score them in this order:\n"
+            "  1. Front of the car visible (grille + both headlights + hood) — STRONGLY preferred.\n"
+            "  2. If no front shot exists, pick a 3/4-front angle (front + side).\n"
+            "  3. Side profile is acceptable if it shows the whole car body sharply.\n"
+            "  4. AVOID: rear/back view (taillights), interior (dashboard, steering wheel, seats), "
+            "wheel close-ups, blurry frames, very dark frames, frames where only part of the car is visible.\n"
+            f"Reply with ONLY a single digit between 1 and {len(frame_paths)} — the chosen frame number. No explanation."
         ),
     }]
     for path in frame_paths:

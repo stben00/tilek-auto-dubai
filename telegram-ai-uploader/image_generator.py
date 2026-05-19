@@ -625,21 +625,24 @@ def _photo_background(photo: Optional[Image.Image], W: int, H: int) -> Image.Ima
         except Exception:
             pass
 
-    # Top-left + top-right dark gradient masks so overlays are readable
+    # Dark gradient masks for overlay legibility. Tuned to keep the car bright
+    # in the center while darkening only the top-left / top-right / bottom edges.
     overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay, "RGBA")
-    # Left vertical gradient (for headline+pill+bullets)
-    for x in range(W // 2):
-        alpha = int(220 * (1 - x / (W // 2)))
+    # Left vertical gradient (headline + pill + bullets sit here)
+    left_w = int(W * 0.42)
+    for x in range(left_w):
+        alpha = int(170 * (1 - x / left_w))
         draw.line([(x, 0), (x, H)], fill=(0, 0, 0, alpha))
-    # Right top gradient (for spec panel area) — softer
+    # Top-right corner gradient (spec panel + badge area)
     for y in range(H // 2):
-        alpha = int(120 * (1 - y / (H // 2)))
-        draw.line([(W // 2, y), (W, y)], fill=(0, 0, 0, alpha))
-    # Bottom gradient for CTA legibility
-    for y in range(H // 3):
-        alpha = int(160 * (y / (H // 3)))
-        draw.line([(0, H - H // 3 + y), (W, H - H // 3 + y)], fill=(0, 0, 0, alpha))
+        alpha = int(90 * (1 - y / (H // 2)))
+        draw.line([(int(W * 0.55), y), (W, y)], fill=(0, 0, 0, alpha))
+    # Bottom gradient (CTA legibility) — short and soft
+    bottom_h = int(H * 0.22)
+    for y in range(bottom_h):
+        alpha = int(130 * (y / bottom_h))
+        draw.line([(0, H - bottom_h + y), (W, H - bottom_h + y)], fill=(0, 0, 0, alpha))
 
     bg = bg.convert("RGBA")
     bg.alpha_composite(overlay)
@@ -682,11 +685,19 @@ def template_premium_dubai(car: dict, photo: Optional[Image.Image]) -> Image.Ima
         title_text = _truncate(draw, title_text, headline_font, int(W * 0.55))
     _shadow_text(draw, (40, 50), title_text, headline_font, headline_color, offset=2)
 
-    # Year | Engine subline
+    # Year | Engine subline — auto-shrink so it always fits the left half
     sub_parts = [p for p in [year, engine] if p]
     if sub_parts:
         sub_text = " | ".join(sub_parts)
-        sub_font = _load_font("bold", 60)
+        sub_font = None
+        for size in range(60, 28, -3):
+            f = _load_font("bold", size)
+            if _text_w(draw, sub_text, f) <= W * 0.52:
+                sub_font = f
+                break
+        if sub_font is None:
+            sub_font = _load_font("bold", 28)
+            sub_text = _truncate(draw, sub_text, sub_font, int(W * 0.52))
         _shadow_text(draw, (40, 50 + headline_font.size + 6), sub_text, sub_font, accent, offset=2)
 
     # СТАРТ pill
