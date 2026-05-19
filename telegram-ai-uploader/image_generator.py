@@ -1,8 +1,11 @@
-"""100% local ad-poster generator for car listings.
+"""Ad-poster generator for car listings.
 
-No OpenAI / no DALL-E / no paid APIs — uses only Pillow.
+Two backends, picked via POSTER_MODE env var:
+  - "ai"     → OpenAI gpt-image-1 only (fails loudly if API broken)
+  - "local"  → Pillow templates only (no paid API)
+  - "auto"   → AI first, Pillow fallback if AI fails (default)
 
-5 templates with smart selection based on car attributes:
+Pillow fallback uses 5 templates with smart selection based on car attributes:
 - aggressive_black_yellow → SUV / Land Cruiser / RAV4 / default
 - red_price_blast        → cheap price (< $15k)
 - luxury_dark_gold       → BMW / Mercedes / Lexus / Porsche / Audi
@@ -11,13 +14,17 @@ No OpenAI / no DALL-E / no paid APIs — uses only Pillow.
 
 Output: vertical 1080x1350 (or POSTER_SIZE from env) JPEG bytes.
 """
+import base64
 import io
+import logging
 import os
 import random
 from pathlib import Path
 from typing import Optional
 
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps
+
+log = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Configuration (env-tunable)
@@ -471,15 +478,23 @@ def select_template(car: dict) -> str:
     return "clean_white_premium"
 
 
-def pick_different_template(car: dict, current: Optional[str]) -> str:
-    """For 🎨 Regenerate — picks a different template each time."""
+def pick_different_template(car: dict, current: Optional[str]) -> Optional[str]:
+    """
+    For the 🎨 Regenerate button.
+
+    In AI / auto mode, returns None so the regenerate flow asks gpt-image-1 for a fresh
+    image rather than switching to a Pillow template. In local mode, cycles through
+    Pillow templates so the user can preview different looks.
+    """
+    mode = _poster_mode()
+    if mode in ("ai", "auto"):
+        return None
     all_keys = list(TEMPLATES.keys())
     smart_choice = select_template(car)
     pool = [k for k in all_keys if k != current]
     if not pool:
         return smart_choice
-    # Bias toward smart_choice on first generation, otherwise random
-    if current is None:
+    if current is None or current == AI_POSTER_TEMPLATE:
         return smart_choice
     return random.choice(pool)
 
@@ -508,36 +523,175 @@ def generate_local_poster(car: dict, main_photo_path: Optional[Path | str], temp
     return out.getvalue(), template_name
 
 
-# Backwards-compatible names used by bot.py
+# ---------------------------------------------------------------------------
+# AI poster generation via OpenAI gpt-image-1
+# ---------------------------------------------------------------------------
+
+AI_POSTER_TEMPLATE = "ai_gpt_image"
+AI_TIMEOUT_SECONDS = 90.0
+AI_QUALITY = os.getenv("OPENAI_IMAGE_QUALITY", "medium")  # low / medium / high
+AI_SIZE = os.getenv("OPENAI_IMAGE_SIZE", "1024x1536")     # vertical phone format
+
+
+def _build_ai_prompt(car: dict) -> str:
+    """Build a detailed prompt that recreates the 'СРОЧНО САТЫЛАТ' style poster."""
+    brand = (car.get("brand") or "").upper()
+    model = (car.get("model") or "").upper()
+    year = str(car.get("year") or "").strip()
+    title_line = " ".join(p for p in [brand, model, year] if p) or (car.get("title") or "AUTO").upper()
+    price = str(car.get("price") or "по запросу").strip()
+    mileage = str(car.get("mileage") or "").strip()
+    engine = str(car.get("engine") or "").strip()
+    fuel = str(car.get("fuel") or "").strip()
+
+    feature_chips = []
+    if engine:
+        feature_chips.append(f'"{engine}"')
+    feature_chips.append('"4WD ПОЛНЫЙ ПРИВОД"')
+    if fuel:
+        feature_chips.append(f'"{fuel.upper()}"')
+
+    return f"""Create a vertical car-sale poster in the "Urgent Sale" Russian/Kyrgyz auto-dealership style.
+
+Use the provided car photo prominently in the upper-middle area, slightly enhanced for contrast and color pop.
+
+LAYOUT, top to bottom:
+1. Bold white-and-yellow headline "СРОЧНО САТЫЛАТ!!" at the very top — yellow outlined glow, slight tilt, perfect Cyrillic letters.
+2. Subtitle line "{title_line}" — yellow rectangular pill with black text, centered.
+3. A row of three small black chips with yellow icons: {", ".join(feature_chips)}.
+4. The car photo — large, centered, sharp, taking ~45% of the vertical space.
+5. Bottom-left: black rounded box with small white text "ЦЕНА:" above and huge yellow text "{price}" below, with a thick yellow underline.
+6. Bottom-right: circular speedometer-style indicator showing "ПРОБЕГ {mileage or 'по запросу'}" in white inside a black circle with a yellow gauge arc.
+7. Row of four tiny icon+label pills: "ПРЕМИУМ САЛОН", "СОВРЕМЕННАЯ МУЛЬТИМЕДИА", "НАДЁЖНОСТЬ И МОЩЬ", "КОМФОРТ И БЕЗОПАСНОСТЬ".
+8. Solid black bar at the very bottom with a small yellow phone-handset icon and white text: "ЗВОНИТЕ ПРЯМО СЕЙЧАС! ХОРОШАЯ МАШИНА — ХОРОШЕМУ ЧЕЛОВЕКУ".
+
+VISUAL STYLE: dark moody background (warehouse / underground parking, dim industrial lighting), bold #FFD700 yellow accents, sharp geometric blocks, premium automotive marketing aesthetic, high contrast.
+
+CRITICAL: All Cyrillic text MUST be perfectly rendered with no spelling errors, no nonsense characters, no Latin substitutions. Russian and Kyrgyz only. Do NOT add a logo, watermark, or any text other than what is specified.
+"""
+
+
+async def _generate_with_gpt_image(car: dict, main_photo_path: Optional[Path | str]) -> Optional[bytes]:
+    """Call OpenAI gpt-image-1 (images.edit if a reference photo is provided, else images.generate)."""
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        log.warning("OPENAI_API_KEY missing; skipping AI poster")
+        return None
+    try:
+        from openai import AsyncOpenAI
+    except ImportError:
+        log.warning("openai package not installed")
+        return None
+
+    prompt = _build_ai_prompt(car)
+    client = AsyncOpenAI(api_key=api_key, timeout=AI_TIMEOUT_SECONDS)
+
+    try:
+        if main_photo_path and Path(main_photo_path).exists():
+            with open(main_photo_path, "rb") as f:
+                resp = await client.images.edit(
+                    model="gpt-image-1",
+                    image=f,
+                    prompt=prompt,
+                    size=AI_SIZE,
+                    quality=AI_QUALITY,
+                )
+        else:
+            resp = await client.images.generate(
+                model="gpt-image-1",
+                prompt=prompt,
+                size=AI_SIZE,
+                quality=AI_QUALITY,
+            )
+    except Exception as e:
+        log.warning("gpt-image-1 call failed: %s", e)
+        return None
+
+    try:
+        data = resp.data[0]
+        b64 = getattr(data, "b64_json", None)
+        if b64:
+            return base64.b64decode(b64)
+        url = getattr(data, "url", None)
+        if url:
+            import httpx
+            async with httpx.AsyncClient(timeout=30) as http:
+                r = await http.get(url)
+                r.raise_for_status()
+                return r.content
+        log.warning("gpt-image-1 returned no usable image data")
+        return None
+    except Exception as e:
+        log.warning("gpt-image-1 response parsing failed: %s", e)
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Public API
+# ---------------------------------------------------------------------------
+
+# Backwards-compatible name used by bot.py
 def generate_ad_image_prompt(car: dict) -> str:
-    """Kept for API stability — used by the (disabled) AI image hook."""
-    return f"Automotive Instagram poster for {car.get('title','car')}"
+    """Returns the prompt that would be sent to gpt-image-1 for this car."""
+    return _build_ai_prompt(car)
+
+
+def _poster_mode() -> str:
+    """Returns one of: 'ai', 'local', 'auto'. Defaults to 'auto'."""
+    raw = os.getenv("POSTER_MODE", "auto").strip().lower()
+    if raw in ("ai", "local", "auto"):
+        return raw
+    # Legacy ENABLE_LOCAL_POSTER toggle: false → ai, true/missing → auto
+    legacy = os.getenv("ENABLE_LOCAL_POSTER", "").strip().lower()
+    if legacy in ("0", "false", "no"):
+        return "ai"
+    return "auto"
 
 
 async def generate_ad_image(car: dict, main_photo_path: Optional[Path | str], template_name: Optional[str] = None) -> Optional[bytes]:
-    """
-    Public entry point. ALWAYS uses local poster generator (no paid API).
-    `template_name` lets the caller force a specific template (used by 🎨 Regenerate).
-    """
-    enabled = os.getenv("ENABLE_LOCAL_POSTER", "true").lower() in ("1", "true", "yes")
-    if not enabled:
-        return None
-    try:
-        data, _used = generate_local_poster(car, main_photo_path, template_name=template_name)
-        return data
-    except Exception as e:
-        print(f"[image_generator] generation failed: {e}")
-        return None
+    """Public entry point. Returns JPEG/PNG bytes or None if all backends fail."""
+    data, _ = await generate_ad_image_with_template(car, main_photo_path, template_name=template_name)
+    return data
 
 
-async def generate_ad_image_with_template(car: dict, main_photo_path: Optional[Path | str], template_name: Optional[str] = None) -> tuple[Optional[bytes], Optional[str]]:
-    """Variant that also returns the template name actually used."""
-    enabled = os.getenv("ENABLE_LOCAL_POSTER", "true").lower() in ("1", "true", "yes")
-    if not enabled:
-        return None, None
+async def generate_ad_image_with_template(
+    car: dict,
+    main_photo_path: Optional[Path | str],
+    template_name: Optional[str] = None,
+) -> tuple[Optional[bytes], Optional[str]]:
+    """
+    Generates a poster following POSTER_MODE.
+
+    `template_name` is honored only for the Pillow backend. If template_name is one of the
+    local template keys, we use Pillow directly (used by the 🎨 Regenerate button when the
+    user wants to pick a specific template). Otherwise we follow POSTER_MODE.
+
+    Returns (bytes, template_used) or (None, None) on total failure.
+    """
+    # Caller asked for a specific Pillow template → use Pillow directly
+    if template_name and template_name in TEMPLATES:
+        try:
+            data, used = generate_local_poster(car, main_photo_path, template_name=template_name)
+            return data, used
+        except Exception as e:
+            log.warning("Local poster generation failed: %s", e)
+            return None, None
+
+    mode = _poster_mode()
+
+    if mode in ("ai", "auto"):
+        ai_bytes = await _generate_with_gpt_image(car, main_photo_path)
+        if ai_bytes:
+            return ai_bytes, AI_POSTER_TEMPLATE
+        if mode == "ai":
+            log.warning("POSTER_MODE=ai but AI generation failed; returning nothing")
+            return None, None
+        log.info("AI poster generation failed; falling back to local Pillow template")
+
+    # mode == "local" OR auto-fallback
     try:
         data, used = generate_local_poster(car, main_photo_path, template_name=template_name)
         return data, used
     except Exception as e:
-        print(f"[image_generator] generation failed: {e}")
+        log.warning("Local poster generation failed: %s", e)
         return None, None
