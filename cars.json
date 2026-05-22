@@ -1,5 +1,31 @@
 [
   {
+    "id": "car_20260522_210036",
+    "title": "Hyundai Tucson 2025",
+    "brand": "Hyundai",
+    "model": "Tucson",
+    "year": "2025",
+    "engine": "1.6 Hybrid AWD",
+    "fuel": "Гибрид",
+    "bodyType": "Внедорожник",
+    "price": "$17 000",
+    "mileage": "",
+    "location": "Dubai / UAE",
+    "description": "🔥 ШОК ЦЕНА!\n\n<b>Hyundai Tucson 2025</b>\n\nНадёжный внедорожник для городской жизни и активного отдыха. Идеальное сочетание комфорта и технологий!\n\n🔧 Двигатель: 1.6 Hybrid AWD  \n⛽ Топливо: Гибрид  \n📍 Локация: Dubai  \n\n💰 Цена: $17 000\n\nНе упустите шанс! Свяжитесь с нами для деталей!",
+    "whatsapp": "",
+    "instagramUrl": "",
+    "videoUrl": "",
+    "videoFile": "assets/videos/car_20260522_210036_video.mp4",
+    "images": [
+      "assets/cars/car_20260522_210036_poster.jpg",
+      "assets/cars/car_20260522_210036_1.jpg"
+    ],
+    "mainImage": "assets/cars/car_20260522_210036_poster.jpg",
+    "status": "available",
+    "source": "telegram_ai_uploader",
+    "createdAt": "2026-05-22T21:02:15Z"
+  },
+  {
     "id": "car_20260516_153156",
     "title": "Toyota Corolla 2022",
     "brand": "Toyota",
