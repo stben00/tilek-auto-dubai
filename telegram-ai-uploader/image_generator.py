@@ -156,37 +156,95 @@ def _load_photo(path: Optional[Path | str]) -> Optional[Image.Image]:
 
 def _enhance_photo(img: Image.Image) -> Image.Image:
     """
-    Premium dealership-look enhancement applied before the photo lands on the poster.
-    Each step is guarded so a corrupt image still renders.
+    Aggressive premium "studio" enhancement so dim Dubai garage video frames
+    look like a lit dealership shot. Each step guarded so a corrupt image
+    still renders.
 
     Pipeline:
-      1. Stronger auto-contrast — recovers detail from flat / washed-out video frames.
-      2. Brightness lift — Dubai garage videos are usually dim.
-      3. Saturation boost — paint colour pops.
-      4. Contrast pass — deepens blacks, brightens highlights.
-      5. Larger unsharp mask — crisp grille / badge / wheel edges at poster scale.
+      1. Auto-contrast (per-channel) — recovers detail + neutralises colour casts.
+      2. ADAPTIVE brightness — measure mean luma; the darker the frame, the
+         bigger the lift (up to ~1.5x for very dark garage clips).
+      3. Shadow lift via a gentle gamma curve so the lower half of the car
+         (bumper, wheels) stops being a black blob.
+      4. Strong saturation — paint colour pops.
+      5. Strong contrast — dramatic, glossy look.
+      6. Large unsharp mask — crisp grille / badge / wheel edges at poster scale.
     """
     try:
         img = ImageOps.autocontrast(img, cutoff=1)
     except Exception:
         pass
+    # Adaptive brightness based on mean luminance
     try:
-        img = ImageEnhance.Brightness(img).enhance(1.06)
+        from PIL import ImageStat
+        mean = ImageStat.Stat(img.convert("L")).mean[0]  # 0..255
+        if mean < 70:
+            factor = 1.55
+        elif mean < 100:
+            factor = 1.35
+        elif mean < 130:
+            factor = 1.18
+        else:
+            factor = 1.06
+        img = ImageEnhance.Brightness(img).enhance(factor)
+    except Exception:
+        pass
+    # Shadow lift (gamma < 1 brightens midtones/shadows without blowing highlights)
+    try:
+        gamma = 0.82
+        lut = [min(255, int(((i / 255.0) ** gamma) * 255)) for i in range(256)] * 3
+        img = img.convert("RGB").point(lut)
     except Exception:
         pass
     try:
-        img = ImageEnhance.Color(img).enhance(1.22)
+        img = ImageEnhance.Color(img).enhance(1.28)
     except Exception:
         pass
     try:
-        img = ImageEnhance.Contrast(img).enhance(1.18)
+        img = ImageEnhance.Contrast(img).enhance(1.22)
     except Exception:
         pass
     try:
-        img = img.filter(ImageFilter.UnsharpMask(radius=1.8, percent=170, threshold=2))
+        img = img.filter(ImageFilter.UnsharpMask(radius=2.0, percent=180, threshold=2))
     except Exception:
         pass
     return img
+
+
+def _apply_spotlight(img: Image.Image, strength: int = 60) -> Image.Image:
+    """Brighten the centre (where the car sits) with a soft radial 'studio light'.
+
+    Builds a small radial mask, upsamples + blurs, then screen-blends a white
+    plate through it. Cheap and gives the car a lit, premium pop.
+    """
+    try:
+        w, h = img.size
+        small = 96
+        mask_small = Image.new("L", (small, small), 0)
+        d = ImageDraw.Draw(mask_small)
+        steps = 20
+        # Centre the spotlight slightly below middle, on the car body
+        cx, cy = small // 2, int(small * 0.6)
+        for i in range(steps):
+            t = i / (steps - 1)
+            radius = int((small / 2) * (1 - t * 0.85))
+            alpha = int(strength * (1 - t) ** 1.5)
+            d.ellipse([cx - radius, cy - radius, cx + radius, cy + radius], fill=alpha)
+        mask = mask_small.resize((w, h), Image.Resampling.LANCZOS).filter(ImageFilter.GaussianBlur(radius=70))
+        light = Image.new("RGB", (w, h), (255, 255, 255))
+        return _screen_blend(img, light, mask)
+    except Exception:
+        return img
+
+
+def _screen_blend(base: Image.Image, top: Image.Image, mask: Image.Image) -> Image.Image:
+    """Screen-blend `top` onto `base` through `mask` (mask 0=base, 255=full screen)."""
+    try:
+        from PIL import ImageChops
+        screened = ImageChops.screen(base.convert("RGB"), top.convert("RGB"))
+        return Image.composite(screened, base.convert("RGB"), mask)
+    except Exception:
+        return base
 
 
 def _apply_vignette(img: Image.Image, strength: int = 130) -> Image.Image:
@@ -763,8 +821,9 @@ def _photo_background(photo: Optional[Image.Image], W: int, H: int) -> Image.Ima
         bg = _gradient(W, H, (20, 20, 22), (5, 5, 7))
     else:
         bg = _cover_resize(_enhance_photo(photo), W, H)
-        # Add cinematic vignette so corners darken and the car pulls the eye
-        bg = _apply_vignette(bg, strength=120)
+        # Studio spotlight on the car centre, then cinematic corner vignette.
+        bg = _apply_spotlight(bg, strength=70)
+        bg = _apply_vignette(bg, strength=130)
 
     # Dark gradient masks for overlay legibility. Tuned to keep the car bright
     # in the center while darkening only the top-left / top-right / bottom edges.
