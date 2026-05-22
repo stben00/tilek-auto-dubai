@@ -698,14 +698,63 @@ def _draw_check_bullet(draw, x: int, y: int, text: str, font, accent: tuple, tex
     draw.text((x + box + 14, y + 2), text, font=font, fill=text_color)
 
 
-def _draw_spec_row(draw, x: int, y: int, label: str, value: str, font_label, font_value, accent: tuple):
-    """A spec row: thick yellow vertical accent bar + label (grey) + value (white)."""
-    bar_w = 5
-    bar_h = 48
-    draw.rectangle([x, y + 6, x + bar_w, y + 6 + bar_h], fill=accent)
-    label_x = x + bar_w + 18
-    draw.text((label_x, y + 6), label, font=font_label, fill=(200, 200, 200))
-    draw.text((label_x, y + 30), value, font=font_value, fill=(255, 255, 255))
+def _draw_mini_icon(draw, x: int, y: int, size: int, kind: str, color):
+    """Draw a simple recognizable icon with Pillow primitives. No emoji fonts needed."""
+    s = size
+    w = max(2, s // 12)  # stroke width
+    cx, cy = x + s // 2, y + s // 2
+    if kind == "year":  # calendar
+        draw.rounded_rectangle([x, y + s * 0.12, x + s, y + s], radius=s // 8, outline=color, width=w)
+        draw.line([(x, y + s * 0.36), (x + s, y + s * 0.36)], fill=color, width=w)
+        draw.line([(x + s * 0.28, y), (x + s * 0.28, y + s * 0.22)], fill=color, width=w)
+        draw.line([(x + s * 0.72, y), (x + s * 0.72, y + s * 0.22)], fill=color, width=w)
+    elif kind == "engine":  # gear
+        r = s // 2 - w
+        draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=color, width=w)
+        draw.ellipse([cx - r // 3, cy - r // 3, cx + r // 3, cy + r // 3], outline=color, width=w)
+        import math
+        for ang in range(0, 360, 45):
+            a = math.radians(ang)
+            x1 = cx + int((r) * math.cos(a)); y1 = cy + int((r) * math.sin(a))
+            x2 = cx + int((r + s * 0.16) * math.cos(a)); y2 = cy + int((r + s * 0.16) * math.sin(a))
+            draw.line([(x1, y1), (x2, y2)], fill=color, width=w)
+    elif kind == "fuel":  # fuel pump droplet
+        draw.rounded_rectangle([x + s * 0.1, y, x + s * 0.6, y + s], radius=s // 10, outline=color, width=w)
+        draw.line([(x + s * 0.6, y + s * 0.3), (x + s * 0.85, y + s * 0.3)], fill=color, width=w)
+        draw.line([(x + s * 0.85, y + s * 0.3), (x + s * 0.85, y + s * 0.75)], fill=color, width=w)
+        draw.line([(x + s * 0.2, y + s * 0.3), (x + s * 0.5, y + s * 0.3)], fill=color, width=w)
+    elif kind == "gearbox":  # H-pattern
+        draw.line([(x + s * 0.25, y), (x + s * 0.25, y + s)], fill=color, width=w)
+        draw.line([(x + s * 0.75, y), (x + s * 0.75, y + s)], fill=color, width=w)
+        draw.line([(x + s * 0.25, y + s * 0.5), (x + s * 0.75, y + s * 0.5)], fill=color, width=w)
+        for px in (0.25, 0.75):
+            draw.ellipse([x + s * px - w, y - w, x + s * px + w, y + w], fill=color)
+    elif kind == "drive":  # steering wheel
+        r = s // 2 - w
+        draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=color, width=w)
+        draw.ellipse([cx - r // 4, cy - r // 4, cx + r // 4, cy + r // 4], fill=color)
+        draw.line([(cx, cy), (cx, cy - r)], fill=color, width=w)
+        draw.line([(cx, cy), (cx - int(r * 0.87), cy + r // 2)], fill=color, width=w)
+        draw.line([(cx, cy), (cx + int(r * 0.87), cy + r // 2)], fill=color, width=w)
+    elif kind == "body":  # car silhouette
+        draw.rounded_rectangle([x, y + s * 0.35, x + s, y + s * 0.7], radius=s // 8, outline=color, width=w)
+        draw.arc([x + s * 0.1, y + s * 0.1, x + s * 0.9, y + s * 0.75], 180, 360, fill=color, width=w)
+        draw.ellipse([x + s * 0.15, y + s * 0.62, x + s * 0.35, y + s * 0.82], outline=color, width=w)
+        draw.ellipse([x + s * 0.65, y + s * 0.62, x + s * 0.85, y + s * 0.82], outline=color, width=w)
+
+
+def _draw_spec_row(draw, x: int, y: int, label: str, value: str, font_label, font_value, accent: tuple, icon: str = ""):
+    """A spec row: small yellow icon + label (grey, uppercase) + value (white bold)."""
+    icon_size = 34
+    if icon:
+        _draw_mini_icon(draw, x, y + 8, icon_size, icon, accent)
+        text_x = x + icon_size + 16
+    else:
+        bar_w = 5
+        draw.rectangle([x, y + 6, x + bar_w, y + 6 + 48], fill=accent)
+        text_x = x + bar_w + 18
+    draw.text((text_x, y + 4), label.upper(), font=font_label, fill=(170, 170, 175))
+    draw.text((text_x, y + 26), value, font=font_value, fill=(255, 255, 255))
 
 
 def _photo_background(photo: Optional[Image.Image], W: int, H: int) -> Image.Image:
@@ -792,14 +841,16 @@ def template_premium_dubai(car: dict, photo: Optional[Image.Image]) -> Image.Ima
             sub_text = _truncate(draw, sub_text, sub_font, int(W * 0.52))
         _shadow_text(draw, (40, 50 + headline_font.size + 6), sub_text, sub_font, accent, offset=2)
 
-    # СТАРТ pill
-    pill_text = f"СТАРТ: {price_pretty}"
-    pill_font = _load_font("bold", 32)
-    pw = _text_w(draw, pill_text, pill_font)
+    # Price block: yellow rounded box with small label "СТАРТОВАЯ ЦЕНА" + big price
+    price_font = _load_font("narrow", 56)
+    label_font = _load_font("bold", 20)
+    pw = max(_text_w(draw, price_pretty, price_font), _text_w(draw, "СТАРТОВАЯ ЦЕНА", label_font))
     pill_y = 50 + headline_font.size + 80
-    pill_box = (40, pill_y, 40 + pw + 60, pill_y + pill_font.size + 28)
-    _rounded_rect(draw, pill_box, radius=14, fill=accent)
-    draw.text((40 + 30, pill_y + 13), pill_text, font=pill_font, fill=(15, 15, 15))
+    box_h = 22 + label_font.size + price_font.size + 18
+    pill_box = (40, pill_y, 40 + pw + 56, pill_y + box_h)
+    _rounded_rect(draw, pill_box, radius=16, fill=accent)
+    draw.text((40 + 28, pill_y + 14), "СТАРТОВАЯ ЦЕНА", font=label_font, fill=(40, 30, 0))
+    _shadow_text(draw, (40 + 28, pill_y + 14 + label_font.size + 2), price_pretty, price_font, (15, 15, 15), offset=1)
 
     # ===== Left: bullet list (dynamic by car category) =====
     bullets = _bullets_for_category(detect_car_category(car), brand=brand, engine=engine)
@@ -811,7 +862,7 @@ def template_premium_dubai(car: dict, photo: Optional[Image.Image]) -> Image.Ima
         if all(_text_w(draw, line, f) <= bullet_max_w for line in bullets):
             bullet_font = f
             break
-    bullet_y = pill_y + pill_font.size + 70
+    bullet_y = pill_box[3] + 36  # start below the price box
     for line in bullets:
         # Belt-and-suspenders truncation in case a single bullet is still too long.
         line = _truncate(draw, line, bullet_font, bullet_max_w)
@@ -826,26 +877,26 @@ def template_premium_dubai(car: dict, photo: Optional[Image.Image]) -> Image.Ima
 
     specs = []
     if year:
-        specs.append(("Год", year))
+        specs.append(("Год", year, "year"))
     if engine:
-        specs.append(("Объём", engine))
+        specs.append(("Двигатель", engine, "engine"))
     if fuel:
-        specs.append(("Топливо", fuel))
-    specs.append(("Коробка", "Автомат"))
-    specs.append(("Привод", "Задний"))
+        specs.append(("Топливо", fuel, "fuel"))
+    specs.append(("Коробка", "Автомат", "gearbox"))
+    specs.append(("Привод", "Задний", "drive"))
     if body_type:
-        specs.append(("Кузов", body_type))
+        specs.append(("Кузов", body_type, "body"))
 
     row_h = 64
     panel_h = panel_pad * 2 + row_h * len(specs)
     _rounded_rect(draw, (panel_x, panel_y, panel_x + panel_w, panel_y + panel_h),
-                  radius=22, fill=(15, 15, 18, 215))
+                  radius=22, fill=(15, 15, 18, 225))
 
-    label_font = _load_font("regular", 18)
+    label_font = _load_font("regular", 17)
     value_font = _load_font("bold", 24)
-    for i, (label, value) in enumerate(specs):
+    for i, (label, value, icon) in enumerate(specs):
         _draw_spec_row(draw, panel_x + panel_pad, panel_y + panel_pad + i * row_h,
-                       label, value, label_font, value_font, accent)
+                       label, value, label_font, value_font, accent, icon=icon)
 
     # ===== Middle-right: ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ badge =====
     badge_y = panel_y + panel_h + 20
@@ -864,31 +915,39 @@ def template_premium_dubai(car: dict, photo: Optional[Image.Image]) -> Image.Ima
     draw.text((badge_box[0] + badge_pad_x, badge_box[1] + badge_pad_y + bf1.size + 4),
               badge_line2, font=bf2, fill=(255, 255, 255))
 
-    # ===== Bottom-left: ВИДЕО ПО ЗАПРОСУ CTA =====
-    cta_y = H - 200
-    cta_pill_text = "ВИДЕО ПО ЗАПРОСУ"
-    cta_pill_font = _load_font("bold", 26)
-    cw = _text_w(draw, cta_pill_text, cta_pill_font) + 50
-    cta_pill_box = (40, cta_y, 40 + cw, cta_y + cta_pill_font.size + 22)
-    _rounded_rect(draw, cta_pill_box, radius=14, fill=accent)
-    draw.text((40 + 25, cta_y + 11), cta_pill_text, font=cta_pill_font, fill=(15, 15, 15))
+    # ===== Bottom CTA bar: video pill (left) + WhatsApp button (right) =====
+    cta_y = H - 130
 
-    cta_sub_font = _load_font("regular", 22)
-    draw.text((40, cta_y + cta_pill_font.size + 38),
-              "Напишите — отправим", font=cta_sub_font, fill=(235, 235, 235))
-    draw.text((40, cta_y + cta_pill_font.size + 66),
-              "подробное видео автомобиля", font=cta_sub_font, fill=(235, 235, 235))
+    # Left: "ПОЛУЧИТЬ ВИДЕО" with a play triangle
+    play_box = 44
+    _rounded_rect(draw, (40, cta_y, 40 + play_box, cta_y + play_box), radius=10, fill=accent)
+    draw.polygon([
+        (40 + play_box * 0.36, cta_y + play_box * 0.3),
+        (40 + play_box * 0.36, cta_y + play_box * 0.7),
+        (40 + play_box * 0.70, cta_y + play_box * 0.5),
+    ], fill=(15, 15, 15))
+    vid_title_font = _load_font("bold", 22)
+    vid_sub_font = _load_font("regular", 18)
+    vtx = 40 + play_box + 16
+    draw.text((vtx, cta_y - 2), "ПОЛУЧИТЬ ВИДЕО", font=vid_title_font, fill=(255, 255, 255))
+    draw.text((vtx, cta_y + 26), "Напишите — отправим", font=vid_sub_font, fill=(210, 210, 210))
+    draw.text((vtx, cta_y + 48), "полный обзор авто", font=vid_sub_font, fill=(210, 210, 210))
 
-    # ===== Bottom-right: "ЗВОНИТЕ ПРЯМО СЕЙЧАС" pill =====
-    call_text = "ЗВОНИТЕ ПРЯМО СЕЙЧАС"
-    call_font = _load_font("bold", 22)
-    cw2 = _text_w(draw, call_text, call_font) + 50
-    call_y = H - 90
-    call_box = (W - 40 - cw2, call_y, W - 40, call_y + call_font.size + 22)
-    _rounded_rect(draw, call_box, radius=14, fill=(15, 15, 18, 235))
-    # Thin yellow border for accent
-    _rounded_rect(draw, call_box, radius=14, fill=None, outline=accent, width=2)
-    draw.text((call_box[0] + 25, call_box[1] + 12), call_text, font=call_font, fill=accent)
+    # Right: green WhatsApp button
+    wa_green = (37, 211, 102)
+    wa_text = "WHATSAPP"
+    wa_font = _load_font("bold", 24)
+    wa_icon = 40
+    wa_w = wa_icon + 20 + _text_w(draw, wa_text, wa_font) + 56
+    wa_box = (W - 40 - wa_w, cta_y - 4, W - 40, cta_y + 52)
+    _rounded_rect(draw, wa_box, radius=26, fill=wa_green)
+    # WhatsApp glyph: white circle + handset
+    icx, icy = wa_box[0] + 28, (wa_box[1] + wa_box[3]) // 2
+    draw.ellipse([icx - 18, icy - 18, icx + 18, icy + 18], fill=(255, 255, 255))
+    # simple handset curl
+    draw.arc([icx - 9, icy - 9, icx + 9, icy + 9], 30, 300, fill=wa_green, width=5)
+    draw.ellipse([icx - 3, icy + 4, icx + 5, icy + 12], fill=wa_green)
+    draw.text((icx + 28, icy - wa_font.size // 2), wa_text, font=wa_font, fill=(255, 255, 255))
 
     return img
 
