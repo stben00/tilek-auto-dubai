@@ -1,6 +1,40 @@
 {
   "cars": [
     {
+      "id": "car_20260523_040443",
+      "title": "Jeep Wrangler 2023",
+      "brand": "Jeep",
+      "model": "Wrangler",
+      "year": "2023",
+      "engine": "2.0 Hybrid",
+      "fuel": "Гибрид",
+      "bodyType": "Внедорожник",
+      "body": "",
+      "budget": "",
+      "tag": "reliable",
+      "price": "$17 800",
+      "mileage": "26 900 км",
+      "location": "Dubai / UAE",
+      "description": "🔥 ШОК ЦЕНА!\n\n<b>Jeep Wrangler 2023</b>\n\nВнедорожник Jeep Wrangler — это идеальный выбор для тех, кто ценит сочетание стиля и мощи. Этот SUV готов к любым приключениям и обеспечит комфорт на любых дорогах.\n\n🔧 Двигатель: 2.0 Hybrid  \n⛽ Топливо: Гибрид  \n📊 Пробег: 26 900 км  \n📍 Локация: Dubai  \n\n💰 Цена: $17 800\n\nНе упустите свой шанс — свяжитесь с нами прямо сейчас!",
+      "whatsapp": "",
+      "instagramUrl": "",
+      "image": "assets/cars/car_20260523_040443_poster.jpg",
+      "mainImage": "assets/cars/car_20260523_040443_poster.jpg",
+      "images": [
+        "assets/cars/car_20260523_040443_poster.jpg",
+        "assets/cars/car_20260523_040443_1.jpg"
+      ],
+      "videoUrl": "assets/videos/car_20260523_040443_video.mp4",
+      "videoFile": "assets/videos/car_20260523_040443_video.mp4",
+      "videoType": "local",
+      "videoPoster": "assets/cars/car_20260523_040443_1.jpg",
+      "videoTitle": "Видео-обзор Jeep Wrangler 2023",
+      "videoDuration": "",
+      "status": "available",
+      "source": "telegram_ai_uploader",
+      "createdAt": "2026-05-23T04:05:48Z"
+    },
+    {
       "id": "car_20260522_210036",
       "title": "Hyundai Tucson 2025",
       "brand": "Hyundai",
@@ -70,6 +104,16 @@
     }
   ],
   "videos": [
+    {
+      "id": "car_20260523_040443",
+      "carId": "car_20260523_040443",
+      "title": "Jeep Wrangler 2023 — видео-обзор",
+      "url": "assets/videos/car_20260523_040443_video.mp4",
+      "thumb": "assets/cars/car_20260523_040443_1.jpg",
+      "type": "local",
+      "views": "новое",
+      "instagramUrl": ""
+    },
     {
       "id": "car_20260522_210036",
       "carId": "car_20260522_210036",
