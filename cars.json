@@ -1,5 +1,31 @@
 [
   {
+    "id": "car_20260523_040443",
+    "title": "Jeep Wrangler 2023",
+    "brand": "Jeep",
+    "model": "Wrangler",
+    "year": "2023",
+    "engine": "2.0 Hybrid",
+    "fuel": "Гибрид",
+    "bodyType": "Внедорожник",
+    "price": "$17 800",
+    "mileage": "26 900 км",
+    "location": "Dubai / UAE",
+    "description": "🔥 ШОК ЦЕНА!\n\n<b>Jeep Wrangler 2023</b>\n\nВнедорожник Jeep Wrangler — это идеальный выбор для тех, кто ценит сочетание стиля и мощи. Этот SUV готов к любым приключениям и обеспечит комфорт на любых дорогах.\n\n🔧 Двигатель: 2.0 Hybrid  \n⛽ Топливо: Гибрид  \n📊 Пробег: 26 900 км  \n📍 Локация: Dubai  \n\n💰 Цена: $17 800\n\nНе упустите свой шанс — свяжитесь с нами прямо сейчас!",
+    "whatsapp": "",
+    "instagramUrl": "",
+    "videoUrl": "",
+    "videoFile": "assets/videos/car_20260523_040443_video.mp4",
+    "images": [
+      "assets/cars/car_20260523_040443_poster.jpg",
+      "assets/cars/car_20260523_040443_1.jpg"
+    ],
+    "mainImage": "assets/cars/car_20260523_040443_poster.jpg",
+    "status": "available",
+    "source": "telegram_ai_uploader",
+    "createdAt": "2026-05-23T04:05:48Z"
+  },
+  {
     "id": "car_20260522_210036",
     "title": "Hyundai Tucson 2025",
     "brand": "Hyundai",
