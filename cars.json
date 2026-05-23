@@ -1,5 +1,31 @@
 [
   {
+    "id": "car_20260523_040556",
+    "title": "Toyota Tundra 2024",
+    "brand": "Toyota",
+    "model": "Tundra SR5",
+    "year": "2024",
+    "engine": "3.5",
+    "fuel": "",
+    "bodyType": "",
+    "price": "$15 400",
+    "mileage": "",
+    "location": "Dubai / UAE",
+    "description": "🔥 ШОК ЦЕНА!\n\n<b>Toyota Tundra SR5 2024</b>\n\nНадёжный пикап для активных людей, который готов справиться с любыми задачами. Отличный выбор для тех, кто ценит мощь и комфорт в каждой поездке.\n\n🔧 Двигатель: 3.5\n\n📍 Локация: Dubai\n\n💰 Цена: $15 400\n\nНе упустите свой шанс, звоните прямо сейчас!",
+    "whatsapp": "",
+    "instagramUrl": "",
+    "videoUrl": "",
+    "videoFile": "assets/videos/car_20260523_040556_video.mp4",
+    "images": [
+      "assets/cars/car_20260523_040556_poster.jpg",
+      "assets/cars/car_20260523_040556_1.jpg"
+    ],
+    "mainImage": "assets/cars/car_20260523_040556_poster.jpg",
+    "status": "available",
+    "source": "telegram_ai_uploader",
+    "createdAt": "2026-05-23T23:49:35Z"
+  },
+  {
     "id": "car_20260523_040443",
     "title": "Jeep Wrangler 2023",
     "brand": "Jeep",
