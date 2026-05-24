@@ -154,6 +154,30 @@ def _load_photo(path: Optional[Path | str]) -> Optional[Image.Image]:
         return None
 
 
+def enhance_photo_bytes(data: bytes, max_side: int = 1600, jpeg_quality: int = 88) -> bytes:
+    """
+    Public helper used by bot.py to enhance a raw video frame BEFORE it's
+    saved as the catalog _1.jpg. Same premium treatment as the poster
+    background (adaptive brightness, shadow lift, contrast/saturation,
+    unsharp mask), then resized to a sensible web max-side and re-encoded
+    as a clean JPEG.
+
+    Falls back to the original bytes on any error.
+    """
+    try:
+        src = Image.open(io.BytesIO(data)).convert("RGB")
+        out = _enhance_photo(src)
+        w, h = out.size
+        if max(w, h) > max_side:
+            scale = max_side / max(w, h)
+            out = out.resize((int(w * scale), int(h * scale)), Image.Resampling.LANCZOS)
+        buf = io.BytesIO()
+        out.save(buf, format="JPEG", quality=jpeg_quality, optimize=True)
+        return buf.getvalue()
+    except Exception:
+        return data
+
+
 def _enhance_photo(img: Image.Image) -> Image.Image:
     """
     Aggressive premium "studio" enhancement so dim Dubai garage video frames

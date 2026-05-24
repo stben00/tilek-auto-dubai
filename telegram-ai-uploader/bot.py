@@ -416,6 +416,14 @@ async def _batch_handle_video(message: Message, batch: BatchSession):
     try:
         poster_bytes = await extract_video_poster_smart(temp_path(fname))
         if poster_bytes:
+            # Enhance the raw video frame BEFORE saving so the catalog card
+            # shows a bright, sharp, colour-corrected image instead of the
+            # dim original ffmpeg frame.
+            try:
+                from image_generator import enhance_photo_bytes
+                poster_bytes = enhance_photo_bytes(poster_bytes)
+            except Exception as e:
+                log.warning(f"Frame enhancement skipped: {e}")
             thumb_name = f"batch_{batch.user_id}_{idx}_thumb.jpg"
             save_bytes(thumb_name, poster_bytes)
     except Exception as e:
@@ -840,6 +848,14 @@ async def on_video(message: Message):
                 target_model=draft.data.get("model", ""),
             )
             if poster_bytes:
+                # Apply premium enhancement (adaptive brightness, contrast,
+                # sharpening) to the raw frame BEFORE saving. The catalog card
+                # uses this image directly, so it has to look studio-grade.
+                try:
+                    from image_generator import enhance_photo_bytes
+                    poster_bytes = enhance_photo_bytes(poster_bytes)
+                except Exception as e:
+                    log.warning(f"Frame enhancement skipped: {e}")
                 tidx = len(draft.photos) + 1
                 tfname = photo_filename(draft.car_id, tidx, "jpg")
                 save_bytes(tfname, poster_bytes)
