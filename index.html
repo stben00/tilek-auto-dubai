@@ -2464,9 +2464,20 @@ svg{flex-shrink:0}
 
       <!-- MAP CARD -->
       <div class="map-card fade-up">
-        <!-- 2GIS widget iframe removed — service was returning "Something went wrong" on load.
-             The decorative SVG map below + the address card with "Построить маршрут" 2GIS deep-link
-             give the same UX without the broken third-party embed. -->
+        <!-- Google Maps embed for the office location. Replaces the 2GIS widget
+             iframe which kept returning "Something went wrong" on load. Free,
+             no API key required for this style of embed. The address card
+             below still has a "Построить маршрут" button that opens the actual
+             2GIS firm page in a new tab, so users who prefer 2GIS get there
+             in one click. -->
+        <iframe
+          class="map-frame"
+          title="Офис Tilek Auto Dubai на карте"
+          src="https://maps.google.com/maps?q=42.846,74.626&hl=ru&z=16&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen>
+        </iframe>
         <div class="map-top-badge">Офис в Бишкеке</div>
         <div class="map-office-card">
           <div class="map-office-pin">
