@@ -31,6 +31,7 @@ from github_client import read_site_data, write_site_data
 log = logging.getLogger(__name__)
 
 ALLOWED_CONTACT_KEYS = {
+    # Contacts
     "whatsapp",
     "instagram",
     "igUsername",
@@ -42,6 +43,12 @@ ALLOWED_CONTACT_KEYS = {
     "followers",
     "posts",
     "leadWebhook",
+    # Owner block (photo as base64 data URL, plus the text labels around it)
+    "ownerPhoto",
+    "ownerName",
+    "ownerLabel",
+    "ownerPosition",
+    "ownerBio",
 }
 
 
@@ -112,7 +119,10 @@ async def _post_contacts(request: web.Request) -> web.Response:
 
 
 def build_app() -> web.Application:
-    app = web.Application()
+    # Default aiohttp body limit is 1 MB. Bump to 5 MB so the admin can push
+    # a base64-encoded owner photo (~500 KB raw → ~700 KB encoded) without
+    # tripping "Request Entity Too Large".
+    app = web.Application(client_max_size=5 * 1024 * 1024)
     app.router.add_get("/health", _health)
     app.router.add_options("/api/admin/contacts", _options)
     app.router.add_post("/api/admin/contacts", _post_contacts)

@@ -2204,6 +2204,7 @@ const LIVE_SYNC_FIELDS = [
   'whatsapp', 'instagram', 'igUsername', 'whatsappGroup',
   'twoGisUrl', 'twoGisWidgetUrl', 'city', 'hours',
   'followers', 'posts', 'leadWebhook',
+  'ownerPhoto', 'ownerName', 'ownerLabel', 'ownerPosition', 'ownerBio',
 ];
 
 function getLiveSyncSecret() {
@@ -2343,7 +2344,10 @@ function uploadOwnerPhoto(event) {
     DATA.content.ownerPhoto = data;
     saveData();
     refreshOwnerPhotoPreview();
-    toast('Фото загружено');
+    toast('Фото загружено локально');
+    // Auto-push to the live site so every visitor sees the new owner photo
+    // (requires the sync secret to be configured in Settings → Sync).
+    syncContactsToLiveSite();
   }).catch(() => toast('Ошибка загрузки', 'error'));
 }
 
