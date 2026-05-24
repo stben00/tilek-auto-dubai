@@ -631,14 +631,23 @@ svg{flex-shrink:0}
   padding:16px;background:#0d0d0d;border:1px solid var(--line-soft);border-radius:20px;
 }
 .filter-select{
-  flex:1;min-width:140px;padding:12px 16px;
+  flex:1;min-width:140px;
+  /* Bigger tap target — was 12×16, now 16×18. Matters a lot on mobile. */
+  padding:16px 18px;
   background:#161616;border:1px solid var(--line-soft);border-radius:12px;
   color:#fff;font-size:16px;cursor:pointer;
   appearance:none;-webkit-appearance:none;-moz-appearance:none;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%23d4af37' stroke-width='1.5' stroke-linecap='round'/></svg>");
-  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;
+  /* Snappy visual feedback so the user sees the tap landed even before the
+     native picker opens. */
+  transition:border-color .12s ease, background-color .12s ease, transform .08s ease;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
-.filter-select:focus{outline:none;border-color:var(--gold)}
+.filter-select:hover{border-color:rgba(212,175,55,.4);background-color:#1a1a1a}
+.filter-select:focus{outline:none;border-color:var(--gold);background-color:#1a1a1a}
+.filter-select:active{transform:scale(.985)}
 
 .catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .car-card{
@@ -3055,11 +3064,19 @@ function bodyLabel(body) {
 
 function setSelectOptions(select, firstLabel, values, labels = {}) {
   if (!select) return;
+  // Don't rebuild the dropdown while the user is interacting with it —
+  // wiping out options mid-tap looks/feels like a freeze (especially on
+  // iOS where the native picker is open).
+  if (document.activeElement === select) return;
   const current = select.value;
   const unique = [...new Set(values.filter(Boolean).map(String))];
-  select.innerHTML = `<option value="">${firstLabel}</option>` + unique.map(value => (
+  const newHtml = `<option value="">${firstLabel}</option>` + unique.map(value => (
     `<option value="${escapeAttr(value)}">${escapeHtml(labels[value] || value)}</option>`
   )).join('');
+  // Skip the DOM thrash if nothing changed (common: site-data.json re-fetch
+  // produces the same cars → same option set).
+  if (select.innerHTML === newHtml) return;
+  select.innerHTML = newHtml;
   select.value = unique.includes(current) ? current : '';
 }
 
