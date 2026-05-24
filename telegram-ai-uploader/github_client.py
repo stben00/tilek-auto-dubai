@@ -218,11 +218,15 @@ async def publish_car(car: dict, photo_files: list[tuple[str, bytes]], video_fil
             await _put_file(client, path, data, f"Upload video {fname}", sha)
             video_paths.append(path)
 
-    # Prefer the generated ad poster as mainImage (the "СРОЧНО САТЫЛАТ" card),
-    # and reorder images so the poster is first.
-    poster_path = next((p for p in image_paths if "_poster" in p), None)
-    if poster_path and image_paths and image_paths[0] != poster_path:
-        image_paths = [poster_path] + [p for p in image_paths if p != poster_path]
+    # Catalog card uses the CLEAN car photo as mainImage (no overlay/text).
+    # The marketing poster (_poster.jpg) stays available in `images[]` for
+    # WhatsApp / Instagram sharing, but isn't the card cover any more — the
+    # poster's heavy yellow text was getting cropped/squashed inside small
+    # catalog cards. The user wants the automarket-style: clean photo + clean
+    # info block, like a real auto-marketplace.
+    natural = next((p for p in image_paths if "_poster" not in p), None)
+    if natural and image_paths and image_paths[0] != natural:
+        image_paths = [natural] + [p for p in image_paths if p != natural]
     car["images"] = image_paths
     if image_paths:
         car["mainImage"] = image_paths[0]

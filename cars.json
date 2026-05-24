@@ -20,7 +20,7 @@
       "assets/cars/car_20260523_040556_poster.jpg",
       "assets/cars/car_20260523_040556_1.jpg"
     ],
-    "mainImage": "assets/cars/car_20260523_040556_poster.jpg",
+    "mainImage": "assets/cars/car_20260523_040556_1.jpg",
     "status": "available",
     "source": "telegram_ai_uploader",
     "createdAt": "2026-05-23T23:49:35Z"
@@ -46,7 +46,7 @@
       "assets/cars/car_20260523_040443_poster.jpg",
       "assets/cars/car_20260523_040443_1.jpg"
     ],
-    "mainImage": "assets/cars/car_20260523_040443_poster.jpg",
+    "mainImage": "assets/cars/car_20260523_040443_1.jpg",
     "status": "available",
     "source": "telegram_ai_uploader",
     "createdAt": "2026-05-23T04:05:48Z"
@@ -72,7 +72,7 @@
       "assets/cars/car_20260522_210036_poster.jpg",
       "assets/cars/car_20260522_210036_1.jpg"
     ],
-    "mainImage": "assets/cars/car_20260522_210036_poster.jpg",
+    "mainImage": "assets/cars/car_20260522_210036_1.jpg",
     "status": "available",
     "source": "telegram_ai_uploader",
     "createdAt": "2026-05-22T21:02:15Z"
@@ -98,7 +98,7 @@
       "assets/cars/car_20260516_153156_1.jpg",
       "assets/cars/car_20260516_153156_poster.jpg"
     ],
-    "mainImage": "assets/cars/car_20260516_153156_poster.jpg",
+    "mainImage": "assets/cars/car_20260516_153156_1.jpg",
     "status": "available",
     "source": "telegram_ai_uploader",
     "createdAt": "2026-05-17T18:20:20Z"
