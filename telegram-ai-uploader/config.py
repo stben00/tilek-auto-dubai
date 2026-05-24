@@ -23,11 +23,18 @@ VIDEOS_FOLDER = os.getenv("VIDEOS_FOLDER", "assets/videos").strip().strip("/")
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "").strip()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
+
+# AI_PROVIDER selects which provider drives text-parsing + vision frame picking.
+#   "gemini"  → Gemini only (no fallback)
+#   "openai"  → OpenAI only (legacy)
+#   "auto"    → Gemini first, fall back to OpenAI, then Anthropic if those fail
+AI_PROVIDER = os.getenv("AI_PROVIDER", "auto").strip().lower()
 
 WEBSITE_URL = os.getenv("WEBSITE_URL", "https://stben00.github.io/tilek-auto-dubai/").strip()
 MAX_VIDEO_MB = int(os.getenv("MAX_VIDEO_MB", "20"))
 
-HAS_AI = bool(OPENAI_API_KEY or ANTHROPIC_API_KEY)
+HAS_AI = bool(OPENAI_API_KEY or ANTHROPIC_API_KEY or GEMINI_API_KEY)
 
 
 def is_admin(user_id: int) -> bool:

@@ -1,8 +1,9 @@
-"""AI-based parser using Anthropic or OpenAI. Falls back to regex parser."""
+"""AI-based parser. Tries Gemini → OpenAI → Anthropic depending on AI_PROVIDER. Always falls back to regex."""
 import json
 import logging
 import re
-from config import ANTHROPIC_API_KEY, OPENAI_API_KEY, HAS_AI
+import httpx
+from config import ANTHROPIC_API_KEY, OPENAI_API_KEY, GEMINI_API_KEY, AI_PROVIDER, HAS_AI
 from parser import parse_car_text
 
 log = logging.getLogger(__name__)
@@ -64,6 +65,45 @@ def _extract_json(text: str) -> dict | None:
             except json.JSONDecodeError:
                 return None
     return None
+
+
+GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+
+
+async def _gemini_parse(text: str) -> dict | None:
+    """Parse car text via Google Gemini REST API. No SDK required."""
+    if not GEMINI_API_KEY:
+        return None
+    url = GEMINI_ENDPOINT.format(model=GEMINI_MODEL, key=GEMINI_API_KEY)
+    payload = {
+        "system_instruction": {"parts": [{"text": SYSTEM_PROMPT}]},
+        "contents": [{"role": "user", "parts": [{"text": text}]}],
+        "generationConfig": {
+            "temperature": 0.1,
+            "responseMimeType": "application/json",
+        },
+    }
+    try:
+        async with httpx.AsyncClient(timeout=AI_TIMEOUT_SECONDS) as client:
+            r = await client.post(url, json=payload)
+            if r.status_code != 200:
+                log.warning("Gemini parse HTTP %d: %s", r.status_code, r.text[:200])
+                return None
+            data = r.json()
+        content = (
+            data.get("candidates", [{}])[0]
+                .get("content", {})
+                .get("parts", [{}])[0]
+                .get("text", "")
+        )
+        parsed = _extract_json(content)
+        if parsed is None:
+            log.warning("Gemini returned non-JSON content (len=%d)", len(content))
+        return parsed
+    except Exception as e:
+        log.warning("Gemini call failed: %s", e)
+        return None
 
 
 async def _anthropic_parse(text: str) -> dict | None:
@@ -141,15 +181,28 @@ def _merge(ai: dict, regex: dict) -> dict:
 
 
 async def parse_with_ai(text: str) -> dict:
-    """Parse car text with AI if available, fallback to regex. Always returns a complete dict."""
+    """Parse car text with AI if available, fallback to regex. Always returns a complete dict.
+
+    Provider priority depends on AI_PROVIDER:
+      - "gemini"  → Gemini only
+      - "openai"  → OpenAI only
+      - "anthropic" → Anthropic only
+      - "auto"   (default) → Gemini → OpenAI → Anthropic, first one that succeeds wins
+    """
     regex_result = parse_car_text(text)
     if not HAS_AI:
         return regex_result
+
+    provider = AI_PROVIDER if AI_PROVIDER in ("gemini", "openai", "anthropic", "auto") else "auto"
     ai_raw = None
-    if ANTHROPIC_API_KEY:
-        ai_raw = await _anthropic_parse(text)
-    if ai_raw is None and OPENAI_API_KEY:
+
+    if provider == "gemini" or (provider == "auto" and GEMINI_API_KEY):
+        ai_raw = await _gemini_parse(text)
+    if ai_raw is None and (provider == "openai" or (provider == "auto" and OPENAI_API_KEY)):
         ai_raw = await _openai_parse(text)
+    if ai_raw is None and (provider == "anthropic" or (provider == "auto" and ANTHROPIC_API_KEY)):
+        ai_raw = await _anthropic_parse(text)
+
     if ai_raw is None:
         log.warning("AI parsing failed for input (len=%d), falling back to regex", len(text))
         return regex_result

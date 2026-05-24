@@ -148,23 +148,8 @@ def _extract_candidate_frames(video_path: str, candidates_pct: tuple) -> list[tu
     return candidates
 
 
-async def _pick_best_exterior_frame_via_vision(frame_paths: list[str], target_brand: str = "", target_model: str = "") -> int | None:
-    """
-    Ask gpt-4o-mini which frame best shows the FRONT/EXTERIOR of the car.
-    Returns the 0-based index of the chosen frame, or None on failure.
-
-    Cost: ~$0.0003 per call (5 small images via gpt-4o-mini Vision).
-    """
-    if not frame_paths:
-        return None
-    api_key = os.getenv("OPENAI_API_KEY", "").strip()
-    if not api_key:
-        return None
-    try:
-        from openai import AsyncOpenAI
-    except ImportError:
-        return None
-
+def _build_vision_prompt(n_frames: int, target_brand: str = "", target_model: str = "") -> str:
+    """Build the shared prompt for the vision frame-picker (provider-agnostic)."""
     brand_hint = ""
     if target_brand:
         full_target = (target_brand + " " + target_model).strip()
@@ -177,37 +162,101 @@ async def _pick_best_exterior_frame_via_vision(frame_paths: list[str], target_br
             f"(e.g. a BMW in a Honda listing). If no frame shows a {target_brand} clearly, return "
             f"the lowest-numbered frame.\n\n"
         )
-    content: list[dict] = [{
-        "type": "text",
-        "text": (
-            "You are picking the cover photo for a car-sale poster.\n\n"
-            + brand_hint +
-            "🚗 RULE #1 — IF ANY FRAME SHOWS THE FRONT OF THE CAR (grille + headlights + "
-            "hood, even partially), YOU MUST PICK THAT FRAME. Don't compromise on this. "
-            "Buyers decide in the first 2 seconds, and the front is what sells.\n\n"
-            "📹 TIE-BREAKER — Frames are numbered in chronological order. Lower numbers "
-            "come from EARLIER in the video. Sellers almost always start their clip pointed "
-            "at the front of the car, so when two frames qualify equally under Rule #1, "
-            "PREFER THE LOWER-NUMBERED FRAME.\n\n"
-            "ABSOLUTE REJECTIONS — never choose a frame that primarily shows any of:\n"
-            "  • paper documents, dealership sales sheets, receipts, invoices, VAT printouts\n"
-            "  • VIN stickers, windshield price tags, auction lot papers, registration cards\n"
-            "  • Arabic / English text close-ups, license-plate close-ups\n"
-            "  • interior shots (dashboard, steering wheel, seats, gear stick)\n"
-            "  • close-ups of wheels, badges, mirrors, engine bay\n"
-            "  • motion-blur, very dark frames, partial views where less than half the car body is visible\n\n"
-            "PREFERENCE ORDER (apply Rule #1 first, then break ties with this):\n"
-            "  1. Sharp front view, car centered: full grille + both headlights + hood + bumper.\n"
-            "  2. 3/4 front angle (front + side together).\n"
-            "  3. Clean side profile of the whole car.\n"
-            "  4. 3/4 rear angle only if no front/side exists.\n\n"
-            "If MULTIPLE frames qualify under Rule #1, pick the one where the car is biggest "
-            "and the lighting is best.\n\n"
-            f"If NONE of the {len(frame_paths)} frames satisfy any preference, return the LEAST "
-            f"BAD frame number — never return 0 or text.\n"
-            f"Reply with ONLY a single digit between 1 and {len(frame_paths)}. No words, no punctuation."
-        ),
-    }]
+    return (
+        "You are picking the cover photo for a car-sale poster.\n\n"
+        + brand_hint +
+        "🚗 RULE #1 — IF ANY FRAME SHOWS THE FRONT OF THE CAR (grille + headlights + "
+        "hood, even partially), YOU MUST PICK THAT FRAME. Don't compromise on this. "
+        "Buyers decide in the first 2 seconds, and the front is what sells.\n\n"
+        "📹 TIE-BREAKER — Frames are numbered in chronological order. Lower numbers "
+        "come from EARLIER in the video. Sellers almost always start their clip pointed "
+        "at the front of the car, so when two frames qualify equally under Rule #1, "
+        "PREFER THE LOWER-NUMBERED FRAME.\n\n"
+        "ABSOLUTE REJECTIONS — never choose a frame that primarily shows any of:\n"
+        "  • paper documents, dealership sales sheets, receipts, invoices, VAT printouts\n"
+        "  • VIN stickers, windshield price tags, auction lot papers, registration cards\n"
+        "  • Arabic / English text close-ups, license-plate close-ups\n"
+        "  • interior shots (dashboard, steering wheel, seats, gear stick)\n"
+        "  • close-ups of wheels, badges, mirrors, engine bay\n"
+        "  • motion-blur, very dark frames, partial views where less than half the car body is visible\n\n"
+        "PREFERENCE ORDER (apply Rule #1 first, then break ties with this):\n"
+        "  1. Sharp front view, car centered: full grille + both headlights + hood + bumper.\n"
+        "  2. 3/4 front angle (front + side together).\n"
+        "  3. Clean side profile of the whole car.\n"
+        "  4. 3/4 rear angle only if no front/side exists.\n\n"
+        "If MULTIPLE frames qualify under Rule #1, pick the one where the car is biggest "
+        "and the lighting is best.\n\n"
+        f"If NONE of the {n_frames} frames satisfy any preference, return the LEAST "
+        f"BAD frame number — never return 0 or text.\n"
+        f"Reply with ONLY a single digit between 1 and {n_frames}. No words, no punctuation."
+    )
+
+
+def _parse_frame_choice(raw: str, n_frames: int) -> int | None:
+    """Find the first digit in the model's response and convert to 0-based index."""
+    for ch in (raw or "").strip():
+        if ch.isdigit():
+            idx = int(ch) - 1
+            if 0 <= idx < n_frames:
+                return idx
+            break
+    return None
+
+
+async def _pick_frame_gemini(frame_paths: list[str], prompt: str) -> int | None:
+    """Send the frames to Gemini 2.5 Flash Vision via REST. Returns 0-based index or None."""
+    import httpx
+    api_key = os.getenv("GEMINI_API_KEY", "").strip()
+    if not api_key:
+        return None
+
+    parts = [{"text": prompt}]
+    for path in frame_paths:
+        try:
+            with open(path, "rb") as f:
+                b64 = base64.b64encode(f.read()).decode()
+            parts.append({"inline_data": {"mime_type": "image/jpeg", "data": b64}})
+        except OSError:
+            return None
+
+    url = (
+        "https://generativelanguage.googleapis.com/v1beta/models/"
+        f"gemini-2.5-flash:generateContent?key={api_key}"
+    )
+    payload = {
+        "contents": [{"role": "user", "parts": parts}],
+        "generationConfig": {"temperature": 0, "maxOutputTokens": 8},
+    }
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            r = await client.post(url, json=payload)
+            if r.status_code != 200:
+                log.warning("Gemini Vision HTTP %d: %s", r.status_code, r.text[:200])
+                return None
+            data = r.json()
+        raw = (
+            data.get("candidates", [{}])[0]
+                .get("content", {})
+                .get("parts", [{}])[0]
+                .get("text", "")
+        )
+        return _parse_frame_choice(raw, len(frame_paths))
+    except Exception as e:
+        log.warning("Gemini Vision frame picker failed: %s", e)
+        return None
+
+
+async def _pick_frame_openai(frame_paths: list[str], prompt: str) -> int | None:
+    """OpenAI gpt-4o-mini fallback for the vision frame picker."""
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        return None
+    try:
+        from openai import AsyncOpenAI
+    except ImportError:
+        return None
+
+    content: list[dict] = [{"type": "text", "text": prompt}]
     for path in frame_paths:
         try:
             with open(path, "rb") as f:
@@ -227,16 +276,30 @@ async def _pick_best_exterior_frame_via_vision(frame_paths: list[str], target_br
             temperature=0,
             messages=[{"role": "user", "content": content}],
         )
-        raw = (resp.choices[0].message.content or "").strip()
-        for ch in raw:
-            if ch.isdigit():
-                idx = int(ch) - 1
-                if 0 <= idx < len(frame_paths):
-                    return idx
-                break
+        return _parse_frame_choice(resp.choices[0].message.content or "", len(frame_paths))
     except Exception as e:
-        log.warning("Vision frame picker failed: %s", e)
-    return None
+        log.warning("OpenAI Vision frame picker failed: %s", e)
+        return None
+
+
+async def _pick_best_exterior_frame_via_vision(frame_paths: list[str], target_brand: str = "", target_model: str = "") -> int | None:
+    """
+    Pick the frame that best shows the FRONT/EXTERIOR of the car.
+    Tries the provider chain (AI_PROVIDER env var): gemini → openai. Both
+    use the exact same prompt for consistent behaviour.
+    """
+    if not frame_paths:
+        return None
+    provider = os.getenv("AI_PROVIDER", "auto").strip().lower()
+    prompt = _build_vision_prompt(len(frame_paths), target_brand, target_model)
+
+    if provider == "gemini" or (provider == "auto" and os.getenv("GEMINI_API_KEY")):
+        idx = await _pick_frame_gemini(frame_paths, prompt)
+        if idx is not None:
+            return idx
+        if provider == "gemini":
+            return None  # strict mode, don't fall back to OpenAI
+    return await _pick_frame_openai(frame_paths, prompt)
 
 
 def extract_video_poster(video_path: Path | str, candidates_pct: tuple = (0.0, 0.10, 0.25, 0.40, 0.55, 0.70, 0.85, 0.95)) -> bytes | None:

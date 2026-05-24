@@ -12,7 +12,8 @@ import os
 import random
 from datetime import datetime
 
-from config import OPENAI_API_KEY, ANTHROPIC_API_KEY
+import httpx
+from config import OPENAI_API_KEY, ANTHROPIC_API_KEY, GEMINI_API_KEY, AI_PROVIDER
 
 # Headline hooks (top line)
 HOOKS = [
@@ -336,20 +337,60 @@ def _format_car_for_ai(car: dict) -> str:
     return "\n".join(lines)
 
 
+async def _generate_pitch_gemini(car: dict) -> str | None:
+    """Generate marketing pitch via Google Gemini REST API."""
+    if not GEMINI_API_KEY:
+        return None
+    url = (
+        "https://generativelanguage.googleapis.com/v1beta/models/"
+        f"gemini-2.5-flash:generateContent?key={GEMINI_API_KEY}"
+    )
+    prompt = _format_car_for_ai(car)
+    payload = {
+        "system_instruction": {"parts": [{"text": AI_PITCH_SYSTEM}]},
+        "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+        "generationConfig": {"temperature": 0.85, "maxOutputTokens": 500},
+    }
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            r = await client.post(url, json=payload)
+            if r.status_code != 200:
+                print(f"[marketing] Gemini pitch HTTP {r.status_code}: {r.text[:200]}")
+                return None
+            data = r.json()
+        text = (
+            data.get("candidates", [{}])[0]
+                .get("content", {})
+                .get("parts", [{}])[0]
+                .get("text", "")
+        ).strip()
+        return text or None
+    except Exception as e:
+        print(f"[marketing] Gemini pitch failed: {e}")
+        return None
+
+
 async def generate_pitch_ai(car: dict) -> str:
     """
-    Generate marketing pitch using AI (Anthropic preferred, OpenAI fallback,
-    template fallback if both fail or no keys set).
+    Generate marketing pitch using AI. Provider chain depends on AI_PROVIDER:
+      - "gemini"  → Gemini only
+      - "openai"  → OpenAI only
+      - "anthropic" → Anthropic only
+      - "auto"    → Gemini → OpenAI → Anthropic, first success wins
+    Template fallback is always used if every provider fails or no keys set.
     """
-    # Try Anthropic first if available
-    if ANTHROPIC_API_KEY:
-        text = await _generate_pitch_anthropic(car)
+    provider = AI_PROVIDER if AI_PROVIDER in ("gemini", "openai", "anthropic", "auto") else "auto"
+
+    if provider == "gemini" or (provider == "auto" and GEMINI_API_KEY):
+        text = await _generate_pitch_gemini(car)
         if text:
             return text
-    # Then OpenAI
-    if OPENAI_API_KEY:
+    if provider == "openai" or (provider == "auto" and OPENAI_API_KEY):
         text = await _generate_pitch_openai(car)
         if text:
             return text
-    # Fallback: deterministic template
+    if provider == "anthropic" or (provider == "auto" and ANTHROPIC_API_KEY):
+        text = await _generate_pitch_anthropic(car)
+        if text:
+            return text
     return generate_pitch(car)
