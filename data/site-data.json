@@ -1,6 +1,40 @@
 {
   "cars": [
     {
+      "id": "car_20260526_080421",
+      "title": "SLINGSHOT 2023",
+      "brand": "",
+      "model": "SLINGSHOT",
+      "year": "2023",
+      "engine": "",
+      "fuel": "",
+      "bodyType": "",
+      "body": "",
+      "budget": "",
+      "tag": "reliable",
+      "price": "$7 500",
+      "mileage": "",
+      "location": "Dubai / UAE",
+      "description": "⚡ УСПЕЙ!\n\n<b>SLINGSHOT 2023</b>\n\n✅ От",
+      "whatsapp": "",
+      "instagramUrl": "",
+      "image": "assets/cars/car_20260526_080421_1.jpg",
+      "mainImage": "assets/cars/car_20260526_080421_1.jpg",
+      "images": [
+        "assets/cars/car_20260526_080421_1.jpg",
+        "assets/cars/car_20260526_080421_poster.jpg"
+      ],
+      "videoUrl": "assets/videos/car_20260526_080421_video.mp4",
+      "videoFile": "assets/videos/car_20260526_080421_video.mp4",
+      "videoType": "local",
+      "videoPoster": "assets/cars/car_20260526_080421_1.jpg",
+      "videoTitle": "Видео-обзор SLINGSHOT 2023",
+      "videoDuration": "",
+      "status": "available",
+      "source": "telegram_ai_uploader",
+      "createdAt": "2026-05-26T08:58:03Z"
+    },
+    {
       "id": "car_20260526_080024",
       "title": "Toyota Fortuner 2025",
       "brand": "Toyota",
@@ -172,6 +206,16 @@
     }
   ],
   "videos": [
+    {
+      "id": "car_20260526_080421",
+      "carId": "car_20260526_080421",
+      "title": "SLINGSHOT 2023 — видео-обзор",
+      "url": "assets/videos/car_20260526_080421_video.mp4",
+      "thumb": "assets/cars/car_20260526_080421_1.jpg",
+      "type": "local",
+      "views": "новое",
+      "instagramUrl": ""
+    },
     {
       "id": "car_20260526_080024",
       "carId": "car_20260526_080024",
