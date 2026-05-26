@@ -432,6 +432,94 @@ svg{flex-shrink:0}
 .owner-feature-text{font-size:13px;color:#fff;font-weight:600;line-height:1.2}
 .owner-cta{margin-top:4px}
 
+/* ============ CINEMATIC SHOWCASE (between hero and brand) ============ */
+.showcase{
+  position:relative;padding:80px 0 70px;
+  background:radial-gradient(ellipse at top,rgba(212,175,55,.08) 0%,transparent 60%),#070707;
+  overflow:hidden;
+}
+.showcase::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 15% 30%,rgba(212,175,55,.05) 0%,transparent 35%),
+    radial-gradient(circle at 85% 70%,rgba(212,175,55,.05) 0%,transparent 35%);
+  pointer-events:none;
+}
+.showcase-inner{
+  position:relative;max-width:1080px;margin:0 auto;padding:0 24px;
+  display:grid;grid-template-columns:1fr;gap:36px;align-items:center;
+}
+.showcase-frame{
+  position:relative;border-radius:24px;overflow:hidden;
+  background:#000;aspect-ratio:1072/880;
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.7),
+    0 0 0 1px rgba(212,175,55,.15),
+    inset 0 0 0 1px rgba(255,255,255,.03);
+  transform:translateZ(0);
+}
+.showcase-frame::before{
+  content:"";position:absolute;inset:0;z-index:2;
+  background:linear-gradient(180deg,
+    rgba(0,0,0,.45) 0%,
+    transparent 25%,
+    transparent 75%,
+    rgba(0,0,0,.55) 100%);
+  pointer-events:none;
+}
+.showcase-frame::after{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(135deg,rgba(212,175,55,.04),transparent 40%);
+  pointer-events:none;
+}
+.showcase-video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;background:#000;
+}
+.showcase-corner{
+  position:absolute;top:18px;left:18px;z-index:3;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;border-radius:20px;
+  background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(212,175,55,.35);
+  color:#fff;font-size:12px;letter-spacing:.5px;font-weight:600;
+}
+.showcase-corner::before{
+  content:"";width:7px;height:7px;border-radius:50%;background:#d4af37;
+  box-shadow:0 0 8px #d4af37;
+  animation:showcasePulse 1.8s ease-in-out infinite;
+}
+@keyframes showcasePulse{0%,100%{opacity:1}50%{opacity:.35}}
+.showcase-overlay{
+  position:absolute;left:0;right:0;bottom:0;z-index:3;
+  padding:36px 32px 28px;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.82) 60%);
+}
+.showcase-overlay h2{
+  font-size:clamp(22px,3.2vw,34px);font-weight:800;
+  color:#fff;margin:0 0 8px;line-height:1.15;letter-spacing:-.5px;
+}
+.showcase-overlay h2 .gold{color:#d4af37}
+.showcase-overlay p{
+  font-size:clamp(13px,1.5vw,15px);color:#cfc7b8;
+  margin:0;max-width:640px;line-height:1.55;
+}
+.showcase-meta{
+  display:flex;flex-wrap:wrap;gap:18px;margin-top:20px;
+}
+.showcase-meta-item{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12.5px;color:#b8b0a0;font-weight:500;
+}
+.showcase-meta-item svg{width:16px;height:16px;color:#d4af37;flex-shrink:0}
+@media (max-width:640px){
+  .showcase{padding:60px 0 50px}
+  .showcase-frame{border-radius:18px}
+  .showcase-overlay{padding:22px 18px 18px}
+  .showcase-meta{gap:12px;margin-top:14px}
+  .showcase-corner{top:12px;left:12px;padding:5px 10px;font-size:11px}
+}
+
 /* ============ BRAND EMBLEM ============ */
 .brand-section{
   padding:80px 0 60px;
@@ -1702,6 +1790,38 @@ svg{flex-shrink:0}
               </a>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CINEMATIC SHOWCASE ============ -->
+<section class="showcase" aria-label="Премиум авто из Дубая">
+  <div class="showcase-inner fade-up">
+    <div class="showcase-frame">
+      <span class="showcase-corner">DUBAI · LIVE</span>
+      <video class="showcase-video"
+             src="assets/videos/hero-cinematic.mp4"
+             poster="assets/videos/hero-cinematic-poster.jpg"
+             autoplay muted loop playsinline preload="metadata"
+             aria-label="Cinematic preview"></video>
+      <div class="showcase-overlay">
+        <h2>Премиум авто из Дубая <span class="gold">под ключ</span></h2>
+        <p>Подбор, проверка и доставка в Бишкек, Алматы, Астану. Без скрытых сборов и «котов в мешке» — только проверенные машины с понятной историей.</p>
+        <div class="showcase-meta">
+          <span class="showcase-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            Проверка перед покупкой
+          </span>
+          <span class="showcase-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/></svg>
+            Доставка 4–7 недель
+          </span>
+          <span class="showcase-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Прозрачная смета
+          </span>
         </div>
       </div>
     </div>
