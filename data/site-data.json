@@ -1,6 +1,40 @@
 {
   "cars": [
     {
+      "id": "car_20260526_080024",
+      "title": "Toyota Fortuner 2025",
+      "brand": "Toyota",
+      "model": "Fortuner",
+      "year": "2025",
+      "engine": "2.4",
+      "fuel": "Гибрид",
+      "bodyType": "",
+      "body": "",
+      "budget": "",
+      "tag": "reliable",
+      "price": "",
+      "mileage": "",
+      "location": "Dubai / UAE",
+      "description": "🔥 ШОК ЦЕНА!\n\n<b>Toyota Fortuner 2025</b>\n\nНадёжный SUV для тех, кто ценит комфорт и стиль. Идеальный выбор для городской жизни и активного отдыха.\n\n🔧 Двигатель: 2.4  \n⛽ Топливо: Гибрид  \n📍 Локация: Dubai / UAE\n\n💰 Цена — \n\nУспейте стать обладателем этой великолепной машины!",
+      "whatsapp": "",
+      "instagramUrl": "",
+      "image": "assets/cars/car_20260526_080024_1.jpg",
+      "mainImage": "assets/cars/car_20260526_080024_1.jpg",
+      "images": [
+        "assets/cars/car_20260526_080024_1.jpg",
+        "assets/cars/car_20260526_080024_poster.jpg"
+      ],
+      "videoUrl": "assets/videos/car_20260526_080024_video.mp4",
+      "videoFile": "assets/videos/car_20260526_080024_video.mp4",
+      "videoType": "local",
+      "videoPoster": "assets/cars/car_20260526_080024_1.jpg",
+      "videoTitle": "Видео-обзор Toyota Fortuner 2025",
+      "videoDuration": "",
+      "status": "available",
+      "source": "telegram_ai_uploader",
+      "createdAt": "2026-05-26T08:04:10Z"
+    },
+    {
       "id": "car_20260523_040556",
       "title": "Toyota Tundra 2024",
       "brand": "Toyota",
@@ -138,6 +172,16 @@
     }
   ],
   "videos": [
+    {
+      "id": "car_20260526_080024",
+      "carId": "car_20260526_080024",
+      "title": "Toyota Fortuner 2025 — видео-обзор",
+      "url": "assets/videos/car_20260526_080024_video.mp4",
+      "thumb": "assets/cars/car_20260526_080024_1.jpg",
+      "type": "local",
+      "views": "новое",
+      "instagramUrl": ""
+    },
     {
       "id": "car_20260523_040556",
       "carId": "car_20260523_040556",
