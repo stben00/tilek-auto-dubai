@@ -302,6 +302,39 @@ async def _pick_best_exterior_frame_via_vision(frame_paths: list[str], target_br
     return await _pick_frame_openai(frame_paths, prompt)
 
 
+async def pick_best_hero_photo(photo_paths: list[Path | str], target_brand: str = "", target_model: str = "") -> int:
+    """
+    Score multiple uploaded photos and return the index of the best hero shot.
+    Reuses the same Gemini/OpenAI Vision picker as the video frame extractor.
+
+    Falls back to heuristic scoring (brightness + sharpness) when Vision is
+    unavailable. Returns 0 (first photo) if all picking strategies fail.
+    """
+    if not photo_paths:
+        return 0
+    if len(photo_paths) == 1:
+        return 0
+
+    use_vision = os.getenv("USE_VISION_FRAME_PICKER", "true").strip().lower() in ("1", "true", "yes")
+    str_paths = [str(p) for p in photo_paths]
+
+    if use_vision:
+        try:
+            chosen = await _pick_best_exterior_frame_via_vision(str_paths, target_brand=target_brand, target_model=target_model)
+            if chosen is not None and 0 <= chosen < len(str_paths):
+                log.info("Hero photo picker chose photo %d/%d via Vision", chosen + 1, len(str_paths))
+                return chosen
+        except Exception as e:
+            log.warning("Hero photo Vision picker failed: %s", e)
+
+    scored = [(_score_frame(p), i) for i, p in enumerate(str_paths)]
+    scored.sort(reverse=True)
+    if scored and scored[0][0] > 0:
+        log.info("Hero photo picker chose photo %d/%d via heuristic", scored[0][1] + 1, len(str_paths))
+        return scored[0][1]
+    return 0
+
+
 def extract_video_poster(video_path: Path | str, candidates_pct: tuple = (0.0, 0.10, 0.25, 0.40, 0.55, 0.70, 0.85, 0.95)) -> bytes | None:
     """
     Sync poster extraction — fallback when caller can't await.

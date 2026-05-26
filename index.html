@@ -816,16 +816,17 @@ svg{flex-shrink:0}
   box-shadow:0 4px 12px rgba(0,0,0,.4);
 }
 .car-play-overlay{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4;
-  width:64px;height:64px;border-radius:50%;border:none;cursor:pointer;
-  background:rgba(212,175,55,.95);color:#0a0a0a;
+  position:absolute;right:12px;bottom:12px;z-index:4;
+  width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer;
+  background:rgba(0,0,0,.55);color:#fff;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 8px 24px rgba(0,0,0,.5);
-  transition:transform .25s ease,background .25s ease;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  box-shadow:0 4px 14px rgba(0,0,0,.45);
+  transition:transform .2s ease,background .2s ease,border-color .2s ease;
 }
-.car-play-overlay svg{width:28px;height:28px;margin-left:3px}
-.car-play-overlay:hover{transform:translate(-50%,-50%) scale(1.1);background:#d4af37}
-.car-card:hover .car-play-overlay{transform:translate(-50%,-50%) scale(1.05)}
+.car-play-overlay svg{width:20px;height:20px;margin-left:2px}
+.car-play-overlay:hover{transform:scale(1.08);background:rgba(212,175,55,.95);color:#0a0a0a;border-color:transparent}
+.car-card:hover .car-play-overlay{background:rgba(0,0,0,.7)}
 
 /* ============ VIDEO MODAL ============ */
 .vmodal-bg{
