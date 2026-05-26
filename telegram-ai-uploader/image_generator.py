@@ -1065,9 +1065,23 @@ AI_QUALITY = os.getenv("OPENAI_IMAGE_QUALITY", "medium")  # low / medium / high
 AI_SIZE = os.getenv("OPENAI_IMAGE_SIZE", "1024x1536")     # vertical phone format
 
 # Gemini models
-GEMINI_FLASH_IMAGE_MODEL = "gemini-2.0-flash-preview-image-generation"
-GEMINI_IMAGEN_MODEL = "imagen-3.0-generate-002"
+GEMINI_FLASH_IMAGE_MODEL = "gemini-2.5-flash-image"
+GEMINI_FLASH_IMAGE_FALLBACK = "gemini-3.1-flash-image-preview"
 GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta"
+
+# Style reference poster shown to Gemini Nano Banana so it matches our brand layout.
+# Generated once from template_premium_dubai() — see scripts in repo README.
+REFERENCE_POSTER_PATH = Path(__file__).parent / "assets" / "reference_poster.jpg"
+
+
+def _load_reference_poster_b64() -> Optional[str]:
+    try:
+        if REFERENCE_POSTER_PATH.exists():
+            with open(REFERENCE_POSTER_PATH, "rb") as f:
+                return base64.b64encode(f.read()).decode()
+    except Exception as e:
+        log.warning("Could not load reference poster: %s", e)
+    return None
 
 
 def _build_ai_prompt(car: dict) -> str:
@@ -1238,40 +1252,88 @@ async def _generate_with_gpt_image(car: dict, main_photo_path: Optional[Path | s
 
 def _build_gemini_poster_prompt(car: dict) -> str:
     """
-    Compact prompt for Gemini image models.
-    Gemini Flash and Imagen 3 work better with direct, concrete instructions
-    than with long system-role prompts.
+    Compact, photo-preserving prompt tuned for gemini-2.5-flash-image (Nano Banana).
+    Nano Banana is an *image-editing* model — it takes the supplied car photo and
+    keeps the car identical, only adding the poster overlay around it.
     """
     brand = (car.get("brand") or "").upper().strip()
     model_name = (car.get("model") or "").upper().strip()
     year = str(car.get("year") or "").strip()
     engine = str(car.get("engine") or "").strip()
-    fuel = str(car.get("fuel") or "").strip()
-    price = str(car.get("price") or "по запросу").strip()
+    fuel = str(car.get("fuel") or "").strip().capitalize()
+    body_type = str(car.get("bodyType") or "").strip().capitalize()
+    price_raw = str(car.get("price") or "по запросу").strip()
+    price_digits = "".join(c for c in price_raw if c.isdigit())
+    price_pretty = f"${int(price_digits):,}".replace(",", " ") if price_digits else price_raw
     title = (brand + " " + model_name).strip() or (car.get("title") or "AUTO").upper()
+    sub = " | ".join(p for p in [year, engine] if p) or "Premium auto"
 
-    specs = ", ".join(p for p in [year, engine, fuel] if p) or "Dubai / UAE"
+    spec_lines = []
+    if year:
+        spec_lines.append(f"  • Год: {year}")
+    if engine:
+        spec_lines.append(f"  • Двигатель: {engine}")
+    if fuel:
+        spec_lines.append(f"  • Топливо: {fuel}")
+    spec_lines.append("  • Коробка: Автомат")
+    spec_lines.append("  • Привод: Полный")
+    if body_type:
+        spec_lines.append(f"  • Кузов: {body_type}")
+    spec_block = "\n".join(spec_lines)
 
     return (
-        f"Create a premium vertical (2:3 ratio) car sales poster in Dubai dealership style.\n"
-        f"Black background with gold (#FFD700) accents. Dark luxury aesthetic.\n\n"
-        f"Car: {title}\n"
-        f"Specs: {specs}\n"
-        f"Price: {price}\n\n"
-        f"Layout:\n"
-        f"- TOP LEFT: large bold white text '{title}', smaller gold text '{specs}'\n"
-        f"- PRICE PILL: gold rounded rectangle with bold black text '{price}'\n"
-        f"- BULLET LIST: 4 white lines with yellow checkmarks — quality, reliability, comfort, value\n"
-        f"- TOP RIGHT: dark spec panel with rows: Year, Engine, Fuel, Gearbox: Auto, Drive: Rear\n"
-        f"- BADGE BELOW PANEL: '🔥 ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ! ЛУЧШАЯ ЦЕНА НА РЫНКЕ'\n"
-        f"- BOTTOM: green WhatsApp button, small 'ВИДЕО ПО ЗАПРОСУ' CTA\n\n"
-        f"The car photo fills the background — cinematic lighting, warm sunset tones, "
-        f"deep shadows, glossy reflections. NO text errors. Cyrillic text must be correct.\n"
-        f"Style: luxury automotive ad, NOT cartoon, NOT illustration."
+        "TASK: Transform the supplied car photograph into a premium Dubai dealership "
+        "vertical poster (portrait 2:3, 1080x1350). Keep the car IDENTICAL — same body, "
+        "same headlights, same grille, same wheels, same color, same angle, same plate.\n\n"
+
+        "BACKGROUND TREATMENT:\n"
+        "Enhance the photo to look cinematic: sharper details, deeper blacks, premium "
+        "lighting with warm highlights on the car body, subtle bokeh on the surroundings. "
+        "Add a dark gradient overlay at the top and bottom 25% so text reads cleanly. "
+        "Do NOT change the car's environment — just upgrade its lighting and contrast.\n\n"
+
+        "OVERLAY (placed over the dimmed gradient areas, never covering the car body):\n\n"
+
+        "TOP-LEFT block:\n"
+        f"  Big white bold sans-serif title: {title}\n"
+        f"  Gold (#FFD700) thin line under it: {sub}\n"
+        f"  Gold pill button with BLACK bold text: СТАРТОВАЯ ЦЕНА  {price_pretty}\n"
+        "  Below the pill, four short white bullet lines with small gold check icons:\n"
+        "    ✓ Премиум комплектация\n"
+        "    ✓ Полный пакет опций\n"
+        "    ✓ Под ключ в Бишкек\n"
+        "    ✓ Лучшая цена в Дубае\n\n"
+
+        "TOP-RIGHT panel (dark rounded rectangle, semi-transparent black #0F0F12 90%):\n"
+        f"{spec_block}\n"
+        "  Each row: small gold icon + thin gray label + white bold value.\n\n"
+
+        "MIDDLE-RIGHT badge under the spec panel:\n"
+        "  Dark pill with gold flame emoji and two white lines:\n"
+        "    🔥 ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ!\n"
+        "    ЛУЧШАЯ ЦЕНА НА РЫНКЕ\n\n"
+
+        "BOTTOM CTA bar:\n"
+        "  LEFT: small gold play-triangle button + two white lines\n"
+        "        ПОЛУЧИТЬ ВИДЕО / Напишите — отправим полный обзор\n"
+        "  RIGHT: bright green (#25D366) rounded button with white WhatsApp glyph and bold white text WHATSAPP\n\n"
+
+        "STYLE:\n"
+        "• Luxury automotive ad, Dubai dealership aesthetic\n"
+        "• Black + gold (#FFD700) palette only, plus the green WhatsApp accent\n"
+        "• Bold modern sans-serif typography, perfectly aligned, no spelling errors\n"
+        "• Every Cyrillic letter rendered correctly — no Latin lookalikes\n"
+        "• No watermarks, no phone numbers, no extra text\n\n"
+
+        "STRICT RULES:\n"
+        "• Do NOT redraw, replace or restyle the car. Pixel-preserving edit only.\n"
+        "• Do NOT invent extra bullet points or labels beyond those listed.\n"
+        "• Do NOT add cartoon, anime, or illustration effects.\n"
+        "• Output a single finished poster image."
     )
 
 
-async def _gemini_flash_image_edit(api_key: str, car: dict, photo_path: Path | str) -> Optional[bytes]:
+async def _gemini_flash_image_edit(api_key: str, car: dict, photo_path: Path | str, model: str = None) -> Optional[bytes]:
     """
     Use Gemini Flash image-generation model with the car photo as reference.
     Generates a premium poster while preserving the car's appearance.
@@ -1289,16 +1351,26 @@ async def _gemini_flash_image_edit(api_key: str, car: dict, photo_path: Path | s
         log.warning("Could not read photo for Gemini: %s", e)
         return None
 
-    prompt = _build_ai_prompt(car)
-    url = f"{GEMINI_API_BASE}/models/{GEMINI_FLASH_IMAGE_MODEL}:generateContent?key={api_key}"
+    model = model or GEMINI_FLASH_IMAGE_MODEL
+    prompt = _build_gemini_poster_prompt(car)
+    reference_b64 = _load_reference_poster_b64()
+    url = f"{GEMINI_API_BASE}/models/{model}:generateContent?key={api_key}"
+
+    # Multi-image input: [style reference] + [real car photo] + [text instructions]
+    # Nano Banana sees the layout in image 1 and copies it onto the car in image 2.
+    parts: list[dict] = []
+    if reference_b64:
+        parts.append({"text": "Image 1 — STYLE REFERENCE: copy this poster's exact layout, typography, colour palette, and composition. Do NOT copy the car shown in this reference."})
+        parts.append({"inline_data": {"mime_type": "image/jpeg", "data": reference_b64}})
+        parts.append({"text": "Image 2 — REAL CAR (use this exact car, keep it pixel-perfect):"})
+        parts.append({"inline_data": {"mime_type": "image/jpeg", "data": image_b64}})
+        parts.append({"text": prompt})
+    else:
+        parts.append({"text": prompt})
+        parts.append({"inline_data": {"mime_type": "image/jpeg", "data": image_b64}})
 
     payload = {
-        "contents": [{
-            "parts": [
-                {"text": prompt},
-                {"inline_data": {"mime_type": "image/jpeg", "data": image_b64}},
-            ]
-        }],
+        "contents": [{"parts": parts}],
         "generationConfig": {
             "responseModalities": ["IMAGE", "TEXT"],
         },
@@ -1308,11 +1380,11 @@ async def _gemini_flash_image_edit(api_key: str, car: dict, photo_path: Path | s
         async with _httpx.AsyncClient(timeout=AI_TIMEOUT_SECONDS) as client:
             resp = await client.post(url, json=payload)
             if resp.status_code != 200:
-                log.warning("Gemini Flash image gen returned %s: %s", resp.status_code, resp.text[:300])
+                log.warning("Gemini Flash image-edit (%s) returned %s: %s", model, resp.status_code, resp.text[:300])
                 return None
             data = resp.json()
     except Exception as e:
-        log.warning("Gemini Flash image gen request failed: %s", e)
+        log.warning("Gemini Flash image-edit (%s) request failed: %s", model, e)
         return None
 
     try:
@@ -1320,84 +1392,93 @@ async def _gemini_flash_image_edit(api_key: str, car: dict, photo_path: Path | s
             inline = part.get("inlineData") or part.get("inline_data")
             if inline and inline.get("data"):
                 return base64.b64decode(inline["data"])
-        log.warning("Gemini Flash image gen: no image in response parts")
+        log.warning("Gemini Flash image-edit (%s): no image in response parts", model)
         return None
     except Exception as e:
-        log.warning("Gemini Flash image gen response parse failed: %s", e)
+        log.warning("Gemini Flash image-edit (%s) response parse failed: %s", model, e)
         return None
 
 
-async def _gemini_imagen3(api_key: str, car: dict) -> Optional[bytes]:
+async def _gemini_flash_text_to_image(api_key: str, car: dict, model: str = None) -> Optional[bytes]:
     """
-    Use Imagen 3 (imagen-3.0-generate-002) for text-to-image poster generation.
-    Best quality Gemini image model, portrait 2:3 output.
+    Text-to-image fallback using gemini-2.5-flash-image (no reference photo).
+    Used when no car photo is available. Imagen 3/4 require paid Vertex AI billing,
+    so we use the same Flash image model — works on free Google AI Studio tier.
     """
     try:
         import httpx as _httpx
     except ImportError:
-        log.warning("httpx not installed; skipping Gemini Imagen 3")
+        log.warning("httpx not installed; skipping Gemini text-to-image")
         return None
 
+    model = model or GEMINI_FLASH_IMAGE_MODEL
     prompt = _build_gemini_poster_prompt(car)
-    url = f"{GEMINI_API_BASE}/models/{GEMINI_IMAGEN_MODEL}:predict?key={api_key}"
+    url = f"{GEMINI_API_BASE}/models/{model}:generateContent?key={api_key}"
 
     payload = {
-        "instances": [{"prompt": prompt}],
-        "parameters": {
-            "sampleCount": 1,
-            "aspectRatio": "2:3",
-            "outputMimeType": "image/jpeg",
-        },
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"responseModalities": ["IMAGE", "TEXT"]},
     }
 
     try:
         async with _httpx.AsyncClient(timeout=AI_TIMEOUT_SECONDS) as client:
             resp = await client.post(url, json=payload)
             if resp.status_code != 200:
-                log.warning("Gemini Imagen 3 returned %s: %s", resp.status_code, resp.text[:300])
+                log.warning("Gemini text-to-image (%s) returned %s: %s", model, resp.status_code, resp.text[:300])
                 return None
             data = resp.json()
     except Exception as e:
-        log.warning("Gemini Imagen 3 request failed: %s", e)
+        log.warning("Gemini text-to-image request failed: %s", e)
         return None
 
     try:
-        predictions = data.get("predictions") or []
-        if predictions and predictions[0].get("bytesBase64Encoded"):
-            return base64.b64decode(predictions[0]["bytesBase64Encoded"])
-        log.warning("Gemini Imagen 3: no image in predictions")
+        for part in data["candidates"][0]["content"]["parts"]:
+            inline = part.get("inlineData") or part.get("inline_data")
+            if inline and inline.get("data"):
+                return base64.b64decode(inline["data"])
+        log.warning("Gemini text-to-image (%s): no image in response", model)
         return None
     except Exception as e:
-        log.warning("Gemini Imagen 3 response parse failed: %s", e)
+        log.warning("Gemini text-to-image response parse failed: %s", e)
         return None
 
 
 async def _generate_with_gemini(car: dict, main_photo_path: Optional[Path | str]) -> Optional[bytes]:
     """
-    Try Gemini image generation:
-      1. Gemini Flash image-gen (uses the car photo as reference) — if photo available
-      2. Imagen 3 text-to-image fallback
-    Returns JPEG bytes or None.
+    Try Gemini image generation in this order:
+      1. gemini-2.5-flash-image (Nano Banana) image-edit with the car photo as reference — best quality
+      2. gemini-3.1-flash-image-preview image-edit fallback (separate quota bucket)
+      3. gemini-2.5-flash-image text-to-image (no reference) if no photo or all edits failed
+    Returns JPEG/PNG bytes or None.
     """
     api_key = os.getenv("GEMINI_API_KEY", "").strip()
     if not api_key:
         log.warning("GEMINI_API_KEY missing; skipping Gemini poster generation")
         return None
 
-    # Step 1: Flash image generation with reference photo
-    if main_photo_path and Path(main_photo_path).exists():
-        log.info("Trying Gemini Flash image generation with reference photo")
-        result = await _gemini_flash_image_edit(api_key, car, main_photo_path)
-        if result:
-            log.info("Gemini Flash image generation succeeded")
-            return result
-        log.info("Gemini Flash failed; falling back to Imagen 3")
+    has_photo = main_photo_path and Path(main_photo_path).exists()
 
-    # Step 2: Imagen 3 text-to-image
-    log.info("Trying Gemini Imagen 3 text-to-image")
-    result = await _gemini_imagen3(api_key, car)
+    if has_photo:
+        log.info("Gemini: trying %s image-edit with reference photo", GEMINI_FLASH_IMAGE_MODEL)
+        result = await _gemini_flash_image_edit(api_key, car, main_photo_path, model=GEMINI_FLASH_IMAGE_MODEL)
+        if result:
+            log.info("Gemini %s image-edit succeeded", GEMINI_FLASH_IMAGE_MODEL)
+            return result
+
+        log.info("Gemini: %s failed, trying %s", GEMINI_FLASH_IMAGE_MODEL, GEMINI_FLASH_IMAGE_FALLBACK)
+        result = await _gemini_flash_image_edit(api_key, car, main_photo_path, model=GEMINI_FLASH_IMAGE_FALLBACK)
+        if result:
+            log.info("Gemini %s image-edit succeeded", GEMINI_FLASH_IMAGE_FALLBACK)
+            return result
+
+    log.info("Gemini: trying text-to-image (no reference photo)")
+    result = await _gemini_flash_text_to_image(api_key, car, model=GEMINI_FLASH_IMAGE_MODEL)
     if result:
-        log.info("Gemini Imagen 3 succeeded")
+        log.info("Gemini text-to-image succeeded")
+        return result
+    result = await _gemini_flash_text_to_image(api_key, car, model=GEMINI_FLASH_IMAGE_FALLBACK)
+    if result:
+        log.info("Gemini text-to-image (fallback model) succeeded")
     return result
 
 

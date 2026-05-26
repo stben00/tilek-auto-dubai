@@ -21,7 +21,7 @@ from parser import parse_car_text
 from media_storage import (
     now_id, now_iso, photo_filename, video_filename,
     save_bytes, read_bytes, remove_temp, temp_path,
-    video_too_large, human_size, extract_video_poster, extract_video_poster_smart,
+    video_too_large, human_size, extract_video_poster, extract_video_poster_smart, pick_best_hero_photo,
 )
 from github_client import publish_car, upload_binary_file
 from instagram_fetcher import fetch_instagram
@@ -250,7 +250,22 @@ async def _build_and_send_poster(target: Message | CallbackQuery, draft: Draft, 
         return
     main_photo_path = None
     if draft.photos:
-        main_photo_path = temp_path(draft.photos[0]["name"])
+        photo_paths = [temp_path(p["name"]) for p in draft.photos]
+        if len(photo_paths) > 1:
+            try:
+                hero_idx = await pick_best_hero_photo(
+                    photo_paths,
+                    target_brand=str(draft.data.get("brand") or "").strip(),
+                    target_model=str(draft.data.get("model") or "").strip(),
+                )
+            except Exception as e:
+                log.warning("Hero photo picker failed: %s", e)
+                hero_idx = 0
+            main_photo_path = photo_paths[hero_idx]
+            if hero_idx != 0:
+                draft.photos.insert(0, draft.photos.pop(hero_idx))
+        else:
+            main_photo_path = photo_paths[0]
     msg = target.message if isinstance(target, CallbackQuery) else target
     # Pick template: regenerate → different one, first time → smart auto
     if regenerate:
