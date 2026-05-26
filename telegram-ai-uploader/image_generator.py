@@ -1,12 +1,20 @@
 """Ad-poster generator for car listings.
 
-Two backends, picked via POSTER_MODE env var:
-  - "ai"     → OpenAI gpt-image-1 only (fails loudly if API broken)
-  - "local"  → Pillow templates only (no paid API)
-  - "auto"   → AI first, Pillow fallback if AI fails (default)
+Three AI backends + Pillow fallback, controlled by POSTER_MODE + AI_PROVIDER env vars:
 
-Pillow fallback uses 5 templates with smart selection based on car attributes:
-- aggressive_black_yellow → SUV / Land Cruiser / RAV4 / default
+  POSTER_MODE:
+    "ai"    → AI only (fails loudly if all AI fails)
+    "local" → Pillow templates only (no paid API)
+    "auto"  → AI first, Pillow fallback (default)
+
+  AI_PROVIDER (controls which AI engine to try for posters):
+    "gemini" → Gemini only (Flash image-gen → Imagen 3 fallback)
+    "openai" → OpenAI gpt-image-1 only
+    "auto"   → Gemini first → OpenAI fallback (default)
+
+Pillow templates (local fallback):
+- premium_dubai          → default, full-bleed photo + overlay layout
+- aggressive_black_yellow → SUV / Land Cruiser / RAV4
 - red_price_blast        → cheap price (< $15k)
 - luxury_dark_gold       → BMW / Mercedes / Lexus / Porsche / Audi
 - clean_white_premium    → Toyota / Honda / mid-tier sedans
@@ -1051,9 +1059,15 @@ def select_template(car: dict) -> str:  # noqa: F811 — intentionally shadowing
 # ---------------------------------------------------------------------------
 
 AI_POSTER_TEMPLATE = "ai_gpt_image"
+AI_GEMINI_TEMPLATE = "ai_gemini"
 AI_TIMEOUT_SECONDS = 90.0
 AI_QUALITY = os.getenv("OPENAI_IMAGE_QUALITY", "medium")  # low / medium / high
 AI_SIZE = os.getenv("OPENAI_IMAGE_SIZE", "1024x1536")     # vertical phone format
+
+# Gemini models
+GEMINI_FLASH_IMAGE_MODEL = "gemini-2.0-flash-preview-image-generation"
+GEMINI_IMAGEN_MODEL = "imagen-3.0-generate-002"
+GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta"
 
 
 def _build_ai_prompt(car: dict) -> str:
@@ -1219,6 +1233,175 @@ async def _generate_with_gpt_image(car: dict, main_photo_path: Optional[Path | s
 
 
 # ---------------------------------------------------------------------------
+# Gemini image generation (Flash image-gen + Imagen 3 fallback)
+# ---------------------------------------------------------------------------
+
+def _build_gemini_poster_prompt(car: dict) -> str:
+    """
+    Compact prompt for Gemini image models.
+    Gemini Flash and Imagen 3 work better with direct, concrete instructions
+    than with long system-role prompts.
+    """
+    brand = (car.get("brand") or "").upper().strip()
+    model_name = (car.get("model") or "").upper().strip()
+    year = str(car.get("year") or "").strip()
+    engine = str(car.get("engine") or "").strip()
+    fuel = str(car.get("fuel") or "").strip()
+    price = str(car.get("price") or "по запросу").strip()
+    title = (brand + " " + model_name).strip() or (car.get("title") or "AUTO").upper()
+
+    specs = ", ".join(p for p in [year, engine, fuel] if p) or "Dubai / UAE"
+
+    return (
+        f"Create a premium vertical (2:3 ratio) car sales poster in Dubai dealership style.\n"
+        f"Black background with gold (#FFD700) accents. Dark luxury aesthetic.\n\n"
+        f"Car: {title}\n"
+        f"Specs: {specs}\n"
+        f"Price: {price}\n\n"
+        f"Layout:\n"
+        f"- TOP LEFT: large bold white text '{title}', smaller gold text '{specs}'\n"
+        f"- PRICE PILL: gold rounded rectangle with bold black text '{price}'\n"
+        f"- BULLET LIST: 4 white lines with yellow checkmarks — quality, reliability, comfort, value\n"
+        f"- TOP RIGHT: dark spec panel with rows: Year, Engine, Fuel, Gearbox: Auto, Drive: Rear\n"
+        f"- BADGE BELOW PANEL: '🔥 ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ! ЛУЧШАЯ ЦЕНА НА РЫНКЕ'\n"
+        f"- BOTTOM: green WhatsApp button, small 'ВИДЕО ПО ЗАПРОСУ' CTA\n\n"
+        f"The car photo fills the background — cinematic lighting, warm sunset tones, "
+        f"deep shadows, glossy reflections. NO text errors. Cyrillic text must be correct.\n"
+        f"Style: luxury automotive ad, NOT cartoon, NOT illustration."
+    )
+
+
+async def _gemini_flash_image_edit(api_key: str, car: dict, photo_path: Path | str) -> Optional[bytes]:
+    """
+    Use Gemini Flash image-generation model with the car photo as reference.
+    Generates a premium poster while preserving the car's appearance.
+    """
+    try:
+        import httpx as _httpx
+    except ImportError:
+        log.warning("httpx not installed; skipping Gemini Flash image gen")
+        return None
+
+    try:
+        with open(photo_path, "rb") as f:
+            image_b64 = base64.b64encode(f.read()).decode()
+    except Exception as e:
+        log.warning("Could not read photo for Gemini: %s", e)
+        return None
+
+    prompt = _build_ai_prompt(car)
+    url = f"{GEMINI_API_BASE}/models/{GEMINI_FLASH_IMAGE_MODEL}:generateContent?key={api_key}"
+
+    payload = {
+        "contents": [{
+            "parts": [
+                {"text": prompt},
+                {"inline_data": {"mime_type": "image/jpeg", "data": image_b64}},
+            ]
+        }],
+        "generationConfig": {
+            "responseModalities": ["IMAGE", "TEXT"],
+        },
+    }
+
+    try:
+        async with _httpx.AsyncClient(timeout=AI_TIMEOUT_SECONDS) as client:
+            resp = await client.post(url, json=payload)
+            if resp.status_code != 200:
+                log.warning("Gemini Flash image gen returned %s: %s", resp.status_code, resp.text[:300])
+                return None
+            data = resp.json()
+    except Exception as e:
+        log.warning("Gemini Flash image gen request failed: %s", e)
+        return None
+
+    try:
+        for part in data["candidates"][0]["content"]["parts"]:
+            inline = part.get("inlineData") or part.get("inline_data")
+            if inline and inline.get("data"):
+                return base64.b64decode(inline["data"])
+        log.warning("Gemini Flash image gen: no image in response parts")
+        return None
+    except Exception as e:
+        log.warning("Gemini Flash image gen response parse failed: %s", e)
+        return None
+
+
+async def _gemini_imagen3(api_key: str, car: dict) -> Optional[bytes]:
+    """
+    Use Imagen 3 (imagen-3.0-generate-002) for text-to-image poster generation.
+    Best quality Gemini image model, portrait 2:3 output.
+    """
+    try:
+        import httpx as _httpx
+    except ImportError:
+        log.warning("httpx not installed; skipping Gemini Imagen 3")
+        return None
+
+    prompt = _build_gemini_poster_prompt(car)
+    url = f"{GEMINI_API_BASE}/models/{GEMINI_IMAGEN_MODEL}:predict?key={api_key}"
+
+    payload = {
+        "instances": [{"prompt": prompt}],
+        "parameters": {
+            "sampleCount": 1,
+            "aspectRatio": "2:3",
+            "outputMimeType": "image/jpeg",
+        },
+    }
+
+    try:
+        async with _httpx.AsyncClient(timeout=AI_TIMEOUT_SECONDS) as client:
+            resp = await client.post(url, json=payload)
+            if resp.status_code != 200:
+                log.warning("Gemini Imagen 3 returned %s: %s", resp.status_code, resp.text[:300])
+                return None
+            data = resp.json()
+    except Exception as e:
+        log.warning("Gemini Imagen 3 request failed: %s", e)
+        return None
+
+    try:
+        predictions = data.get("predictions") or []
+        if predictions and predictions[0].get("bytesBase64Encoded"):
+            return base64.b64decode(predictions[0]["bytesBase64Encoded"])
+        log.warning("Gemini Imagen 3: no image in predictions")
+        return None
+    except Exception as e:
+        log.warning("Gemini Imagen 3 response parse failed: %s", e)
+        return None
+
+
+async def _generate_with_gemini(car: dict, main_photo_path: Optional[Path | str]) -> Optional[bytes]:
+    """
+    Try Gemini image generation:
+      1. Gemini Flash image-gen (uses the car photo as reference) — if photo available
+      2. Imagen 3 text-to-image fallback
+    Returns JPEG bytes or None.
+    """
+    api_key = os.getenv("GEMINI_API_KEY", "").strip()
+    if not api_key:
+        log.warning("GEMINI_API_KEY missing; skipping Gemini poster generation")
+        return None
+
+    # Step 1: Flash image generation with reference photo
+    if main_photo_path and Path(main_photo_path).exists():
+        log.info("Trying Gemini Flash image generation with reference photo")
+        result = await _gemini_flash_image_edit(api_key, car, main_photo_path)
+        if result:
+            log.info("Gemini Flash image generation succeeded")
+            return result
+        log.info("Gemini Flash failed; falling back to Imagen 3")
+
+    # Step 2: Imagen 3 text-to-image
+    log.info("Trying Gemini Imagen 3 text-to-image")
+    result = await _gemini_imagen3(api_key, car)
+    if result:
+        log.info("Gemini Imagen 3 succeeded")
+    return result
+
+
+# ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
 
@@ -1270,15 +1453,27 @@ async def generate_ad_image_with_template(
             return None, None
 
     mode = _poster_mode()
+    provider = os.getenv("AI_PROVIDER", "auto").strip().lower()
 
     if mode in ("ai", "auto"):
-        ai_bytes = await _generate_with_gpt_image(car, main_photo_path)
-        if ai_bytes:
-            return ai_bytes, AI_POSTER_TEMPLATE
+        ai_bytes = None
+
+        # Gemini path: provider is "gemini" or "auto"
+        if provider in ("gemini", "auto"):
+            ai_bytes = await _generate_with_gemini(car, main_photo_path)
+            if ai_bytes:
+                return ai_bytes, AI_GEMINI_TEMPLATE
+
+        # OpenAI path: provider is "openai" or auto-fallback when Gemini failed
+        if provider in ("openai", "auto"):
+            ai_bytes = await _generate_with_gpt_image(car, main_photo_path)
+            if ai_bytes:
+                return ai_bytes, AI_POSTER_TEMPLATE
+
         if mode == "ai":
-            log.warning("POSTER_MODE=ai but AI generation failed; returning nothing")
+            log.warning("POSTER_MODE=ai but all AI generation failed; returning nothing")
             return None, None
-        log.info("AI poster generation failed; falling back to local Pillow template")
+        log.info("All AI poster backends failed; falling back to local Pillow template")
 
     # mode == "local" OR auto-fallback
     try:
