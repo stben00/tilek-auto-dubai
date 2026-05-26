@@ -52,8 +52,20 @@ Open `.env` and fill at minimum:
 BOT_TOKEN=123456:ABC...
 ADMIN_TELEGRAM_IDS=123456789
 GITHUB_TOKEN=ghp_...
-ANTHROPIC_API_KEY=          # optional
+
+# --- AI poster generation ---
+GEMINI_API_KEY=AIza...        # Google AI Studio → https://aistudio.google.com/apikey
+OPENAI_API_KEY=sk-...         # optional, fallback if Gemini fails
+ANTHROPIC_API_KEY=            # optional, used for text parsing only
+
+# AI_PROVIDER: gemini | openai | auto (default: auto → Gemini first, OpenAI fallback)
+AI_PROVIDER=gemini
+
+# POSTER_MODE: ai | local | auto (default: auto → AI first, Pillow fallback)
+POSTER_MODE=auto
 ```
+
+> **Получить Gemini API ключ:** https://aistudio.google.com/apikey — бесплатно, без кредитной карты.
 
 ## 6. Install + run
 
