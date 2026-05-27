@@ -1,5 +1,31 @@
 [
   {
+    "id": "car_20260527_093739",
+    "title": "Kia K5 2022",
+    "brand": "Kia",
+    "model": "K5",
+    "year": "2022",
+    "engine": "2.0 газ",
+    "fuel": "Газ",
+    "bodyType": "",
+    "price": "$8 650",
+    "mileage": "102 000 км",
+    "location": "Dubai / UAE",
+    "description": "⚡ УСПЕЙ!\n\n<b>Kia K5 2022</b>\n\n✅",
+    "whatsapp": "",
+    "instagramUrl": "",
+    "videoUrl": "",
+    "videoFile": "",
+    "images": [
+      "assets/cars/car_20260527_093739_1.jpg",
+      "assets/cars/car_20260527_093739_poster.jpg"
+    ],
+    "mainImage": "assets/cars/car_20260527_093739_1.jpg",
+    "status": "available",
+    "source": "telegram_ai_uploader",
+    "createdAt": "2026-05-27T09:39:16Z"
+  },
+  {
     "id": "car_20260526_172144",
     "title": "Toyota Highlander 2020",
     "brand": "Toyota",
