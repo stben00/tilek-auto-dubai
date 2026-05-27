@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<title id="carPageTitle">Автомобиль — Tilek Auto Dubai</title>
+<meta name="description" id="carPageDesc" content="Подробная информация об автомобиле из Дубая. Цена, характеристики, фото и видео.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" id="ogTitle" content="Автомобиль — Tilek Auto Dubai">
+<meta property="og:description" id="ogDesc" content="Подробная информация об автомобиле из Дубая.">
+<meta property="og:image" id="ogImage" content="https://stben00.github.io/tilek-auto-dubai/assets/logo.png">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
+<script>
+window.TILEK_PUBLIC_CONFIG = {
+  whatsapp: '996551333360',
+  instagram: 'https://www.instagram.com/tilek_auto_dubai/',
+  whatsappGroup: 'https://chat.whatsapp.com/D1IHhSbhKkH5vlnxzsdA4R',
+  twoGisUrl: 'https://2gis.kg/bishkek/geo/70030076498216967'
+};
+</script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter','Helvetica Neue',Arial,sans-serif;
+  background:#0a0a0a;color:#e8e8e8;line-height:1.6;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+svg{flex-shrink:0}
+:root{
+  --gold:#d4af37;--gold-light:#f4d977;--gold-deep:#b8941f;
+  --line-soft:rgba(255,255,255,.06);--line:rgba(212,175,55,.18);
+  --whatsapp:#25d366;
+}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* ===== HEADER ===== */
+.header{
+  position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 0;
+  background:rgba(10,10,10,.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff}
+.logo img{width:34px;height:34px;border-radius:8px}
+.logo-text{font-size:17px;letter-spacing:.5px}
+.logo-text .gold{color:var(--gold)}
+.logo-sub{font-size:10px;color:#8a8a8a;letter-spacing:1.5px;display:block;text-transform:uppercase}
+.nav-back{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 16px;border-radius:100px;
+  background:rgba(255,255,255,.04);border:1px solid var(--line-soft);
+  font-size:13.5px;color:#cfc7b8;font-weight:500;
+  transition:all .25s ease;
+}
+.nav-back:hover{background:rgba(212,175,55,.08);border-color:var(--gold);color:var(--gold)}
+.nav-back svg{width:14px;height:14px}
+
+/* ===== MAIN ===== */
+main{padding-top:100px;padding-bottom:60px;min-height:100vh}
+
+.breadcrumbs{
+  display:flex;align-items:center;gap:8px;font-size:13px;color:#7e7e7e;
+  margin-bottom:24px;flex-wrap:wrap;
+}
+.breadcrumbs a{color:#a8a8a8;transition:color .2s ease}
+.breadcrumbs a:hover{color:var(--gold)}
+.breadcrumbs span.sep{color:#4a4a4a}
+.breadcrumbs span.current{color:#fff}
+
+/* ===== HERO LAYOUT ===== */
+.car-hero{
+  display:grid;grid-template-columns:1.4fr 1fr;gap:40px;
+  align-items:start;
+}
+@media (max-width:920px){
+  .car-hero{grid-template-columns:1fr;gap:24px}
+}
+
+/* ===== GALLERY ===== */
+.gallery{
+  position:relative;
+  background:#161616;border-radius:18px;overflow:hidden;
+  border:1px solid var(--line-soft);
+}
+.gallery-main{
+  position:relative;aspect-ratio:4/3;background:#1a1a1a;
+}
+.gallery-main img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.gallery-empty{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:#5a5a5a;font-size:14px;
+}
+.gallery-nav{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.15);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  transition:background .2s ease;
+}
+.gallery-nav:hover{background:rgba(212,175,55,.95);color:#0a0a0a;border-color:transparent}
+.gallery-nav svg{width:18px;height:18px}
+.gallery-prev{left:14px}
+.gallery-next{right:14px}
+.gallery-counter{
+  position:absolute;bottom:14px;right:14px;z-index:2;
+  padding:6px 12px;border-radius:6px;
+  background:rgba(0,0,0,.65);backdrop-filter:blur(8px);
+  font-size:12px;color:#fff;font-weight:500;
+}
+.gallery-video-btn{
+  position:absolute;bottom:14px;left:14px;z-index:2;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 14px;border-radius:8px;
+  background:rgba(212,175,55,.95);color:#0a0a0a;
+  font-size:13px;font-weight:600;
+  box-shadow:0 4px 14px rgba(0,0,0,.4);
+  transition:transform .2s ease;
+}
+.gallery-video-btn:hover{transform:scale(1.04)}
+.gallery-video-btn svg{width:14px;height:14px}
+.gallery-thumbs{
+  display:flex;gap:8px;padding:12px;overflow-x:auto;
+  scrollbar-width:thin;scrollbar-color:#3a3a3a transparent;
+}
+.gallery-thumbs::-webkit-scrollbar{height:4px}
+.gallery-thumbs::-webkit-scrollbar-thumb{background:#3a3a3a;border-radius:4px}
+.gallery-thumb{
+  width:72px;height:54px;border-radius:6px;overflow:hidden;
+  background:#1a1a1a;cursor:pointer;flex-shrink:0;
+  border:2px solid transparent;transition:border-color .2s ease,opacity .2s ease;
+  opacity:.6;
+}
+.gallery-thumb:hover{opacity:.85}
+.gallery-thumb.active{border-color:var(--gold);opacity:1}
+.gallery-thumb img{width:100%;height:100%;object-fit:cover}
+
+/* ===== INFO ===== */
+.car-info{
+  position:sticky;top:90px;
+  background:#161616;border-radius:18px;
+  border:1px solid var(--line-soft);
+  padding:28px 26px;
+}
+@media (max-width:920px){
+  .car-info{position:static}
+}
+.car-status{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 11px;border-radius:6px;
+  background:rgba(124,213,122,.1);color:#7cd57a;
+  font-size:12px;font-weight:600;letter-spacing:.3px;
+  border:1px solid rgba(124,213,122,.25);
+  margin-bottom:14px;
+}
+.car-status.status-order{background:rgba(212,175,55,.1);color:#d4af37;border-color:rgba(212,175,55,.3)}
+.car-status.status-sold{background:rgba(154,160,166,.1);color:#9aa0a6;border-color:rgba(154,160,166,.25)}
+.car-status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.car-info h1{
+  font-size:28px;font-weight:700;color:#fff;line-height:1.2;letter-spacing:-.5px;
+  margin-bottom:6px;
+}
+.car-subline{
+  font-size:14px;color:#a8a8a8;font-weight:500;margin-bottom:22px;
+}
+.car-subline .sep{color:#5a5a5a;margin:0 6px}
+
+.spec-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;
+  padding:18px 0;
+  border-top:1px solid var(--line-soft);
+  border-bottom:1px solid var(--line-soft);
+}
+.spec-item{display:flex;flex-direction:column;gap:2px}
+.spec-label{font-size:11.5px;color:#7e7e7e;text-transform:uppercase;letter-spacing:.5px}
+.spec-value{font-size:14.5px;color:#fff;font-weight:600}
+
+.price-block{padding:20px 0 4px}
+.price-label{font-size:12.5px;color:#8d8d8d;margin-bottom:4px}
+.price-big{
+  font-size:32px;font-weight:800;line-height:1.1;color:var(--gold);
+  letter-spacing:-.5px;
+}
+.price-note{
+  font-size:12.5px;color:#8d8d8d;margin-top:6px;line-height:1.5;
+}
+
+.actions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:22px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 22px;border-radius:12px;font-size:14.5px;font-weight:600;
+  letter-spacing:.2px;transition:transform .2s ease,box-shadow .2s ease;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold-light),var(--gold) 50%,var(--gold-deep));
+  color:#1a1300;font-weight:700;
+  box-shadow:0 8px 22px -8px rgba(212,175,55,.45);
+}
+.btn-whatsapp{
+  background:linear-gradient(135deg,#2ed478,#25d366);color:#fff;font-weight:700;
+  box-shadow:0 8px 22px -8px rgba(37,211,102,.45);
+}
+.btn-ghost{
+  background:rgba(255,255,255,.04);color:#cfc7b8;
+  border:1px solid var(--line-soft);
+}
+.btn-ghost:hover{background:rgba(212,175,55,.08);border-color:var(--gold);color:var(--gold)}
+.btn svg{width:16px;height:16px}
+
+/* ===== TRUST BLOCK ===== */
+.trust-block{
+  margin-top:50px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+}
+@media (max-width:760px){
+  .trust-block{grid-template-columns:1fr;margin-top:36px}
+}
+.trust-item{
+  display:flex;gap:14px;
+  padding:20px;background:#141414;border-radius:14px;
+  border:1px solid var(--line-soft);
+}
+.trust-icon{
+  flex-shrink:0;width:40px;height:40px;border-radius:10px;
+  background:rgba(212,175,55,.1);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+}
+.trust-icon svg{width:20px;height:20px}
+.trust-text h4{font-size:15px;color:#fff;font-weight:600;margin-bottom:4px}
+.trust-text p{font-size:13px;color:#a0a0a0;line-height:1.5}
+
+/* ===== DESCRIPTION ===== */
+.description-block{
+  margin-top:40px;padding:26px 28px;
+  background:#141414;border-radius:14px;
+  border:1px solid var(--line-soft);
+}
+.description-block h3{
+  font-size:16px;color:#fff;font-weight:600;margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.description-block h3 svg{width:16px;height:16px;color:var(--gold)}
+.description-block p{font-size:14.5px;color:#c8c8c8;line-height:1.65;white-space:pre-line}
+
+/* ===== POSTER (sharing only) ===== */
+.poster-block{
+  margin-top:40px;padding:26px;
+  background:#141414;border-radius:14px;
+  border:1px solid var(--line-soft);
+  display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;
+}
+@media (max-width:560px){
+  .poster-block{grid-template-columns:1fr;text-align:center}
+}
+.poster-block img{
+  width:180px;border-radius:10px;border:1px solid var(--line-soft);
+}
+.poster-block h3{font-size:16px;color:#fff;font-weight:600;margin-bottom:6px}
+.poster-block p{font-size:13.5px;color:#a0a0a0;line-height:1.55;margin-bottom:14px}
+.poster-block .btn{display:inline-flex;width:auto;padding:10px 18px;font-size:13px}
+
+/* ===== VIDEO MODAL ===== */
+.vmodal-bg{
+  position:fixed;inset:0;z-index:9999;display:none;
+  background:rgba(0,0,0,.88);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:20px;
+}
+.vmodal-bg.active{display:flex}
+.vmodal{position:relative;width:100%;max-width:880px;background:#111;border-radius:16px;overflow:hidden}
+.vmodal video,.vmodal iframe{width:100%;height:auto;aspect-ratio:9/16;max-height:80vh;display:block;background:#000;border:0}
+.vmodal-close{
+  position:absolute;top:10px;right:10px;z-index:2;
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(0,0,0,.6);color:#fff;font-size:22px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.2);
+}
+
+/* ===== FOOTER ===== */
+.footer{
+  margin-top:80px;padding:36px 0;
+  background:#080808;border-top:1px solid var(--line-soft);
+  text-align:center;font-size:13px;color:#7a7a7a;
+}
+.footer a{color:#cfc7b8;transition:color .2s ease}
+.footer a:hover{color:var(--gold)}
+
+/* ===== LOADING ===== */
+.loading{
+  padding:120px 20px;text-align:center;color:#5a5a5a;font-size:15px;
+}
+.error{
+  padding:60px 28px;text-align:center;
+  background:#141414;border-radius:14px;border:1px solid rgba(232,92,65,.3);
+  color:#e8a094;
+}
+.error h2{color:#fff;font-size:22px;margin-bottom:8px}
+.error p{margin-bottom:18px;color:#a0a0a0}
+
+/* Sticky bottom WhatsApp on mobile only */
+.sticky-whatsapp{
+  position:fixed;right:18px;bottom:18px;z-index:50;
+  width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,#2ed478,#25d366);
+  display:none;align-items:center;justify-content:center;
+  box-shadow:0 10px 30px -10px rgba(37,211,102,.55);
+}
+.sticky-whatsapp svg{width:24px;height:24px;color:#fff}
+@media (max-width:760px){
+  .sticky-whatsapp{display:flex}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.png" alt="Tilek Auto Dubai">
+        <div>
+          <div class="logo-text">TILEK <span class="gold">AUTO</span></div>
+          <div class="logo-sub">DUBAI</div>
+        </div>
+      </a>
+      <a href="index.html#catalog" class="nav-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        Все авто
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <nav class="breadcrumbs" id="breadcrumbs">
+      <a href="index.html">Главная</a>
+      <span class="sep">/</span>
+      <a href="index.html#catalog">Каталог</a>
+      <span class="sep">/</span>
+      <span class="current" id="bcTitle">Загрузка…</span>
+    </nav>
+
+    <div id="carRoot">
+      <div class="loading">Загружаем информацию об автомобиле…</div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>© Tilek Auto Dubai · <a href="index.html">Главная</a> · <a href="faq.html">FAQ</a> · <a href="index.html#contacts">Контакты</a></p>
+  </div>
+</footer>
+
+<!-- Video Modal -->
+<div class="vmodal-bg" id="vmodal" aria-hidden="true">
+  <div class="vmodal">
+    <button class="vmodal-close" id="vmodalClose" aria-label="Закрыть">×</button>
+    <div id="vmodalPlayer"></div>
+  </div>
+</div>
+
+<a class="sticky-whatsapp" href="#" id="stickyWA" aria-label="Написать в WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+</a>
+
+<script>
+const STATUS_LABELS = { available:'В наличии', order:'Под заказ', sold:'Продан', reserved:'Забронирован' };
+const FUEL_MAP = { petrol:'Бензин', diesel:'Дизель', hybrid:'Hybrid', electric:'Электро', gas:'Газ',
+                   'бензин':'Бензин','дизель':'Дизель','гибрид':'Hybrid','электро':'Электро','газ':'Газ' };
+const BODY_MAP = { suv:'Внедорожник', crossover:'Кроссовер', sedan:'Седан', pickup:'Пикап',
+                   truck:'Грузовик', minivan:'Минивэн', coupe:'Купе', hatchback:'Хэтчбек' };
+
+const ICO = {
+  cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-7-7.5-7-13a7 7 0 0 1 14 0c0 5.5-7 13-7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  video: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>',
+  truck: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>',
+  play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+  wa: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>'
+};
+
+const escapeHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const escapeAttr = s => escapeHtml(s);
+
+function makeWhatsappUrl(text) {
+  const num = (window.TILEK_PUBLIC_CONFIG && window.TILEK_PUBLIC_CONFIG.whatsapp) || '996551333360';
+  return `https://wa.me/${num}?text=${encodeURIComponent(text)}`;
+}
+
+function getQueryId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('id') || '';
+}
+
+function renderCar(car) {
+  const title = escapeHtml(car.title || `${car.brand || ''} ${car.model || ''}`.trim() || 'Авто из Дубая');
+  const images = Array.isArray(car.images) && car.images.length
+    ? car.images.filter(p => !p.includes('_poster'))   // real photos for gallery
+    : (car.image ? [car.image] : []);
+  const poster = (Array.isArray(car.images) ? car.images.find(p => p.includes('_poster')) : '') || '';
+  if (images.length === 0 && poster) images.push(poster); // fallback if only poster exists
+
+  // Status pill
+  const statusKey = String(car.status || '').toLowerCase();
+  const statusLabel = STATUS_LABELS[statusKey] || '';
+
+  // Subline
+  const fuel = FUEL_MAP[String(car.fuel || '').toLowerCase()] || car.fuel || '';
+  const subParts = [car.year, car.engine, fuel, car.transmission || 'Automatic'].filter(Boolean);
+
+  // Specs grid
+  const body = BODY_MAP[String(car.bodyType || car.body || '').toLowerCase()] || car.bodyType || car.body || '';
+  const specs = [
+    car.year && {label:'Год выпуска', value: car.year},
+    car.engine && {label:'Двигатель', value: car.engine},
+    fuel && {label:'Топливо', value: fuel},
+    {label:'Коробка', value: car.transmission || 'Automatic'},
+    car.mileage && {label:'Пробег', value: car.mileage},
+    body && {label:'Кузов', value: body},
+  ].filter(Boolean);
+
+  // Price
+  const priceRaw = String(car.price || '').trim();
+  const hasPrice = priceRaw && priceRaw.toLowerCase() !== 'по запросу';
+  const priceShown = hasPrice ? escapeHtml(priceRaw) : 'По запросу';
+  const priceLabel = hasPrice ? 'Цена в Дубае' : 'Цена';
+  const priceNote = hasPrice
+    ? 'Финальный расчёт с доставкой в Бишкек/Алматы — по запросу. Под ключ считаем индивидуально.'
+    : 'Напишите в WhatsApp — пришлём расчёт под ключ с доставкой.';
+
+  // WhatsApp message
+  const waMsg = `Здравствуйте! Интересует ${car.title || (car.brand + ' ' + (car.model || ''))}. Можно получить полный расчёт под ключ с доставкой?`;
+
+  // Video setup
+  const videoUrl = String(car.videoUrl || car.videoFile || '').trim();
+  const videoType = car.videoType || (videoUrl
+    ? (/youtube|youtu\.be/i.test(videoUrl) ? 'youtube'
+       : (/instagram/i.test(videoUrl) ? 'instagram'
+       : (/\.(mp4|mov|webm|m4v)(\?|$)/i.test(videoUrl) ? 'local' : 'external')))
+    : '');
+
+  // Gallery HTML
+  const galleryHTML = images.length ? `
+    <div class="gallery-main">
+      <img src="${escapeAttr(images[0])}" alt="${title}" id="galleryMain">
+      ${images.length > 1 ? `
+        <button type="button" class="gallery-nav gallery-prev" id="gPrev" aria-label="Предыдущее">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button type="button" class="gallery-nav gallery-next" id="gNext" aria-label="Следующее">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="gallery-counter" id="gCounter">1 / ${images.length}</div>
+      ` : ''}
+      ${videoUrl ? `
+        <button type="button" class="gallery-video-btn" id="openVideo">
+          ${ICO.play} Смотреть видео
+        </button>
+      ` : ''}
+    </div>
+    ${images.length > 1 ? `
+      <div class="gallery-thumbs" id="gThumbs">
+        ${images.map((src, i) => `
+          <button type="button" class="gallery-thumb ${i === 0 ? 'active' : ''}" data-idx="${i}">
+            <img src="${escapeAttr(src)}" alt="${title} фото ${i+1}" loading="lazy">
+          </button>
+        `).join('')}
+      </div>
+    ` : ''}
+  ` : `
+    <div class="gallery-main">
+      <div class="gallery-empty">Фото будут добавлены позже</div>
+    </div>
+  `;
+
+  // Description
+  const description = (car.description || '').trim();
+  const descriptionHTML = description ? `
+    <div class="description-block">
+      <h3>${ICO.check} Описание автомобиля</h3>
+      <p>${escapeHtml(description)}</p>
+    </div>
+  ` : '';
+
+  // Poster block (only if poster exists and is different from images[0])
+  const posterHTML = poster && poster !== images[0] ? `
+    <div class="poster-block">
+      <img src="${escapeAttr(poster)}" alt="${title} — постер для соцсетей">
+      <div>
+        <h3>Постер для соцсетей</h3>
+        <p>Готовая рекламная карточка этого авто для отправки в WhatsApp, Instagram или Telegram.</p>
+        <a href="${escapeAttr(poster)}" download class="btn btn-ghost">Скачать постер</a>
+      </div>
+    </div>
+  ` : '';
+
+  document.title = `${car.title} — Tilek Auto Dubai`;
+  document.getElementById('carPageDesc').setAttribute('content',
+    `${car.title}${hasPrice ? ' — ' + priceRaw : ''}. Доставка из Дубая под ключ. WhatsApp +996 551 333 360.`);
+  document.getElementById('ogTitle').setAttribute('content', `${car.title} — Tilek Auto Dubai`);
+  document.getElementById('ogDesc').setAttribute('content',
+    `Авто из Дубая под заказ. ${[car.year, car.engine, fuel].filter(Boolean).join(' · ')}. ${hasPrice ? priceRaw : 'Цена по запросу'}.`);
+  if (images[0]) {
+    document.getElementById('ogImage').setAttribute('content',
+      new URL(images[0], window.location.href).href);
+  }
+  document.getElementById('bcTitle').textContent = car.title;
+  document.getElementById('stickyWA').href = makeWhatsappUrl(waMsg);
+
+  document.getElementById('carRoot').innerHTML = `
+    <div class="car-hero">
+      <div class="gallery">
+        ${galleryHTML}
+      </div>
+      <aside class="car-info">
+        ${statusLabel ? `<span class="car-status status-${statusKey}">${escapeHtml(statusLabel)}</span>` : ''}
+        <h1>${title}</h1>
+        ${subParts.length ? `<div class="car-subline">${subParts.map(p => escapeHtml(p)).join('<span class="sep">·</span>')}</div>` : ''}
+        ${specs.length ? `
+          <div class="spec-grid">
+            ${specs.map(s => `
+              <div class="spec-item">
+                <div class="spec-label">${escapeHtml(s.label)}</div>
+                <div class="spec-value">${escapeHtml(s.value)}</div>
+              </div>
+            `).join('')}
+          </div>
+        ` : ''}
+        <div class="price-block">
+          <div class="price-label">${priceLabel}</div>
+          <div class="price-big">${priceShown}</div>
+          <div class="price-note">${priceNote}</div>
+        </div>
+        <div class="actions">
+          <a href="${makeWhatsappUrl(waMsg)}" target="_blank" rel="noopener" class="btn btn-whatsapp">
+            ${ICO.wa} Написать в WhatsApp
+          </a>
+          <a href="${makeWhatsappUrl('Здравствуйте! Хочу получить полный расчёт под ключ для ' + (car.title || 'этого авто') + '.')}" target="_blank" rel="noopener" class="btn btn-gold">
+            Получить расчёт под ключ
+          </a>
+          ${videoUrl ? `
+            <button type="button" class="btn btn-ghost" id="openVideoBtn2">
+              ${ICO.play} Смотреть видео
+            </button>
+          ` : ''}
+        </div>
+      </aside>
+    </div>
+
+    <div class="trust-block">
+      <div class="trust-item">
+        <div class="trust-icon">${ICO.shield}</div>
+        <div class="trust-text">
+          <h4>Проверка перед покупкой</h4>
+          <p>Осмотр кузова, технического состояния и истории до сделки.</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">${ICO.video}</div>
+        <div class="trust-text">
+          <h4>Видеоосмотр по запросу</h4>
+          <p>Снимем подробное видео по нужным деталям — оплата только после согласования.</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">${ICO.truck}</div>
+        <div class="trust-text">
+          <h4>Доставка под ключ</h4>
+          <p>Растаможка, документы, доставка в Бишкек, Алматы, Астану — без скрытых сборов.</p>
+        </div>
+      </div>
+    </div>
+
+    ${descriptionHTML}
+    ${posterHTML}
+  `;
+
+  // Gallery interactions
+  if (images.length > 1) {
+    let currentIdx = 0;
+    const mainImg = document.getElementById('galleryMain');
+    const counter = document.getElementById('gCounter');
+    const thumbs = document.querySelectorAll('.gallery-thumb');
+    function setIdx(i) {
+      currentIdx = (i + images.length) % images.length;
+      mainImg.src = images[currentIdx];
+      counter.textContent = `${currentIdx + 1} / ${images.length}`;
+      thumbs.forEach((t, idx) => t.classList.toggle('active', idx === currentIdx));
+    }
+    document.getElementById('gPrev').addEventListener('click', () => setIdx(currentIdx - 1));
+    document.getElementById('gNext').addEventListener('click', () => setIdx(currentIdx + 1));
+    thumbs.forEach(t => t.addEventListener('click', () => setIdx(+t.dataset.idx)));
+    // keyboard arrows
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') setIdx(currentIdx - 1);
+      if (e.key === 'ArrowRight') setIdx(currentIdx + 1);
+    });
+  }
+
+  // Video modal
+  if (videoUrl) {
+    const openVideo = () => openVideoModal(videoUrl, videoType, car.videoPoster || images[0]);
+    const openBtn = document.getElementById('openVideo');
+    const openBtn2 = document.getElementById('openVideoBtn2');
+    if (openBtn) openBtn.addEventListener('click', openVideo);
+    if (openBtn2) openBtn2.addEventListener('click', openVideo);
+  }
+}
+
+// ===== Video modal logic =====
+function openVideoModal(url, type, poster) {
+  const modal = document.getElementById('vmodal');
+  const player = document.getElementById('vmodalPlayer');
+  let html = '';
+  if (type === 'local') {
+    html = `<video src="${escapeAttr(url)}" poster="${escapeAttr(poster || '')}" controls autoplay playsinline></video>`;
+  } else if (type === 'youtube') {
+    const m = url.match(/(?:youtu\.be\/|v=|\/embed\/)([\w-]{11})/);
+    const id = m ? m[1] : '';
+    if (id) html = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  } else if (type === 'instagram') {
+    const m = url.match(/instagram\.com\/(?:p|reel|tv)\/([\w-]+)/);
+    const id = m ? m[1] : '';
+    if (id) html = `<iframe src="https://www.instagram.com/p/${id}/embed/" allowtransparency="true" allowfullscreen></iframe>`;
+  }
+  if (!html) {
+    window.open(url, '_blank', 'noopener');
+    return;
+  }
+  player.innerHTML = html;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeVideoModal() {
+  const modal = document.getElementById('vmodal');
+  document.getElementById('vmodalPlayer').innerHTML = '';
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.getElementById('vmodalClose').addEventListener('click', closeVideoModal);
+document.getElementById('vmodal').addEventListener('click', e => { if (e.target.id === 'vmodal') closeVideoModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideoModal(); });
+
+// ===== Boot =====
+(function loadCar() {
+  const carId = getQueryId();
+  if (!carId) {
+    document.getElementById('carRoot').innerHTML = `
+      <div class="error">
+        <h2>Не указан автомобиль</h2>
+        <p>Откройте каталог и выберите интересующий автомобиль.</p>
+        <a href="index.html#catalog" class="btn btn-gold">Перейти в каталог</a>
+      </div>`;
+    return;
+  }
+  fetch('data/site-data.json', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : Promise.reject('Не удалось загрузить данные'))
+    .then(site => {
+      const car = (site.cars || []).find(c => String(c.id) === String(carId));
+      if (!car) {
+        document.getElementById('carRoot').innerHTML = `
+          <div class="error">
+            <h2>Автомобиль не найден</h2>
+            <p>Возможно, он уже продан или ссылка устарела.</p>
+            <a href="index.html#catalog" class="btn btn-gold">Посмотреть другие авто</a>
+          </div>`;
+        return;
+      }
+      renderCar(car);
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('carRoot').innerHTML = `
+        <div class="error">
+          <h2>Не удалось загрузить</h2>
+          <p>Проверьте соединение и обновите страницу.</p>
+          <a href="index.html#catalog" class="btn btn-gold">Вернуться в каталог</a>
+        </div>`;
+    });
+})();
+</script>
+</body>
+</html>

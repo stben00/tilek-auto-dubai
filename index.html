@@ -170,6 +170,25 @@ svg{flex-shrink:0}
 .btn-block{width:100%}
 .btn-sm{padding:12px 22px;font-size:13px}
 .btn-lg{padding:20px 38px;font-size:16px}
+/* Outline WhatsApp — used as secondary on car cards so green doesn't dominate */
+.btn-whatsapp-outline{
+  background:transparent;color:var(--whatsapp);
+  border:1px solid rgba(37,211,102,.55);font-weight:600;
+}
+.btn-whatsapp-outline:hover{
+  background:rgba(37,211,102,.1);border-color:var(--whatsapp);
+}
+/* Compact card actions — primary gold "Подробнее" + outline WhatsApp */
+.car-actions{
+  display:grid;grid-template-columns:1.2fr 1fr;gap:8px;margin-top:14px;
+}
+.car-actions .btn{
+  padding:11px 14px;font-size:13px;border-radius:10px;gap:6px;
+}
+@media (max-width:480px){
+  .car-actions{grid-template-columns:1fr 1fr}
+  .car-actions .btn{padding:11px 10px;font-size:12.5px}
+}
 
 /* ============ HEADER ============ */
 .header{
@@ -714,6 +733,19 @@ svg{flex-shrink:0}
 
 /* ============ CATALOG ============ */
 .catalog{background:linear-gradient(180deg,#0a0a0a 0%,#0d0d0d 100%)}
+.catalog-trust{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:18px 28px;
+  margin-top:22px;
+}
+.catalog-trust-item{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13.5px;color:#b8b0a0;font-weight:500;
+}
+.catalog-trust-item svg{width:16px;height:16px;color:var(--gold);flex-shrink:0}
+@media (max-width:640px){
+  .catalog-trust{gap:10px 20px;margin-top:18px}
+  .catalog-trust-item{font-size:12.5px}
+}
 .filters{
   display:flex;flex-wrap:wrap;gap:10px;margin-bottom:40px;
   padding:16px;background:#0d0d0d;border:1px solid var(--line-soft);border-radius:20px;
@@ -737,21 +769,21 @@ svg{flex-shrink:0}
 .filter-select:focus{outline:none;border-color:var(--gold);background-color:#1a1a1a}
 .filter-select:active{transform:scale(.985)}
 
-.catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .car-card{
-  background:linear-gradient(160deg,#141414 0%,#0a0a0a 100%);
-  border:1px solid var(--line-soft);border-radius:24px;overflow:hidden;
-  transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;
+  background:#161616;
+  border:1px solid rgba(212,175,55,.1);border-radius:18px;overflow:hidden;
+  transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease;position:relative;
   display:flex;flex-direction:column;
 }
-.car-card:hover{transform:translateY(-8px);border-color:var(--gold);box-shadow:var(--shadow-card)}
-.car-image{
-  height:220px;position:relative;overflow:hidden;
-  background:linear-gradient(180deg,#1a1a1a 0%,#0d0d0d 100%);
+.car-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(212,175,55,.35);
+  box-shadow:0 18px 40px -18px rgba(0,0,0,.6);
 }
-.car-image::after{
-  content:"";position:absolute;inset:0;
-  background:radial-gradient(ellipse at 50% 80%,rgba(212,175,55,.2) 0%,transparent 60%);
+.car-image{
+  height:240px;position:relative;overflow:hidden;
+  background:#1a1a1a;
 }
 .car-svg-illustration{
   position:absolute;bottom:15%;left:50%;transform:translateX(-50%);
@@ -761,24 +793,35 @@ svg{flex-shrink:0}
 .car-card:hover .car-svg-illustration{transform:translateX(-50%) scale(1.05)}
 .car-photo{
   width:100%;height:100%;object-fit:cover;
-  filter:saturate(.95) contrast(1.05);
+  transition:transform .5s ease;
 }
-.car-photo-fade{
-  position:absolute;inset:auto 0 0;height:58%;
-  background:linear-gradient(180deg,transparent,rgba(10,10,10,.82));
-  pointer-events:none;
+.car-card:hover .car-photo{transform:scale(1.04)}
+/* Status badge — only used when car.status is set; honest, no auto-claims */
+.car-status-badge{
+  position:absolute;top:14px;left:14px;z-index:2;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 11px;border-radius:6px;font-size:11px;font-weight:600;letter-spacing:.3px;
+  background:rgba(0,0,0,.65);color:#fff;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.12);
 }
-.car-tag{
-  position:absolute;top:16px;left:16px;
-  padding:6px 12px;border-radius:100px;font-size:11px;font-weight:700;
-  text-transform:uppercase;letter-spacing:.8px;backdrop-filter:blur(10px);z-index:2;
+.car-status-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:#7cd57a}
+.car-status-badge.status-order::before{background:#d4af37}
+.car-status-badge.status-sold::before{background:#9aa0a6}
+.car-status-badge.status-sold{color:#cfc7b8}
+/* Small video icon top-right when video exists */
+.car-video-mini{
+  position:absolute;top:14px;right:14px;z-index:2;
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 10px 5px 9px;border-radius:6px;font-size:11px;font-weight:600;
+  background:rgba(0,0,0,.65);color:#fff;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.12);
+  cursor:pointer;
+  transition:background .2s ease,border-color .2s ease;
 }
-.tag-popular{background:rgba(212,175,55,.95);color:#1a1300}
-.tag-auction{background:rgba(0,0,0,.7);color:var(--gold);border:1px solid var(--gold)}
-.tag-premium{background:linear-gradient(135deg,#1a1a1a,#000);color:var(--gold);border:1px solid var(--gold)}
-.tag-hybrid{background:rgba(37,211,102,.9);color:#fff}
-.tag-reliable{background:rgba(0,0,0,.7);color:#fff;border:1px solid var(--line)}
-.tag-urgent{background:rgba(232,92,65,.95);color:#fff}
+.car-video-mini:hover{background:rgba(212,175,55,.95);color:#0a0a0a;border-color:transparent}
+.car-video-mini svg{width:11px;height:11px}
 
 .car-reel{
   position:absolute;top:16px;right:16px;width:34px;height:34px;
@@ -788,51 +831,37 @@ svg{flex-shrink:0}
 }
 .car-reel svg{width:14px;height:14px;color:#fff}
 
-.car-content{padding:22px 22px 20px;flex:1;display:flex;flex-direction:column;gap:14px}
-.car-title-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:12px}
-.car-title{font-size:22px;font-weight:800;color:#fff;line-height:1.15;letter-spacing:-.01em}
-.car-subtitle{font-size:13px;color:var(--gray-light);margin-top:-6px}
-.car-price{
-  font-size:18px;font-weight:800;
-  background:linear-gradient(135deg,var(--gold-light),var(--gold-deep));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  white-space:nowrap;
+.car-content{padding:20px 20px 18px;flex:1;display:flex;flex-direction:column;gap:12px}
+.car-title{font-size:20px;font-weight:700;color:#fff;line-height:1.2;letter-spacing:-.01em;margin:0}
+.car-subline{
+  font-size:13.5px;color:#a8a8a8;line-height:1.45;font-weight:500;
+  margin-top:-4px;
 }
-/* --- automarket-style spec row with icons --- */
-.car-meta-row{
-  display:flex;flex-wrap:wrap;gap:14px 18px;
-  padding:14px 0;
-  border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);
+.car-subline .sep{color:#5a5a5a;margin:0 6px;font-weight:400}
+.car-facts{
+  list-style:none;padding:0;margin:0;
+  display:flex;flex-direction:column;gap:6px;
 }
-.car-meta-item{
-  display:inline-flex;align-items:center;gap:7px;
-  font-size:13px;color:#e2e2e2;font-weight:500;
+.car-facts li{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;color:#c8c8c8;line-height:1.3;
 }
-.car-meta-item svg{width:16px;height:16px;color:var(--gold);flex-shrink:0}
-.car-pills{display:flex;flex-wrap:wrap;gap:6px}
-.car-pill{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:5px 10px;font-size:11px;font-weight:600;
-  color:#cbb868;background:rgba(212,175,55,.08);
-  border:1px solid rgba(212,175,55,.22);border-radius:6px;
-  letter-spacing:.3px;
-}
-.car-pill.pill-check{color:#7cd57a;background:rgba(124,213,122,.07);border-color:rgba(124,213,122,.2)}
-.car-location{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:12px;color:var(--gray-light);
-}
-.car-location svg{width:13px;height:13px;color:var(--gold);opacity:.7}
+.car-facts li svg{width:14px;height:14px;color:#9a8a4a;flex-shrink:0;opacity:.9}
+.car-facts li b{color:#fff;font-weight:600}
 .car-price-block{
-  display:flex;justify-content:space-between;align-items:flex-end;
-  padding:14px 0 0;border-top:1px solid var(--line-soft);
+  padding:14px 0 4px;border-top:1px solid rgba(255,255,255,.06);
   margin-top:auto;
 }
-.car-price-label{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px}
+.car-price-label{
+  font-size:12px;color:#8d8d8d;font-weight:500;
+  margin-bottom:4px;
+}
 .car-price-big{
-  font-size:26px;font-weight:800;line-height:1;
-  background:linear-gradient(135deg,var(--gold-light),var(--gold-deep));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
+  font-size:24px;font-weight:800;line-height:1.1;color:var(--gold);
+  letter-spacing:-.5px;
+}
+.car-price-note{
+  font-size:11.5px;color:#8d8d8d;margin-top:5px;line-height:1.4;
 }
 /* keep legacy class names alive for any leftover users */
 .car-specs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px;padding:12px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
@@ -895,26 +924,7 @@ svg{flex-shrink:0}
 }
 .video-card:hover .video-thumb-img{transform:scale(1.04)}
 
-/* ============ CAR VIDEO BADGE + PLAY OVERLAY ============ */
-.car-video-badge{
-  position:absolute;top:14px;right:14px;z-index:3;
-  background:linear-gradient(135deg,#d4af37,#b8941f);
-  color:#0a0a0a;font-weight:700;font-size:11px;letter-spacing:.5px;
-  padding:5px 10px;border-radius:6px;
-  box-shadow:0 4px 12px rgba(0,0,0,.4);
-}
-.car-play-overlay{
-  position:absolute;right:12px;bottom:12px;z-index:4;
-  width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);cursor:pointer;
-  background:rgba(0,0,0,.55);color:#fff;
-  display:flex;align-items:center;justify-content:center;
-  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-  box-shadow:0 4px 14px rgba(0,0,0,.45);
-  transition:transform .2s ease,background .2s ease,border-color .2s ease;
-}
-.car-play-overlay svg{width:20px;height:20px;margin-left:2px}
-.car-play-overlay:hover{transform:scale(1.08);background:rgba(212,175,55,.95);color:#0a0a0a;border-color:transparent}
-.car-card:hover .car-play-overlay{background:rgba(0,0,0,.7)}
+/* (legacy car-play-overlay removed — replaced by .car-video-mini top-right badge) */
 
 /* ============ VIDEO MODAL ============ */
 .vmodal-bg{
@@ -2013,9 +2023,23 @@ svg{flex-shrink:0}
 <section class="section catalog" id="catalog">
   <div class="container">
     <div class="section-head fade-up">
-      <span class="section-tag">Авто в наличии</span>
-      <h2 class="section-title">Примеры авто <span class="gold">из Дубая</span></h2>
-      <p class="section-subtitle">Ниже — примеры популярных моделей. Точную цену и наличие лучше уточнять через WhatsApp.</p>
+      <span class="section-tag">Каталог</span>
+      <h2 class="section-title">Автомобили из Дубая <span class="gold">под заказ</span></h2>
+      <p class="section-subtitle">Подберём, проверим и доставим автомобиль в Кыргызстан и Казахстан. Финальная цена под ключ рассчитывается индивидуально.</p>
+      <div class="catalog-trust">
+        <span class="catalog-trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          Проверка перед покупкой
+        </span>
+        <span class="catalog-trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          Видеоосмотр по запросу
+        </span>
+        <span class="catalog-trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Доставка под ключ
+        </span>
+      </div>
     </div>
 
     <div class="filters fade-up">
@@ -3258,6 +3282,11 @@ function renderManagedCars(cars) {
     grid.innerHTML = '<div class="empty visible" style="grid-column:1/-1"><h4>Авто пока не добавлены</h4><p>Добавьте автомобили в админ-панели.</p></div>';
     return;
   }
+  // Translation maps for the clean marketplace subline.
+  const FUEL_MAP = { petrol:'Бензин', diesel:'Дизель', hybrid:'Hybrid', electric:'Электро', gas:'Газ',
+                     'бензин':'Бензин','дизель':'Дизель','гибрид':'Hybrid','электро':'Электро','газ':'Газ' };
+  const STATUS_LABELS = { available:'В наличии', order:'Под заказ', sold:'Продан', reserved:'Забронирован' };
+
   grid.innerHTML = cars.map(car => {
     const title = escapeHtml(car.title || 'Авто из Дубая');
     const brand = escapeAttr(car.brand || '');
@@ -3265,62 +3294,82 @@ function renderManagedCars(cars) {
     const budget = escapeAttr(car.budget || '');
     const fuel = escapeAttr(car.fuel || '');
     const body = escapeAttr(car.body || '');
-    const tag = escapeAttr(car.tag || 'reliable');
-    const price = escapeHtml(car.price || 'по запросу');
+    const carId = escapeAttr(car.id || '');
     const image = String(car.image || '').trim();
-    const message = encodeURIComponent(`Здравствуйте! Интересует ${car.title || 'авто из Дубая'}${car.year ? ' ' + car.year : ''}`);
+    const message = encodeURIComponent(`Здравствуйте! Интересует ${car.title || 'авто из Дубая'}${car.year ? ' ' + car.year : ''}. Можно получить расчёт под ключ?`);
     const videoUrl = String(car.videoUrl || '').trim();
     const videoType = String(car.videoType || '').trim() || (videoUrl ? (/youtube|youtu\.be/i.test(videoUrl) ? 'youtube' : (/instagram/i.test(videoUrl) ? 'instagram' : (/\.(mp4|mov|webm|m4v)(\?|$)/i.test(videoUrl) ? 'local' : 'external'))) : '');
     const videoPoster = String(car.videoPoster || image || '').trim();
     const hasVideo = !!videoUrl;
-    const videoBadge = hasVideo ? `<span class="car-video-badge">▶ Видео</span>` : '';
-    const playOverlay = hasVideo ? `<button type="button" class="car-play-overlay" data-open-video="${escapeAttr(videoUrl)}" data-video-type="${escapeAttr(videoType)}" data-video-poster="${escapeAttr(videoPoster)}" data-video-title="${escapeAttr(car.videoTitle || car.title || '')}" data-car-title="${title}" data-car-price="${escapeAttr(car.price || '')}" data-car-year="${escapeAttr(car.year || '')}" aria-label="Смотреть видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>` : '';
-    const videoBtn = hasVideo ? `<button type="button" class="btn btn-ghost btn-sm" data-open-video="${escapeAttr(videoUrl)}" data-video-type="${escapeAttr(videoType)}" data-video-poster="${escapeAttr(videoPoster)}" data-video-title="${escapeAttr(car.videoTitle || car.title || '')}" data-car-title="${title}" data-car-price="${escapeAttr(car.price || '')}" data-car-year="${escapeAttr(car.year || '')}">▶ Видео</button>` : '';
-    const engineText = escapeHtml(car.engine || '');
-    const bodyText = escapeHtml(bodyLabel(car.body));
-    const mileageText = escapeHtml(car.mileage || '');
-    const FUEL_MAP = { petrol: 'Бензин', diesel: 'Дизель', hybrid: 'Гибрид', electric: 'Электро', gas: 'Газ' };
-    const fuelText = escapeHtml(FUEL_MAP[String(car.fuel || '').toLowerCase()] || car.fuel || '');
-    const cityText = escapeHtml(car.location || car.city || 'Dubai → Бишкек');
-    // Inline 16x16 SVG icons — universally supported, no emoji fonts needed.
-    const ICO_CAL  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>';
-    const ICO_ENG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9h6V6H6zM5 9H3v6h2zM18 11h3v2h-3zM12 9h4l3 2v4l-3 2h-4z"/></svg>';
-    const ICO_FUEL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="10" height="18" rx="1"/><path d="M14 8l3 2v8a2 2 0 0 0 2 2V11l-2-2-3-3"/></svg>';
-    const ICO_BODY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 13l2-5a3 3 0 0 1 3-2h8a3 3 0 0 1 3 2l2 5v4H3z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>';
-    const ICO_PIN  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-7-7.5-7-13a7 7 0 0 1 14 0c0 5.5-7 13-7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>';
-    const ICO_GAUG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 1 18 0"/><path d="M12 12l4-3"/></svg>';
 
-    const metaItems = [
-      year ? `<span class="car-meta-item">${ICO_CAL} ${escapeHtml(car.year)}</span>` : '',
-      engineText ? `<span class="car-meta-item">${ICO_ENG} ${engineText}</span>` : '',
-      fuelText ? `<span class="car-meta-item">${ICO_FUEL} ${fuelText}</span>` : '',
-      bodyText && bodyText !== '—' ? `<span class="car-meta-item">${ICO_BODY} ${bodyText}</span>` : '',
-      mileageText ? `<span class="car-meta-item">${ICO_GAUG} ${mileageText}</span>` : '',
+    // Status badge — only render if the car explicitly declares one.
+    // No automatic claims, no "Проверено в Дубае" badge by default.
+    const statusKey = String(car.status || '').toLowerCase();
+    const statusLabel = STATUS_LABELS[statusKey] || '';
+    const statusBadge = statusLabel
+      ? `<span class="car-status-badge status-${statusKey}">${escapeHtml(statusLabel)}</span>`
+      : '';
+
+    // Small video icon top-right, clickable to open modal.
+    const videoMini = hasVideo
+      ? `<button type="button" class="car-video-mini" data-open-video="${escapeAttr(videoUrl)}" data-video-type="${escapeAttr(videoType)}" data-video-poster="${escapeAttr(videoPoster)}" data-video-title="${escapeAttr(car.videoTitle || car.title || '')}" data-car-title="${title}" data-car-price="${escapeAttr(car.price || '')}" data-car-year="${escapeAttr(car.year || '')}" aria-label="Смотреть видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Видео</button>`
+      : '';
+
+    // Compact subline: year · engine · fuel · transmission. Build from real data only.
+    const engineText = (car.engine || '').trim();
+    const fuelText = FUEL_MAP[String(car.fuel || '').toLowerCase()] || car.fuel || '';
+    const transmission = (car.transmission || car.gearbox || '').trim();
+    const sublineParts = [
+      car.year,
+      engineText,
+      fuelText,
+      transmission || (engineText || fuelText ? 'Automatic' : ''),
+    ].filter(Boolean).map(p => escapeHtml(String(p)));
+    const subline = sublineParts.length
+      ? `<div class="car-subline">${sublineParts.join('<span class="sep">·</span>')}</div>`
+      : '';
+
+    // Facts list — only honest, data-backed lines.
+    const ICO_GAUG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 1 18 0"/><path d="M12 12l4-3"/></svg>';
+    const ICO_PIN  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-7-7.5-7-13a7 7 0 0 1 14 0c0 5.5-7 13-7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>';
+    const mileage = (car.mileage || '').trim();
+    const cityText = escapeHtml(car.location || car.city || 'Dubai → Бишкек');
+    const facts = [
+      mileage ? `<li>${ICO_GAUG}<span>Пробег: <b>${escapeHtml(mileage)}</b></span></li>` : '',
+      `<li>${ICO_PIN}<span>${cityText}</span></li>`,
     ].filter(Boolean).join('');
+
+    // Honest price label: "Цена в Дубае" instead of "Стартовая цена".
+    const priceRaw = String(car.price || '').trim();
+    const priceShown = priceRaw && priceRaw !== 'по запросу' ? escapeHtml(priceRaw) : 'По запросу';
+    const priceLabel = priceRaw && priceRaw !== 'по запросу' ? 'Цена в Дубае' : 'Цена';
+    const priceNote = priceRaw && priceRaw !== 'по запросу'
+      ? 'Финальный расчёт с доставкой — по запросу'
+      : 'Напишите в WhatsApp — пришлём расчёт под ключ';
+
+    // Primary action — "Подробнее" links to dedicated car page when id exists,
+    // otherwise drops the user into the calculator section.
+    const detailHref = carId ? `car.html?id=${carId}` : '#calculator';
 
     return `
       <article class="car-card fade-up visible" data-brand="${brand}" data-year="${year}" data-budget="${budget}" data-fuel="${fuel}" data-body="${body}">
         <div class="car-image">
-          <span class="car-tag tag-${tag}">${escapeHtml(carTagLabel(car.tag))}</span>
-          ${videoBadge}
-          ${image ? `<img class="car-photo" src="${escapeAttr(image)}" alt="${title}" loading="lazy" onerror="this.style.display='none';var f=this.nextElementSibling;if(f&&f.classList.contains('car-photo-fade'))f.style.display='none'"><div class="car-photo-fade"></div>` : carIllustration()}
-          ${playOverlay}
+          ${statusBadge}
+          ${videoMini}
+          ${image ? `<img class="car-photo" src="${escapeAttr(image)}" alt="${title}" loading="lazy" onerror="this.style.display='none';this.parentElement.appendChild(document.createRange().createContextualFragment(window.__carIllustrationHTML||''))">` : carIllustration()}
         </div>
         <div class="car-content">
           <h3 class="car-title">${title}</h3>
-          ${metaItems ? `<div class="car-meta-row">${metaItems}</div>` : ''}
-          <div class="car-pills">
-            <span class="car-pill">🇦🇪 → 🇰🇬 Под ключ</span>
-            <span class="car-pill pill-check">✓ Проверено в Дубае</span>
-          </div>
-          <div class="car-location">${ICO_PIN} ${cityText}</div>
+          ${subline}
+          ${facts ? `<ul class="car-facts">${facts}</ul>` : ''}
           <div class="car-price-block">
-            <span class="car-price-label">Стартовая цена</span>
-            <span class="car-price-big">${price}</span>
+            <div class="car-price-label">${priceLabel}</div>
+            <div class="car-price-big">${priceShown}</div>
+            <div class="car-price-note">${priceNote}</div>
           </div>
           <div class="car-actions">
-            <a href="${makeWhatsappUrl(decodeURIComponent(message))}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-sm">WhatsApp</a>
-            ${videoBtn || '<a href="#calculator" class="btn btn-ghost btn-sm">Расчёт</a>'}
+            <a href="${detailHref}" class="btn btn-gold">Подробнее</a>
+            <a href="${makeWhatsappUrl(decodeURIComponent(message))}" target="_blank" rel="noopener" class="btn btn-whatsapp-outline">WhatsApp</a>
           </div>
         </div>
       </article>
