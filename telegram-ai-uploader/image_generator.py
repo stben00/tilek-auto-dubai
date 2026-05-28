@@ -1287,10 +1287,13 @@ def _build_gemini_poster_prompt(car: dict) -> str:
         "same headlights, same grille, same wheels, same color, same angle, same plate.\n\n"
 
         "BACKGROUND TREATMENT:\n"
-        "Enhance the photo to look cinematic: sharper details, deeper blacks, premium "
-        "lighting with warm highlights on the car body, subtle bokeh on the surroundings. "
-        "Add a dark gradient overlay at the top and bottom 25% so text reads cleanly. "
-        "Do NOT change the car's environment — just upgrade its lighting and contrast.\n\n"
+        "CRITICAL — the car body MUST be BRIGHT, SHARP and FULLY VISIBLE. "
+        "Boost exposure and lift shadows so the car paint, wheels and headlights are clearly seen. "
+        "Apply studio-grade daylight lighting: crisp details, vivid colors, clean white highlights "
+        "on the car body, soft bokeh only on the background (not the car). "
+        "Add a dark gradient overlay ONLY at the very top 15% and very bottom 10% of the poster "
+        "so text is readable — the central 75% (where the car sits) must stay bright and sharp. "
+        "Do NOT darken the car itself under any circumstances.\n\n"
 
         "OVERLAY (placed over the dimmed gradient areas, never covering the car body):\n\n"
 
@@ -1345,8 +1348,22 @@ async def _gemini_flash_image_edit(api_key: str, car: dict, photo_path: Path | s
         return None
 
     try:
+        # Pre-enhance the photo so dark frames (night shots, garage clips) arrive
+        # at Gemini already bright. This prevents Gemini from "preserving" a dark car.
         with open(photo_path, "rb") as f:
-            image_b64 = base64.b64encode(f.read()).decode()
+            raw_bytes = f.read()
+        try:
+            from PIL import Image as _PilImage
+            import io as _io
+            _src = _PilImage.open(_io.BytesIO(raw_bytes)).convert("RGB")
+            _bright = _enhance_photo(_src)
+            _buf = _io.BytesIO()
+            _bright.save(_buf, format="JPEG", quality=90)
+            image_b64 = base64.b64encode(_buf.getvalue()).decode()
+            log.info("Gemini: pre-enhanced photo before sending (adaptive brightness applied)")
+        except Exception as _e:
+            log.warning("Gemini: photo pre-enhancement failed (%s), sending raw", _e)
+            image_b64 = base64.b64encode(raw_bytes).decode()
     except Exception as e:
         log.warning("Could not read photo for Gemini: %s", e)
         return None
