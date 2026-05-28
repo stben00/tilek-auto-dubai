@@ -1461,28 +1461,36 @@ async def _gemini_flash_text_to_image(api_key: str, car: dict, model: str = None
 
 
 def _build_pollinations_prompt(car: dict) -> str:
-    """Build an English prompt for Pollinations.ai (FLUX model)."""
+    """Build a rich English prompt for Pollinations.ai (FLUX model).
+
+    Generates ONE cohesive cinematic scene of the car in a luxury Dubai showroom —
+    no compositing, no pasted-on inserts. Just a single beautiful AI image.
+    """
     brand = (car.get("brand") or "").strip()
     model_name = (car.get("model") or "").strip()
     year = str(car.get("year") or "").strip()
+    color = (car.get("color") or "").strip()
+    body_type = (car.get("bodyType") or "").strip()
     engine = str(car.get("engine") or "").strip()
     fuel = str(car.get("fuel") or "").strip()
-    price_raw = str(car.get("price") or "").strip()
-    price_digits = "".join(c for c in price_raw if c.isdigit())
-    price_pretty = f"${int(price_digits):,}".replace(",", " ") if price_digits else ""
 
-    car_desc = " ".join(p for p in [year, brand, model_name] if p) or "luxury car"
-    specs = " ".join(p for p in [engine, fuel] if p)
-    price_part = f", price tag {price_pretty}" if price_pretty else ""
+    car_desc = " ".join(p for p in [color, year, brand, model_name] if p) or "luxury car"
+    body_hint = f" {body_type}" if body_type else ""
 
     return (
-        f"Professional luxury car dealership advertisement vertical poster, "
-        f"{car_desc}{(', ' + specs) if specs else ''}{price_part}. "
-        f"Dark premium black background, golden yellow accent colors, "
-        f"Dubai automotive showroom aesthetic, dramatic studio lighting, "
-        f"cinematic car photography, photorealistic, ultra high quality, "
-        f"marketing poster design, bold typography overlay areas, "
-        f"2:3 portrait format"
+        f"Ultra-realistic professional automotive photography of a {car_desc}{body_hint} "
+        f"parked inside a premium Dubai luxury car dealership showroom. "
+        f"The car is the main subject — centered, clearly visible, "
+        f"fully lit with dramatic cinematic studio lighting, glossy paint reflections, "
+        f"sharp focus on the car body, headlights and grille glowing softly. "
+        f"Background: elegant modern showroom interior with polished concrete floor, "
+        f"warm golden ambient lights on the ceiling, other luxury cars softly out of focus, "
+        f"large floor-to-ceiling windows with Dubai skyline blurred outside. "
+        f"Atmosphere: black and gold premium color palette, magazine-quality car advertisement, "
+        f"shot on Hasselblad medium format camera, 35mm lens, f/4 aperture, "
+        f"shallow depth of field, hyper-detailed, 8k resolution, photorealistic, "
+        f"NOT a poster, NOT a collage, NOT text overlay — a single cohesive photograph, "
+        f"vertical 2:3 portrait composition"
     )
 
 
@@ -1490,8 +1498,10 @@ async def _generate_with_pollinations(car: dict, main_photo_path: Optional[Path 
     """
     Completely FREE image generation via Pollinations.ai (FLUX model).
     No API key required. Falls back gracefully on any error.
-    When a real car photo exists, composites the AI-generated background
-    with the actual photo using Pillow so the real car stays visible.
+
+    Generates ONE cohesive cinematic scene of the car in a luxury showroom
+    (single AI image — no pasted-on photo composite). The car in the image
+    will visually match the user's car description (brand/model/year/color).
     """
     try:
         import httpx as _httpx
@@ -1501,72 +1511,31 @@ async def _generate_with_pollinations(car: dict, main_photo_path: Optional[Path 
 
     prompt = _build_pollinations_prompt(car)
     seed = random.randint(1, 999999)
-    encoded = prompt.replace(" ", "%20").replace(",", "%2C").replace(":", "%3A")
+    # URL-encode the prompt properly (Pollinations is tolerant but cleaner is safer)
+    from urllib.parse import quote as _urlquote
+    encoded = _urlquote(prompt, safe="")
     url = (
         f"https://image.pollinations.ai/prompt/{encoded}"
-        f"?width={POSTER_W}&height={POSTER_H}&nologo=true&seed={seed}&model=flux"
+        f"?width={POSTER_W}&height={POSTER_H}&nologo=true&seed={seed}&model=flux&enhance=true"
     )
 
-    log.info("Pollinations.ai: requesting free AI poster...")
+    log.info("Pollinations.ai: requesting cohesive cinematic car scene...")
     try:
-        async with _httpx.AsyncClient(timeout=60.0, follow_redirects=True) as client:
+        async with _httpx.AsyncClient(timeout=90.0, follow_redirects=True) as client:
             resp = await client.get(url)
             if resp.status_code != 200:
                 log.warning("Pollinations.ai returned %s", resp.status_code)
                 return None
-            ai_bg_bytes = resp.content
-            if len(ai_bg_bytes) < 5000:
-                log.warning("Pollinations.ai returned suspiciously small image (%d bytes)", len(ai_bg_bytes))
+            img_bytes = resp.content
+            if len(img_bytes) < 5000:
+                log.warning("Pollinations.ai returned suspiciously small image (%d bytes)", len(img_bytes))
                 return None
     except Exception as e:
         log.warning("Pollinations.ai request failed: %s", e)
         return None
 
-    # If user uploaded a real car photo, composite it over the AI background
-    # so the actual car is clearly visible in the center
-    has_photo = main_photo_path and Path(main_photo_path).exists()
-    if has_photo:
-        try:
-            from PIL import Image as _PilImage, ImageFilter as _IFilter
-            import io as _io
-
-            ai_bg = _PilImage.open(_io.BytesIO(ai_bg_bytes)).convert("RGBA").resize((POSTER_W, POSTER_H))
-
-            # Load and enhance the real car photo
-            car_img = _PilImage.open(main_photo_path).convert("RGBA")
-            car_img = _enhance_photo(car_img.convert("RGB")).convert("RGBA")
-
-            # Scale car photo to fill 90% of poster width, keep aspect ratio
-            cw, ch = car_img.size
-            target_w = int(POSTER_W * 0.92)
-            target_h = int(target_w * ch / cw)
-            if target_h > int(POSTER_H * 0.65):
-                target_h = int(POSTER_H * 0.65)
-                target_w = int(target_h * cw / ch)
-            car_img = car_img.resize((target_w, target_h), _PilImage.LANCZOS)
-
-            # Center the car horizontally, place at vertical center
-            x = (POSTER_W - target_w) // 2
-            y = int(POSTER_H * 0.18)
-
-            # Blur the AI background slightly so car stands out
-            ai_bg = ai_bg.filter(_IFilter.GaussianBlur(radius=3))
-
-            # Composite: paste car photo over blurred AI background
-            composite = ai_bg.copy()
-            composite.paste(car_img, (x, y), car_img)
-
-            buf = _io.BytesIO()
-            composite.convert("RGB").save(buf, format="JPEG", quality=90)
-            result_bytes = buf.getvalue()
-            log.info("Pollinations.ai: composited real car photo over AI background ✓")
-            return result_bytes
-        except Exception as e:
-            log.warning("Pollinations.ai composite failed (%s); returning raw AI image", e)
-            return ai_bg_bytes
-
-    log.info("Pollinations.ai: generated poster (no real photo) ✓")
-    return ai_bg_bytes
+    log.info("Pollinations.ai: generated cohesive scene (%d bytes) ✓", len(img_bytes))
+    return img_bytes
 
 
 async def _generate_with_gemini(car: dict, main_photo_path: Optional[Path | str]) -> Optional[bytes]:
