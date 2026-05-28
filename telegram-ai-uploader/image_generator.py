@@ -1534,8 +1534,29 @@ async def _generate_with_pollinations(car: dict, main_photo_path: Optional[Path 
         log.warning("Pollinations.ai request failed: %s", e)
         return None
 
-    log.info("Pollinations.ai: generated cohesive scene (%d bytes) ✓", len(img_bytes))
-    return img_bytes
+    log.info("Pollinations.ai: generated cohesive AI scene (%d bytes) ✓", len(img_bytes))
+
+    # Now overlay the full poster layout (price, specs, badges, CTA, WhatsApp button)
+    # on top of the AI-generated scene using the local Pillow template.
+    # Result: beautiful AI cinematic background + professional poster overlay.
+    try:
+        import tempfile as _tf
+        with _tf.NamedTemporaryFile(suffix=".jpg", delete=False) as _tmp:
+            _tmp.write(img_bytes)
+            _tmp_path = _tmp.name
+
+        try:
+            poster_bytes, used_tpl = generate_local_poster(car, _tmp_path, template_name="premium_dubai")
+            log.info("Pollinations.ai + Pillow overlay applied (%s) ✓", used_tpl)
+            return poster_bytes
+        finally:
+            try:
+                Path(_tmp_path).unlink(missing_ok=True)
+            except Exception:
+                pass
+    except Exception as e:
+        log.warning("Pollinations.ai poster overlay failed (%s); returning raw AI image", e)
+        return img_bytes
 
 
 async def _generate_with_gemini(car: dict, main_photo_path: Optional[Path | str]) -> Optional[bytes]:
