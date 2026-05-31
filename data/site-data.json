@@ -1,6 +1,50 @@
 {
-  "cars": [],
+  "cars": [
+    {
+      "id": "car_20260531_114308",
+      "title": "Toyota Tundra 2020",
+      "brand": "Toyota",
+      "model": "Tundra",
+      "year": "2020",
+      "engine": "5.7 4WD",
+      "fuel": "Бензин",
+      "bodyType": "Пикап",
+      "body": "",
+      "budget": "",
+      "tag": "reliable",
+      "price": "$14 600",
+      "mileage": "",
+      "location": "Dubai / UAE",
+      "description": "🏆 ЭКСКЛЮЗИВНЫЙ ВАРИАНТ!\n<b>TOYOTA TUNDRA 2020</b>\n\n✅ МОЩНЫЙ · БЕЗ ГРАНИЦ\n🔧 Двигатель: 5.7 4WD\n⛽ Бензин — проверенная классика, заправляется везде\n📍 Dubai / UAE\n\n💵 $14 600 — золотая цена за такое авто!\n\nЭтот вариант разлетится за день — пиши сейчас! 📲",
+      "whatsapp": "",
+      "instagramUrl": "",
+      "image": "assets/cars/car_20260531_114308_1.jpg",
+      "mainImage": "assets/cars/car_20260531_114308_1.jpg",
+      "images": [
+        "assets/cars/car_20260531_114308_1.jpg"
+      ],
+      "videoUrl": "assets/videos/car_20260531_114308_video.mp4",
+      "videoFile": "assets/videos/car_20260531_114308_video.mp4",
+      "videoType": "local",
+      "videoPoster": "assets/cars/car_20260531_114308_1.jpg",
+      "videoTitle": "Видео-обзор Toyota Tundra 2020",
+      "videoDuration": "",
+      "status": "available",
+      "source": "telegram_ai_uploader",
+      "createdAt": "2026-05-31T11:48:32Z"
+    }
+  ],
   "videos": [
+    {
+      "id": "car_20260531_114308",
+      "carId": "car_20260531_114308",
+      "title": "Toyota Tundra 2020 — видео-обзор",
+      "url": "assets/videos/car_20260531_114308_video.mp4",
+      "thumb": "assets/cars/car_20260531_114308_1.jpg",
+      "type": "local",
+      "views": "новое",
+      "instagramUrl": ""
+    },
     {
       "id": "car_20260531_114220",
       "carId": "car_20260531_114220",
