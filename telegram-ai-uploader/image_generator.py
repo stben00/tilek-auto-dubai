@@ -1460,46 +1460,224 @@ async def _gemini_flash_text_to_image(api_key: str, car: dict, model: str = None
         return None
 
 
-def _build_pollinations_prompt(car: dict) -> str:
-    """Build a cinematic dark-mode prompt for Pollinations.ai FLUX model.
+def _burn_origin_flag(image_bytes: bytes, car: dict) -> Optional[bytes]:
+    """
+    Burn a small country-of-origin flag badge into the top-left corner of
+    the image so it travels with the photo on every channel (catalog cards,
+    Telegram forwards, OG previews, etc).
 
-    Target aesthetic: dramatic close-up front-3/4 angle, deep blacks,
-    warm rim lighting on chrome and grille, headlights glowing,
-    Dubai luxury dealership night shoot vibe.
+    Layout: 🇦🇪/🇰🇷 emoji + bold label inside a rounded dark pill.
+    """
+    origin = str(car.get("origin") or "").lower().strip()
+    if origin not in ("dubai", "korea"):
+        return None
+
+    flag_emoji = "🇦🇪" if origin == "dubai" else "🇰🇷"
+    label = "Dubai · UAE" if origin == "dubai" else "South Korea"
+
+    try:
+        from PIL import Image as _PilImage, ImageDraw as _PilDraw, ImageFont as _PilFont
+        import io as _io
+
+        img = _PilImage.open(_io.BytesIO(image_bytes)).convert("RGBA")
+        W, H = img.size
+        overlay = _PilImage.new("RGBA", (W, H), (0, 0, 0, 0))
+        draw = _PilDraw.Draw(overlay)
+
+        # Sizing relative to poster width
+        pad_x, pad_y = int(W * 0.025), int(W * 0.025)
+        font_size = max(20, int(W * 0.028))
+        emoji_size = max(22, int(W * 0.034))
+
+        # Try to load fonts that ship with the container; fall back to default.
+        try:
+            font_path = _find_font("bold") or _find_font("title") or _find_font("regular")
+            label_font = _PilFont.truetype(font_path, font_size) if font_path else _PilFont.load_default()
+        except Exception:
+            label_font = _PilFont.load_default()
+        try:
+            # Emoji-capable fonts vary by platform. Apple Color Emoji on macOS,
+            # NotoColorEmoji on Linux containers. We try a few; if all fail,
+            # we still render the text label so the country is identifiable.
+            emoji_font = None
+            for candidate in [
+                "/System/Library/Fonts/Apple Color Emoji.ttc",
+                "/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf",
+                "/usr/share/fonts/noto-emoji/NotoColorEmoji.ttf",
+            ]:
+                try:
+                    emoji_font = _PilFont.truetype(candidate, emoji_size)
+                    break
+                except Exception:
+                    continue
+        except Exception:
+            emoji_font = None
+
+        # Measure text
+        try:
+            label_bbox = draw.textbbox((0, 0), label, font=label_font)
+            label_w = label_bbox[2] - label_bbox[0]
+            label_h = label_bbox[3] - label_bbox[1]
+        except Exception:
+            label_w, label_h = font_size * len(label) // 2, font_size
+
+        # Pill dimensions
+        inner_pad_x = int(W * 0.018)
+        inner_pad_y = int(W * 0.012)
+        gap = int(W * 0.012)
+        # Width includes emoji slot even if the emoji font is missing — we'll
+        # still render the country letters as a fallback indicator.
+        pill_w = emoji_size + gap + label_w + inner_pad_x * 2
+        pill_h = max(label_h, emoji_size) + inner_pad_y * 2
+
+        x0, y0 = pad_x, pad_y
+        x1, y1 = x0 + pill_w, y0 + pill_h
+
+        # Background pill (semi-transparent black) + gold border
+        draw.rounded_rectangle(
+            [x0, y0, x1, y1],
+            radius=pill_h // 2,
+            fill=(0, 0, 0, 205),
+            outline=(212, 175, 55, 230),
+            width=2,
+        )
+
+        # Emoji or geometric flag fallback
+        text_y_center = y0 + pill_h // 2
+        cursor_x = x0 + inner_pad_x
+        emoji_rendered = False
+        if emoji_font is not None:
+            try:
+                draw.text(
+                    (cursor_x, text_y_center - emoji_size // 2),
+                    flag_emoji,
+                    font=emoji_font,
+                    embedded_color=True,
+                )
+                emoji_rendered = True
+            except Exception:
+                emoji_rendered = False
+
+        if not emoji_rendered:
+            # Pillow couldn't render the emoji — draw a geometric flag instead.
+            fw, fh = int(emoji_size * 1.2), int(emoji_size * 0.85)
+            fy = text_y_center - fh // 2
+            fx = cursor_x
+            if origin == "dubai":
+                # UAE flag: red vertical stripe + green/white/black horizontal bands
+                draw.rectangle([fx, fy, fx + fw // 3, fy + fh], fill=(206, 17, 38, 255))
+                band_h = fh // 3
+                draw.rectangle([fx + fw // 3, fy,              fx + fw, fy + band_h],         fill=(0, 115, 47, 255))
+                draw.rectangle([fx + fw // 3, fy + band_h,     fx + fw, fy + band_h * 2],     fill=(255, 255, 255, 255))
+                draw.rectangle([fx + fw // 3, fy + band_h * 2, fx + fw, fy + fh],             fill=(0, 0, 0, 255))
+            else:
+                # South Korea flag: simplified — white field with red+blue Taegeuk + black trigrams
+                draw.rectangle([fx, fy, fx + fw, fy + fh], fill=(255, 255, 255, 255))
+                # Simplified Taegeuk circle: red top half, blue bottom half
+                cx, cy = fx + fw // 2, fy + fh // 2
+                r = min(fw, fh) // 4
+                draw.pieslice([cx - r, cy - r, cx + r, cy + r], start=180, end=360, fill=(205, 46, 58, 255))
+                draw.pieslice([cx - r, cy - r, cx + r, cy + r], start=0, end=180, fill=(0, 71, 160, 255))
+
+        cursor_x += emoji_size + gap
+
+        # Country label
+        draw.text(
+            (cursor_x, text_y_center - label_h // 2 - 2),
+            label,
+            font=label_font,
+            fill=(255, 255, 255, 255),
+        )
+
+        out = _PilImage.alpha_composite(img, overlay).convert("RGB")
+        buf = _io.BytesIO()
+        out.save(buf, format="JPEG", quality=90)
+        log.info("Origin flag burned in: %s", label)
+        return buf.getvalue()
+    except Exception as e:
+        log.warning("_burn_origin_flag failed: %s", e)
+        return None
+
+
+def _build_pollinations_prompt(car: dict) -> str:
+    """Build a cinematic Dubai-desert-sunset prompt for Pollinations.ai FLUX.
+
+    Target aesthetic (matches the user's reference Toyota Sequoia shot):
+    - Front three-quarter hero angle
+    - Warm amber/orange sunset sky in the background
+    - Sandy desert horizon, hazy atmosphere
+    - Headlights and DRL glowing bright (car is "on")
+    - Chrome grille catching warm sunset light
+    - Deep cinematic shadows on the lower body
+    - Branding-friendly composition (space at top + bottom for poster overlay)
     """
     brand = (car.get("brand") or "").strip()
     model_name = (car.get("model") or "").strip()
     year = str(car.get("year") or "").strip()
-    color = (car.get("color") or "").strip() or "black"
+    color = (car.get("color") or "").strip() or "metallic"
     body_type = (car.get("bodyType") or "").strip()
+    origin = str(car.get("origin") or "").lower().strip()
 
     car_desc = " ".join(p for p in [year, color, brand, model_name] if p) or "luxury car"
     body_hint = f" {body_type}" if body_type else ""
 
+    # Origin-specific backdrop. Korea cars get a city-evening vibe instead of
+    # desert, so the scene actually matches where the car comes from.
+    if origin == "korea":
+        backdrop = (
+            "Background: Seoul cityscape at golden hour blue-orange dusk, "
+            "blurred neon signs and skyscraper lights bokeh in the far distance, "
+            "wet polished asphalt reflecting warm amber and cool teal city lights, "
+            "subtle atmospheric haze, slight light fog. "
+        )
+        palette = (
+            "Color palette: deep navy blues and rich warm amber highlights, "
+            "K-pop cinematic mood, dusk-blue sky with golden hour gradient, "
+            "no daylight blue sky, no other cars visible, no people, no text. "
+        )
+    else:
+        backdrop = (
+            "Background: Dubai desert at sunset, warm amber and burnt orange sky, "
+            "soft golden haze on the horizon, gentle sand dunes blurred out of focus, "
+            "low-angle sunlight casting long warm shadows. "
+        )
+        palette = (
+            "Color palette: warm amber, burnt orange, golden honey highlights, "
+            "deep brown and black shadows, no bright daylight blue sky, "
+            "no other cars visible, no people, no text. "
+        )
+
     return (
-        # Subject + angle
-        f"Cinematic ultra-realistic automotive photograph, close-up front three-quarter "
-        f"hero shot of a {car_desc}{body_hint}. "
-        # Lighting — the key to this look
-        f"DRAMATIC LIGHTING: single warm key light from the upper-left rim-lighting the "
-        f"hood, fender and side mirror with golden amber highlights; deep black shadows "
-        f"on the opposite side; headlights and DRL glowing bright white-blue; chrome grille "
-        f"and emblem catching the light, every chrome slat clearly defined and reflective. "
+        # Subject + angle — explicit so the model stays on-style
+        f"Hyper-realistic cinematic automotive hero shot, low-angle front "
+        f"three-quarter view of a {car_desc}{body_hint}, positioned slightly "
+        f"left-of-center in the frame. "
+        # Lighting (the most important part for consistency)
+        f"DRAMATIC SUNSET LIGHTING: warm golden hour key light from the upper-left "
+        f"rim-lighting the hood, fender, side mirror and roofline with bright amber "
+        f"highlights; deep rich shadows on the opposite side and lower body; "
+        f"headlights and DRL turned ON, glowing crisp white-blue; "
+        f"chrome grille, emblem and front bumper catching the warm sunset light, "
+        f"every chrome detail clearly defined and reflective; paint with glossy "
+        f"clearcoat reflecting the sky gradient. "
         # Background
-        f"Background: pitch-black underground luxury parking garage / private Dubai showroom "
-        f"at night, soft warm amber LED accent lights in the distant background completely "
-        f"out of focus, hint of polished dark floor reflecting the car. "
+        + backdrop
         # Color palette
-        f"Color palette: deep blacks, rich warm amber/copper highlights, no daylight, no sky, "
-        f"no other cars visible, no people, no logos, no text. "
+        + palette +
         # Camera + quality
-        f"Shot on Sony A7R V with 85mm f/1.4 lens, ISO 100, long exposure, tripod, "
-        f"shallow depth of field, perfectly sharp focus on the grille and headlight, "
-        f"crystal-clear paint reflections, hyper-detailed, 8k resolution, photorealistic, "
-        f"magazine car advertisement quality, professional automotive product photography. "
+        f"Shot on Sony A7R V with 85mm f/1.4 lens, low ISO, tripod, "
+        f"shallow depth of field, tack-sharp focus on the grille and headlights, "
+        f"crystal-clear paint reflections, ultra-detailed, 8k resolution, "
+        f"photorealistic, magazine-quality car advertisement, "
+        f"professional automotive product photography in the style of "
+        f"high-end Toyota / Lexus dealership campaigns. "
         # Composition
-        f"Vertical 2:3 portrait composition, car fills 80% of the frame, leaving space "
-        f"at the top and bottom for advertising overlay."
+        f"Vertical 2:3 portrait composition, car fills 75% of the frame width, "
+        f"empty negative space at the top 15% and bottom 15% for advertising "
+        f"overlay text. "
+        # Strict constraints
+        f"NO motion blur, NO people, NO other cars, NO text, NO watermarks, "
+        f"NO cartoon, NO illustration — only a single ultra-realistic photograph."
     )
 
 
@@ -1519,37 +1697,76 @@ async def _generate_with_pollinations(car: dict, main_photo_path: Optional[Path 
         return None
 
     prompt = _build_pollinations_prompt(car)
-    seed = random.randint(1, 999999)
-    # URL-encode the prompt properly (Pollinations is tolerant but cleaner is safer)
     from urllib.parse import quote as _urlquote
     encoded = _urlquote(prompt, safe="")
-    # flux-realism = photorealistic FLUX variant tuned for hyper-realistic results.
-    # `nofeed=true` keeps the image private. `enhance=true` lets Pollinations
-    # auto-expand the prompt with extra detail tokens.
+    # flux-realism = photorealistic FLUX variant. Other valid options:
+    # flux, flux-anime, flux-3d, flux-pro, turbo.
     poll_model = os.getenv("POLLINATIONS_MODEL", "flux-realism").strip() or "flux-realism"
-    url = (
-        f"https://image.pollinations.ai/prompt/{encoded}"
-        f"?width={POSTER_W}&height={POSTER_H}"
-        f"&nologo=true&nofeed=true&enhance=true"
-        f"&model={poll_model}&seed={seed}"
-    )
 
-    log.info("Pollinations.ai (%s): requesting cinematic Dubai night shot...", poll_model)
-    try:
-        async with _httpx.AsyncClient(timeout=90.0, follow_redirects=True) as client:
-            resp = await client.get(url)
-            if resp.status_code != 200:
-                log.warning("Pollinations.ai returned %s", resp.status_code)
-                return None
-            img_bytes = resp.content
-            if len(img_bytes) < 5000:
-                log.warning("Pollinations.ai returned suspiciously small image (%d bytes)", len(img_bytes))
-                return None
-    except Exception as e:
-        log.warning("Pollinations.ai request failed: %s", e)
+    # Try up to 3 different seeds — if FLUX returns a too-small/broken image
+    # or a too-dark frame (mean luma < 30), retry with a fresh seed so we
+    # consistently get the cinematic sunset look the user expects.
+    MAX_ATTEMPTS = 3
+    MIN_LUMA = 28   # below this is basically a black frame — reject
+    img_bytes: Optional[bytes] = None
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        seed = random.randint(1, 999999)
+        url = (
+            f"https://image.pollinations.ai/prompt/{encoded}"
+            f"?width={POSTER_W}&height={POSTER_H}"
+            f"&nologo=true&nofeed=true&enhance=true"
+            f"&model={poll_model}&seed={seed}"
+        )
+        log.info("Pollinations.ai (%s, attempt %d/%d): requesting cinematic shot...",
+                 poll_model, attempt, MAX_ATTEMPTS)
+        try:
+            async with _httpx.AsyncClient(timeout=90.0, follow_redirects=True) as client:
+                resp = await client.get(url)
+                if resp.status_code != 200:
+                    log.warning("Pollinations.ai returned %s (attempt %d)", resp.status_code, attempt)
+                    continue
+                candidate = resp.content
+        except Exception as e:
+            log.warning("Pollinations.ai request failed (attempt %d): %s", attempt, e)
+            continue
+
+        if len(candidate) < 8000:
+            log.warning("Pollinations.ai returned tiny image (%d bytes, attempt %d)", len(candidate), attempt)
+            continue
+
+        # Quality gate: reject near-black frames
+        try:
+            from PIL import Image as _PilImage, ImageStat as _ImageStat
+            import io as _io
+            mean_luma = _ImageStat.Stat(
+                _PilImage.open(_io.BytesIO(candidate)).convert("L")
+            ).mean[0]
+            if mean_luma < MIN_LUMA:
+                log.warning("Pollinations.ai image too dark (luma=%.1f, attempt %d) — retrying",
+                            mean_luma, attempt)
+                continue
+            log.info("Pollinations.ai: accepted image (luma=%.1f, %d bytes) ✓",
+                     mean_luma, len(candidate))
+        except Exception as _e:
+            # If luma check fails, accept the image rather than block generation.
+            log.info("Pollinations.ai: luma check skipped (%s)", _e)
+
+        img_bytes = candidate
+        break
+
+    if not img_bytes:
+        log.warning("Pollinations.ai: all %d attempts failed", MAX_ATTEMPTS)
         return None
 
     log.info("Pollinations.ai: generated cohesive AI scene (%d bytes) ✓", len(img_bytes))
+
+    # Burn an origin flag badge into the top-left of the generated image so
+    # the country marker travels with the photo wherever it's shared
+    # (catalog cards, Telegram forwards, screenshots, etc).
+    try:
+        img_bytes = _burn_origin_flag(img_bytes, car) or img_bytes
+    except Exception as _e:
+        log.warning("Origin flag burn-in failed: %s", _e)
 
     # Now overlay the full poster layout (price, specs, badges, CTA, WhatsApp button)
     # on top of the AI-generated scene using the local Pillow template.
