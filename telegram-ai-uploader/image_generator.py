@@ -651,7 +651,17 @@ def generate_local_poster(car: dict, main_photo_path: Optional[Path | str], temp
         template_name = "aggressive_black_yellow"
     out = io.BytesIO()
     img.save(out, format="JPEG", quality=88, optimize=True)
-    return out.getvalue(), template_name
+    raw_bytes = out.getvalue()
+
+    # Burn the origin flag onto the poster so the country marker travels
+    # everywhere this image is forwarded.
+    try:
+        with_flag = _burn_origin_flag(raw_bytes, car)
+        if with_flag:
+            return with_flag, template_name
+    except Exception as _e:
+        log.warning("Local poster flag burn-in skipped: %s", _e)
+    return raw_bytes, template_name
 
 
 # ---------------------------------------------------------------------------
