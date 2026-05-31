@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "tilek-site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8801", "--directory", "/Users/air/Desktop/tilek-auto-dubai-fix"],
+      "port": 8801
+    }
+  ]
+}

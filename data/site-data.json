@@ -1,6 +1,50 @@
 {
   "cars": [
     {
+      "id": "hyundai-sonata-korea-2019",
+      "title": "Hyundai Sonata",
+      "brand": "Hyundai",
+      "model": "Sonata",
+      "year": "2019/08",
+      "engine": "2.0",
+      "fuel": "Газ",
+      "transmission": "Автомат",
+      "drive": "2WD",
+      "bodyType": "Седан",
+      "body": "sedan",
+      "color": "Как на фото",
+      "trim": "Хорошая",
+      "condition": "Есть окрасы",
+      "budget": "low",
+      "tag": "reliable",
+      "price": "$5 800",
+      "priceLabel": "Цена в Корее",
+      "mileage": "350 000 км",
+      "location": "South Korea → Бишкек",
+      "origin": "korea",
+      "originLabel": "Южная Корея",
+      "originFlag": "kr",
+      "description": "🇰🇷 Реальный вариант с площадки\n\n<b>Hyundai Sonata 2019/08</b>\n\n✅ Двигатель 2.0\n✅ Привод 2WD\n✅ Коробка автомат\n✅ Топливо: газ\n✅ Цвет: как на фото\n✅ Комплектация хорошая\n\n⚠️ Состояние: есть окрасы (указано честно)\n📊 Пробег: 350 000 км\n📍 Локация: Южная Корея\n\n💰 Цена в Корее: $5 800\n\nЗапросите итоговый расчёт с доставкой и документами через WhatsApp.",
+      "whatsapp": "",
+      "whatsappMessage": "Здравствуйте! Интересует Hyundai Sonata 2019/08 из Южной Кореи за $5 800. Подскажите, пожалуйста, итоговую стоимость с доставкой и документами.",
+      "instagramUrl": "",
+      "image": "assets/cars/hyundai-sonata-korea-2019.jpg",
+      "mainImage": "assets/cars/hyundai-sonata-korea-2019.jpg",
+      "images": [
+        "assets/cars/hyundai-sonata-korea-2019.jpg"
+      ],
+      "videoUrl": "",
+      "videoFile": "",
+      "videoType": "",
+      "videoPoster": "assets/cars/hyundai-sonata-korea-2019.jpg",
+      "videoTitle": "",
+      "videoDuration": "",
+      "status": "available",
+      "statusLabel": "Реальный вариант с площадки",
+      "source": "manual_korea",
+      "createdAt": "2026-05-31T10:25:53Z"
+    },
+    {
       "id": "car_20260531_094838",
       "title": "Toyota Camry 2024",
       "brand": "Toyota",
@@ -33,7 +77,8 @@
       "videoDuration": "",
       "status": "available",
       "source": "telegram_ai_uploader",
-      "createdAt": "2026-05-31T09:51:42Z"
+      "createdAt": "2026-05-31T09:51:42Z",
+      "origin": "dubai"
     },
     {
       "id": "car_20260527_093739",
@@ -67,7 +112,8 @@
       "videoDuration": "",
       "status": "available",
       "source": "telegram_ai_uploader",
-      "createdAt": "2026-05-27T09:39:16Z"
+      "createdAt": "2026-05-27T09:39:16Z",
+      "origin": "dubai"
     },
     {
       "id": "car_20260526_172144",
@@ -100,7 +146,8 @@
       "videoDuration": "",
       "status": "available",
       "source": "telegram_ai_uploader",
-      "createdAt": "2026-05-27T06:22:28Z"
+      "createdAt": "2026-05-27T06:22:28Z",
+      "origin": "dubai"
     },
     {
       "id": "car_20260526_080421",
@@ -134,7 +181,8 @@
       "videoDuration": "",
       "status": "available",
       "source": "telegram_ai_uploader",
-      "createdAt": "2026-05-26T08:58:03Z"
+      "createdAt": "2026-05-26T08:58:03Z",
+      "origin": "dubai"
     },
     {
       "id": "car_20260526_080024",
@@ -168,7 +216,8 @@
       "videoDuration": "",
       "status": "available",
       "source": "telegram_ai_uploader",
-      "createdAt": "2026-05-26T08:04:10Z"
+      "createdAt": "2026-05-26T08:04:10Z",
+      "origin": "dubai"
     },
     {
       "id": "car_20260523_040556",
@@ -202,7 +251,8 @@
       "videoDuration": "",
       "status": "available",
       "source": "telegram_ai_uploader",
-      "createdAt": "2026-05-23T23:49:35Z"
+      "createdAt": "2026-05-23T23:49:35Z",
+      "origin": "dubai"
     },
     {
       "id": "car_20260523_040443",
@@ -236,7 +286,8 @@
       "videoDuration": "",
       "status": "available",
       "source": "telegram_ai_uploader",
-      "createdAt": "2026-05-23T04:05:48Z"
+      "createdAt": "2026-05-23T04:05:48Z",
+      "origin": "dubai"
     },
     {
       "id": "car_20260522_210036",
@@ -270,7 +321,8 @@
       "videoDuration": "",
       "status": "available",
       "source": "telegram_ai_uploader",
-      "createdAt": "2026-05-22T21:02:15Z"
+      "createdAt": "2026-05-22T21:02:15Z",
+      "origin": "dubai"
     },
     {
       "id": "car_20260516_153156",
@@ -304,7 +356,8 @@
       "videoDuration": "",
       "status": "available",
       "source": "telegram_ai_uploader",
-      "createdAt": "2026-05-17T18:20:20Z"
+      "createdAt": "2026-05-17T18:20:20Z",
+      "origin": "dubai"
     }
   ],
   "videos": [

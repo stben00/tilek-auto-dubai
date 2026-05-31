@@ -5,25 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="robots" content="index, follow">
-<title>Tilek Auto Dubai — Авто из Дубая под ключ | Подбор, проверка, доставка</title>
-<meta name="description" content="Подбор, проверка, покупка и доставка авто из Дубая в Кыргызстан, Казахстан и страны СНГ. Консультация и расчёт стоимости через WhatsApp. Авто от $10 800.">
-<meta name="keywords" content="авто из Дубая, машины из ОАЭ, аукционы Дубая, авто под ключ, доставка авто Кыргызстан, Казахстан, СНГ, Tilek Auto">
+<title>Tilek Auto Dubai — авто из Дубая и Южной Кореи под ключ</title>
+<meta name="description" content="Подбор автомобилей из Дубая, ОАЭ и Южной Кореи для клиентов из Кыргызстана, Казахстана и СНГ. Реальные варианты, характеристики, состояние и расчёт доставки.">
+<meta name="keywords" content="авто из Дубая, авто из Кореи, машины из ОАЭ, авто из Южной Кореи, Hyundai Sonata, Kia, Genesis, аукционы Дубая, авто под ключ, доставка авто Кыргызстан, Казахстан, СНГ, Tilek Auto">
 <meta name="author" content="Tilek Auto Dubai">
 <link rel="canonical" href="https://stben00.github.io/tilek-auto-dubai/">
 <meta property="og:url" content="https://stben00.github.io/tilek-auto-dubai/">
-<meta property="og:title" content="Tilek Auto Dubai — Авто из Дубая под ключ">
-<meta property="og:description" content="Подбор, проверка и доставка авто из Дубая в Кыргызстан, Казахстан и СНГ. Авто от $10 800.">
+<meta property="og:title" content="Авто из Дубая и Южной Кореи под ключ | Tilek Auto Dubai">
+<meta property="og:description" content="Подберите автомобиль из ОАЭ или Южной Кореи. Реальные варианты, понятная цена и запрос расчёта доставки через WhatsApp.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://stben00.github.io/tilek-auto-dubai/assets/og-cover.jpg">
 <meta property="og:image:secure_url" content="https://stben00.github.io/tilek-auto-dubai/assets/og-cover.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Tilek Auto Dubai — авто из ОАЭ под ключ">
+<meta property="og:image:alt" content="Tilek Auto Dubai — авто из ОАЭ и Южной Кореи под ключ">
 <meta property="og:site_name" content="Tilek Auto Dubai">
 <meta property="og:locale" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Tilek Auto Dubai — Авто из Дубая под ключ">
-<meta name="twitter:description" content="Подбор, проверка и доставка авто из Дубая в Кыргызстан, Казахстан и СНГ.">
+<meta name="twitter:title" content="Авто из Дубая и Южной Кореи под ключ | Tilek Auto Dubai">
+<meta name="twitter:description" content="Подберите автомобиль из ОАЭ или Южной Кореи. Реальные варианты, понятная цена и расчёт доставки.">
 <meta name="twitter:image" content="https://stben00.github.io/tilek-auto-dubai/assets/og-cover.jpg">
 <link rel="icon" type="image/png" href="assets/logo.png">
 <link rel="apple-touch-icon" href="assets/logo.png">
@@ -50,11 +50,12 @@ window.TILEK_PUBLIC_CONFIG = {
   "@context": "https://schema.org",
   "@type": "AutoDealer",
   "name": "Tilek Auto Dubai",
-  "description": "Подбор, проверка, покупка и доставка авто из Дубая в Кыргызстан, Казахстан и страны СНГ.",
+  "description": "Подбор автомобилей из Дубая, ОАЭ и Южной Кореи для клиентов из Кыргызстана, Казахстана и СНГ.",
   "image": "assets/logo.png",
   "telephone": "+996551333360",
   "priceRange": "$$",
   "areaServed": ["Kyrgyzstan", "Kazakhstan", "Russia", "Tajikistan", "Uzbekistan"],
+  "knowsAbout": ["авто из Дубая", "авто из Южной Кореи", "Hyundai", "Kia", "Genesis", "Toyota", "Lexus"],
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Улица Медерова, 1в",
@@ -1623,9 +1624,298 @@ svg{flex-shrink:0}
   .logo-name{font-size:14px}
   .logo-tag{font-size:9px}
 }
+
+/* ============ DUAL-COUNTRY INTRO ANIMATION (UAE + Korea) ============ */
+.brand-intro{
+  position:fixed;inset:0;z-index:9999;
+  background:radial-gradient(ellipse at center, #1a1a1a 0%, #050505 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:1;transition:opacity .8s ease, visibility .8s;
+  padding:24px;text-align:center;
+}
+.brand-intro.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.brand-intro-logo{
+  width:96px;height:96px;border-radius:24px;
+  background:linear-gradient(135deg,#d4af37 0%,#a87f1b 100%);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:28px;
+  box-shadow:0 18px 48px -10px rgba(212,175,55,.45);
+  animation:introLogoIn 1s cubic-bezier(.22,1,.36,1) both;
+}
+.brand-intro-logo img{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.6))}
+.brand-intro-name{
+  font-size:26px;font-weight:800;letter-spacing:3px;color:#fff;
+  margin-bottom:6px;
+  animation:introTextIn .8s .25s cubic-bezier(.22,1,.36,1) both;
+}
+.brand-intro-tag{
+  font-size:12px;letter-spacing:5px;color:#d4af37;text-transform:uppercase;
+  margin-bottom:42px;
+  animation:introTextIn .8s .35s cubic-bezier(.22,1,.36,1) both;
+}
+.brand-intro-flags{
+  display:flex;align-items:center;gap:28px;
+  margin-bottom:36px;
+}
+.brand-intro-flag{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  animation:introFlagIn .9s cubic-bezier(.22,1,.36,1) both;
+}
+.brand-intro-flag.left{animation-delay:.55s}
+.brand-intro-flag.right{animation-delay:.85s}
+.brand-intro-flag-emoji{
+  font-size:62px;
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,.5));
+  animation:flagWave 3s ease-in-out .8s infinite;
+  transform-origin:center bottom;
+}
+.brand-intro-flag.right .brand-intro-flag-emoji{animation-delay:1.1s}
+.brand-intro-flag-label{
+  font-size:13px;font-weight:600;color:#fff;letter-spacing:1.2px;
+  white-space:nowrap;
+}
+.brand-intro-connector{
+  width:80px;height:2px;
+  background:linear-gradient(90deg,transparent,#d4af37,transparent);
+  position:relative;
+  animation:connectorGrow 1s .7s cubic-bezier(.22,1,.36,1) both;
+}
+.brand-intro-connector::before{
+  content:"";position:absolute;left:50%;top:50%;
+  width:8px;height:8px;background:#d4af37;border-radius:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 16px rgba(212,175,55,.8);
+}
+.brand-intro-headline{
+  font-size:22px;font-weight:700;color:#fff;line-height:1.4;
+  max-width:520px;margin-bottom:10px;
+  animation:introTextIn .8s 1.1s cubic-bezier(.22,1,.36,1) both;
+}
+.brand-intro-headline .gold{color:#d4af37}
+.brand-intro-sub{
+  font-size:14px;color:#a8a8a8;letter-spacing:.5px;
+  animation:introTextIn .8s 1.3s cubic-bezier(.22,1,.36,1) both;
+}
+.brand-intro-sub b{color:#d4af37;font-weight:600}
+.brand-intro-skip{
+  position:absolute;top:24px;right:24px;
+  padding:10px 18px;border:1px solid rgba(255,255,255,.18);
+  border-radius:100px;color:#ccc;font-size:13px;cursor:pointer;
+  background:rgba(255,255,255,.04);backdrop-filter:blur(8px);
+  transition:.2s;
+  animation:introTextIn .8s 1.5s cubic-bezier(.22,1,.36,1) both;
+}
+.brand-intro-skip:hover{border-color:#d4af37;color:#d4af37}
+@keyframes introLogoIn{
+  from{transform:scale(.3) rotate(-15deg);opacity:0}
+  to{transform:scale(1) rotate(0);opacity:1}
+}
+@keyframes introTextIn{
+  from{transform:translateY(20px);opacity:0}
+  to{transform:translateY(0);opacity:1}
+}
+@keyframes introFlagIn{
+  from{transform:translateY(30px) scale(.6);opacity:0}
+  to{transform:translateY(0) scale(1);opacity:1}
+}
+@keyframes flagWave{
+  0%,100%{transform:rotate(-6deg) scale(1)}
+  50%{transform:rotate(6deg) scale(1.04)}
+}
+@keyframes connectorGrow{
+  from{width:0;opacity:0}
+  to{width:80px;opacity:1}
+}
+@media(max-width:480px){
+  .brand-intro-flags{gap:18px}
+  .brand-intro-flag-emoji{font-size:48px}
+  .brand-intro-flag-label{font-size:12px}
+  .brand-intro-headline{font-size:18px}
+  .brand-intro-sub{font-size:12px}
+  .brand-intro-connector{width:56px}
+  @keyframes connectorGrow{from{width:0;opacity:0}to{width:56px;opacity:1}}
+}
+
+/* ============ KOREA NEW BADGE in hero ============ */
+.hero-new-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:100px;
+  background:linear-gradient(135deg,rgba(212,175,55,.18),rgba(212,175,55,.05));
+  border:1px solid rgba(212,175,55,.5);
+  color:#d4af37;font-size:12.5px;font-weight:700;letter-spacing:.5px;
+  margin-bottom:18px;
+  text-transform:uppercase;
+  animation:newBadgePulse 2.6s ease-in-out infinite;
+}
+.hero-new-badge .new-dot{
+  width:8px;height:8px;background:#d4af37;border-radius:50%;
+  box-shadow:0 0 12px rgba(212,175,55,.9);
+  animation:newDotPulse 1.4s ease-in-out infinite;
+}
+@keyframes newBadgePulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,.0)}
+  50%{box-shadow:0 0 0 6px rgba(212,175,55,.08)}
+}
+@keyframes newDotPulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.4);opacity:.6}
+}
+
+/* Korea section styling */
+.korea-section{
+  background:linear-gradient(180deg,#0a0a0a 0%,#100c08 100%);
+  position:relative;
+}
+.korea-section::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 0%, rgba(212,175,55,.04), transparent 60%);
+  pointer-events:none;
+}
+.korea-intro-grid{
+  display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;
+}
+.korea-benefits{list-style:none;display:flex;flex-direction:column;gap:14px;margin:24px 0}
+.korea-benefits li{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:15px;color:#d8d8d8;line-height:1.5;
+}
+.korea-benefits li::before{
+  content:"";flex-shrink:0;width:20px;height:20px;border-radius:50%;
+  background:rgba(212,175,55,.15);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-position:center;background-repeat:no-repeat;background-size:12px;
+  margin-top:1px;
+}
+.sonata-preview{
+  background:rgba(15,15,15,.7);border:1px solid rgba(212,175,55,.25);
+  border-radius:24px;overflow:hidden;
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.6);
+}
+.sonata-preview-img{
+  width:100%;height:280px;object-fit:cover;display:block;
+  background:#1a1a1a;
+}
+.sonata-preview-body{padding:24px}
+.sonata-preview-flag{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:100px;
+  background:rgba(212,175,55,.12);color:#d4af37;
+  font-size:12px;font-weight:600;letter-spacing:.5px;
+  margin-bottom:12px;
+}
+.sonata-preview-title{
+  font-size:22px;font-weight:700;color:#fff;margin-bottom:6px;
+}
+.sonata-preview-sub{
+  font-size:13px;color:#999;margin-bottom:14px;
+}
+.sonata-preview-specs{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;
+  font-size:13.5px;color:#bababa;margin-bottom:18px;
+}
+.sonata-preview-specs b{color:#fff;font-weight:600}
+.sonata-preview-honesty{
+  background:rgba(212,175,55,.06);border:1px dashed rgba(212,175,55,.3);
+  border-radius:10px;padding:10px 14px;
+  font-size:12.5px;color:#d4af37;line-height:1.5;
+  margin-bottom:18px;
+}
+.sonata-preview-price{
+  display:flex;align-items:baseline;justify-content:space-between;
+  margin-bottom:16px;
+}
+.sonata-preview-price-label{font-size:12px;color:#888;text-transform:uppercase;letter-spacing:.5px}
+.sonata-preview-price-value{font-size:30px;font-weight:800;color:#d4af37;line-height:1}
+.sonata-preview-actions{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+}
+@media(max-width:880px){
+  .korea-intro-grid{grid-template-columns:1fr;gap:32px}
+  .sonata-preview-img{height:240px}
+}
+
+/* Comparison Dubai vs Korea */
+.compare-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  margin-bottom:28px;
+}
+.compare-card{
+  background:rgba(15,15,15,.75);border:1px solid rgba(212,175,55,.18);
+  border-radius:22px;padding:32px 28px;
+  position:relative;transition:.3s;
+}
+.compare-card:hover{border-color:rgba(212,175,55,.45);transform:translateY(-4px)}
+.compare-flag{
+  font-size:46px;line-height:1;margin-bottom:14px;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.4));
+}
+.compare-card h3{font-size:24px;color:#fff;margin-bottom:18px}
+.compare-card ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.compare-card ul li{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:14.5px;color:#cfcfcf;line-height:1.5;
+}
+.compare-card ul li::before{
+  content:"";flex-shrink:0;width:6px;height:6px;border-radius:50%;
+  background:#d4af37;margin-top:8px;
+}
+@media(max-width:720px){.compare-grid{grid-template-columns:1fr}}
+
+/* Origin filter chips in catalog */
+.origin-chips{
+  display:flex;flex-wrap:wrap;gap:10px;
+  margin-bottom:18px;justify-content:center;
+}
+.origin-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;border-radius:100px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);
+  color:#cfcfcf;font-size:14px;font-weight:600;cursor:pointer;
+  transition:.2s;
+}
+.origin-chip:hover{border-color:rgba(212,175,55,.4);color:#fff}
+.origin-chip.active{
+  background:linear-gradient(135deg,#d4af37,#a87f1b);color:#1a1300;
+  border-color:#d4af37;
+  box-shadow:0 8px 22px -6px rgba(212,175,55,.5);
+}
+.origin-chip-flag{font-size:18px;line-height:1}
+
+/* Origin badge on car cards */
+.car-origin-badge{
+  position:absolute;top:14px;left:14px;
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 10px;border-radius:100px;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
+  color:#fff;font-size:11.5px;font-weight:600;letter-spacing:.3px;
+  z-index:3;
+}
 </style>
 </head>
 <body>
+
+<!-- ============ DUAL-COUNTRY INTRO ANIMATION ============ -->
+<div class="brand-intro" id="brandIntro" role="dialog" aria-label="Tilek Auto Dubai">
+  <button type="button" class="brand-intro-skip" id="brandIntroSkip" aria-label="Пропустить заставку">Пропустить</button>
+  <div class="brand-intro-logo">
+    <img src="assets/logo.png" alt="Tilek Auto Dubai" decoding="async">
+  </div>
+  <div class="brand-intro-name">TILEK AUTO DUBAI</div>
+  <div class="brand-intro-tag">подбор • проверка • доставка</div>
+  <div class="brand-intro-flags">
+    <div class="brand-intro-flag left">
+      <span class="brand-intro-flag-emoji" aria-hidden="true">🇦🇪</span>
+      <span class="brand-intro-flag-label">Dubai / UAE</span>
+    </div>
+    <div class="brand-intro-connector" aria-hidden="true"></div>
+    <div class="brand-intro-flag right">
+      <span class="brand-intro-flag-emoji" aria-hidden="true">🇰🇷</span>
+      <span class="brand-intro-flag-label">South Korea</span>
+    </div>
+  </div>
+  <h2 class="brand-intro-headline">Автомобили из <span class="gold">Дубая</span> и <span class="gold">Южной Кореи</span> под ключ</h2>
+  <p class="brand-intro-sub"><b>Подбор</b> • <b>Проверка информации</b> • <b>Доставка</b></p>
+</div>
 
 <!-- ============ HEADER ============ -->
 <header class="header" id="header">
@@ -1642,10 +1932,9 @@ svg{flex-shrink:0}
     <nav class="nav">
       <a href="#home">Главная</a>
       <a href="#services">Услуги</a>
+      <a href="#korea" style="position:relative">🇰🇷 Корея</a>
       <a href="#catalog">Авто</a>
-      <a href="#community">Группа</a>
       <a href="#process">Как работаем</a>
-      <a href="#reviews">Отзывы</a>
       <a href="faq.html">FAQ</a>
       <a href="#contacts">Контакты</a>
     </nav>
@@ -1666,7 +1955,9 @@ svg{flex-shrink:0}
 <aside class="mobile-menu" id="mobileMenu">
   <a href="#home">Главная</a>
   <a href="#services">Услуги</a>
-  <a href="#catalog">Авто</a>
+  <a href="#korea">🇰🇷 Авто из Кореи <span style="background:linear-gradient(135deg,#d4af37,#a87f1b);color:#1a1300;padding:2px 8px;border-radius:100px;font-size:11px;font-weight:700;margin-left:6px">NEW</span></a>
+  <a href="#compare">Дубай или Корея</a>
+  <a href="#catalog">Каталог авто</a>
   <a href="#community">Группа</a>
   <a href="#process">Как работаем</a>
   <a href="#reviews">Отзывы</a>
@@ -1693,15 +1984,16 @@ svg{flex-shrink:0}
   <div class="container">
     <div class="hero-inner">
       <div>
+        <span class="hero-new-badge"><span class="new-dot"></span>NEW · Теперь автомобили из Южной Кореи</span>
         <div class="hero-badges">
           <span class="hero-badge">🇦🇪 Dubai · UAE</span>
-          <span class="hero-badge">Аукционы и площадки</span>
+          <span class="hero-badge">🇰🇷 South Korea</span>
           <span class="hero-badge">Под ключ</span>
         </div>
-        <h1>Авто из Дубая <span class="gold">под ключ</span> — с понятным расчётом до покупки</h1>
-        <p class="hero-sub">Подберём 3–5 реальных вариантов под ваш бюджет, проверим состояние, покажем риски и посчитаем доставку в Кыргызстан, Казахстан или СНГ. <strong style="color:var(--gold)">Стартовые варианты — от $10 800.</strong></p>
+        <h1>Авто из <span class="gold">Дубая и Кореи</span> под ключ — с понятным расчётом до покупки</h1>
+        <p class="hero-sub">Подберём реальные варианты с площадок ОАЭ и Южной Кореи под ваш бюджет, покажем характеристики и состояние автомобиля, объясним возможные риски и рассчитаем доставку в Кыргызстан, Казахстан или СНГ.</p>
         <div class="hero-cta">
-          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу получить подборку авто из Дубая под мой бюджет." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
+          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу подобрать автомобиль из Дубая или Южной Кореи. Мой бюджет: ____. Интересует модель: ____. Покажите, пожалуйста, реальные варианты." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
             Получить подборку
           </a>
@@ -1713,22 +2005,22 @@ svg{flex-shrink:0}
           <span>Последняя сделка: <strong id="lastDealAgo">—</strong></span>
         </div>
         <div class="hero-offer" aria-label="Быстрые сценарии заявки">
-          <a href="https://wa.me/000000000000?text=Здравствуйте! У меня бюджет до $15 000. Какие авто из Дубая можно рассмотреть?" target="_blank" rel="noopener">
+          <a href="https://wa.me/000000000000?text=Здравствуйте! У меня бюджет до $15 000. Какие авто из Дубая или Кореи можно рассмотреть?" target="_blank" rel="noopener">
             <strong>Бюджет до $15 000</strong>
-            <span>Получить реалистичные варианты без лишних ожиданий</span>
+            <span>Получить реалистичные варианты из ОАЭ и Кореи</span>
           </a>
-          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу 3-5 вариантов авто из Дубая под мой бюджет." target="_blank" rel="noopener">
-            <strong>3–5 вариантов</strong>
-            <span>Подборка машин с кратким объяснением плюсов и рисков</span>
+          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу подобрать автомобиль из Дубая или Южной Кореи. Мой бюджет: ____. Интересует модель: ____." target="_blank" rel="noopener">
+            <strong>Подборка вариантов</strong>
+            <span>Реальные авто из ОАЭ и Кореи под ваш бюджет</span>
           </a>
-          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу понять полную стоимость авто из Дубая с доставкой." target="_blank" rel="noopener">
-            <strong>Расчёт под ключ</strong>
-            <span>Цена авто, доставка, документы и ориентир по срокам</span>
+          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу сравнить варианты автомобилей из Дубая и Южной Кореи под мой бюджет. Бюджет: ____. Модель: ____." target="_blank" rel="noopener">
+            <strong>Сравнить Дубай и Корею</strong>
+            <span>Покажем варианты из двух направлений для сравнения</span>
           </a>
         </div>
         <div class="hero-trust">
           <div class="hero-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Офис: Ош / Бишкек</div>
-          <div class="hero-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Авто с аукционов Дубая</div>
+          <div class="hero-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Авто из ОАЭ и Кореи</div>
           <div class="hero-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Подбор под бюджет</div>
           <div class="hero-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Сопровождение до выдачи</div>
           <div class="hero-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Проверка перед покупкой</div>
@@ -1760,7 +2052,7 @@ svg{flex-shrink:0}
           <div class="owner-info">
             <div class="owner-label" id="ownerLabel">Основатель компании</div>
             <h3 class="owner-name" id="ownerName">Тилек</h3>
-            <p class="owner-position" id="ownerPosition">Эксперт по авто из ОАЭ · подбор, проверка, доставка</p>
+            <p class="owner-position" id="ownerPosition">Эксперт по авто из ОАЭ и Южной Кореи · подбор, проверка, доставка</p>
 
             <div class="owner-bio" id="ownerBio">
               «Я лично проверяю каждое авто перед покупкой. Моя задача — чтобы вы получили честную сделку, а не "кота в мешке". Работаю с клиентами из СНГ как со своими.»
@@ -1789,7 +2081,7 @@ svg{flex-shrink:0}
                 <div class="owner-feature-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </div>
-                <div class="owner-feature-text" id="ownerFeat4">Связи в ОАЭ</div>
+                <div class="owner-feature-text" id="ownerFeat4">Связи в ОАЭ и Корее</div>
               </div>
             </div>
 
@@ -1875,7 +2167,7 @@ svg{flex-shrink:0}
           </div>
         </div>
         <div class="offer-actions">
-          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу быстро понять, какие авто из Дубая подходят под мой бюджет." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
+          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу подобрать автомобиль из Дубая или Южной Кореи. Мой бюджет: ____. Интересует модель: ____. Покажите, пожалуйста, реальные варианты." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
             Быстрый расчёт в WhatsApp
           </a>
           <a href="#calculator" class="btn btn-ghost btn-lg">Оставить заявку</a>
@@ -1963,58 +2255,153 @@ svg{flex-shrink:0}
   <div class="container">
     <div class="section-head fade-up">
       <span class="section-tag">Услуги</span>
-      <h2 class="section-title">Что мы делаем для <span class="gold">клиента</span></h2>
-      <p class="section-subtitle">Полный цикл работы с автомобилем — от первой консультации до получения ключей в вашем городе.</p>
+      <h2 class="section-title">Подбор авто из <span class="gold">двух направлений</span></h2>
+      <p class="section-subtitle">Tilek Auto Dubai теперь работает по двум направлениям — ОАЭ и Южная Корея. Полный цикл работы с автомобилем под ключ для клиентов из Кыргызстана, Казахстана и СНГ.</p>
     </div>
     <div class="services-grid">
       <div class="service-card fade-up">
         <span class="service-num">01</span>
-        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <div class="service-icon" style="font-size:34px;line-height:1">🇦🇪</div>
         <h3>Подбор авто из Дубая</h3>
-        <p>Подбираем автомобиль под ваш бюджет, марку, год, двигатель и пожелания.</p>
+        <p>Подбираем автомобили с аукционов и площадок ОАЭ под ваш бюджет и требования.</p>
       </div>
       <div class="service-card fade-up">
         <span class="service-num">02</span>
-        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg></div>
-        <h3>Участие в аукционе</h3>
-        <p>Помогаем найти выгодные варианты на аукционах и объясняем риски до покупки.</p>
+        <div class="service-icon" style="font-size:34px;line-height:1">🇰🇷</div>
+        <h3>Подбор авто из Южной Кореи</h3>
+        <p>Показываем реальные варианты Hyundai, Kia, Genesis и других автомобилей с характеристиками, состоянием и ценой.</p>
       </div>
       <div class="service-card fade-up">
         <span class="service-num">03</span>
-        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-        <h3>Проверка автомобиля</h3>
-        <p>Проверяем состояние, комплектацию, историю и важные детали перед решением.</p>
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+        <h3>Сравнение вариантов из двух рынков</h3>
+        <p>Помогаем сравнить предложения из ОАЭ и Кореи, чтобы вы могли выбрать подходящий автомобиль под ваш бюджет.</p>
       </div>
       <div class="service-card fade-up">
         <span class="service-num">04</span>
-        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-        <h3>Расчёт под ключ</h3>
-        <p>Считаем ориентировочную стоимость авто, доставки и дополнительных расходов.</p>
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <h3>Расчёт доставки под ключ</h3>
+        <p>Предоставляем понятный ориентир по автомобилю, документам и доставке до вашей страны.</p>
       </div>
       <div class="service-card fade-up">
         <span class="service-num">05</span>
-        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
-        <h3>Доставка авто</h3>
-        <p>Помогаем организовать доставку автомобиля до нужного города.</p>
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <h3>Сопровождение покупки</h3>
+        <p>После выбора автомобиля сопровождаем клиента по дальнейшим этапам сделки и доставки.</p>
       </div>
       <div class="service-card fade-up">
         <span class="service-num">06</span>
-        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-        <h3>Консультация перед покупкой</h3>
-        <p>Объясняем, какие варианты выгодные, а какие лучше не брать.</p>
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h3>Проверка информации</h3>
+        <p>Проверяем характеристики, комплектацию и состояние автомобиля до решения о покупке.</p>
       </div>
-      <div class="service-card fade-up">
-        <span class="service-num">07</span>
-        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-        <h3>Помощь с документами</h3>
-        <p>Подсказываем по этапам оформления и сопровождения сделки.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KOREA SECTION (new business direction) ============ -->
+<section class="section korea-section" id="korea">
+  <div class="container">
+    <div class="section-head fade-up">
+      <span class="section-tag">🇰🇷 Новое направление</span>
+      <h2 class="section-title">Автомобили из <span class="gold">Южной Кореи</span></h2>
+      <p class="section-subtitle">Новое направление Tilek Auto Dubai</p>
+    </div>
+
+    <div class="korea-intro-grid">
+      <div class="fade-up">
+        <p style="font-size:16px;color:#cfcfcf;line-height:1.7;margin-bottom:8px">Теперь мы подбираем автомобили не только из Дубая, но и напрямую из Южной Кореи. Это даёт клиентам больше реальных вариантов: <strong style="color:#fff">Hyundai, Kia, Genesis</strong> и другие модели с фотографиями, характеристиками, пробегом, указанным состоянием и ценой до покупки.</p>
+
+        <ul class="korea-benefits">
+          <li>Реальные объявления и фотографии</li>
+          <li>Hyundai, Kia, Genesis и другие модели</li>
+          <li>Характеристики и состояние до решения о покупке</li>
+          <li>Цена автомобиля отображается открыто</li>
+          <li>Возможность запросить итоговый расчёт с доставкой</li>
+          <li>Подбор под бюджет клиента</li>
+        </ul>
+
+        <a href="#catalog" class="btn btn-gold" onclick="setCatalogOrigin('korea');return true;" style="margin-right:10px">Смотреть авто из Кореи</a>
+        <a href="https://wa.me/996551333360?text=Здравствуйте! Хочу подобрать автомобиль из Южной Кореи. Мой бюджет: ____. Интересует модель: ____. Покажите, пожалуйста, реальные варианты." target="_blank" rel="noopener" class="btn btn-whatsapp-outline">WhatsApp</a>
       </div>
-      <div class="service-card fade-up">
-        <span class="service-num">08</span>
-        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
-        <h3>Запчасти на любые авто</h3>
-        <p>Помогаем с поиском и заказом деталей для автомобилей из ОАЭ.</p>
+
+      <div class="sonata-preview fade-up" aria-label="Hyundai Sonata из Южной Кореи">
+        <img class="sonata-preview-img" src="assets/cars/hyundai-sonata-korea-2019.jpg" alt="Hyundai Sonata 2019/08 из Южной Кореи" loading="lazy">
+        <div class="sonata-preview-body">
+          <span class="sonata-preview-flag">🇰🇷 Южная Корея</span>
+          <h3 class="sonata-preview-title">Hyundai Sonata</h3>
+          <p class="sonata-preview-sub">Реальный вариант с площадки</p>
+          <div class="sonata-preview-specs">
+            <div>Год выпуска: <b>2019/08</b></div>
+            <div>Двигатель: <b>2.0</b></div>
+            <div>Привод: <b>2WD</b></div>
+            <div>Коробка: <b>Автомат</b></div>
+            <div>Топливо: <b>Газ</b></div>
+            <div>Цвет: <b>Как на фото</b></div>
+            <div>Пробег: <b>350 000 км</b></div>
+            <div>Комплектация: <b>Хорошая</b></div>
+          </div>
+          <div class="sonata-preview-honesty">
+            ⚠️ Состояние: <strong>есть окрасы</strong> — указано честно, чтобы вы понимали реальный вид автомобиля.
+          </div>
+          <div class="sonata-preview-price">
+            <div>
+              <div class="sonata-preview-price-label">Цена в Корее</div>
+              <div class="sonata-preview-price-value">$5 800</div>
+            </div>
+          </div>
+          <div class="sonata-preview-actions">
+            <a href="https://wa.me/996551333360?text=Здравствуйте!%20Интересует%20Hyundai%20Sonata%202019%2F08%20из%20Южной%20Кореи%20за%20%245%20800.%20Подскажите%2C%20пожалуйста%2C%20итоговую%20стоимость%20с%20доставкой%20и%20документами." target="_blank" rel="noopener" class="btn btn-gold btn-sm">Узнать стоимость с доставкой</a>
+            <a href="https://wa.me/996551333360?text=Здравствуйте!%20Интересует%20Hyundai%20Sonata%202019%2F08%20из%20Южной%20Кореи%20за%20%245%20800." target="_blank" rel="noopener" class="btn btn-whatsapp-outline btn-sm">Написать в WhatsApp</a>
+          </div>
+        </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARE DUBAI vs KOREA ============ -->
+<section class="section" id="compare" style="background:#0a0a0a">
+  <div class="container">
+    <div class="section-head fade-up">
+      <span class="section-tag">Сравнение</span>
+      <h2 class="section-title">Дубай или Корея — <span class="gold">какое направление выбрать?</span></h2>
+      <p class="section-subtitle">Каждый рынок может предложить разные варианты. Мы покажем доступные автомобили из двух направлений и поможем сравнить их по бюджету, характеристикам и состоянию.</p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card fade-up">
+        <div class="compare-flag" aria-hidden="true">🇦🇪</div>
+        <h3>Авто из Дубая</h3>
+        <ul>
+          <li>Аукционы и площадки ОАЭ</li>
+          <li>Большой выбор автомобилей</li>
+          <li>Премиальные модели и SUV</li>
+          <li>Подбор под бюджет</li>
+          <li>Доставка под ключ</li>
+        </ul>
+        <a href="#catalog" onclick="setCatalogOrigin('dubai');return true;" class="btn btn-gold btn-block">Посмотреть авто из Дубая</a>
+      </div>
+
+      <div class="compare-card fade-up">
+        <div class="compare-flag" aria-hidden="true">🇰🇷</div>
+        <h3>Авто из Кореи</h3>
+        <ul>
+          <li>Hyundai, Kia, Genesis и другие</li>
+          <li>Реальные фото и характеристики</li>
+          <li>Понятные цены на площадке</li>
+          <li>Больше вариантов для бюджета</li>
+          <li>Доставка под ключ</li>
+        </ul>
+        <a href="#catalog" onclick="setCatalogOrigin('korea');return true;" class="btn btn-gold btn-block">Посмотреть авто из Кореи</a>
+      </div>
+    </div>
+
+    <div style="text-align:center" class="fade-up">
+      <a href="https://wa.me/996551333360?text=Здравствуйте!%20Хочу%20сравнить%20варианты%20автомобилей%20из%20Дубая%20и%20Южной%20Кореи%20под%20мой%20бюджет.%20Бюджет%3A%20____.%20Модель%3A%20____." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+        Сравнить варианты из Дубая и Кореи
+      </a>
     </div>
   </div>
 </section>
@@ -2024,8 +2411,8 @@ svg{flex-shrink:0}
   <div class="container">
     <div class="section-head fade-up">
       <span class="section-tag">Каталог</span>
-      <h2 class="section-title">Автомобили из Дубая <span class="gold">под заказ</span></h2>
-      <p class="section-subtitle">Подберём, проверим и доставим автомобиль в Кыргызстан и Казахстан. Финальная цена под ключ рассчитывается индивидуально.</p>
+      <h2 class="section-title">Автомобили из <span class="gold">Дубая и Кореи</span></h2>
+      <p class="section-subtitle">Подберём, проверим и доставим автомобиль из ОАЭ или Южной Кореи в Кыргызстан, Казахстан и СНГ. Финальная цена под ключ рассчитывается индивидуально.</p>
       <div class="catalog-trust">
         <span class="catalog-trust-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
@@ -2040,6 +2427,13 @@ svg{flex-shrink:0}
           Доставка под ключ
         </span>
       </div>
+    </div>
+
+    <!-- Origin filter chips: All / Dubai / Korea -->
+    <div class="origin-chips fade-up" role="tablist" aria-label="Фильтр по стране">
+      <button type="button" class="origin-chip active" data-origin="all" role="tab" aria-selected="true">Все авто</button>
+      <button type="button" class="origin-chip" data-origin="dubai" role="tab" aria-selected="false"><span class="origin-chip-flag">🇦🇪</span>Дубай / ОАЭ</button>
+      <button type="button" class="origin-chip" data-origin="korea" role="tab" aria-selected="false"><span class="origin-chip-flag">🇰🇷</span>Южная Корея</button>
     </div>
 
     <div class="filters fade-up">
@@ -2153,39 +2547,34 @@ svg{flex-shrink:0}
   <div class="container">
     <div class="section-head fade-up">
       <span class="section-tag">Процесс</span>
-      <h2 class="section-title">Как проходит <span class="gold">покупка авто</span></h2>
-      <p class="section-subtitle">Простой и понятный путь от первого сообщения до получения вашего автомобиля.</p>
+      <h2 class="section-title">Как мы <span class="gold">работаем</span></h2>
+      <p class="section-subtitle">Простой и понятный путь от первого сообщения до получения вашего автомобиля — для двух направлений: <span style="color:#fff">🇦🇪 Дубай</span> и <span style="color:#fff">🇰🇷 Южная Корея</span>.</p>
     </div>
     <div class="process-grid">
       <div class="process-step fade-up">
         <div class="step-num">1</div>
-        <h3>Вы пишете в WhatsApp</h3>
-        <p>Оставляете заявку или отправляете желаемую модель.</p>
+        <h3>Вы оставляете запрос <span style="font-size:18px">🇦🇪 🇰🇷</span></h3>
+        <p>Сообщаете бюджет, желаемую модель и интересующее направление: Дубай, Южная Корея или оба рынка.</p>
       </div>
       <div class="process-step fade-up">
         <div class="step-num">2</div>
-        <h3>Уточняем бюджет</h3>
-        <p>Обсуждаем марку, год, двигатель, город доставки и желаемую цену.</p>
+        <h3>Подбираем реальные варианты</h3>
+        <p>Показываем автомобили из ОАЭ и Кореи с фотографиями, характеристиками, ценой и указанным состоянием.</p>
       </div>
       <div class="process-step fade-up">
         <div class="step-num">3</div>
-        <h3>Подбираем варианты</h3>
-        <p>Показываем подходящие автомобили и объясняем плюсы и минусы.</p>
+        <h3>Сравниваем и объясняем</h3>
+        <p>Помогаем понять различия вариантов, состояние автомобиля и возможные риски.</p>
       </div>
       <div class="process-step fade-up">
         <div class="step-num">4</div>
-        <h3>Проверяем авто</h3>
-        <p>Смотрим состояние, комплектацию, историю и возможные риски.</p>
+        <h3>Рассчитываем итог</h3>
+        <p>Показываем ориентир по покупке, документам и доставке до вашей страны.</p>
       </div>
       <div class="process-step fade-up">
         <div class="step-num">5</div>
-        <h3>Покупка / аукцион</h3>
-        <p>Помогаем с покупкой или участием в аукционе.</p>
-      </div>
-      <div class="process-step fade-up">
-        <div class="step-num">6</div>
-        <h3>Доставка и выдача</h3>
-        <p>Сопровождаем процесс до получения автомобиля.</p>
+        <h3>Сопровождаем сделку</h3>
+        <p>После согласования автомобиля сопровождаем дальнейший процесс покупки и доставки.</p>
       </div>
     </div>
   </div>
@@ -2245,7 +2634,7 @@ svg{flex-shrink:0}
   <div class="container">
     <div class="section-head fade-up">
       <span class="section-tag">Расчёт</span>
-      <h2 class="section-title">Получите расчёт стоимости <span class="gold">авто из Дубая</span></h2>
+      <h2 class="section-title">Получите расчёт стоимости <span class="gold">авто из Дубая или Кореи</span></h2>
       <p class="section-subtitle">Заполните форму — мы подготовим ориентировочный расчёт и свяжемся с вами в WhatsApp.</p>
     </div>
     <div class="calc-grid">
@@ -2325,11 +2714,11 @@ svg{flex-shrink:0}
         <div class="quick-actions">
           <div class="quick-actions-title">Быстрый запрос</div>
           <div class="quick-actions-grid">
-            <a class="quick-action js-whatsapp" href="https://wa.me/000000000000?text=Здравствуйте! Хочу быстрый расчёт авто из Дубая под мой бюджет." target="_blank" rel="noopener">
+            <a class="quick-action js-whatsapp" href="https://wa.me/000000000000?text=Здравствуйте! Хочу быстрый расчёт авто из Дубая или Кореи под мой бюджет." target="_blank" rel="noopener">
               Подбор под бюджет
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </a>
-            <a class="quick-action js-whatsapp" href="https://wa.me/000000000000?text=Здравствуйте! Хочу проверить конкретное авто из Дубая перед покупкой." target="_blank" rel="noopener">
+            <a class="quick-action js-whatsapp" href="https://wa.me/000000000000?text=Здравствуйте! Хочу проверить конкретное авто из Дубая или Кореи перед покупкой." target="_blank" rel="noopener">
               Проверить авто
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </a>
@@ -2523,6 +2912,22 @@ svg{flex-shrink:0}
     </div>
     <div class="faq-list" id="faqList">
       <div class="faq-item fade-up">
+        <button class="faq-question">🇰🇷 Вы теперь привозите автомобили из Южной Кореи?<div class="faq-icon"></div></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Да. Кроме автомобилей из Дубая и ОАЭ, мы начали подбирать реальные варианты из Южной Кореи. Вы можете запросить варианты из одного направления или сразу сравнить предложения из двух рынков.</div></div>
+      </div>
+      <div class="faq-item fade-up">
+        <button class="faq-question">🇰🇷 Какие автомобили можно найти в Корее?<div class="faq-icon"></div></button>
+        <div class="faq-answer"><div class="faq-answer-inner">В Корее доступны разные модели, включая Hyundai, Kia, Genesis и другие автомобили. Конкретные варианты зависят от вашего бюджета и текущих предложений на площадках.</div></div>
+      </div>
+      <div class="faq-item fade-up">
+        <button class="faq-question">Можно ли узнать цену автомобиля с доставкой?<div class="faq-icon"></div></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Да. Отправьте нам интересующий автомобиль или ваш бюджет через WhatsApp, и мы подготовим информацию по дальнейшему расчёту доставки и документам.</div></div>
+      </div>
+      <div class="faq-item fade-up">
+        <button class="faq-question">🇦🇪🇰🇷 Можно ли сравнить автомобиль из Дубая и Кореи?<div class="faq-icon"></div></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Да. Мы можем показать варианты из обоих направлений, чтобы вы смогли выбрать подходящий автомобиль по цене, состоянию и параметрам.</div></div>
+      </div>
+      <div class="faq-item fade-up">
         <button class="faq-question">Сколько стоит доставка авто из Дубая?<div class="faq-icon"></div></button>
         <div class="faq-answer"><div class="faq-answer-inner">Стоимость зависит от автомобиля, маршрута, города доставки и дополнительных расходов. Лучше сделать индивидуальный расчёт под ваш конкретный случай.</div></div>
       </div>
@@ -2532,7 +2937,7 @@ svg{flex-shrink:0}
       </div>
       <div class="faq-item fade-up">
         <button class="faq-question">Какие авто лучше брать с аукциона?<div class="faq-icon"></div></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Чаще всего смотрят Toyota, Lexus, BMW, Mercedes, Jeep и другие популярные модели. Выбор зависит от бюджета, цели использования и климата вашего региона.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">С Дубая чаще всего смотрят Toyota, Lexus, BMW, Mercedes, Jeep и другие популярные модели. Из Кореи популярны Hyundai, Kia, Genesis. Выбор зависит от бюджета, цели использования и климата вашего региона.</div></div>
       </div>
       <div class="faq-item fade-up">
         <button class="faq-question">Можно ли проверить авто перед покупкой?<div class="faq-icon"></div></button>
@@ -2740,11 +3145,11 @@ svg{flex-shrink:0}
 <section class="section final-cta">
   <div class="container">
     <div class="final-inner fade-up">
-      <h2>Хотите авто из Дубая? <br>Начните с <span class="gold">бесплатной консультации</span></h2>
+      <h2>Хотите авто из Дубая или Кореи? <br>Начните с <span class="gold">бесплатной консультации</span></h2>
       <p>Напишите нам в WhatsApp — подскажем, какие варианты реально подходят под ваш бюджет и что лучше не покупать.</p>
       <div class="final-buttons">
         <!-- Replace with real WhatsApp number -->
-        <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу получить бесплатную консультацию." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
+        <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу получить бесплатную консультацию по автомобилям из Дубая и Южной Кореи." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
           Написать в WhatsApp
         </a>
@@ -2772,7 +3177,12 @@ svg{flex-shrink:0}
             <span class="logo-tag">DUBAI</span>
           </div>
         </a>
-        <p>Авто из Дубая под ключ. Подбор, проверка, покупка и доставка автомобилей из ОАЭ в Кыргызстан, Казахстан и страны СНГ.</p>
+        <p>Tilek Auto Dubai — подбор автомобилей из ОАЭ и Южной Кореи с понятной информацией о вариантах, состоянии и доставке для клиентов из Кыргызстана, Казахстана и СНГ.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;font-size:13px;color:#d4af37;font-weight:600">
+          <span>🇦🇪 Dubai / UAE</span>
+          <span style="opacity:.5">•</span>
+          <span>🇰🇷 South Korea</span>
+        </div>
         <div class="footer-socials">
           <!-- Replace with real WhatsApp number -->
           <a href="https://wa.me/000000000000" target="_blank" rel="noopener" class="footer-social" aria-label="WhatsApp">
@@ -2801,13 +3211,14 @@ svg{flex-shrink:0}
       </div>
 
       <div class="footer-col">
-        <h4>Услуги</h4>
+        <h4>Направления</h4>
         <ul>
-          <li>Подбор авто</li>
-          <li>Аукционы</li>
-          <li>Проверка</li>
-          <li>Доставка</li>
-          <li>Запчасти</li>
+          <li>🇦🇪 Авто из Дубая / ОАЭ</li>
+          <li>🇰🇷 Авто из Южной Кореи</li>
+          <li>Сравнение двух рынков</li>
+          <li>Подбор под бюджет</li>
+          <li>Расчёт доставки под ключ</li>
+          <li>Сопровождение покупки</li>
         </ul>
       </div>
 
@@ -2819,7 +3230,7 @@ svg{flex-shrink:0}
         </div>
         <div class="footer-info-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          <div><strong>Регион:</strong><br>Dubai / UAE 🇦🇪</div>
+          <div><strong>Направления:</strong><br>🇦🇪 Dubai / UAE  •  🇰🇷 South Korea</div>
         </div>
         <div class="footer-info-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -2837,12 +3248,58 @@ svg{flex-shrink:0}
 
 <!-- ============ STICKY WHATSAPP ============ -->
 <!-- Replace with real WhatsApp number -->
-<a href="https://wa.me/000000000000?text=Здравствуйте! Пишу с сайта Tilek Auto Dubai" target="_blank" rel="noopener" class="sticky-whatsapp" aria-label="Написать в WhatsApp">
+<a href="https://wa.me/000000000000?text=Здравствуйте! Хочу подобрать автомобиль из Дубая или Южной Кореи. Мой бюджет: ____. Интересует модель: ____." target="_blank" rel="noopener" class="sticky-whatsapp" aria-label="Написать в WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.057 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.002-5.45 4.436-9.884 9.889-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.886 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.473-8.413z"/></svg>
   <span class="sticky-whatsapp-tooltip">💬 Ответим за 10 минут</span>
 </a>
 
 <script>
+// ============ DUAL-COUNTRY INTRO ANIMATION ============
+(function setupBrandIntro(){
+  const intro = document.getElementById('brandIntro');
+  if (!intro) return;
+  const skipBtn = document.getElementById('brandIntroSkip');
+  const STORAGE_KEY = 'tilek_intro_seen';
+
+  function closeIntro(){
+    if (intro.classList.contains('hidden')) return;
+    intro.classList.add('hidden');
+    try { sessionStorage.setItem(STORAGE_KEY, '1'); } catch(e){}
+    setTimeout(() => { intro.remove(); }, 900);
+    document.body.style.overflow = '';
+  }
+
+  // Show only once per session
+  let alreadySeen = false;
+  try { alreadySeen = sessionStorage.getItem(STORAGE_KEY) === '1'; } catch(e){}
+  if (alreadySeen) {
+    intro.classList.add('hidden');
+    setTimeout(() => intro.remove(), 100);
+    return;
+  }
+
+  // Lock scroll while showing
+  document.body.style.overflow = 'hidden';
+
+  // Auto-close after the animation finishes (~3.2s)
+  const autoCloseTimer = setTimeout(closeIntro, 3200);
+
+  // Manual skip
+  if (skipBtn) skipBtn.addEventListener('click', () => {
+    clearTimeout(autoCloseTimer);
+    closeIntro();
+  });
+
+  // Escape key also closes
+  document.addEventListener('keydown', function onEsc(e){
+    if (e.key === 'Escape') {
+      clearTimeout(autoCloseTimer);
+      closeIntro();
+      document.removeEventListener('keydown', onEsc);
+    }
+  });
+})();
+
 // ============ STICKY HEADER ============
 const header = document.getElementById('header');
 window.addEventListener('scroll', () => {
@@ -2896,6 +3353,9 @@ const filterBudget = document.getElementById('filterBudget');
 const filterFuel = document.getElementById('filterFuel');
 const filterBody = document.getElementById('filterBody');
 
+// Origin chip state: 'all' | 'dubai' | 'korea'
+let currentOrigin = 'all';
+
 function applyFilters() {
   const brand = filterBrand.value;
   const year = filterYear.value;
@@ -2908,12 +3368,14 @@ function applyFilters() {
   carCards.forEach(card => {
     const cardFuel = (typeof normalizeFuel === 'function') ? normalizeFuel(card.dataset.fuel) : card.dataset.fuel;
     const cardBody = (typeof normalizeBody === 'function') ? normalizeBody(card.dataset.body) : card.dataset.body;
+    const cardOrigin = (card.dataset.origin || 'dubai').toLowerCase();
+    const matchOrigin = currentOrigin === 'all' || cardOrigin === currentOrigin;
     const matchBrand = !brand || card.dataset.brand === brand;
     const matchYear = !year || card.dataset.year === year;
     const matchBudget = !budget || card.dataset.budget === budget;
     const matchFuel = !fuel || cardFuel === fuel;
     const matchBody = !body || cardBody === body;
-    const visible = matchBrand && matchYear && matchBudget && matchFuel && matchBody;
+    const visible = matchOrigin && matchBrand && matchYear && matchBudget && matchFuel && matchBody;
     card.style.display = visible ? '' : 'none';
     if (visible) visibleCount++;
   });
@@ -2921,7 +3383,7 @@ function applyFilters() {
   if (emptyEl) emptyEl.hidden = visibleCount > 0;
   const resetBtn = document.getElementById('resetFilters');
   if (resetBtn) {
-    const any = brand || year || budget || fuel || body;
+    const any = brand || year || budget || fuel || body || currentOrigin !== 'all';
     resetBtn.hidden = !any;
   }
 }
@@ -2931,9 +3393,24 @@ function resetAllFilters() {
   filterBudget.value = '';
   filterFuel.value = '';
   filterBody.value = '';
-  applyFilters();
+  setCatalogOrigin('all');
 }
 [filterBrand, filterYear, filterBudget, filterFuel, filterBody].forEach(s => s.addEventListener('change', applyFilters));
+
+// Origin chips wiring + programmatic API used by Korea/Dubai CTA buttons
+function setCatalogOrigin(origin) {
+  currentOrigin = (origin || 'all').toLowerCase();
+  document.querySelectorAll('.origin-chip').forEach(btn => {
+    const isActive = (btn.dataset.origin || 'all') === currentOrigin;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+  applyFilters();
+}
+document.querySelectorAll('.origin-chip').forEach(btn => {
+  btn.addEventListener('click', () => setCatalogOrigin(btn.dataset.origin || 'all'));
+});
+window.setCatalogOrigin = setCatalogOrigin;
 
 // ============ FORM VALIDATION ============
 const SITE_STORAGE_KEY = 'tilek_auto_data';
@@ -3015,7 +3492,7 @@ function buildLeadFromForm() {
 
 function buildLeadMessage(lead) {
   const lines = [
-    'Здравствуйте! Хочу получить расчёт авто из Дубая.',
+    'Здравствуйте! Хочу получить расчёт авто из Дубая или Южной Кореи.',
     '',
     `Имя: ${lead.name}`,
     `Телефон: ${lead.phone}`,
@@ -3288,15 +3765,19 @@ function renderManagedCars(cars) {
   const STATUS_LABELS = { available:'В наличии', order:'Под заказ', sold:'Продан', reserved:'Забронирован' };
 
   grid.innerHTML = cars.map(car => {
-    const title = escapeHtml(car.title || 'Авто из Дубая');
+    const title = escapeHtml(car.title || 'Авто');
     const brand = escapeAttr(car.brand || '');
     const year = escapeAttr(car.year || '');
     const budget = escapeAttr(car.budget || '');
     const fuel = escapeAttr(car.fuel || '');
     const body = escapeAttr(car.body || '');
     const carId = escapeAttr(car.id || '');
+    const origin = String(car.origin || 'dubai').toLowerCase();
+    const originFlag = origin === 'korea' ? '🇰🇷' : '🇦🇪';
+    const originLabel = origin === 'korea' ? 'Южная Корея' : 'Dubai / UAE';
     const image = String(car.image || '').trim();
-    const message = encodeURIComponent(`Здравствуйте! Интересует ${car.title || 'авто из Дубая'}${car.year ? ' ' + car.year : ''}. Можно получить расчёт под ключ?`);
+    const defaultLocation = origin === 'korea' ? 'из Кореи' : 'из Дубая';
+    const message = encodeURIComponent(car.whatsappMessage || `Здравствуйте! Интересует ${car.title || ('авто ' + defaultLocation)}${car.year ? ' ' + car.year : ''}. Можно получить расчёт под ключ?`);
     const videoUrl = String(car.videoUrl || '').trim();
     const videoType = String(car.videoType || '').trim() || (videoUrl ? (/youtube|youtu\.be/i.test(videoUrl) ? 'youtube' : (/instagram/i.test(videoUrl) ? 'instagram' : (/\.(mp4|mov|webm|m4v)(\?|$)/i.test(videoUrl) ? 'local' : 'external'))) : '');
     const videoPoster = String(car.videoPoster || image || '').trim();
@@ -3333,16 +3814,18 @@ function renderManagedCars(cars) {
     const ICO_GAUG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 1 18 0"/><path d="M12 12l4-3"/></svg>';
     const ICO_PIN  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-7-7.5-7-13a7 7 0 0 1 14 0c0 5.5-7 13-7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>';
     const mileage = (car.mileage || '').trim();
-    const cityText = escapeHtml(car.location || car.city || 'Dubai → Бишкек');
+    const defaultRoute = origin === 'korea' ? 'Korea → Бишкек' : 'Dubai → Бишкек';
+    const cityText = escapeHtml(car.location || car.city || defaultRoute);
     const facts = [
       mileage ? `<li>${ICO_GAUG}<span>Пробег: <b>${escapeHtml(mileage)}</b></span></li>` : '',
       `<li>${ICO_PIN}<span>${cityText}</span></li>`,
     ].filter(Boolean).join('');
 
-    // Honest price label: "Цена в Дубае" instead of "Стартовая цена".
+    // Honest price label: "Цена в Дубае" or "Цена в Корее" based on origin.
     const priceRaw = String(car.price || '').trim();
     const priceShown = priceRaw && priceRaw !== 'по запросу' ? escapeHtml(priceRaw) : 'По запросу';
-    const priceLabel = priceRaw && priceRaw !== 'по запросу' ? 'Цена в Дубае' : 'Цена';
+    const priceCountry = origin === 'korea' ? 'Цена в Корее' : 'Цена в Дубае';
+    const priceLabel = priceRaw && priceRaw !== 'по запросу' ? (car.priceLabel || priceCountry) : 'Цена';
     const priceNote = priceRaw && priceRaw !== 'по запросу'
       ? 'Финальный расчёт с доставкой — по запросу'
       : 'Напишите в WhatsApp — пришлём расчёт под ключ';
@@ -3351,9 +3834,12 @@ function renderManagedCars(cars) {
     // otherwise drops the user into the calculator section.
     const detailHref = carId ? `car.html?id=${carId}` : '#calculator';
 
+    const originBadge = `<span class="car-origin-badge"><span aria-hidden="true">${originFlag}</span>${escapeHtml(originLabel)}</span>`;
+
     return `
-      <article class="car-card fade-up visible" data-brand="${brand}" data-year="${year}" data-budget="${budget}" data-fuel="${fuel}" data-body="${body}">
+      <article class="car-card fade-up visible" data-brand="${brand}" data-year="${year}" data-budget="${budget}" data-fuel="${fuel}" data-body="${body}" data-origin="${escapeAttr(origin)}">
         <div class="car-image">
+          ${originBadge}
           ${statusBadge}
           ${videoMini}
           ${image ? `<img class="car-photo" src="${escapeAttr(image)}" alt="${title}" loading="lazy" onerror="this.style.display='none';this.parentElement.appendChild(document.createRange().createContextualFragment(window.__carIllustrationHTML||''))">` : carIllustration()}
@@ -3514,7 +4000,15 @@ window.applyConfig = function applyConfig() {
           videoTitle: x.videoTitle || '',
           videoDuration: x.videoDuration || '',
           instagramUrl: x.instagramUrl || '',
-          whatsapp: x.whatsapp || ''
+          whatsapp: x.whatsapp || '',
+          // Dual-country (UAE + Korea) routing fields
+          origin: (x.origin || 'dubai').toLowerCase(),
+          originLabel: x.originLabel || (String(x.origin||'').toLowerCase() === 'korea' ? 'Южная Корея' : 'Dubai / UAE'),
+          location: x.location || '',
+          priceLabel: x.priceLabel || '',
+          mileage: x.mileage || '',
+          status: x.status || '',
+          whatsappMessage: x.whatsappMessage || ''
         };
       }
       fetch('data/site-data.json', { cache: 'no-store' })
