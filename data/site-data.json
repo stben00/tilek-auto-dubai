@@ -1,6 +1,41 @@
 {
   "cars": [
     {
+      "id": "car_20260531_094838",
+      "title": "Toyota Camry 2024",
+      "brand": "Toyota",
+      "model": "Camry",
+      "year": "2024",
+      "engine": "2.5",
+      "fuel": "Гибрид",
+      "bodyType": "",
+      "body": "",
+      "budget": "",
+      "tag": "reliable",
+      "price": "$11 000",
+      "mileage": "19 312 км",
+      "location": "Dubai / UAE",
+      "description": "🔥 ШОК ЦЕНА!\n\n<b>Toyota Camry 2024</b>",
+      "whatsapp": "",
+      "instagramUrl": "",
+      "image": "assets/cars/car_20260531_094838_stock.jpg",
+      "mainImage": "assets/cars/car_20260531_094838_stock.jpg",
+      "images": [
+        "assets/cars/car_20260531_094838_stock.jpg",
+        "assets/cars/car_20260531_094838_1.jpg",
+        "assets/cars/car_20260531_094838_poster.jpg"
+      ],
+      "videoUrl": "assets/videos/car_20260531_094838_video.mp4",
+      "videoFile": "assets/videos/car_20260531_094838_video.mp4",
+      "videoType": "local",
+      "videoPoster": "assets/cars/car_20260531_094838_stock.jpg",
+      "videoTitle": "Видео-обзор Toyota Camry 2024",
+      "videoDuration": "",
+      "status": "available",
+      "source": "telegram_ai_uploader",
+      "createdAt": "2026-05-31T09:51:42Z"
+    },
+    {
       "id": "car_20260527_093739",
       "title": "Kia K5 2022",
       "brand": "Kia",
@@ -273,6 +308,16 @@
     }
   ],
   "videos": [
+    {
+      "id": "car_20260531_094838",
+      "carId": "car_20260531_094838",
+      "title": "Toyota Camry 2024 — видео-обзор",
+      "url": "assets/videos/car_20260531_094838_video.mp4",
+      "thumb": "assets/cars/car_20260531_094838_stock.jpg",
+      "type": "local",
+      "views": "новое",
+      "instagramUrl": ""
+    },
     {
       "id": "car_20260526_080421",
       "carId": "car_20260526_080421",
