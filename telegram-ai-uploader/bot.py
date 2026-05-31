@@ -246,7 +246,17 @@ async def cmd_upload(message: Message):
 
 
 async def _build_and_send_poster(target: Message | CallbackQuery, draft: Draft, regenerate: bool = False):
-    """Generate ad poster from car data + main photo and send to user."""
+    """Generate ad poster from car data + main photo and send to user.
+
+    If DISABLE_POSTER=true (default), this is a no-op — the user's uploaded
+    photo is used as-is for the catalog card. AI text improvement still runs
+    separately in the parsing/marketing pipeline; this function only handles
+    the visual poster overlay.
+    """
+    if os.getenv("DISABLE_POSTER", "true").strip().lower() in ("1", "true", "yes", "on"):
+        log.info("DISABLE_POSTER is on — skipping poster generation entirely; "
+                 "user's original photo will be used as the catalog hero image.")
+        return
     if not draft.data.get("title") and not draft.data.get("brand"):
         return
     main_photo_path = None
