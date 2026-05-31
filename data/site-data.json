@@ -1,6 +1,39 @@
 {
   "cars": [
     {
+      "id": "car_20260531_114220",
+      "title": "Toyota Tundra 2020",
+      "brand": "Toyota",
+      "model": "Tundra",
+      "year": "2020",
+      "engine": "5.7 4WD",
+      "fuel": "Бензин",
+      "bodyType": "Пикап",
+      "body": "",
+      "budget": "",
+      "tag": "reliable",
+      "price": "$14 600",
+      "mileage": "",
+      "location": "Dubai / UAE",
+      "description": "💎 ЭКСКЛЮЗИВ\n\n<b>Toyota Tundra 2020</b>\n\n✅ Мощный пикап для любых задач.\n✅ Идеальный выбор для работы и приключений.\n\n🔧 Двигатель: 5.7 4WD\n⛽ Топливо: Бензин\n📍 Локация: Dubai / UAE\n\n💰 Цена: $14 600\n\n⏰ Звоните сейчас, чтобы узнать больше!",
+      "whatsapp": "",
+      "instagramUrl": "",
+      "image": "assets/cars/car_20260531_114220_1.jpg",
+      "mainImage": "assets/cars/car_20260531_114220_1.jpg",
+      "images": [
+        "assets/cars/car_20260531_114220_1.jpg"
+      ],
+      "videoUrl": "assets/videos/car_20260531_114220_video.mp4",
+      "videoFile": "assets/videos/car_20260531_114220_video.mp4",
+      "videoType": "local",
+      "videoPoster": "assets/cars/car_20260531_114220_1.jpg",
+      "videoTitle": "Видео-обзор Toyota Tundra 2020",
+      "videoDuration": "",
+      "status": "available",
+      "source": "telegram_ai_uploader",
+      "createdAt": "2026-05-31T11:43:00Z"
+    },
+    {
       "id": "hyundai-sonata-korea-2019",
       "title": "Hyundai Sonata",
       "brand": "Hyundai",
@@ -361,6 +394,16 @@
     }
   ],
   "videos": [
+    {
+      "id": "car_20260531_114220",
+      "carId": "car_20260531_114220",
+      "title": "Toyota Tundra 2020 — видео-обзор",
+      "url": "assets/videos/car_20260531_114220_video.mp4",
+      "thumb": "assets/cars/car_20260531_114220_1.jpg",
+      "type": "local",
+      "views": "новое",
+      "instagramUrl": ""
+    },
     {
       "id": "car_20260531_094838",
       "carId": "car_20260531_094838",
