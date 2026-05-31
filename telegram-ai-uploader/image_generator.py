@@ -1881,7 +1881,16 @@ async def generate_ad_image_with_template(
     user wants to pick a specific template). Otherwise we follow POSTER_MODE.
 
     Returns (bytes, template_used) or (None, None) on total failure.
+
+    HARD KILL SWITCH: when DISABLE_POSTER=true (env), this function returns
+    (None, None) immediately. Every caller in bot.py already handles None,
+    so no poster is ever produced anywhere in the pipeline.
     """
+    if os.getenv("DISABLE_POSTER", "true").strip().lower() in ("1", "true", "yes", "on"):
+        log.info("DISABLE_POSTER is on — poster generation killed at source. "
+                 "Original user photo will be used as the car's main image.")
+        return None, None
+
     # Caller asked for a specific Pillow template → use Pillow directly
     if template_name and template_name in TEMPLATES:
         try:
