@@ -1461,36 +1461,45 @@ async def _gemini_flash_text_to_image(api_key: str, car: dict, model: str = None
 
 
 def _build_pollinations_prompt(car: dict) -> str:
-    """Build a rich English prompt for Pollinations.ai (FLUX model).
+    """Build a cinematic dark-mode prompt for Pollinations.ai FLUX model.
 
-    Generates ONE cohesive cinematic scene of the car in a luxury Dubai showroom —
-    no compositing, no pasted-on inserts. Just a single beautiful AI image.
+    Target aesthetic: dramatic close-up front-3/4 angle, deep blacks,
+    warm rim lighting on chrome and grille, headlights glowing,
+    Dubai luxury dealership night shoot vibe.
     """
     brand = (car.get("brand") or "").strip()
     model_name = (car.get("model") or "").strip()
     year = str(car.get("year") or "").strip()
-    color = (car.get("color") or "").strip()
+    color = (car.get("color") or "").strip() or "black"
     body_type = (car.get("bodyType") or "").strip()
-    engine = str(car.get("engine") or "").strip()
-    fuel = str(car.get("fuel") or "").strip()
 
-    car_desc = " ".join(p for p in [color, year, brand, model_name] if p) or "luxury car"
+    car_desc = " ".join(p for p in [year, color, brand, model_name] if p) or "luxury car"
     body_hint = f" {body_type}" if body_type else ""
 
     return (
-        f"Ultra-realistic professional automotive photography of a {car_desc}{body_hint} "
-        f"parked inside a premium Dubai luxury car dealership showroom. "
-        f"The car is the main subject — centered, clearly visible, "
-        f"fully lit with dramatic cinematic studio lighting, glossy paint reflections, "
-        f"sharp focus on the car body, headlights and grille glowing softly. "
-        f"Background: elegant modern showroom interior with polished concrete floor, "
-        f"warm golden ambient lights on the ceiling, other luxury cars softly out of focus, "
-        f"large floor-to-ceiling windows with Dubai skyline blurred outside. "
-        f"Atmosphere: black and gold premium color palette, magazine-quality car advertisement, "
-        f"shot on Hasselblad medium format camera, 35mm lens, f/4 aperture, "
-        f"shallow depth of field, hyper-detailed, 8k resolution, photorealistic, "
-        f"NOT a poster, NOT a collage, NOT text overlay — a single cohesive photograph, "
-        f"vertical 2:3 portrait composition"
+        # Subject + angle
+        f"Cinematic ultra-realistic automotive photograph, close-up front three-quarter "
+        f"hero shot of a {car_desc}{body_hint}. "
+        # Lighting — the key to this look
+        f"DRAMATIC LIGHTING: single warm key light from the upper-left rim-lighting the "
+        f"hood, fender and side mirror with golden amber highlights; deep black shadows "
+        f"on the opposite side; headlights and DRL glowing bright white-blue; chrome grille "
+        f"and emblem catching the light, every chrome slat clearly defined and reflective. "
+        # Background
+        f"Background: pitch-black underground luxury parking garage / private Dubai showroom "
+        f"at night, soft warm amber LED accent lights in the distant background completely "
+        f"out of focus, hint of polished dark floor reflecting the car. "
+        # Color palette
+        f"Color palette: deep blacks, rich warm amber/copper highlights, no daylight, no sky, "
+        f"no other cars visible, no people, no logos, no text. "
+        # Camera + quality
+        f"Shot on Sony A7R V with 85mm f/1.4 lens, ISO 100, long exposure, tripod, "
+        f"shallow depth of field, perfectly sharp focus on the grille and headlight, "
+        f"crystal-clear paint reflections, hyper-detailed, 8k resolution, photorealistic, "
+        f"magazine car advertisement quality, professional automotive product photography. "
+        # Composition
+        f"Vertical 2:3 portrait composition, car fills 80% of the frame, leaving space "
+        f"at the top and bottom for advertising overlay."
     )
 
 
@@ -1514,12 +1523,18 @@ async def _generate_with_pollinations(car: dict, main_photo_path: Optional[Path 
     # URL-encode the prompt properly (Pollinations is tolerant but cleaner is safer)
     from urllib.parse import quote as _urlquote
     encoded = _urlquote(prompt, safe="")
+    # flux-realism = photorealistic FLUX variant tuned for hyper-realistic results.
+    # `nofeed=true` keeps the image private. `enhance=true` lets Pollinations
+    # auto-expand the prompt with extra detail tokens.
+    poll_model = os.getenv("POLLINATIONS_MODEL", "flux-realism").strip() or "flux-realism"
     url = (
         f"https://image.pollinations.ai/prompt/{encoded}"
-        f"?width={POSTER_W}&height={POSTER_H}&nologo=true&seed={seed}&model=flux&enhance=true"
+        f"?width={POSTER_W}&height={POSTER_H}"
+        f"&nologo=true&nofeed=true&enhance=true"
+        f"&model={poll_model}&seed={seed}"
     )
 
-    log.info("Pollinations.ai: requesting cohesive cinematic car scene...")
+    log.info("Pollinations.ai (%s): requesting cinematic Dubai night shot...", poll_model)
     try:
         async with _httpx.AsyncClient(timeout=90.0, follow_redirects=True) as client:
             resp = await client.get(url)

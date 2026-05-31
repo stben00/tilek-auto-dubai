@@ -272,7 +272,8 @@ async def _build_and_send_poster(target: Message | CallbackQuery, draft: Draft, 
     # or the only photo is a damaged/auction frame, fetch a clean professional
     # photo of the same car from Wikipedia Commons / DuckDuckGo. This becomes
     # the main image AND drives the poster background.
-    use_stock_for_poster = os.getenv("USE_STOCK_PHOTO", "true").strip().lower() in ("1", "true", "yes", "on")
+    # Default OFF — user prefers AI generation in cinematic Dubai night style.
+    use_stock_for_poster = os.getenv("USE_STOCK_PHOTO", "false").strip().lower() in ("1", "true", "yes", "on")
     if use_stock_for_poster:
         brand = str(draft.data.get("brand") or "").strip()
         model = str(draft.data.get("model") or "").strip()
