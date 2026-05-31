@@ -30,6 +30,7 @@ from marketing import generate_pitch, generate_pitch_ai, generate_whatsapp_share
 from image_generator import generate_ad_image_with_template, pick_different_template, TEMPLATES
 from config import IMAGES_FOLDER
 from batch_session import BatchSession, BatchMedia, BatchText, parse_batch_text_message
+from stock_photo_finder import find_stock_photo
 
 import re as _re
 INSTAGRAM_URL_RE = _re.compile(r"https?://(?:www\.)?(?:instagram\.com|instagr\.am)/[^\s]+", _re.IGNORECASE)
@@ -266,6 +267,32 @@ async def _build_and_send_poster(target: Message | CallbackQuery, draft: Draft, 
                 draft.photos.insert(0, draft.photos.pop(hero_idx))
         else:
             main_photo_path = photo_paths[0]
+
+    # AUTO STOCK PHOTO: if the user only sent a video (no real exterior shot)
+    # or the only photo is a damaged/auction frame, fetch a clean professional
+    # photo of the same car from Wikipedia Commons / DuckDuckGo. This becomes
+    # the main image AND drives the poster background.
+    use_stock_for_poster = os.getenv("USE_STOCK_PHOTO", "true").strip().lower() in ("1", "true", "yes", "on")
+    if use_stock_for_poster:
+        brand = str(draft.data.get("brand") or "").strip()
+        model = str(draft.data.get("model") or "").strip()
+        year = str(draft.data.get("year") or "").strip()
+        if brand and model:
+            try:
+                msg_for_status = target.message if isinstance(target, CallbackQuery) else target
+                await msg_for_status.answer(f"🔍 Ищу чистое фото <b>{brand} {model} {year}</b> в интернете...")
+                stock_bytes = await find_stock_photo(brand, model, year)
+                if stock_bytes:
+                    stock_name = f"{draft.car_id}_stock.jpg"
+                    save_bytes(stock_name, stock_bytes)
+                    # Insert stock photo at position 0 so it becomes the catalog hero
+                    draft.photos.insert(0, {"name": stock_name, "size": len(stock_bytes)})
+                    main_photo_path = temp_path(stock_name)
+                    await msg_for_status.answer(f"✅ Нашёл реальное фото машины ({len(stock_bytes) // 1024} KB)")
+                else:
+                    await msg_for_status.answer("⚠️ Чистое фото не нашёл — использую то что есть")
+            except Exception as e:
+                log.warning("Stock photo lookup failed: %s", e)
     msg = target.message if isinstance(target, CallbackQuery) else target
     # Pick template: regenerate → different one, first time → smart auto
     if regenerate:
