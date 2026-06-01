@@ -14,7 +14,7 @@ from aiogram.types import Message, CallbackQuery, BufferedInputFile, InlineKeybo
 
 from config import (
     BOT_TOKEN, ADMIN_TELEGRAM_IDS, is_admin,
-    HAS_AI, WEBSITE_URL, GITHUB_TOKEN,
+    HAS_AI, WEBSITE_URL, GITHUB_TOKEN, MAX_VIDEO_MB,
 )
 from ai_parser import parse_with_ai, REQUIRED_KEYS
 from parser import parse_car_text
@@ -446,7 +446,34 @@ async def _batch_handle_video(message: Message, batch: BatchSession):
     file_obj = message.video or message.document
     size = file_obj.file_size or 0
     if video_too_large(size):
-        await message.answer(f"⚠️ Видео {human_size(size)} слишком большое — пропускаю.")
+        # Still try to grab Telegram thumbnail for poster generation
+        thumb_name = None
+        thumb = getattr(file_obj, "thumbnail", None) or getattr(file_obj, "thumb", None)
+        if thumb:
+            try:
+                tfile = await bot.get_file(thumb.file_id)
+                tbuf = await bot.download_file(tfile.file_path)
+                tdata = tbuf.read()
+                idx = len(batch.media) + 1
+                thumb_name = f"batch_{batch.user_id}_{idx}_thumb.jpg"
+                save_bytes(thumb_name, tdata)
+            except Exception as e:
+                log.warning(f"Could not save batch thumbnail for oversized video: {e}")
+        thumb_note = " · кадр сохранён для постера" if thumb_name else ""
+        await message.answer(
+            f"⚠️ Видео {human_size(size)} слишком большое ({MAX_VIDEO_MB} МБ лимит) — на GitHub не загружу.{thumb_note}",
+            reply_markup=batch_collecting_media_kb(),
+        )
+        if thumb_name:
+            idx = len(batch.media) + 1
+            batch.media.append(BatchMedia(
+                index=idx,
+                file_name="",
+                file_size=size,
+                media_type="video",
+                caption=message.caption or "",
+                video_thumb_name=thumb_name,
+            ))
         return
     try:
         file = await bot.get_file(file_obj.file_id)
@@ -861,11 +888,31 @@ async def on_video(message: Message):
 
     size = file_obj.file_size or 0
     if video_too_large(size):
+        # Video too large for GitHub, but try to grab Telegram's auto-thumbnail
+        # so the poster generator has a real photo reference (not text-to-image).
+        thumb_saved = False
+        thumb = getattr(file_obj, "thumbnail", None) or getattr(file_obj, "thumb", None)
+        if thumb and not draft.photos:
+            try:
+                tfile = await bot.get_file(thumb.file_id)
+                tbuf = await bot.download_file(tfile.file_path)
+                tdata = tbuf.read()
+                tidx = len(draft.photos) + 1
+                tfname = photo_filename(draft.car_id, tidx, "jpg")
+                save_bytes(tfname, tdata)
+                draft.photos.append({"name": tfname, "size": len(tdata)})
+                thumb_saved = True
+            except Exception as e:
+                log.warning(f"Could not save thumbnail for oversized video: {e}")
+        thumb_note = "\n🖼 Сохранил кадр из видео для постера." if thumb_saved else ""
         await message.answer(
-            f"⚠️ Video is {human_size(size)} — too large for GitHub upload.\n"
-            "I'll keep it as reference only. Send a public video link instead "
-            "(YouTube / TikTok / direct .mp4) and I'll save it as videoUrl."
+            f"⚠️ Видео {human_size(size)} — слишком большое для GitHub (лимит {MAX_VIDEO_MB} МБ).\n"
+            f"Видео не будет загружено. Пришли ссылку (YouTube / TikTok / прямой .mp4) — сохраню как videoUrl.{thumb_note}"
         )
+        if message.caption:
+            draft.raw_texts.append(message.caption)
+            parsed = await parse_with_ai(message.caption)
+            merge_parsed(draft, parsed)
         return
 
     try:
