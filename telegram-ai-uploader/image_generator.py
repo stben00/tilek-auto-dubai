@@ -1449,21 +1449,25 @@ async def _gemini_flash_image_edit(api_key: str, car: dict, photo_path: Path | s
         parts.append({"text": prompt})
         parts.append({"inline_data": {"mime_type": "image/jpeg", "data": image_b64}})
 
+    # Route through Vertex AI when configured (uses Free Trial $300 credits).
+    # Otherwise fall back to AI Studio (requires Cloud Prepay balance).
+    # Vertex AI requires explicit role:"user" on contents; AI Studio accepts both.
+    headers: dict[str, str] = {}
+    use_vertex_now = _use_vertex() and VERTEX_PROJECT_ID
+    contents_obj = {"role": "user", "parts": parts} if use_vertex_now else {"parts": parts}
     payload = {
-        "contents": [{"parts": parts}],
+        "contents": [contents_obj],
         "generationConfig": {
             "responseModalities": ["IMAGE", "TEXT"],
         },
     }
-
-    # Route through Vertex AI when configured (uses Free Trial $300 credits).
-    # Otherwise fall back to AI Studio (requires Cloud Prepay balance).
-    headers: dict[str, str] = {}
-    if _use_vertex() and VERTEX_PROJECT_ID:
+    if use_vertex_now:
         token = await _get_vertex_access_token()
         if not token:
             log.warning("Vertex AI mode requested but no access token; falling back to AI Studio")
             url = f"{GEMINI_API_BASE}/models/{model}:generateContent?key={api_key}"
+            # Remove role for AI Studio fallback (it doesn't need it)
+            payload["contents"] = [{"parts": parts}]
         else:
             url = (f"{VERTEX_BASE}/projects/{VERTEX_PROJECT_ID}/locations/{VERTEX_LOCATION}"
                    f"/publishers/google/models/{model}:generateContent")
@@ -1511,18 +1515,22 @@ async def _gemini_flash_text_to_image(api_key: str, car: dict, model: str = None
     model = model or GEMINI_FLASH_IMAGE_MODEL
     prompt = _build_gemini_poster_prompt(car)
 
+    # Vertex AI requires explicit role:"user" on contents; AI Studio is tolerant.
+    headers: dict[str, str] = {}
+    use_vertex_now = _use_vertex() and VERTEX_PROJECT_ID
+    parts_only = [{"text": prompt}]
+    contents_obj = {"role": "user", "parts": parts_only} if use_vertex_now else {"parts": parts_only}
     payload = {
-        "contents": [{"parts": [{"text": prompt}]}],
+        "contents": [contents_obj],
         "generationConfig": {"responseModalities": ["IMAGE", "TEXT"]},
     }
 
-    # Route through Vertex AI when configured.
-    headers: dict[str, str] = {}
-    if _use_vertex() and VERTEX_PROJECT_ID:
+    if use_vertex_now:
         token = await _get_vertex_access_token()
         if not token:
             log.warning("Vertex AI mode requested but no access token; falling back to AI Studio")
             url = f"{GEMINI_API_BASE}/models/{model}:generateContent?key={api_key}"
+            payload["contents"] = [{"parts": parts_only}]
         else:
             url = (f"{VERTEX_BASE}/projects/{VERTEX_PROJECT_ID}/locations/{VERTEX_LOCATION}"
                    f"/publishers/google/models/{model}:generateContent")
