@@ -1,5 +1,31 @@
 [
   {
+    "id": "car_20260601_122002",
+    "title": "cd telegram-ai-uploader",
+    "brand": "Ford",
+    "model": "",
+    "year": "2020",
+    "engine": "5.0 4WD",
+    "fuel": "",
+    "bodyType": "",
+    "price": "$8 000",
+    "mileage": "",
+    "location": "Dubai / UAE",
+    "description": "🏆 ЭКСКЛЮЗИВНЫЙ ВАРИАНТ!\n<b>CD TELEGRAM-AI-UPLOADER</b>\n\n📍 Dubai / UAE\n\nЗавтра уже может быть продана! ⏰",
+    "whatsapp": "",
+    "instagramUrl": "",
+    "videoUrl": "",
+    "videoFile": "",
+    "images": [
+      "assets/cars/car_20260601_122002_1.jpg",
+      "assets/cars/car_20260601_122002_poster.jpg"
+    ],
+    "mainImage": "assets/cars/car_20260601_122002_1.jpg",
+    "status": "available",
+    "source": "telegram_ai_uploader",
+    "createdAt": "2026-06-01T13:25:06Z"
+  },
+  {
     "id": "car_20260531_114308",
     "title": "Toyota Tundra 2020",
     "brand": "Toyota",
