@@ -1216,19 +1216,15 @@ async def _generate_with_gpt_image(car: dict, main_photo_path: Optional[Path | s
     prompt = _build_ai_prompt(car)
     client = AsyncOpenAI(api_key=api_key, timeout=AI_TIMEOUT_SECONDS)
 
+    if not (main_photo_path and Path(main_photo_path).exists()):
+        log.info("OpenAI: no reference photo — skipping text-to-image to avoid wrong car; using local template instead")
+        return None
+
     try:
-        if main_photo_path and Path(main_photo_path).exists():
-            with open(main_photo_path, "rb") as f:
-                resp = await client.images.edit(
-                    model="gpt-image-1",
-                    image=f,
-                    prompt=prompt,
-                    size=AI_SIZE,
-                    quality=AI_QUALITY,
-                )
-        else:
-            resp = await client.images.generate(
+        with open(main_photo_path, "rb") as f:
+            resp = await client.images.edit(
                 model="gpt-image-1",
+                image=f,
                 prompt=prompt,
                 size=AI_SIZE,
                 quality=AI_QUALITY,
@@ -1700,6 +1696,9 @@ async def _generate_with_pollinations(car: dict, main_photo_path: Optional[Path 
     (single AI image — no pasted-on photo composite). The car in the image
     will visually match the user's car description (brand/model/year/color).
     """
+    if not (main_photo_path and Path(main_photo_path).exists()):
+        log.info("Pollinations: no reference photo — skipping to avoid wrong car generation")
+        return None
     try:
         import httpx as _httpx
     except ImportError:
@@ -1816,28 +1815,27 @@ async def _generate_with_gemini(car: dict, main_photo_path: Optional[Path | str]
 
     has_photo = main_photo_path and Path(main_photo_path).exists()
 
-    if has_photo:
-        log.info("Gemini: trying %s image-edit with reference photo", GEMINI_FLASH_IMAGE_MODEL)
-        result = await _gemini_flash_image_edit(api_key, car, main_photo_path, model=GEMINI_FLASH_IMAGE_MODEL)
-        if result:
-            log.info("Gemini %s image-edit succeeded", GEMINI_FLASH_IMAGE_MODEL)
-            return result
+    if not has_photo:
+        # Without a real photo reference, text-to-image generates a completely
+        # wrong car (wrong body style, color, trim). Return None so the caller
+        # falls back to the local Pillow template which is honest about missing photo.
+        log.info("Gemini: no reference photo — skipping text-to-image to avoid wrong car; using local template instead")
+        return None
 
-        log.info("Gemini: %s failed, trying %s", GEMINI_FLASH_IMAGE_MODEL, GEMINI_FLASH_IMAGE_FALLBACK)
-        result = await _gemini_flash_image_edit(api_key, car, main_photo_path, model=GEMINI_FLASH_IMAGE_FALLBACK)
-        if result:
-            log.info("Gemini %s image-edit succeeded", GEMINI_FLASH_IMAGE_FALLBACK)
-            return result
-
-    log.info("Gemini: trying text-to-image (no reference photo)")
-    result = await _gemini_flash_text_to_image(api_key, car, model=GEMINI_FLASH_IMAGE_MODEL)
+    log.info("Gemini: trying %s image-edit with reference photo", GEMINI_FLASH_IMAGE_MODEL)
+    result = await _gemini_flash_image_edit(api_key, car, main_photo_path, model=GEMINI_FLASH_IMAGE_MODEL)
     if result:
-        log.info("Gemini text-to-image succeeded")
+        log.info("Gemini %s image-edit succeeded", GEMINI_FLASH_IMAGE_MODEL)
         return result
-    result = await _gemini_flash_text_to_image(api_key, car, model=GEMINI_FLASH_IMAGE_FALLBACK)
+
+    log.info("Gemini: %s failed, trying %s", GEMINI_FLASH_IMAGE_MODEL, GEMINI_FLASH_IMAGE_FALLBACK)
+    result = await _gemini_flash_image_edit(api_key, car, main_photo_path, model=GEMINI_FLASH_IMAGE_FALLBACK)
     if result:
-        log.info("Gemini text-to-image (fallback model) succeeded")
-    return result
+        log.info("Gemini %s image-edit succeeded", GEMINI_FLASH_IMAGE_FALLBACK)
+        return result
+
+    log.info("Gemini: image-edit failed with reference photo — returning None for local template fallback")
+    return None
 
 
 # ---------------------------------------------------------------------------
