@@ -3306,6 +3306,70 @@ window.addEventListener('scroll', () => {
   header.classList.toggle('scrolled', window.scrollY > 30);
 });
 
+// ============ SECRET ADMIN ACCESS ============
+// Three independent ways to open the admin panel — invisible to regular
+// visitors, easy for the owner to remember:
+//   1) Click the header logo 5 times within 2 seconds
+//   2) Triple-tap the footer logo
+//   3) Keyboard shortcut: Ctrl/Cmd + Shift + A
+// Each method opens admin.html in a new tab and flashes a brief gold toast.
+(function setupSecretAdminAccess(){
+  const ADMIN_URL = 'admin.html';
+
+  // Toast helper (no DOM bloat — created lazily, removed on close)
+  function showAdminToast(){
+    const t = document.createElement('div');
+    t.textContent = '🔐 Открываю админ-панель...';
+    Object.assign(t.style, {
+      position:'fixed', top:'90px', left:'50%', transform:'translateX(-50%)',
+      padding:'12px 22px', borderRadius:'100px', zIndex:'10000',
+      background:'linear-gradient(135deg,#d4af37,#a87f1b)', color:'#1a1300',
+      fontWeight:'700', fontSize:'14px', letterSpacing:'.4px',
+      boxShadow:'0 18px 48px -10px rgba(212,175,55,.6)',
+      opacity:'0', transition:'opacity .25s, transform .25s',
+      pointerEvents:'none',
+    });
+    document.body.appendChild(t);
+    requestAnimationFrame(() => { t.style.opacity = '1'; t.style.transform = 'translateX(-50%) translateY(4px)'; });
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 280); }, 1400);
+  }
+
+  function openAdmin(){
+    showAdminToast();
+    setTimeout(() => window.open(ADMIN_URL, '_blank', 'noopener'), 400);
+  }
+
+  // --- Method 1+2: click counter on either logo ---
+  function attachClickCounter(el, threshold, windowMs){
+    if (!el) return;
+    let count = 0, timer = null;
+    el.addEventListener('click', (e) => {
+      // Only count when the user is at the top of the page (logo also scrolls
+      // to #home, so we don't want to fight that). We still let the normal
+      // anchor behaviour happen via setTimeout — the count is purely meta.
+      count++;
+      clearTimeout(timer);
+      timer = setTimeout(() => { count = 0; }, windowMs);
+      if (count >= threshold) {
+        e.preventDefault();
+        count = 0;
+        openAdmin();
+      }
+    });
+  }
+  attachClickCounter(document.querySelector('.header .logo'), 5, 2000);
+  attachClickCounter(document.querySelector('.footer-brand .logo'), 3, 1500);
+
+  // --- Method 3: keyboard shortcut Ctrl/Cmd + Shift + A ---
+  document.addEventListener('keydown', (e) => {
+    const isMod = e.ctrlKey || e.metaKey;
+    if (isMod && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+      e.preventDefault();
+      openAdmin();
+    }
+  });
+})();
+
 // ============ MOBILE MENU ============
 const burger = document.getElementById('burger');
 const mobileMenu = document.getElementById('mobileMenu');
