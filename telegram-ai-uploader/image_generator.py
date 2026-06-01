@@ -1079,6 +1079,60 @@ GEMINI_FLASH_IMAGE_MODEL = "gemini-2.5-flash-image"
 GEMINI_FLASH_IMAGE_FALLBACK = "gemini-3.1-flash-image-preview"
 GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta"
 
+# Vertex AI configuration — when USE_VERTEX_AI=true, image generation routes
+# through the Vertex AI endpoint instead of the free-tier AI Studio API.
+# This lets us spend Google Cloud Free Trial credits ($300) which are NOT
+# accepted by the AI Studio Cloud Prepay billing.
+VERTEX_PROJECT_ID = os.getenv("VERTEX_PROJECT_ID", "").strip()
+VERTEX_LOCATION = os.getenv("VERTEX_LOCATION", "us-central1").strip() or "us-central1"
+VERTEX_BASE = f"https://{VERTEX_LOCATION}-aiplatform.googleapis.com/v1"
+
+
+def _use_vertex() -> bool:
+    return os.getenv("USE_VERTEX_AI", "false").strip().lower() in ("1", "true", "yes", "on")
+
+
+async def _get_vertex_access_token() -> Optional[str]:
+    """
+    Build a short-lived OAuth token from the service account JSON keyfile.
+    Path is taken from GOOGLE_APPLICATION_CREDENTIALS (standard Google env var).
+    Cached for ~50 minutes so we don't re-mint on every request.
+    """
+    global _VERTEX_TOKEN_CACHE
+    try:
+        _VERTEX_TOKEN_CACHE
+    except NameError:
+        _VERTEX_TOKEN_CACHE = {"token": None, "exp": 0.0}
+    import time as _time
+    if _VERTEX_TOKEN_CACHE["token"] and _time.time() < _VERTEX_TOKEN_CACHE["exp"] - 60:
+        return _VERTEX_TOKEN_CACHE["token"]
+
+    try:
+        from google.oauth2 import service_account  # type: ignore
+        from google.auth.transport.requests import Request as _AuthRequest  # type: ignore
+    except ImportError:
+        log.warning("google-auth not installed; cannot mint Vertex AI access token")
+        return None
+
+    sa_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "").strip()
+    if not sa_path or not Path(sa_path).exists():
+        log.warning("GOOGLE_APPLICATION_CREDENTIALS not set or file missing: %r", sa_path)
+        return None
+
+    try:
+        creds = service_account.Credentials.from_service_account_file(
+            sa_path,
+            scopes=["https://www.googleapis.com/auth/cloud-platform"],
+        )
+        creds.refresh(_AuthRequest())
+        token = creds.token
+        # Service account tokens are valid for 1 hour; cache for 55 min
+        _VERTEX_TOKEN_CACHE = {"token": token, "exp": _time.time() + 55 * 60}
+        return token
+    except Exception as e:
+        log.warning("Vertex AI token refresh failed: %s", e)
+        return None
+
 # Style reference poster shown to Gemini Nano Banana so it matches our brand layout.
 # Generated once from template_premium_dubai() — see scripts in repo README.
 REFERENCE_POSTER_PATH = Path(__file__).parent / "assets" / "reference_poster.jpg"
@@ -1381,7 +1435,6 @@ async def _gemini_flash_image_edit(api_key: str, car: dict, photo_path: Path | s
     model = model or GEMINI_FLASH_IMAGE_MODEL
     prompt = _build_gemini_poster_prompt(car)
     reference_b64 = _load_reference_poster_b64()
-    url = f"{GEMINI_API_BASE}/models/{model}:generateContent?key={api_key}"
 
     # Multi-image input: [style reference] + [real car photo] + [text instructions]
     # Nano Banana sees the layout in image 1 and copies it onto the car in image 2.
@@ -1403,9 +1456,26 @@ async def _gemini_flash_image_edit(api_key: str, car: dict, photo_path: Path | s
         },
     }
 
+    # Route through Vertex AI when configured (uses Free Trial $300 credits).
+    # Otherwise fall back to AI Studio (requires Cloud Prepay balance).
+    headers: dict[str, str] = {}
+    if _use_vertex() and VERTEX_PROJECT_ID:
+        token = await _get_vertex_access_token()
+        if not token:
+            log.warning("Vertex AI mode requested but no access token; falling back to AI Studio")
+            url = f"{GEMINI_API_BASE}/models/{model}:generateContent?key={api_key}"
+        else:
+            url = (f"{VERTEX_BASE}/projects/{VERTEX_PROJECT_ID}/locations/{VERTEX_LOCATION}"
+                   f"/publishers/google/models/{model}:generateContent")
+            headers["Authorization"] = f"Bearer {token}"
+            headers["Content-Type"] = "application/json"
+            log.info("Gemini Flash image-edit via Vertex AI (%s, model=%s)", VERTEX_LOCATION, model)
+    else:
+        url = f"{GEMINI_API_BASE}/models/{model}:generateContent?key={api_key}"
+
     try:
         async with _httpx.AsyncClient(timeout=AI_TIMEOUT_SECONDS) as client:
-            resp = await client.post(url, json=payload)
+            resp = await client.post(url, json=payload, headers=headers or None)
             if resp.status_code != 200:
                 log.warning("Gemini Flash image-edit (%s) returned %s: %s", model, resp.status_code, resp.text[:300])
                 return None
@@ -1440,16 +1510,31 @@ async def _gemini_flash_text_to_image(api_key: str, car: dict, model: str = None
 
     model = model or GEMINI_FLASH_IMAGE_MODEL
     prompt = _build_gemini_poster_prompt(car)
-    url = f"{GEMINI_API_BASE}/models/{model}:generateContent?key={api_key}"
 
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"responseModalities": ["IMAGE", "TEXT"]},
     }
 
+    # Route through Vertex AI when configured.
+    headers: dict[str, str] = {}
+    if _use_vertex() and VERTEX_PROJECT_ID:
+        token = await _get_vertex_access_token()
+        if not token:
+            log.warning("Vertex AI mode requested but no access token; falling back to AI Studio")
+            url = f"{GEMINI_API_BASE}/models/{model}:generateContent?key={api_key}"
+        else:
+            url = (f"{VERTEX_BASE}/projects/{VERTEX_PROJECT_ID}/locations/{VERTEX_LOCATION}"
+                   f"/publishers/google/models/{model}:generateContent")
+            headers["Authorization"] = f"Bearer {token}"
+            headers["Content-Type"] = "application/json"
+            log.info("Gemini text-to-image via Vertex AI (%s, model=%s)", VERTEX_LOCATION, model)
+    else:
+        url = f"{GEMINI_API_BASE}/models/{model}:generateContent?key={api_key}"
+
     try:
         async with _httpx.AsyncClient(timeout=AI_TIMEOUT_SECONDS) as client:
-            resp = await client.post(url, json=payload)
+            resp = await client.post(url, json=payload, headers=headers or None)
             if resp.status_code != 200:
                 log.warning("Gemini text-to-image (%s) returned %s: %s", model, resp.status_code, resp.text[:300])
                 return None

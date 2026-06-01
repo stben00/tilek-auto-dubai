@@ -38,6 +38,20 @@ INSTAGRAM_URL_RE = _re.compile(r"https?://(?:www\.)?(?:instagram\.com|instagr\.a
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s — %(message)s")
 log = logging.getLogger("bot")
 
+# Materialize Vertex AI service account credentials from env if provided.
+# We accept the full JSON as VERTEX_SA_JSON to avoid mounting volumes — write
+# it to /tmp/vertex-sa.json and point GOOGLE_APPLICATION_CREDENTIALS at it.
+_sa_json = os.getenv("VERTEX_SA_JSON", "").strip()
+if _sa_json:
+    try:
+        _sa_path = "/tmp/vertex-sa.json"
+        with open(_sa_path, "w") as _f:
+            _f.write(_sa_json)
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = _sa_path
+        log.info("Vertex AI service account materialized at %s", _sa_path)
+    except Exception as _e:
+        log.warning("Failed to write Vertex AI service account: %s", _e)
+
 if not BOT_TOKEN:
     print("ERROR: BOT_TOKEN is empty. Fill .env first.")
     sys.exit(1)

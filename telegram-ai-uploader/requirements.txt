@@ -8,3 +8,4 @@ google-generativeai>=0.8.0
 yt-dlp>=2024.10.7
 Pillow>=10.0.0
 ddgs>=6.0.0
+google-auth>=2.35.0
