@@ -1,6 +1,40 @@
 {
   "cars": [
     {
+      "id": "car_20260601_132513",
+      "title": "*СРОЧНО 🚨 РЕСТАЙЛИНГ ЖОЛ ТАНДАБАС ОТОО АРЗАН БААДА ЧЫКТЫ🔥🔥🔥🔥* 2021",
+      "brand": "",
+      "model": "",
+      "year": "2021",
+      "engine": "2.2 Turbo 4WD",
+      "fuel": "Дизель",
+      "bodyType": "",
+      "body": "",
+      "budget": "",
+      "tag": "reliable",
+      "price": "$9 999",
+      "mileage": "183 км",
+      "location": "Dubai / UAE",
+      "description": "🏆 ЭКСКЛЮЗИВНЫЙ ВАРИАНТ!\n<b>*СРОЧНО 🚨 РЕСТАЙЛИНГ ЖОЛ ТАНДАБАС ОТОО АРЗАН БААДА ЧЫКТЫ🔥🔥🔥🔥* 2021</b>\n\n🔧 Двигатель: 2.2 Turbo 4WD\n💪 ДИЗЕЛЬ — мощь и низкий расход на трассе\n📊 Пробег: 183 км\n📍 Dubai / UAE\n\n💰 ВСЕГО $9 999 — поверить не можем сами!\n\nДубай ждёт — успей оформить сегодня! ✈️",
+      "whatsapp": "",
+      "instagramUrl": "",
+      "image": "assets/cars/car_20260601_132513_1.jpg",
+      "mainImage": "assets/cars/car_20260601_132513_1.jpg",
+      "images": [
+        "assets/cars/car_20260601_132513_1.jpg",
+        "assets/cars/car_20260601_132513_poster.jpg"
+      ],
+      "videoUrl": "",
+      "videoFile": "",
+      "videoType": "",
+      "videoPoster": "assets/cars/car_20260601_132513_1.jpg",
+      "videoTitle": "",
+      "videoDuration": "",
+      "status": "available",
+      "source": "telegram_ai_uploader",
+      "createdAt": "2026-06-02T06:22:52Z"
+    },
+    {
       "id": "car_20260601_122002",
       "title": "cd telegram-ai-uploader",
       "brand": "Ford",
