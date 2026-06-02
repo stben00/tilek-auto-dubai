@@ -1,5 +1,31 @@
 [
   {
+    "id": "car_20260602_062259",
+    "title": "Toyota Highlander 2021",
+    "brand": "Toyota",
+    "model": "Highlander",
+    "year": "2021",
+    "engine": "2.5",
+    "fuel": "",
+    "bodyType": "Внедорожник",
+    "price": "$14 500",
+    "mileage": "85 000 км",
+    "location": "Dubai / UAE",
+    "description": "⭐ ЛУЧШЕЕ ПРЕДЛОЖЕНИЕ ДНЯ!\n<b>TOYOTA HIGHLANDER 2021</b>\n\n✅ НАДЁЖНЫЙ · ГОТОВ К ЛЮБЫМ ДОРОГАМ\n🔧 Двигатель: 2.5\n📊 Пробег: 85 000 км\n📍 Dubai / UAE\n\n💵 $14 500 — золотая цена за такое авто!\n\nДубай ждёт — успей оформить сегодня! ✈️",
+    "whatsapp": "",
+    "instagramUrl": "",
+    "videoUrl": "",
+    "videoFile": "assets/videos/car_20260602_062259_video.mp4",
+    "images": [
+      "assets/cars/car_20260602_062259_1.jpg",
+      "assets/cars/car_20260602_062259_poster.jpg"
+    ],
+    "mainImage": "assets/cars/car_20260602_062259_1.jpg",
+    "status": "available",
+    "source": "telegram_ai_uploader",
+    "createdAt": "2026-06-02T06:24:54Z"
+  },
+  {
     "id": "car_20260601_132513",
     "title": "*СРОЧНО 🚨 РЕСТАЙЛИНГ ЖОЛ ТАНДАБАС ОТОО АРЗАН БААДА ЧЫКТЫ🔥🔥🔥🔥* 2021",
     "brand": "",
