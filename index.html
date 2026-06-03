@@ -2138,7 +2138,8 @@ svg{flex-shrink:0}
       <video class="showcase-video"
              src="assets/videos/hero-cinematic.mp4"
              poster="assets/videos/hero-cinematic-poster.jpg"
-             autoplay muted loop playsinline preload="metadata"
+             autoplay muted loop playsinline webkit-playsinline
+             preload="auto" disablepictureinpicture x5-playsinline
              aria-label="Cinematic preview"></video>
       <div class="showcase-overlay">
         <h2>Премиум авто из Дубая <span class="gold">под ключ</span></h2>
@@ -3337,6 +3338,33 @@ const header = document.getElementById('header');
 window.addEventListener('scroll', () => {
   header.classList.toggle('scrolled', window.scrollY > 30);
 });
+
+// ============ HERO VIDEO AUTOPLAY ============
+// iOS Safari sometimes refuses autoplay even with muted+playsinline
+// (Low Power Mode, restored tab, after intro overlay). Kick it manually
+// on first user gesture and after the intro animation finishes.
+(function setupHeroVideoAutoplay(){
+  const v = document.querySelector('.showcase-video');
+  if (!v) return;
+  const tryPlay = () => {
+    const p = v.play();
+    if (p && typeof p.then === 'function') {
+      p.catch(() => { /* swallow — will retry on next gesture */ });
+    }
+  };
+  // Initial attempt
+  tryPlay();
+  // Retry on first interaction
+  ['touchstart','click','scroll'].forEach(evt =>
+    window.addEventListener(evt, tryPlay, { once: true, passive: true })
+  );
+  // Retry when the intro overlay finishes hiding
+  setTimeout(tryPlay, 3500);
+  // Retry when tab becomes visible again (iOS pauses on tab switch)
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && v.paused) tryPlay();
+  });
+})();
 
 // ============ SECRET ADMIN ACCESS ============
 // Three independent ways to open the admin panel — invisible to regular
