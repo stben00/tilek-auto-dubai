@@ -230,6 +230,20 @@ def _detect_body(text: str, model: str):
 
 
 def _detect_mileage(text: str):
+    # Miles (US imports): "27387 мил", "27 387 миль", "27387 mi", etc.
+    miles_patterns = [
+        r"пробег[\s:]*([\d][\d\s.,]*)\s*мил",
+        r"([\d][\d\s.,]*)\s*мил(?:ь|и|ей|)\b",
+        r"([\d][\d\s.,]*)\s*(?:mi|miles?)\b",
+    ]
+    for p in miles_patterns:
+        m = re.search(p, text, re.IGNORECASE)
+        if m:
+            num = re.sub(r"[^\d]", "", m.group(1))
+            if num and 1 <= int(num) <= 1_000_000:
+                return f"{int(num):,}".replace(",", " ") + " миль"
+
+    # Kilometers (default)
     patterns = [
         r"пробег[\s:]*([\d][\d\s.,]*)\s*к?м?",
         r"mileage[\s:]*([\d][\d\s.,]*)\s*km",
@@ -254,6 +268,73 @@ def _detect_mileage(text: str):
     if m:
         return f"{int(m.group(1)) * 1000:,}".replace(",", " ") + " км"
     return ""
+
+
+def _detect_trim(text: str) -> str:
+    """
+    Detect car trim / equipment level (complectation).
+    Examples:
+      "Полный комплектация" → "Полная"
+      "Full option" → "Полная"
+      "Базовая" → "Базовая"
+      "Premium" → "Premium"
+    """
+    low = text.lower()
+    if re.search(r"полн\w*\s+комплект|комплект\w*\s+полн|full\s+option|fully\s+loaded|максимальн\w*\s+комплект", low):
+        return "Полная"
+    if re.search(r"средн\w*\s+комплект|средний\s+вариант|middle", low):
+        return "Средняя"
+    if re.search(r"базов\w*\s+комплект|базовый\s+вариант|base\s+trim|стандарт", low):
+        return "Базовая"
+    if re.search(r"premium|премиум", low):
+        return "Premium"
+    return ""
+
+
+def _detect_engine_v2(text: str) -> str:
+    """Stricter engine detector that understands sloppy formats like 'об 3.4т', '3.4Т', '5.7 4WD'."""
+    text_low = text.lower()
+    parts: list[str] = []
+
+    # Look for displacement (e.g. "3.4", "об 3.4", "об 3.4т")
+    disp = None
+    m = re.search(r"(?:об[ъь]?[её]?м?|мотор|engine|двигатель)[\s:]*([1-9]\.\d)\s*т?", text_low)
+    if m:
+        disp = m.group(1)
+        # If suffix "т" present → mark as Turbo
+        if re.search(rf"{re.escape(disp)}\s*т\b", text_low):
+            parts.append(f"{disp}T")
+        else:
+            parts.append(disp)
+    if not disp:
+        m = re.search(r"\b([1-9]\.\d)\b(?!\d)", text)
+        if m:
+            disp = m.group(1)
+            # Bare like "3.4T" / "3.4т"
+            if re.search(rf"{re.escape(disp)}\s*т\b", text_low):
+                parts.append(f"{disp}T")
+            else:
+                parts.append(disp)
+
+    if "turbo" in text_low or "турбо" in text_low:
+        if not any("T" in p for p in parts):
+            parts.append("Turbo")
+    if re.search(r"\bv6\b", text, re.IGNORECASE): parts.append("V6")
+    if re.search(r"\bv8\b", text, re.IGNORECASE): parts.append("V8")
+    if re.search(r"\bv12\b", text, re.IGNORECASE): parts.append("V12")
+    if re.search(r"\b4wd\b|\bawd\b|полный\s*привод", text, re.IGNORECASE):
+        parts.append("4WD")
+    elif re.search(r"\b(2wd|fwd|rwd)\b", text, re.IGNORECASE):
+        m = re.search(r"\b(2wd|fwd|rwd)\b", text, re.IGNORECASE)
+        if m:
+            parts.append(m.group(1).upper())
+    # Dedup preserving order
+    seen, out = set(), []
+    for p in parts:
+        if p.lower() not in seen:
+            seen.add(p.lower())
+            out.append(p)
+    return " ".join(out)
 
 
 def _detect_location(text_low: str):
@@ -304,11 +385,13 @@ def parse_car_text(text: str) -> dict:
     year = _detect_year(text)
     price = _detect_price(text)
     fuel = _detect_fuel(text_low)
-    engine = _detect_engine(text)
+    # Prefer the stricter v2 engine parser; fall back to original if it returns nothing
+    engine = _detect_engine_v2(text) or _detect_engine(text)
     body = _detect_body(text, model)
     mileage = _detect_mileage(text)
     location = _detect_location(text_low)
     phone = _detect_phone(text)
+    trim = _detect_trim(text)
     insta, video = _detect_links(text)
 
     title_parts = [p for p in [brand, model, year] if p]
@@ -341,6 +424,7 @@ def parse_car_text(text: str) -> dict:
         "bodyType": body,
         "price": price,
         "mileage": mileage,
+        "trim": trim,
         "location": location or "Dubai / UAE",
         "description": desc,
         "whatsapp": phone,

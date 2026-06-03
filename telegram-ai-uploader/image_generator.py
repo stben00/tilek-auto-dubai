@@ -188,56 +188,55 @@ def enhance_photo_bytes(data: bytes, max_side: int = 1600, jpeg_quality: int = 8
 
 def _enhance_photo(img: Image.Image) -> Image.Image:
     """
-    Aggressive premium "studio" enhancement so dim Dubai garage video frames
-    look like a lit dealership shot. Each step guarded so a corrupt image
-    still renders.
+    Gentle "premium dealership" enhancement — preserves the real car, never
+    crushes highlights, doesn't add fake studio glow.
 
-    Pipeline:
-      1. Auto-contrast (per-channel) — recovers detail + neutralises colour casts.
-      2. ADAPTIVE brightness — measure mean luma; the darker the frame, the
-         bigger the lift (up to ~1.5x for very dark garage clips).
-      3. Shadow lift via a gentle gamma curve so the lower half of the car
-         (bumper, wheels) stops being a black blob.
-      4. Strong saturation — paint colour pops.
-      5. Strong contrast — dramatic, glossy look.
-      6. Large unsharp mask — crisp grille / badge / wheel edges at poster scale.
+    Pipeline (much softer than the old aggressive version):
+      1. Light auto-contrast — neutralises colour casts without crushing tones.
+      2. Adaptive but CAPPED brightness lift — only for genuinely dark frames,
+         max +20% (was +55%). Bright frames are left alone.
+      3. Gentle shadow lift via gamma 0.93 (was 0.82).
+      4. Mild saturation +10% (was +28%) — paint stays the real colour.
+      5. Mild contrast +8% (was +22%).
+      6. Small unsharp mask — sharp grille/badge without halos.
     """
     try:
-        img = ImageOps.autocontrast(img, cutoff=1)
+        img = ImageOps.autocontrast(img, cutoff=0.5)
     except Exception:
         pass
-    # Adaptive brightness based on mean luminance
+    # Adaptive but capped brightness — only lift truly dark frames
     try:
         from PIL import ImageStat
         mean = ImageStat.Stat(img.convert("L")).mean[0]  # 0..255
-        if mean < 70:
-            factor = 1.55
-        elif mean < 100:
-            factor = 1.35
+        if mean < 60:
+            factor = 1.20      # very dark night/garage shot
+        elif mean < 90:
+            factor = 1.10
         elif mean < 130:
-            factor = 1.18
+            factor = 1.04
         else:
-            factor = 1.06
-        img = ImageEnhance.Brightness(img).enhance(factor)
+            factor = 1.00      # well-lit photo — don't touch
+        if factor > 1.0:
+            img = ImageEnhance.Brightness(img).enhance(factor)
     except Exception:
         pass
-    # Shadow lift (gamma < 1 brightens midtones/shadows without blowing highlights)
+    # Gentle shadow lift — only brighten the lower midtones, leave highlights alone
     try:
-        gamma = 0.82
+        gamma = 0.93
         lut = [min(255, int(((i / 255.0) ** gamma) * 255)) for i in range(256)] * 3
         img = img.convert("RGB").point(lut)
     except Exception:
         pass
     try:
-        img = ImageEnhance.Color(img).enhance(1.28)
+        img = ImageEnhance.Color(img).enhance(1.10)
     except Exception:
         pass
     try:
-        img = ImageEnhance.Contrast(img).enhance(1.22)
+        img = ImageEnhance.Contrast(img).enhance(1.08)
     except Exception:
         pass
     try:
-        img = img.filter(ImageFilter.UnsharpMask(radius=2.0, percent=180, threshold=2))
+        img = img.filter(ImageFilter.UnsharpMask(radius=1.2, percent=110, threshold=3))
     except Exception:
         pass
     return img
@@ -858,32 +857,35 @@ def _draw_spec_row(draw, x: int, y: int, label: str, value: str, font_label, fon
 
 
 def _photo_background(photo: Optional[Image.Image], W: int, H: int) -> Image.Image:
-    """Photo as full-bleed background with cinematic enhancement + vignette + overlays."""
+    """
+    Photo as full-bleed background with SOFT cinematic processing.
+
+    Designed so the real car stays clearly visible and naturally lit — no
+    spotlight burn, no heavy vignette, just clean top and bottom shading
+    where the headline and CTA bar sit.
+    """
     if photo is None:
         bg = _gradient(W, H, (20, 20, 22), (5, 5, 7))
     else:
         bg = _cover_resize(_enhance_photo(photo), W, H)
-        # Studio spotlight on the car centre, then cinematic corner vignette.
-        bg = _apply_spotlight(bg, strength=70)
-        bg = _apply_vignette(bg, strength=130)
+        # Very subtle vignette (was 130 → 60) so corners stay readable.
+        bg = _apply_vignette(bg, strength=60)
+        # NO spotlight — leaving the real light from the photo intact.
 
-    # Dark gradient masks for overlay legibility. Tuned to keep the car bright
-    # in the center while darkening only the top-left / top-right / bottom edges.
     overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay, "RGBA")
-    # Left vertical gradient (headline + pill + bullets sit here)
-    left_w = int(W * 0.42)
-    for x in range(left_w):
-        alpha = int(170 * (1 - x / left_w))
-        draw.line([(x, 0), (x, H)], fill=(0, 0, 0, alpha))
-    # Top-right corner gradient (spec panel + badge area)
-    for y in range(H // 2):
-        alpha = int(90 * (1 - y / (H // 2)))
-        draw.line([(int(W * 0.55), y), (W, y)], fill=(0, 0, 0, alpha))
-    # Bottom gradient (CTA legibility) — short and soft
+
+    # Top gradient — softer (max alpha 110, was 170) and shorter (top 28%
+    # of frame instead of full left column). Title + price sit here.
+    top_h = int(H * 0.28)
+    for y in range(top_h):
+        alpha = int(110 * (1 - y / top_h))
+        draw.line([(0, y), (W, y)], fill=(0, 0, 0, alpha))
+
+    # Bottom gradient — for the CTA bar legibility. Slightly stronger than top.
     bottom_h = int(H * 0.22)
     for y in range(bottom_h):
-        alpha = int(130 * (y / bottom_h))
+        alpha = int(150 * (y / bottom_h))
         draw.line([(0, H - bottom_h + y), (W, H - bottom_h + y)], fill=(0, 0, 0, alpha))
 
     bg = bg.convert("RGBA")
@@ -893,162 +895,200 @@ def _photo_background(photo: Optional[Image.Image], W: int, H: int) -> Image.Ima
 
 def template_premium_dubai(car: dict, photo: Optional[Image.Image]) -> Image.Image:
     """
-    Premium Dubai-dealership poster that PRESERVES the original car photo.
-    Layout matches the user-approved BMW 330L reference.
+    Premium Dubai dealership poster — PRESERVES the original car photo,
+    no AI redraw, no fake studio glow. Layout matches the approved spec:
+
+      Top:
+        BRAND MODEL
+        YEAR                    (smaller, on its own line)
+        Стартовая цена: $XXX
+
+      Right side panel (only real data, no fake defaults):
+        Год / Двигатель / Комплектация / Пробег / Кузов
+
+      Below the spec block:
+        ✓ Полная комплектация
+        ✓ Отличное состояние
+        ✓ Проверка перед покупкой
+        ✓ Доставка под ключ
+
+      Bottom CTA bar:
+        ▶ Получить видео  /  WhatsApp
+
+    Constraints we honour:
+      - Never write "опшин"
+      - Never overlay broken Russian
+      - Only fields that are actually in `car` get drawn
+      - All Cyrillic is rendered by Pillow with NotoSans-Bold so letters are crisp
+      - Soft black gradient on the top 28% and bottom 22% only
     """
     W, H = POSTER_W, POSTER_H
-    accent, accent_dark, headline_color, _mood = _CATEGORY_PALETTES.get(
-        detect_car_category(car), _CATEGORY_PALETTES["city"]
-    )
+    GOLD = (212, 175, 55)            # premium gold accent
+    GOLD_DARK = (168, 127, 27)
+    WHITE = (255, 255, 255)
+    GREY_SOFT = (215, 215, 215)
+    PANEL_BG = (12, 12, 14, 220)
+    WA_GREEN = (37, 211, 102)
 
+    # ---------- car data, with smart fallbacks (no fake defaults) ----------
+    brand = str(car.get("brand", "") or "").strip()
+    model = str(car.get("model", "") or "").strip()
+    title = (brand + " " + model).strip() or str(car.get("title") or "").strip() or "Автомобиль"
+    title = title.upper()
+
+    year = str(car.get("year", "") or "").strip()
+    engine = str(car.get("engine", "") or "").strip()
+    fuel = str(car.get("fuel", "") or "").strip().capitalize()
+    body_type = str(car.get("bodyType", "") or car.get("body", "") or "").strip().capitalize()
+    mileage = str(car.get("mileage", "") or "").strip()
+    trim = str(car.get("trim", "") or car.get("complectation", "") or "").strip()
+    if trim:
+        # normalise common typos
+        low = trim.lower()
+        if "полн" in low or "ful" in low:
+            trim = "Полная"
+        else:
+            trim = trim.capitalize()
+
+    price_raw = str(car.get("price", "") or "").strip()
+    price_digits = "".join(c for c in price_raw if c.isdigit())
+    price_pretty = f"${int(price_digits):,}".replace(",", " ") if price_digits else (price_raw or "По запросу")
+
+    # ---------- background ----------
     img = _photo_background(photo, W, H)
     draw = ImageDraw.Draw(img, "RGBA")
 
-    brand = str(car.get("brand", "") or "").upper().strip()
-    model = str(car.get("model", "") or "").upper().strip()
-    year = str(car.get("year", "") or "").strip()
-    engine = str(car.get("engine", "") or "").strip()
-    fuel = str(car.get("fuel", "Бензин") or "Бензин").strip().capitalize()
-    body_type = str(car.get("bodyType", "") or "").strip().capitalize()
-    price_raw = str(car.get("price", "по запросу") or "по запросу").strip()
-    price_digits = "".join(c for c in price_raw if c.isdigit())
-    price_pretty = f"${int(price_digits):,}".replace(",", " ") if price_digits else price_raw
-
-    # ===== Top-left: brand headline =====
-    title_text = (brand + " " + model).strip() or (car.get("title") or "AUTO").upper()
+    # ---------- TOP: brand + model headline ----------
     headline_font = None
-    for size in range(110, 56, -4):
+    for size in range(96, 48, -4):
         f = _load_font("narrow", size)
-        if _text_w(draw, title_text, f) <= W * 0.55:
+        if _text_w(draw, title, f) <= W - 100:
             headline_font = f
             break
     if headline_font is None:
-        headline_font = _load_font("narrow", 56)
-        title_text = _truncate(draw, title_text, headline_font, int(W * 0.55))
-    _shadow_text(draw, (40, 50), title_text, headline_font, headline_color, offset=2)
+        headline_font = _load_font("narrow", 48)
+        title = _truncate(draw, title, headline_font, W - 100)
+    _shadow_text(draw, (50, 50), title, headline_font, WHITE, offset=2)
 
-    # Year | Engine subline — auto-shrink so it always fits the left half
-    sub_parts = [p for p in [year, engine] if p]
-    if sub_parts:
-        sub_text = " | ".join(sub_parts)
-        sub_font = None
-        for size in range(60, 28, -3):
-            f = _load_font("bold", size)
-            if _text_w(draw, sub_text, f) <= W * 0.52:
-                sub_font = f
-                break
-        if sub_font is None:
-            sub_font = _load_font("bold", 28)
-            sub_text = _truncate(draw, sub_text, sub_font, int(W * 0.52))
-        _shadow_text(draw, (40, 50 + headline_font.size + 6), sub_text, sub_font, accent, offset=2)
+    # Year on its own line, smaller, in gold
+    cursor_y = 50 + headline_font.size + 4
+    if year:
+        year_font = _load_font("bold", 38)
+        _shadow_text(draw, (50, cursor_y), year, year_font, GOLD, offset=1)
+        cursor_y += year_font.size + 18
 
-    # Price block: yellow rounded box with small label "СТАРТОВАЯ ЦЕНА" + big price
-    price_font = _load_font("narrow", 56)
-    label_font = _load_font("bold", 20)
-    pw = max(_text_w(draw, price_pretty, price_font), _text_w(draw, "СТАРТОВАЯ ЦЕНА", label_font))
-    pill_y = 50 + headline_font.size + 80
-    box_h = 22 + label_font.size + price_font.size + 18
-    pill_box = (40, pill_y, 40 + pw + 56, pill_y + box_h)
-    _rounded_rect(draw, pill_box, radius=16, fill=accent)
-    draw.text((40 + 28, pill_y + 14), "СТАРТОВАЯ ЦЕНА", font=label_font, fill=(40, 30, 0))
-    _shadow_text(draw, (40 + 28, pill_y + 14 + label_font.size + 2), price_pretty, price_font, (15, 15, 15), offset=1)
+    # Gold underline accent under the title block
+    draw.line([(50, cursor_y), (220, cursor_y)], fill=GOLD, width=3)
+    cursor_y += 22
 
-    # ===== Left: bullet list (dynamic by car category) =====
-    bullets = _bullets_for_category(detect_car_category(car), brand=brand, engine=engine)
-    # Auto-shrink: pick the largest font where ALL bullets fit in the available width.
-    bullet_max_w = int(W * 0.52) - 50  # subtract the checkmark box width + padding
-    bullet_font = _load_font("bold", 24)
-    for size in range(24, 15, -1):
+    # ---------- Стартовая цена: $XXX ----------
+    label_font = _load_font("bold", 24)
+    price_font = _load_font("narrow", 58)
+    label_text = "Стартовая цена:"
+    label_w = _text_w(draw, label_text, label_font)
+    draw.text((50, cursor_y + 4), label_text, font=label_font, fill=GREY_SOFT)
+    _shadow_text(draw, (50 + label_w + 14, cursor_y - 8), price_pretty,
+                 price_font, GOLD, offset=2)
+    cursor_y += price_font.size + 28
+
+    # ---------- Right-side spec panel (only real fields) ----------
+    specs: list[tuple[str, str]] = []
+    if year:
+        specs.append(("Год", year))
+    if engine:
+        specs.append(("Двигатель", engine))
+    if trim:
+        specs.append(("Комплектация", trim))
+    if mileage:
+        specs.append(("Пробег", mileage))
+    if body_type:
+        specs.append(("Кузов", body_type))
+    if fuel and fuel not in {"Бензин"}:  # only show if explicitly set to non-default
+        specs.append(("Топливо", fuel))
+
+    if specs:
+        panel_x = int(W * 0.58)
+        panel_w = W - panel_x - 40
+        panel_y = 50
+        panel_pad = 22
+        spec_label_font = _load_font("regular", 18)
+        spec_value_font = _load_font("bold", 24)
+        row_h = 56
+        panel_h = panel_pad * 2 + row_h * len(specs)
+
+        _rounded_rect(draw, (panel_x, panel_y, panel_x + panel_w, panel_y + panel_h),
+                      radius=20, fill=PANEL_BG, outline=(212, 175, 55, 90), width=1)
+
+        for i, (label, value) in enumerate(specs):
+            y0 = panel_y + panel_pad + i * row_h
+            draw.text((panel_x + panel_pad, y0), label, font=spec_label_font, fill=(165, 165, 165))
+            # auto-shrink the value so long ones (e.g. "27 387 миль") never overflow
+            vfont = spec_value_font
+            max_value_w = panel_w - panel_pad * 2
+            for s in range(24, 14, -1):
+                f = _load_font("bold", s)
+                if _text_w(draw, str(value), f) <= max_value_w:
+                    vfont = f
+                    break
+            draw.text((panel_x + panel_pad, y0 + spec_label_font.size + 4),
+                      str(value), font=vfont, fill=WHITE)
+
+    # ---------- Four ✓ advantages (fixed copy, no "опшин") ----------
+    bullets = [
+        "Полная комплектация",
+        "Отличное состояние",
+        "Проверка перед покупкой",
+        "Доставка под ключ",
+    ]
+    bullet_font = _load_font("bold", 22)
+    by = max(cursor_y + 8, 410)
+    bullet_max_w = int(W * 0.55) - 50
+    for size in range(22, 15, -1):
         f = _load_font("bold", size)
         if all(_text_w(draw, line, f) <= bullet_max_w for line in bullets):
             bullet_font = f
             break
-    bullet_y = pill_box[3] + 36  # start below the price box
     for line in bullets:
-        # Belt-and-suspenders truncation in case a single bullet is still too long.
-        line = _truncate(draw, line, bullet_font, bullet_max_w)
-        _draw_check_bullet(draw, 40, bullet_y, line, bullet_font, accent)
-        bullet_y += bullet_font.size + 22
+        _draw_check_bullet(draw, 50, by, line, bullet_font, GOLD, text_color=WHITE)
+        by += bullet_font.size + 18
 
-    # ===== Top-right: spec panel =====
-    panel_x = int(W * 0.58)
-    panel_y = 50
-    panel_w = W - panel_x - 40
-    panel_pad = 24
+    # ---------- BOTTOM CTA bar ----------
+    cta_y = H - 110
 
-    specs = []
-    if year:
-        specs.append(("Год", year, "year"))
-    if engine:
-        specs.append(("Двигатель", engine, "engine"))
-    if fuel:
-        specs.append(("Топливо", fuel, "fuel"))
-    specs.append(("Коробка", "Автомат", "gearbox"))
-    specs.append(("Привод", "Задний", "drive"))
-    if body_type:
-        specs.append(("Кузов", body_type, "body"))
-
-    row_h = 64
-    panel_h = panel_pad * 2 + row_h * len(specs)
-    _rounded_rect(draw, (panel_x, panel_y, panel_x + panel_w, panel_y + panel_h),
-                  radius=22, fill=(15, 15, 18, 225))
-
-    label_font = _load_font("regular", 17)
-    value_font = _load_font("bold", 24)
-    for i, (label, value, icon) in enumerate(specs):
-        _draw_spec_row(draw, panel_x + panel_pad, panel_y + panel_pad + i * row_h,
-                       label, value, label_font, value_font, accent, icon=icon)
-
-    # ===== Middle-right: ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ badge =====
-    badge_y = panel_y + panel_h + 20
-    badge_pad_x = 26
-    badge_pad_y = 18
-    badge_line1 = "ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ!"
-    badge_line2 = "ЛУЧШАЯ ЦЕНА НА РЫНКЕ"
-    bf1 = _load_font("bold", 22)
-    bf2 = _load_font("bold", 20)
-    bw = max(_text_w(draw, badge_line1, bf1), _text_w(draw, badge_line2, bf2)) + badge_pad_x * 2
-    badge_box = (panel_x + (panel_w - bw) // 2, badge_y,
-                 panel_x + (panel_w + bw) // 2, badge_y + bf1.size + bf2.size + badge_pad_y * 2 + 4)
-    _rounded_rect(draw, badge_box, radius=16, fill=(15, 15, 18, 230))
-    draw.text((badge_box[0] + badge_pad_x, badge_box[1] + badge_pad_y),
-              badge_line1, font=bf1, fill=accent)
-    draw.text((badge_box[0] + badge_pad_x, badge_box[1] + badge_pad_y + bf1.size + 4),
-              badge_line2, font=bf2, fill=(255, 255, 255))
-
-    # ===== Bottom CTA bar: video pill (left) + WhatsApp button (right) =====
-    cta_y = H - 130
-
-    # Left: "ПОЛУЧИТЬ ВИДЕО" with a play triangle
-    play_box = 44
-    _rounded_rect(draw, (40, cta_y, 40 + play_box, cta_y + play_box), radius=10, fill=accent)
+    # Left: "Получить видео" with a play triangle
+    play_box = 42
+    _rounded_rect(draw, (50, cta_y, 50 + play_box, cta_y + play_box), radius=10, fill=GOLD)
     draw.polygon([
-        (40 + play_box * 0.36, cta_y + play_box * 0.3),
-        (40 + play_box * 0.36, cta_y + play_box * 0.7),
-        (40 + play_box * 0.70, cta_y + play_box * 0.5),
+        (50 + play_box * 0.36, cta_y + play_box * 0.3),
+        (50 + play_box * 0.36, cta_y + play_box * 0.7),
+        (50 + play_box * 0.70, cta_y + play_box * 0.5),
     ], fill=(15, 15, 15))
     vid_title_font = _load_font("bold", 22)
-    vid_sub_font = _load_font("regular", 18)
-    vtx = 40 + play_box + 16
-    draw.text((vtx, cta_y - 2), "ПОЛУЧИТЬ ВИДЕО", font=vid_title_font, fill=(255, 255, 255))
-    draw.text((vtx, cta_y + 26), "Напишите — отправим", font=vid_sub_font, fill=(210, 210, 210))
-    draw.text((vtx, cta_y + 48), "полный обзор авто", font=vid_sub_font, fill=(210, 210, 210))
+    vid_sub_font = _load_font("regular", 16)
+    vtx = 50 + play_box + 14
+    draw.text((vtx, cta_y + 2), "Получить видео", font=vid_title_font, fill=WHITE)
+    draw.text((vtx, cta_y + 26), "Напишите — отправим обзор", font=vid_sub_font, fill=GREY_SOFT)
 
-    # Right: green WhatsApp button
-    wa_green = (37, 211, 102)
-    wa_text = "WHATSAPP"
-    wa_font = _load_font("bold", 24)
-    wa_icon = 40
-    wa_w = wa_icon + 20 + _text_w(draw, wa_text, wa_font) + 56
-    wa_box = (W - 40 - wa_w, cta_y - 4, W - 40, cta_y + 52)
-    _rounded_rect(draw, wa_box, radius=26, fill=wa_green)
-    # WhatsApp glyph: white circle + handset
-    icx, icy = wa_box[0] + 28, (wa_box[1] + wa_box[3]) // 2
-    draw.ellipse([icx - 18, icy - 18, icx + 18, icy + 18], fill=(255, 255, 255))
-    # simple handset curl
-    draw.arc([icx - 9, icy - 9, icx + 9, icy + 9], 30, 300, fill=wa_green, width=5)
-    draw.ellipse([icx - 3, icy + 4, icx + 5, icy + 12], fill=wa_green)
-    draw.text((icx + 28, icy - wa_font.size // 2), wa_text, font=wa_font, fill=(255, 255, 255))
+    # Right: green WhatsApp button "Написать в WhatsApp"
+    wa_label = "Написать в WhatsApp"
+    wa_font = _load_font("bold", 20)
+    wa_label_w = _text_w(draw, wa_label, wa_font)
+    wa_icon_size = 34
+    wa_pad_x = 22
+    wa_w = wa_pad_x * 2 + wa_icon_size + 12 + wa_label_w
+    wa_h = 54
+    wa_box = (W - 50 - wa_w, cta_y - 4, W - 50, cta_y - 4 + wa_h)
+    _rounded_rect(draw, wa_box, radius=wa_h // 2, fill=WA_GREEN)
+    # White WhatsApp icon glyph
+    icx = wa_box[0] + wa_pad_x + wa_icon_size // 2
+    icy = (wa_box[1] + wa_box[3]) // 2
+    draw.ellipse([icx - wa_icon_size // 2, icy - wa_icon_size // 2,
+                  icx + wa_icon_size // 2, icy + wa_icon_size // 2], fill=WHITE)
+    draw.arc([icx - 8, icy - 8, icx + 8, icy + 8], 30, 300, fill=WA_GREEN, width=4)
+    draw.ellipse([icx - 3, icy + 4, icx + 4, icy + 11], fill=WA_GREEN)
+    # Label
+    label_x = wa_box[0] + wa_pad_x + wa_icon_size + 12
+    draw.text((label_x, icy - wa_font.size // 2), wa_label, font=wa_font, fill=WHITE)
 
     return img
 

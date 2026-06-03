@@ -151,7 +151,7 @@ async def _openai_parse(text: str) -> dict | None:
 
 REQUIRED_KEYS = [
     "title", "brand", "model", "year", "engine", "fuel", "bodyType", "price",
-    "mileage", "location", "description", "whatsapp", "instagramUrl", "videoUrl", "status",
+    "mileage", "trim", "location", "description", "whatsapp", "instagramUrl", "videoUrl", "status",
 ]
 
 
