@@ -1,5 +1,31 @@
 [
   {
+    "id": "car_20260603_160526",
+    "title": "Toyota Highlander 2022",
+    "brand": "Toyota",
+    "model": "Highlander",
+    "year": "2022",
+    "engine": "2",
+    "fuel": "",
+    "bodyType": "Внедорожник",
+    "price": "$19 500",
+    "mileage": "66 000 км",
+    "location": "Dubai / UAE",
+    "description": "🚨 ТОЛЬКО СЕГОДНЯ!\n<b>TOYOTA HIGHLANDER 2022</b>\n\n✅ МОЩНЫЙ · ГОТОВ К ЛЮБЫМ ДОРОГАМ\n🔧 Двигатель: 2\n📊 Пробег: 66 000 км\n📍 Dubai / UAE\n\n💵 $19 500 — золотая цена за такое авто!\n\nОдин звонок — и машина твоя! 💪",
+    "whatsapp": "",
+    "instagramUrl": "",
+    "videoUrl": "",
+    "videoFile": "assets/videos/car_20260603_160526_video.mp4",
+    "images": [
+      "assets/cars/car_20260603_160526_1.jpg",
+      "assets/cars/car_20260603_160526_poster.jpg"
+    ],
+    "mainImage": "assets/cars/car_20260603_160526_1.jpg",
+    "status": "available",
+    "source": "telegram_ai_uploader",
+    "createdAt": "2026-06-03T16:06:27Z"
+  },
+  {
     "id": "car_20260602_062259",
     "title": "Toyota Highlander 2021",
     "brand": "Toyota",
