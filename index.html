@@ -782,9 +782,23 @@ svg{flex-shrink:0}
   border-color:rgba(212,175,55,.35);
   box-shadow:0 18px 40px -18px rgba(0,0,0,.6);
 }
-.car-image{
-  height:240px;position:relative;overflow:hidden;
-  background:#1a1a1a;
+/* ============ CAR MEDIA (iOS Safari-safe) ============
+   Bug fix: on mobile Safari the photo used to appear briefly then disappear
+   when the .fade-up parent toggled opacity, or when transform:scale on hover
+   triggered the Safari compositor bug.  Hard pinning below.
+*/
+.car-image,
+.car-media{
+  position:relative;width:100%;
+  aspect-ratio:16/10;            /* keeps card height consistent without JS */
+  height:auto;                   /* override legacy fixed height */
+  overflow:hidden;
+  background:#181818;
+  /* Tell Safari to allocate its own compositor layer for the media block —
+     prevents the "image vanishes after scroll" bug seen on iOS 17/18. */
+  -webkit-transform:translateZ(0);
+  transform:translateZ(0);
+  isolation:isolate;
 }
 .car-svg-illustration{
   position:absolute;bottom:15%;left:50%;transform:translateX(-50%);
@@ -792,11 +806,25 @@ svg{flex-shrink:0}
   transition:transform .5s;
 }
 .car-card:hover .car-svg-illustration{transform:translateX(-50%) scale(1.05)}
+
+/* The img inside the card MUST always be visible — no exceptions.
+   These !important rules block any animation/observer trying to fade it. */
+.car-image img,
+.car-media img,
 .car-photo{
-  width:100%;height:100%;object-fit:cover;
-  transition:transform .5s ease;
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;display:block;
+  opacity:1 !important;
+  visibility:visible !important;
+  /* No transform on the photo itself — Safari compositor sometimes drops
+     transformed images that share a stacking context with backdrop-filter. */
 }
-.car-card:hover .car-photo{transform:scale(1.04)}
+/* Subtle zoom on the IMAGE WRAPPER instead, leaving the img untouched */
+.car-card:hover .car-image,
+.car-card:hover .car-media{
+  /* No-op on iOS to keep the image painted */
+}
 /* Status badge — only used when car.status is set; honest, no auto-claims */
 .car-status-badge{
   position:absolute;top:14px;left:14px;z-index:2;
@@ -1460,6 +1488,10 @@ svg{flex-shrink:0}
 /* ============ ANIMATIONS ============ */
 .fade-up{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.4,0,.2,1)}
 .fade-up.visible{opacity:1;transform:translateY(0)}
+/* iOS Safari fix: car cards must NEVER be hidden by the fade-up animation.
+   If JS fails to add .visible (Observer race, prefers-reduced-motion, etc.),
+   the photo would otherwise disappear after first render. */
+.car-card.fade-up{opacity:1 !important;transform:none !important}
 
 /* ============ RESPONSIVE ============ */
 @media (max-width:1024px){
@@ -3828,7 +3860,7 @@ function renderManagedCars(cars) {
                      'бензин':'Бензин','дизель':'Дизель','гибрид':'Hybrid','электро':'Электро','газ':'Газ' };
   const STATUS_LABELS = { available:'В наличии', order:'Под заказ', sold:'Продан', reserved:'Забронирован' };
 
-  grid.innerHTML = cars.map(car => {
+  grid.innerHTML = cars.map((car, idx) => {
     const title = escapeHtml(car.title || 'Авто');
     const brand = escapeAttr(car.brand || '');
     const year = escapeAttr(car.year || '');
@@ -3900,13 +3932,37 @@ function renderManagedCars(cars) {
 
     const originBadge = `<span class="car-origin-badge"><span aria-hidden="true">${originFlag}</span>${escapeHtml(originLabel)}</span>`;
 
+    // iOS Safari image-disappearing fix:
+    //   - First 3 cards use loading="eager" so they paint immediately
+    //     (above the fold, no IntersectionObserver race).
+    //   - All <img> are wrapped in a .car-media block with aspect-ratio
+    //     and explicit display:block — no opacity/visibility tricks.
+    //   - onerror swaps to an inline SVG placeholder (does NOT remove the
+    //     element, otherwise the layout collapses on retina iPhones).
+    const loadingAttr = idx < 3 ? 'eager' : 'lazy';
+    const fetchAttr = idx === 0 ? 'high' : 'auto';
+    const fallbackSvg = encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">' +
+      '<rect width="320" height="200" fill="#1a1a1a"/>' +
+      '<text x="160" y="100" text-anchor="middle" dominant-baseline="middle" ' +
+      'font-family="system-ui,sans-serif" font-size="14" fill="#666">Фото скоро будет</text>' +
+      '</svg>'
+    );
+    const onerrorJs = "this.onerror=null;this.src='data:image/svg+xml;charset=utf-8," + fallbackSvg + "';";
+
+    const photoHtml = image
+      ? `<img class="car-photo" src="${escapeAttr(image)}" alt="${title}"
+              loading="${loadingAttr}" fetchpriority="${fetchAttr}" decoding="async"
+              onerror="${onerrorJs}">`
+      : `<img class="car-photo" alt="${title}" src="data:image/svg+xml;charset=utf-8,${fallbackSvg}">`;
+
     return `
       <article class="car-card fade-up visible" data-brand="${brand}" data-year="${year}" data-budget="${budget}" data-fuel="${fuel}" data-body="${body}" data-origin="${escapeAttr(origin)}">
-        <div class="car-image">
+        <div class="car-media car-image">
+          ${photoHtml}
           ${originBadge}
           ${statusBadge}
           ${videoMini}
-          ${image ? `<img class="car-photo" src="${escapeAttr(image)}" alt="${title}" loading="lazy" onerror="this.style.display='none';this.parentElement.appendChild(document.createRange().createContextualFragment(window.__carIllustrationHTML||''))">` : carIllustration()}
         </div>
         <div class="car-content">
           <h3 class="car-title">${title}</h3>
