@@ -1,6 +1,40 @@
 {
   "cars": [
     {
+      "id": "car_20260603_160638",
+      "title": "",
+      "brand": "",
+      "model": "",
+      "year": "",
+      "engine": "",
+      "fuel": "",
+      "bodyType": "",
+      "body": "",
+      "budget": "",
+      "tag": "reliable",
+      "price": "",
+      "mileage": "",
+      "location": "Dubai / UAE",
+      "description": "💥 МЕГА ВЫГОДА!\n<b></b>\n\n📍 Dubai / UAE\n\nЭтот вариант разлетится за день — пиши сейчас! 📲",
+      "whatsapp": "",
+      "instagramUrl": "",
+      "image": "assets/cars/car_20260603_160638_1.jpg",
+      "mainImage": "assets/cars/car_20260603_160638_1.jpg",
+      "images": [
+        "assets/cars/car_20260603_160638_1.jpg",
+        "assets/cars/car_20260603_160638_poster.jpg"
+      ],
+      "videoUrl": "",
+      "videoFile": "",
+      "videoType": "",
+      "videoPoster": "assets/cars/car_20260603_160638_1.jpg",
+      "videoTitle": "",
+      "videoDuration": "",
+      "status": "available",
+      "source": "telegram_ai_uploader",
+      "createdAt": "2026-06-03T16:06:46Z"
+    },
+    {
       "id": "car_20260603_160526",
       "title": "Toyota Highlander 2022",
       "brand": "Toyota",
