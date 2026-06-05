@@ -1033,6 +1033,39 @@ def template_premium_dubai(car: dict, photo: Optional[Image.Image]) -> Image.Ima
             draw.text((panel_x + panel_pad, y0 + spec_label_font.size + 4),
                       str(value), font=vfont, fill=WHITE)
 
+        # ---------- 🔥 ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ badge (below spec panel) ----------
+        # Premium pulse-style badge matching the approved Dubai-dealership look.
+        badge_y = panel_y + panel_h + 14
+        badge_pad_x, badge_pad_y = 22, 14
+        l1, l2 = "ВЫГОДНОЕ ПРЕДЛОЖЕНИЕ!", "ЛУЧШАЯ ЦЕНА НА РЫНКЕ"
+        bf1 = _load_font("bold", 20)
+        bf2 = _load_font("bold", 16)
+        bw_text = max(_text_w(draw, l1, bf1), _text_w(draw, l2, bf2))
+        fire_w = 28
+        bw = bw_text + badge_pad_x * 2 + fire_w + 8
+        bh = bf1.size + bf2.size + badge_pad_y * 2 + 4
+        bx0 = panel_x + (panel_w - bw) // 2
+        bx1 = bx0 + bw
+        _rounded_rect(draw, (bx0, badge_y, bx1, badge_y + bh),
+                      radius=14, fill=(15, 15, 18, 235),
+                      outline=(212, 175, 55, 140), width=1)
+        # 🔥 emoji-like flame glyph (drawn as two stacked triangles in orange)
+        fcx = bx0 + badge_pad_x + fire_w // 2
+        fcy = badge_y + bh // 2
+        draw.polygon([
+            (fcx - 8, fcy + 8), (fcx + 8, fcy + 8),
+            (fcx + 4, fcy - 2), (fcx, fcy - 10), (fcx - 4, fcy - 2),
+        ], fill=(255, 140, 50))
+        draw.polygon([
+            (fcx - 4, fcy + 6), (fcx + 4, fcy + 6),
+            (fcx, fcy - 4),
+        ], fill=(255, 200, 80))
+        # Two-line text
+        text_x = bx0 + badge_pad_x + fire_w + 8
+        draw.text((text_x, badge_y + badge_pad_y), l1, font=bf1, fill=GOLD)
+        draw.text((text_x, badge_y + badge_pad_y + bf1.size + 4),
+                  l2, font=bf2, fill=WHITE)
+
     # ---------- Four ✓ advantages (fixed copy, no "опшин") ----------
     bullets = [
         "Полная комплектация",
@@ -1933,6 +1966,93 @@ async def _generate_with_pollinations(car: dict, main_photo_path: Optional[Path 
         return img_bytes
 
 
+async def _generate_clean_car_image_via_vertex(car: dict) -> Optional[bytes]:
+    """
+    Ask Gemini for a CLEAN cinematic car photograph — no text, no overlays,
+    no badges, no brand logos written out. Pillow will draw the entire
+    poster layout (title, price, specs, bullets, CTA) on top of this image
+    so the Russian text stays perfect.
+
+    This is the bridge between "AI does everything (broken Cyrillic)" and
+    "no AI at all (one static template)". Used as a fallback when the user
+    didn't upload a photo or extract a frame from a video.
+    """
+    try:
+        import httpx as _httpx
+    except ImportError:
+        return None
+    if not _use_vertex() or not VERTEX_PROJECT_ID:
+        return None
+    token = await _get_vertex_access_token()
+    if not token:
+        return None
+
+    brand = (car.get("brand") or "").strip()
+    model_name = (car.get("model") or "").strip()
+    year = str(car.get("year") or "").strip()
+    color = (car.get("color") or "").strip() or "metallic"
+    body_type = (car.get("bodyType") or "").strip()
+    origin = str(car.get("origin") or "").lower().strip()
+    car_desc = " ".join(p for p in [year, color, brand, model_name] if p) or "luxury car"
+    body_hint = f" {body_type}" if body_type else ""
+
+    if origin == "korea":
+        backdrop = ("Seoul cityscape at golden-hour blue-orange dusk, blurred neon "
+                    "signs in the far distance, wet polished asphalt reflecting warm "
+                    "amber and cool teal city lights, subtle atmospheric haze")
+    else:
+        backdrop = ("Dubai desert at sunset, warm amber and burnt orange sky, soft "
+                    "golden haze on the horizon, gentle sand dunes blurred out of focus, "
+                    "low-angle sunlight casting long warm shadows")
+
+    prompt = (
+        f"Hyper-realistic cinematic automotive photograph of a {car_desc}{body_hint}, "
+        f"low-angle front three-quarter hero view, slightly left-of-center. "
+        f"DRAMATIC SUNSET LIGHTING from upper-left: warm golden rim light on the hood, "
+        f"fender, side mirror and roofline; deep rich shadows on the opposite side; "
+        f"headlights and DRL turned on, glowing crisp white-blue; chrome grille and "
+        f"emblem catching warm sunset light. {backdrop}. "
+        f"Shot on Sony A7R V with 85mm f/1.4, tack-sharp focus, ultra-detailed, 8k. "
+        f"Vertical 2:3 portrait, car fills 70% of the frame width, "
+        f"clean empty space at the top 20% and bottom 20%. "
+        f"STRICT RULES — output ONLY the photograph: "
+        f"NO text, NO letters, NO numbers, NO captions, NO watermarks, "
+        f"NO logos written out, NO price tags, NO badges, NO overlay panels, "
+        f"NO speech bubbles, NO buttons, NO icons, NO UI elements, "
+        f"NO people, NO other cars."
+    )
+
+    model = GEMINI_FLASH_IMAGE_MODEL
+    url = (f"{VERTEX_BASE}/projects/{VERTEX_PROJECT_ID}/locations/{VERTEX_LOCATION}"
+           f"/publishers/google/models/{model}:generateContent")
+    payload = {
+        "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+        "generationConfig": {"responseModalities": ["IMAGE", "TEXT"]},
+    }
+    headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+
+    try:
+        async with _httpx.AsyncClient(timeout=AI_TIMEOUT_SECONDS) as client:
+            resp = await client.post(url, json=payload, headers=headers)
+            if resp.status_code != 200:
+                log.warning("Clean-car Vertex request returned %s: %s",
+                            resp.status_code, resp.text[:200])
+                return None
+            data = resp.json()
+    except Exception as e:
+        log.warning("Clean-car Vertex request failed: %s", e)
+        return None
+
+    try:
+        for part in data["candidates"][0]["content"]["parts"]:
+            inline = part.get("inlineData") or part.get("inline_data")
+            if inline and inline.get("data"):
+                return base64.b64decode(inline["data"])
+    except Exception:
+        pass
+    return None
+
+
 async def _generate_with_gemini(car: dict, main_photo_path: Optional[Path | str]) -> Optional[bytes]:
     """
     Try Gemini image generation in this order:
@@ -2063,8 +2183,30 @@ async def generate_ad_image_with_template(
         log.info("All AI poster backends failed; falling back to local Pillow template")
 
     # mode == "local" OR auto-fallback
+    # HYBRID UPGRADE: if no real user photo, ask Gemini for a CLEAN car
+    # render (no text, no overlays, no badges — just a hyper-realistic car
+    # photograph) and use that as the photo Pillow draws on top of. This way
+    # Pillow keeps its perfect Cyrillic text rendering while the visual still
+    # gets the cinematic Dubai-sunset polish.
+    fallback_photo = main_photo_path
+    has_real_photo = main_photo_path and Path(str(main_photo_path)).exists()
+    if not has_real_photo and _use_vertex() and VERTEX_PROJECT_ID:
+        try:
+            log.info("No user photo — generating clean car render via Vertex AI for Pillow overlay")
+            clean_bg = await _generate_clean_car_image_via_vertex(car)
+            if clean_bg:
+                import tempfile as _tf
+                _tmp = _tf.NamedTemporaryFile(suffix=".jpg", delete=False)
+                _tmp.write(clean_bg)
+                _tmp.close()
+                fallback_photo = _tmp.name
+                log.info("Clean Vertex AI car image saved at %s (%d KB)",
+                         fallback_photo, len(clean_bg) // 1024)
+        except Exception as e:
+            log.warning("Vertex AI background generation failed: %s", e)
+
     try:
-        data, used = generate_local_poster(car, main_photo_path, template_name=template_name)
+        data, used = generate_local_poster(car, fallback_photo, template_name=template_name)
         return data, used
     except Exception as e:
         log.warning("Local poster generation failed: %s", e)
