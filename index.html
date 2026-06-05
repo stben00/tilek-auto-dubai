@@ -1893,6 +1893,77 @@ svg{flex-shrink:0}
 }
 @media(max-width:720px){.compare-grid{grid-template-columns:1fr}}
 
+/* ============ DUBAI vs KOREA PRICE COMPARISON ROWS ============ */
+.compare-prices{
+  margin-top:48px;display:flex;flex-direction:column;gap:28px;
+}
+.compare-pair{
+  background:rgba(15,15,15,.55);border:1px solid rgba(212,175,55,.15);
+  border-radius:22px;padding:24px;
+}
+.compare-pair-title{
+  font-size:20px;font-weight:700;color:#fff;margin-bottom:6px;
+  display:flex;align-items:center;gap:10px;
+}
+.compare-pair-sub{
+  font-size:13.5px;color:#9aa0a6;margin-bottom:20px;
+}
+.compare-pair-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+}
+.compare-side{
+  background:#0d0d0d;border:1px solid rgba(255,255,255,.06);
+  border-radius:16px;overflow:hidden;display:flex;flex-direction:column;
+  transition:.25s;
+}
+.compare-side:hover{border-color:rgba(212,175,55,.4);transform:translateY(-3px)}
+.compare-side-img{
+  position:relative;width:100%;aspect-ratio:16/10;background:#181818;
+  -webkit-transform:translateZ(0);transform:translateZ(0);isolation:isolate;
+  overflow:hidden;
+}
+.compare-side-img img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  display:block;opacity:1 !important;visibility:visible !important;
+}
+.compare-side-flag{
+  position:absolute;top:12px;left:12px;z-index:2;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 11px;border-radius:100px;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
+  color:#fff;font-size:12px;font-weight:600;letter-spacing:.3px;
+}
+.compare-side-flag-emoji{font-size:16px;line-height:1}
+.compare-side-body{padding:18px 20px 20px}
+.compare-side-price-label{
+  font-size:11.5px;color:#888;text-transform:uppercase;letter-spacing:.6px;
+  margin-bottom:4px;
+}
+.compare-side-price{
+  font-size:30px;font-weight:800;color:#d4af37;line-height:1.1;margin-bottom:4px;
+}
+.compare-side-price-hint{
+  font-size:12px;color:#888;margin-bottom:14px;
+}
+.compare-side-btn{
+  display:block;width:100%;text-align:center;
+  padding:12px 16px;border-radius:100px;
+  background:linear-gradient(135deg,#d4af37,#a87f1b);color:#1a1300;
+  font-size:13.5px;font-weight:700;letter-spacing:.3px;
+  transition:.2s;border:none;cursor:pointer;
+}
+.compare-side-btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px -10px rgba(212,175,55,.5)}
+.compare-pair-note{
+  text-align:center;font-size:12.5px;color:#7a7a7a;
+  margin-top:14px;padding:0 8px;line-height:1.5;
+}
+.compare-pair-note b{color:#d4af37;font-weight:600}
+@media(max-width:720px){
+  .compare-pair-grid{grid-template-columns:1fr;gap:14px}
+  .compare-pair{padding:18px}
+  .compare-side-price{font-size:26px}
+}
+
 /* Origin filter chips in catalog */
 .origin-chips{
   display:flex;flex-wrap:wrap;gap:10px;
@@ -2430,10 +2501,122 @@ svg{flex-shrink:0}
       </div>
     </div>
 
-    <div style="text-align:center" class="fade-up">
+    <!-- ============ PRICE COMPARISON: same model, two markets ============ -->
+    <div class="compare-prices fade-up">
+      <h3 style="text-align:center;font-size:22px;font-weight:700;color:#fff;margin-bottom:8px">
+        Примеры цен на одну модель — <span class="gold">Дубай vs Корея</span>
+      </h3>
+      <p style="text-align:center;font-size:14px;color:#9aa0a6;margin-bottom:8px;max-width:640px;margin-left:auto;margin-right:auto">
+        Покажем как меняется цена на одну и ту же машину в зависимости от рынка. Все варианты доступны через наш подбор — вы выбираете, мы организуем доставку.
+      </p>
+      <p style="text-align:center;font-size:12px;color:#666;margin-bottom:28px;max-width:580px;margin-left:auto;margin-right:auto">
+        Изображения представлены для иллюстрации сравнения. Реальные фотографии конкретного автомобиля присылаем после уточнения запроса в WhatsApp.
+      </p>
+
+      <!-- Pair 1: Hyundai Sonata -->
+      <div class="compare-pair">
+        <div class="compare-pair-title">Hyundai Sonata <span style="color:#9aa0a6;font-weight:500">· 2020 · 2.0</span></div>
+        <div class="compare-pair-sub">Популярный седан бизнес-класса — есть на обоих рынках</div>
+        <div class="compare-pair-grid">
+          <div class="compare-side">
+            <div class="compare-side-img">
+              <img src="assets/comparison/hyundai_sonata_dubai.jpg" alt="Hyundai Sonata из Дубая" loading="eager" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.style.background='#1a1a1a'">
+              <span class="compare-side-flag"><span class="compare-side-flag-emoji" aria-hidden="true">🇦🇪</span>Dubai · UAE</span>
+            </div>
+            <div class="compare-side-body">
+              <div class="compare-side-price-label">Цена в Дубае</div>
+              <div class="compare-side-price">$12 500</div>
+              <div class="compare-side-price-hint">от • без доставки</div>
+              <a href="https://wa.me/996551333360?text=Здравствуйте!%20Интересует%20Hyundai%20Sonata%202020%20из%20Дубая%20за%20%2412%20500.%20Подскажите%20итоговую%20стоимость%20с%20доставкой." target="_blank" rel="noopener" class="compare-side-btn">Заказать из Дубая</a>
+            </div>
+          </div>
+          <div class="compare-side">
+            <div class="compare-side-img">
+              <img src="assets/comparison/hyundai_sonata_korea.jpg" alt="Hyundai Sonata из Кореи" loading="eager" fetchpriority="high" decoding="async" onerror="this.onerror=null;this.style.background='#1a1a1a'">
+              <span class="compare-side-flag"><span class="compare-side-flag-emoji" aria-hidden="true">🇰🇷</span>South Korea</span>
+            </div>
+            <div class="compare-side-body">
+              <div class="compare-side-price-label">Цена в Корее</div>
+              <div class="compare-side-price">$5 800</div>
+              <div class="compare-side-price-hint">от • без доставки</div>
+              <a href="https://wa.me/996551333360?text=Здравствуйте!%20Интересует%20Hyundai%20Sonata%202020%20из%20Южной%20Кореи%20за%20%245%20800.%20Подскажите%20итоговую%20стоимость%20с%20доставкой." target="_blank" rel="noopener" class="compare-side-btn">Заказать из Кореи</a>
+            </div>
+          </div>
+        </div>
+        <p class="compare-pair-note">Цены ориентировочные, до доставки. Итог рассчитываем по запросу с учётом конкретного автомобиля. <b>Напишите в WhatsApp</b> — пришлём расчёт под ключ.</p>
+      </div>
+
+      <!-- Pair 2: Kia K5 -->
+      <div class="compare-pair">
+        <div class="compare-pair-title">Kia K5 <span style="color:#9aa0a6;font-weight:500">· 2022 · 2.0</span></div>
+        <div class="compare-pair-sub">Премиальный седан K-Series — стильный дизайн, оба рынка популярны</div>
+        <div class="compare-pair-grid">
+          <div class="compare-side">
+            <div class="compare-side-img">
+              <img src="assets/comparison/kia_k5_dubai.jpg" alt="Kia K5 из Дубая" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.background='#1a1a1a'">
+              <span class="compare-side-flag"><span class="compare-side-flag-emoji" aria-hidden="true">🇦🇪</span>Dubai · UAE</span>
+            </div>
+            <div class="compare-side-body">
+              <div class="compare-side-price-label">Цена в Дубае</div>
+              <div class="compare-side-price">$15 800</div>
+              <div class="compare-side-price-hint">от • без доставки</div>
+              <a href="https://wa.me/996551333360?text=Здравствуйте!%20Интересует%20Kia%20K5%202022%20из%20Дубая%20за%20%2415%20800.%20Подскажите%20итоговую%20стоимость%20с%20доставкой." target="_blank" rel="noopener" class="compare-side-btn">Заказать из Дубая</a>
+            </div>
+          </div>
+          <div class="compare-side">
+            <div class="compare-side-img">
+              <img src="assets/comparison/kia_k5_korea.jpg" alt="Kia K5 из Кореи" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.background='#1a1a1a'">
+              <span class="compare-side-flag"><span class="compare-side-flag-emoji" aria-hidden="true">🇰🇷</span>South Korea</span>
+            </div>
+            <div class="compare-side-body">
+              <div class="compare-side-price-label">Цена в Корее</div>
+              <div class="compare-side-price">$9 900</div>
+              <div class="compare-side-price-hint">от • без доставки</div>
+              <a href="https://wa.me/996551333360?text=Здравствуйте!%20Интересует%20Kia%20K5%202022%20из%20Южной%20Кореи%20за%20%249%20900.%20Подскажите%20итоговую%20стоимость%20с%20доставкой." target="_blank" rel="noopener" class="compare-side-btn">Заказать из Кореи</a>
+            </div>
+          </div>
+        </div>
+        <p class="compare-pair-note">В Корее можно найти варианты с пробегом и косметическими дефектами по более низким ценам. <b>Расскажем что есть сейчас</b> — напишите в WhatsApp.</p>
+      </div>
+
+      <!-- Pair 3: Genesis G80 -->
+      <div class="compare-pair">
+        <div class="compare-pair-title">Genesis G80 <span style="color:#9aa0a6;font-weight:500">· 2023 · 3.5</span></div>
+        <div class="compare-pair-sub">Премиум седан — корейский конкурент BMW и Mercedes</div>
+        <div class="compare-pair-grid">
+          <div class="compare-side">
+            <div class="compare-side-img">
+              <img src="assets/comparison/genesis_g80_dubai.jpg" alt="Genesis G80 из Дубая" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.background='#1a1a1a'">
+              <span class="compare-side-flag"><span class="compare-side-flag-emoji" aria-hidden="true">🇦🇪</span>Dubai · UAE</span>
+            </div>
+            <div class="compare-side-body">
+              <div class="compare-side-price-label">Цена в Дубае</div>
+              <div class="compare-side-price">$38 000</div>
+              <div class="compare-side-price-hint">от • без доставки</div>
+              <a href="https://wa.me/996551333360?text=Здравствуйте!%20Интересует%20Genesis%20G80%202023%20из%20Дубая%20за%20%2438%20000.%20Подскажите%20итоговую%20стоимость%20с%20доставкой." target="_blank" rel="noopener" class="compare-side-btn">Заказать из Дубая</a>
+            </div>
+          </div>
+          <div class="compare-side">
+            <div class="compare-side-img">
+              <img src="assets/comparison/genesis_g80_korea.jpg" alt="Genesis G80 из Кореи" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.background='#1a1a1a'">
+              <span class="compare-side-flag"><span class="compare-side-flag-emoji" aria-hidden="true">🇰🇷</span>South Korea</span>
+            </div>
+            <div class="compare-side-body">
+              <div class="compare-side-price-label">Цена в Корее</div>
+              <div class="compare-side-price">$25 500</div>
+              <div class="compare-side-price-hint">от • без доставки</div>
+              <a href="https://wa.me/996551333360?text=Здравствуйте!%20Интересует%20Genesis%20G80%202023%20из%20Южной%20Кореи%20за%20%2425%20500.%20Подскажите%20итоговую%20стоимость%20с%20доставкой." target="_blank" rel="noopener" class="compare-side-btn">Заказать из Кореи</a>
+            </div>
+          </div>
+        </div>
+        <p class="compare-pair-note">Genesis производится в Корее, поэтому цены там значительно ниже. <b>Идеальный вариант для премиум-бюджета.</b></p>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:32px" class="fade-up">
       <a href="https://wa.me/996551333360?text=Здравствуйте!%20Хочу%20сравнить%20варианты%20автомобилей%20из%20Дубая%20и%20Южной%20Кореи%20под%20мой%20бюджет.%20Бюджет%3A%20____.%20Модель%3A%20____." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
-        Сравнить варианты из Дубая и Кореи
+        Сравнить варианты под ваш бюджет
       </a>
     </div>
   </div>
