@@ -1,6 +1,40 @@
 {
   "cars": [
     {
+      "id": "car_20260605_025233",
+      "title": "Lexus RX350 2021",
+      "brand": "Lexus",
+      "model": "RX350",
+      "year": "2021",
+      "engine": "3.5 4WD",
+      "fuel": "",
+      "bodyType": "Внедорожник",
+      "body": "",
+      "budget": "",
+      "tag": "reliable",
+      "price": "$20 500",
+      "mileage": "26 000 км",
+      "location": "Dubai / UAE",
+      "description": "🏆 ЭКСКЛЮЗИВНЫЙ ВАРИАНТ!\n<b>LEXUS RX350 2021</b>\n\n✅ НАДЁЖНЫЙ · ГОТОВ К ЛЮБЫМ ДОРОГАМ\n🔧 Двигатель: 3.5 4WD\n📊 Пробег: 26 000 км\n📍 Dubai / UAE\n\n💸 $20 500 — отличный вариант, торг возможен\n\nНа рынке таких единицы — забронируй пока есть! ⚡",
+      "whatsapp": "",
+      "instagramUrl": "",
+      "image": "assets/cars/car_20260605_025233_1.jpg",
+      "mainImage": "assets/cars/car_20260605_025233_1.jpg",
+      "images": [
+        "assets/cars/car_20260605_025233_1.jpg",
+        "assets/cars/car_20260605_025233_poster.jpg"
+      ],
+      "videoUrl": "assets/videos/car_20260605_025233_video.mp4",
+      "videoFile": "assets/videos/car_20260605_025233_video.mp4",
+      "videoType": "local",
+      "videoPoster": "assets/cars/car_20260605_025233_1.jpg",
+      "videoTitle": "Видео-обзор Lexus RX350 2021",
+      "videoDuration": "",
+      "status": "available",
+      "source": "telegram_ai_uploader",
+      "createdAt": "2026-06-05T02:52:58Z"
+    },
+    {
       "id": "car_20260603_160638",
       "title": "",
       "brand": "",
@@ -205,6 +239,16 @@
     }
   ],
   "videos": [
+    {
+      "id": "car_20260605_025233",
+      "carId": "car_20260605_025233",
+      "title": "Lexus RX350 2021 — видео-обзор",
+      "url": "assets/videos/car_20260605_025233_video.mp4",
+      "thumb": "assets/cars/car_20260605_025233_1.jpg",
+      "type": "local",
+      "views": "новое",
+      "instagramUrl": ""
+    },
     {
       "id": "car_20260603_160526",
       "carId": "car_20260603_160526",
