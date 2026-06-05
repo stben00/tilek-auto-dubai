@@ -1992,7 +1992,6 @@ svg{flex-shrink:0}
   <a href="#korea">🇰🇷 Авто из Кореи <span style="background:linear-gradient(135deg,#d4af37,#a87f1b);color:#1a1300;padding:2px 8px;border-radius:100px;font-size:11px;font-weight:700;margin-left:6px">NEW</span></a>
   <a href="#compare">Дубай или Корея</a>
   <a href="#catalog">Каталог авто</a>
-  <a href="#community">Группа</a>
   <a href="#process">Как работаем</a>
   <a href="#reviews">Отзывы</a>
   <a href="faq.html">FAQ</a>
@@ -2165,58 +2164,89 @@ svg{flex-shrink:0}
   </div>
 </section>
 
-<!-- ============ SALES OFFER ============ -->
-<section class="section offer-section" id="offer">
+
+<!-- ============ CATALOG ============ -->
+<section class="section catalog" id="catalog">
   <div class="container">
-    <div class="offer-layout">
-      <div class="offer-main fade-up">
-        <span class="section-tag">Готово для показа</span>
-        <h2>Сайт сразу объясняет, <span class="gold">почему стоит написать</span></h2>
-        <p>Первый экран ведёт клиента к простому действию: отправить бюджет, получить подборку и увидеть расчёт до покупки. Это удобно показать партнёру, клиенту или человеку, которому нужно быстро понять ценность услуги.</p>
-        <div class="offer-proof">
-          <div>
-            <strong>30 сек</strong>
-            <span>чтобы понять оффер и нажать WhatsApp</span>
-          </div>
-          <div>
-            <strong>3–5</strong>
-            <span>вариантов авто под бюджет в заявке</span>
-          </div>
-          <div>
-            <strong>1 чат</strong>
-            <span>все детали остаются в WhatsApp</span>
-          </div>
-        </div>
-        <div class="offer-actions">
-          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу подобрать автомобиль из Дубая или Южной Кореи. Мой бюджет: ____. Интересует модель: ____. Покажите, пожалуйста, реальные варианты." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
-            Быстрый расчёт в WhatsApp
-          </a>
-          <a href="#calculator" class="btn btn-ghost btn-lg">Оставить заявку</a>
-        </div>
-      </div>
-      <div class="offer-stack">
-        <div class="offer-card fade-up">
-          <div class="num">01</div>
-          <h3>Чёткий оффер</h3>
-          <p>Не “мы привозим машины”, а конкретно: подборка, проверка, расчёт и сопровождение до получения авто.</p>
-        </div>
-        <div class="offer-card fade-up">
-          <div class="num">02</div>
-          <h3>Быстрые сценарии</h3>
-          <p>Клиент выбирает готовую кнопку: бюджет до $15 000, 3–5 вариантов или полный расчёт под ключ.</p>
-        </div>
-        <div class="offer-card fade-up">
-          <div class="num">03</div>
-          <h3>Доверие до оплаты</h3>
-          <p>Сайт заранее показывает, что клиент получит фото, видео, оценку рисков и понятную смету.</p>
-        </div>
-        <div class="offer-card fade-up">
-          <div class="num">04</div>
-          <h3>Удобно продавать</h3>
-          <p>Ссылку можно отправить в мессенджере как готовую презентацию сервиса, а не объяснять всё голосом.</p>
-        </div>
+    <div class="section-head fade-up">
+      <span class="section-tag">Каталог</span>
+      <h2 class="section-title">Автомобили из <span class="gold">Дубая и Кореи</span></h2>
+      <p class="section-subtitle">Подберём, проверим и доставим автомобиль из ОАЭ или Южной Кореи в Кыргызстан, Казахстан и СНГ. Финальная цена под ключ рассчитывается индивидуально.</p>
+      <div class="catalog-trust">
+        <span class="catalog-trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          Проверка перед покупкой
+        </span>
+        <span class="catalog-trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          Видеоосмотр по запросу
+        </span>
+        <span class="catalog-trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Доставка под ключ
+        </span>
       </div>
     </div>
+
+    <!-- Origin filter chips: All / Dubai / Korea -->
+    <div class="origin-chips fade-up" role="tablist" aria-label="Фильтр по стране">
+      <button type="button" class="origin-chip active" data-origin="all" role="tab" aria-selected="true">Все авто</button>
+      <button type="button" class="origin-chip" data-origin="dubai" role="tab" aria-selected="false"><span class="origin-chip-flag">🇦🇪</span>Дубай / ОАЭ</button>
+      <button type="button" class="origin-chip" data-origin="korea" role="tab" aria-selected="false"><span class="origin-chip-flag">🇰🇷</span>Южная Корея</button>
+    </div>
+
+    <div class="filters fade-up">
+      <select class="filter-select" id="filterBrand">
+        <option value="">Все марки</option>
+        <option value="Toyota">Toyota</option>
+        <option value="Lexus">Lexus</option>
+        <option value="BMW">BMW</option>
+        <option value="Jeep">Jeep</option>
+      </select>
+      <select class="filter-select" id="filterYear">
+        <option value="">Все годы</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+        <option value="2022">2022</option>
+        <option value="2020">2020</option>
+        <option value="2019">2019</option>
+      </select>
+      <select class="filter-select" id="filterBudget">
+        <option value="">Любой бюджет</option>
+        <option value="low">До $15 000</option>
+        <option value="mid">$15 000 — $30 000</option>
+        <option value="high">От $30 000</option>
+      </select>
+      <select class="filter-select" id="filterFuel">
+        <option value="">Любое топливо</option>
+        <option value="бензин">Бензин</option>
+        <option value="гибрид">Гибрид</option>
+      </select>
+      <select class="filter-select" id="filterBody">
+        <option value="">Любой кузов</option>
+        <option value="suv">Внедорожник</option>
+        <option value="sedan">Седан</option>
+      </select>
+    </div>
+
+    <div class="catalog-toolbar">
+      <button type="button" id="resetFilters" class="btn btn-ghost btn-sm" hidden onclick="resetAllFilters()">
+        ✕ Сбросить фильтры
+      </button>
+    </div>
+
+    <div class="empty-results" id="catalogEmpty" hidden>
+      <h3>По вашему запросу ничего не нашлось</h3>
+      <p>Сбросьте фильтры или напишите в WhatsApp — найдём под заказ</p>
+      <div class="empty-actions">
+        <button type="button" class="btn btn-ghost" onclick="resetAllFilters()">Сбросить фильтры</button>
+        <a href="https://wa.me/996551333360?text=Здравствуйте! Помогите найти авто" target="_blank" rel="noopener" class="btn btn-whatsapp">WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="catalog-grid" id="catalogGrid"></div>
+
+    <p class="disclaimer fade-up">Цены указаны ориентировочно. Итоговая стоимость зависит от состояния авто, аукциона, доставки, курса валют и документов.</p>
   </div>
 </section>
 
@@ -2426,142 +2456,6 @@ svg{flex-shrink:0}
   </div>
 </section>
 
-<!-- ============ CATALOG ============ -->
-<section class="section catalog" id="catalog">
-  <div class="container">
-    <div class="section-head fade-up">
-      <span class="section-tag">Каталог</span>
-      <h2 class="section-title">Автомобили из <span class="gold">Дубая и Кореи</span></h2>
-      <p class="section-subtitle">Подберём, проверим и доставим автомобиль из ОАЭ или Южной Кореи в Кыргызстан, Казахстан и СНГ. Финальная цена под ключ рассчитывается индивидуально.</p>
-      <div class="catalog-trust">
-        <span class="catalog-trust-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-          Проверка перед покупкой
-        </span>
-        <span class="catalog-trust-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-          Видеоосмотр по запросу
-        </span>
-        <span class="catalog-trust-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          Доставка под ключ
-        </span>
-      </div>
-    </div>
-
-    <!-- Origin filter chips: All / Dubai / Korea -->
-    <div class="origin-chips fade-up" role="tablist" aria-label="Фильтр по стране">
-      <button type="button" class="origin-chip active" data-origin="all" role="tab" aria-selected="true">Все авто</button>
-      <button type="button" class="origin-chip" data-origin="dubai" role="tab" aria-selected="false"><span class="origin-chip-flag">🇦🇪</span>Дубай / ОАЭ</button>
-      <button type="button" class="origin-chip" data-origin="korea" role="tab" aria-selected="false"><span class="origin-chip-flag">🇰🇷</span>Южная Корея</button>
-    </div>
-
-    <div class="filters fade-up">
-      <select class="filter-select" id="filterBrand">
-        <option value="">Все марки</option>
-        <option value="Toyota">Toyota</option>
-        <option value="Lexus">Lexus</option>
-        <option value="BMW">BMW</option>
-        <option value="Jeep">Jeep</option>
-      </select>
-      <select class="filter-select" id="filterYear">
-        <option value="">Все годы</option>
-        <option value="2024">2024</option>
-        <option value="2023">2023</option>
-        <option value="2022">2022</option>
-        <option value="2020">2020</option>
-        <option value="2019">2019</option>
-      </select>
-      <select class="filter-select" id="filterBudget">
-        <option value="">Любой бюджет</option>
-        <option value="low">До $15 000</option>
-        <option value="mid">$15 000 — $30 000</option>
-        <option value="high">От $30 000</option>
-      </select>
-      <select class="filter-select" id="filterFuel">
-        <option value="">Любое топливо</option>
-        <option value="бензин">Бензин</option>
-        <option value="гибрид">Гибрид</option>
-      </select>
-      <select class="filter-select" id="filterBody">
-        <option value="">Любой кузов</option>
-        <option value="suv">Внедорожник</option>
-        <option value="sedan">Седан</option>
-      </select>
-    </div>
-
-    <div class="catalog-toolbar">
-      <button type="button" id="resetFilters" class="btn btn-ghost btn-sm" hidden onclick="resetAllFilters()">
-        ✕ Сбросить фильтры
-      </button>
-    </div>
-
-    <div class="empty-results" id="catalogEmpty" hidden>
-      <h3>По вашему запросу ничего не нашлось</h3>
-      <p>Сбросьте фильтры или напишите в WhatsApp — найдём под заказ</p>
-      <div class="empty-actions">
-        <button type="button" class="btn btn-ghost" onclick="resetAllFilters()">Сбросить фильтры</button>
-        <a href="https://wa.me/996551333360?text=Здравствуйте! Помогите найти авто" target="_blank" rel="noopener" class="btn btn-whatsapp">WhatsApp</a>
-      </div>
-    </div>
-
-    <div class="catalog-grid" id="catalogGrid"></div>
-
-    <p class="disclaimer fade-up">Цены указаны ориентировочно. Итоговая стоимость зависит от состояния авто, аукциона, доставки, курса валют и документов.</p>
-  </div>
-</section>
-
-<!-- ============ COMMUNITY / SOCIAL PROOF ============ -->
-<section class="section community-section" id="community">
-  <div class="container">
-    <div class="community-grid">
-      <div class="community-copy fade-up">
-        <span class="section-tag">Живые поступления</span>
-        <h2>WhatsApp-группа и Reels — <span class="gold">быстрее сайта</span></h2>
-        <p>В группу удобно выкладывать свежие авто, короткие видео, цены старта и быстрые варианты с аукциона. На сайте оставляем лучшие позиции и сильные Reels, а весь поток клиент смотрит в WhatsApp и Instagram.</p>
-        <div class="community-actions">
-          <a href="https://chat.whatsapp.com/D1IHhSbhKkH5vlnxzsdA4R" target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg" data-whatsapp-group-link>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
-            Вступить в группу
-          </a>
-          <a href="https://www.instagram.com/tilek_auto_dubai/" target="_blank" rel="noopener" class="btn btn-ghost btn-lg" data-instagram-link>
-            Смотреть Reels
-          </a>
-        </div>
-      </div>
-      <div class="community-panel fade-up">
-        <div class="community-phone">
-          <div>
-            <strong>TILEK_AUTO_DUBAI 🇰🇬 & 🇦🇪</strong>
-            <span>Группа с новыми авто, видеообзорами, ценами старта и срочными вариантами.</span>
-          </div>
-          <div class="community-phone-badge">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
-          </div>
-        </div>
-        <div class="community-feed">
-          <div class="community-feed-item">
-            <div class="community-feed-label">Reels</div>
-            <div class="community-feed-text">Короткие видео по авто: состояние, цена, пробег и важные нюансы.</div>
-          </div>
-          <div class="community-feed-item">
-            <div class="community-feed-label">Группа</div>
-            <div class="community-feed-text">Быстрые предложения для тех, кто хочет поймать вариант первым.</div>
-          </div>
-          <div class="community-feed-item">
-            <div class="community-feed-label">Аукцион</div>
-            <div class="community-feed-text">Стартовая цена, год, объём и краткая оценка риска до решения.</div>
-          </div>
-          <div class="community-feed-item">
-            <div class="community-feed-label">Контакт</div>
-            <div class="community-feed-text">Официальный WhatsApp: +996 551 333 360.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ PROCESS ============ -->
 <section class="section process" id="process">
   <div class="container">
@@ -2595,55 +2489,6 @@ svg{flex-shrink:0}
         <div class="step-num">5</div>
         <h3>Сопровождаем сделку</h3>
         <p>После согласования автомобиля сопровождаем дальнейший процесс покупки и доставки.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ DEAL SAFETY ============ -->
-<section class="section deal-safety" id="safety">
-  <div class="container">
-    <div class="section-head fade-up">
-      <span class="section-tag">Доверие</span>
-      <h2 class="section-title">Что вы получаете <span class="gold">до оплаты</span></h2>
-      <p class="section-subtitle">Мы не просим принимать решение вслепую: сначала показываем понятную картину по машине, рискам и расходам.</p>
-    </div>
-    <div class="safety-grid">
-      <div class="safety-card fade-up">
-        <div class="safety-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        </div>
-        <h3>Понятный расчёт под ключ</h3>
-        <p>Перед покупкой вы видите не только цену авто, но и ориентировочные расходы по маршруту.</p>
-        <ul>
-          <li>цена автомобиля и комиссия</li>
-          <li>доставка и документы</li>
-          <li>запас на непредвиденные расходы</li>
-        </ul>
-      </div>
-      <div class="safety-card fade-up">
-        <div class="safety-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M9 14l2 2 4-4"/></svg>
-        </div>
-        <h3>Проверка перед решением</h3>
-        <p>Показываем сильные и слабые стороны варианта, чтобы не покупать “красивую картинку”.</p>
-        <ul>
-          <li>фото, видео и состояние</li>
-          <li>комплектация и история</li>
-          <li>риски по кузову и технике</li>
-        </ul>
-      </div>
-      <div class="safety-card fade-up">
-        <div class="safety-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-        </div>
-        <h3>Безопасная коммуникация</h3>
-        <p>Все детали фиксируются в переписке, а перед оплатой вы проверяете официальный контакт.</p>
-        <ul>
-          <li>переписка в WhatsApp</li>
-          <li>подтверждение условий сделки</li>
-          <li>предупреждение о мошенниках</li>
-        </ul>
       </div>
     </div>
   </div>
@@ -2870,53 +2715,6 @@ svg{flex-shrink:0}
           <svg fill="currentColor" viewBox="0 0 24 24"><polygon points="12,2 15,8.5 22,9.3 17,14 18.2,21 12,17.7 5.8,21 7,14 2,9.3 9,8.5"/></svg>
         </div>
         <p class="review-text">Нашли интересный вариант с аукциона и помогли разобраться по доставке.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ ANTI-SCAM ============ -->
-<section class="section warning">
-  <div class="container">
-    <div class="warning-inner fade-up">
-      <div class="warning-grid">
-        <div>
-          <div class="warning-icon-big">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          </div>
-          <h2>Остерегайтесь <span style="color:#e85c41">мошенников</span></h2>
-          <p>Перед оплатой всегда проверяйте официальные контакты. Не переводите деньги неизвестным людям и не доверяйте аккаунтам-копиям.</p>
-          <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу проверить, что это официальный контакт Tilek Auto Dubai." target="_blank" rel="noopener" class="btn btn-gold">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Проверить официальный контакт
-          </a>
-        </div>
-        <div class="warning-checklist">
-          <div class="warning-item">
-            <div class="warning-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <span>Пишите только на официальный WhatsApp</span>
-          </div>
-          <div class="warning-item">
-            <div class="warning-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <span>Проверяйте Instagram-профиль перед перепиской</span>
-          </div>
-          <div class="warning-item">
-            <div class="warning-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <span>Не отправляйте деньги случайным посредникам</span>
-          </div>
-          <div class="warning-item">
-            <div class="warning-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <span>Уточняйте детали сделки заранее</span>
-          </div>
-          <div class="warning-item">
-            <div class="warning-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <span>Просите расчёт и подтверждение информации</span>
-          </div>
-          <div class="warning-item">
-            <div class="warning-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <span>Сохраняйте всю переписку и подтверждения</span>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -3161,28 +2959,6 @@ svg{flex-shrink:0}
   </div>
 </section>
 
-<!-- ============ FINAL CTA ============ -->
-<section class="section final-cta">
-  <div class="container">
-    <div class="final-inner fade-up">
-      <h2>Хотите авто из Дубая или Кореи? <br>Начните с <span class="gold">бесплатной консультации</span></h2>
-      <p>Напишите нам в WhatsApp — подскажем, какие варианты реально подходят под ваш бюджет и что лучше не покупать.</p>
-      <div class="final-buttons">
-        <!-- Replace with real WhatsApp number -->
-        <a href="https://wa.me/000000000000?text=Здравствуйте! Хочу получить бесплатную консультацию по автомобилям из Дубая и Южной Кореи." target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
-          Написать в WhatsApp
-        </a>
-        <a href="#calculator" class="btn btn-gold btn-lg">Получить расчёт</a>
-      </div>
-      <div class="final-microcopy">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Без давления. Сначала консультация, потом решение.
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ FOOTER ============ -->
 <footer class="footer">
   <div class="container">
@@ -3221,9 +2997,9 @@ svg{flex-shrink:0}
       <div class="footer-col">
         <h4>Навигация</h4>
         <ul>
+          <li><a href="#catalog">Каталог авто</a></li>
+          <li><a href="#korea">🇰🇷 Корея</a></li>
           <li><a href="#services">Услуги</a></li>
-          <li><a href="#catalog">Авто</a></li>
-          <li><a href="#community">Группа</a></li>
           <li><a href="#process">Как работаем</a></li>
           <li><a href="#reviews">Отзывы</a></li>
           <li><a href="faq.html">FAQ</a></li>
