@@ -788,11 +788,7 @@ footer span{color:var(--rose);font-size:0.9rem}
   .hero{padding:90px 16px 50px}
 }
 
-/* ===== ANIMATIONS INIT (hidden until GSAP fires) ===== */
-.gsap-hidden{opacity:0;transform:translateY(30px)}
-.gsap-hidden-left{opacity:0;transform:translateX(-40px)}
-.gsap-hidden-right{opacity:0;transform:translateX(40px)}
-.gsap-scale{opacity:0;transform:scale(0.9)}
+/* GSAP handles initial states via JS — no CSS hiding */
 </style>
 </head>
 <body>
@@ -1262,80 +1258,65 @@ footer span{color:var(--rose);font-size:0.9rem}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-gsap.registerPlugin(ScrollTrigger);
+/* ===== GSAP ANIMATIONS (progressive enhancement — site works without them) ===== */
+if(typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
 
-/* ===== HERO ENTRANCE ===== */
-const heroItems = document.querySelectorAll('.hero .gsap-hidden');
-gsap.from(heroItems, {
-  opacity:0, y:40, duration:0.9,
-  stagger:0.15, ease:'power3.out',
-  delay:0.2,
-  onStart: function(){heroItems.forEach(el=>el.classList.remove('gsap-hidden'))}
-});
+  /* HERO ENTRANCE — set hidden first, then animate in */
+  const heroEls = document.querySelectorAll('.hero .gsap-hidden');
+  gsap.set(heroEls, {opacity:0, y:40});
+  gsap.to(heroEls, {opacity:1, y:0, duration:0.9, stagger:0.15, ease:'power3.out', delay:0.3});
 
-/* ===== PETALS ===== */
-(function createPetals(){
-  const container = document.getElementById('petals');
-  const colors = ['#E8B4C0','#F9D8E3','#C9A84C','#F5C5D5','#FAEBD7'];
-  for(let i=0;i<18;i++){
-    const p = document.createElement('div');
-    p.className='petal';
-    const size = Math.random()*16+6;
-    p.style.cssText = `
-      width:${size}px;height:${size}px;
-      left:${Math.random()*100}%;
-      top:-20px;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      animation-duration:${Math.random()*12+8}s;
-      animation-delay:${Math.random()*10}s;
-    `;
-    container.appendChild(p);
-  }
-})();
+  /* NAVBAR SCROLL */
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  }, {passive:true});
 
-/* ===== NAVBAR SCROLL ===== */
-ScrollTrigger.create({
-  start:'top -60',
-  onUpdate: s => document.getElementById('navbar').classList.toggle('scrolled', s.progress>0)
-});
-
-/* ===== SCROLL ANIMATIONS ===== */
-// Generic gsap-hidden
-gsap.utils.toArray('.gsap-hidden').forEach(el => {
-  gsap.from(el, {
-    opacity:0, y:35, duration:0.8, ease:'power3.out',
-    scrollTrigger:{trigger:el, start:'top 85%', once:true},
-    onStart(){el.classList.remove('gsap-hidden')}
+  /* SCROLL ANIMATIONS */
+  gsap.utils.toArray('.gsap-hidden').forEach(el => {
+    gsap.set(el, {opacity:0, y:35});
+    gsap.to(el, {
+      opacity:1, y:0, duration:0.8, ease:'power3.out',
+      scrollTrigger:{trigger:el, start:'top 87%', once:true}
+    });
   });
-});
 
-// Left slide
-gsap.utils.toArray('.gsap-hidden-left').forEach(el => {
-  gsap.from(el, {
-    opacity:0, x:-50, duration:0.9, ease:'power3.out',
-    scrollTrigger:{trigger:el, start:'top 80%', once:true},
-    onStart(){el.classList.remove('gsap-hidden-left')}
+  gsap.utils.toArray('.gsap-hidden-left').forEach(el => {
+    gsap.set(el, {opacity:0, x:-50});
+    gsap.to(el, {
+      opacity:1, x:0, duration:0.9, ease:'power3.out',
+      scrollTrigger:{trigger:el, start:'top 82%', once:true}
+    });
   });
-});
 
-// Right slide
-gsap.utils.toArray('.gsap-hidden-right').forEach(el => {
-  gsap.from(el, {
-    opacity:0, x:50, duration:0.9, ease:'power3.out',
-    scrollTrigger:{trigger:el, start:'top 80%', once:true},
-    onStart(){el.classList.remove('gsap-hidden-right')}
+  gsap.utils.toArray('.gsap-hidden-right').forEach(el => {
+    gsap.set(el, {opacity:0, x:50});
+    gsap.to(el, {
+      opacity:1, x:0, duration:0.9, ease:'power3.out',
+      scrollTrigger:{trigger:el, start:'top 82%', once:true}
+    });
   });
-});
 
-// Scale
-gsap.utils.toArray('.gsap-scale').forEach((el,i) => {
-  gsap.from(el, {
-    opacity:0, scale:0.88, y:20, duration:0.6, ease:'back.out(1.4)',
-    scrollTrigger:{trigger:el, start:'top 88%', once:true},
-    delay: (i % 4) * 0.08,
-    onStart(){el.classList.remove('gsap-scale')}
+  gsap.utils.toArray('.gsap-scale').forEach((el, i) => {
+    gsap.set(el, {opacity:0, scale:0.88, y:20});
+    gsap.to(el, {
+      opacity:1, scale:1, y:0, duration:0.6, ease:'back.out(1.4)',
+      delay:(i % 4) * 0.07,
+      scrollTrigger:{trigger:el, start:'top 88%', once:true}
+    });
   });
-});
+
+  /* CARD HOVER */
+  document.querySelectorAll('.about-feat').forEach(el => {
+    el.addEventListener('mouseenter', () => gsap.to(el,{y:-3,duration:0.25,ease:'power2.out'}));
+    el.addEventListener('mouseleave', () => gsap.to(el,{y:0,duration:0.25,ease:'power2.out'}));
+  });
+} else {
+  /* Fallback: navbar scroll without GSAP */
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  }, {passive:true});
+}
 
 /* ===== GALLERY FILTER ===== */
 const filterBtns = document.querySelectorAll('.filter-btn');
@@ -1348,12 +1329,11 @@ filterBtns.forEach(btn => {
     const filter = btn.dataset.filter;
     galleryItems.forEach(item => {
       const show = filter === 'all' || item.dataset.cat === filter;
-      gsap.to(item, {
-        opacity: show ? 1 : 0.15,
-        scale: show ? 1 : 0.95,
-        duration: 0.35,
-        ease: 'power2.out'
-      });
+      if(typeof gsap !== 'undefined'){
+        gsap.to(item, {opacity: show?1:0.15, scale: show?1:0.95, duration:0.35, ease:'power2.out'});
+      } else {
+        item.style.opacity = show ? '1' : '0.15';
+      }
     });
   });
 });
@@ -1381,11 +1361,19 @@ function toggleMenu(){
   document.getElementById('mobileMenu').classList.toggle('open');
 }
 
-/* ===== SMOOTH HOVER on cards ===== */
-document.querySelectorAll('.about-feat').forEach(el => {
-  el.addEventListener('mouseenter', () => gsap.to(el,{y:-3,duration:0.25,ease:'power2.out'}));
-  el.addEventListener('mouseleave', () => gsap.to(el,{y:0,duration:0.25,ease:'power2.out'}));
-});
+/* ===== PETALS ===== */
+(function(){
+  const container = document.getElementById('petals');
+  if(!container) return;
+  const colors = ['#E8B4C0','#F9D8E3','#C9A84C','#F5C5D5','#FAEBD7'];
+  for(let i=0;i<18;i++){
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const size = Math.random()*16+6;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:-20px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*12+8}s;animation-delay:${Math.random()*10}s;`;
+    container.appendChild(p);
+  }
+})();
 </script>
 </body>
 </html>
