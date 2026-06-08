@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gula Cake — Torty na zamówienie | Warszawa</title>
+<meta name="description" content="Torty na zamówienie w Warszawie. Torty weselne, bento cakes, kapkejki. Realizacja nawet za 24h. Białołęka, Warszawa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{
+  font-family:'Inter',sans-serif;
+  background:#FDF0F5;
+  color:#2D2224;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;object-fit:cover}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+ul{list-style:none}
+
+/* ===== CSS VARIABLES ===== */
+:root{
+  --rose:#E8B4C0;
+  --rose-deep:#C97D94;
+  --rose-light:#F9D8E3;
+  --cream:#FDF0F5;
+  --cream-dark:#F5E0EA;
+  --gold:#C9A84C;
+  --gold-light:#E8D5A3;
+  --white:#FFFFFF;
+  --text:#2D2224;
+  --text-muted:#7A5C65;
+  --border:#F0D0DC;
+  --card:#FFFFFF;
+  --radius:16px;
+  --shadow:0 4px 30px rgba(200,120,150,0.12);
+  --shadow-hover:0 12px 50px rgba(200,120,150,0.22);
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#FDF0F5}
+::-webkit-scrollbar-thumb{background:var(--rose);border-radius:10px}
+
+/* ===== NAVIGATION ===== */
+nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:100;
+  padding:0 24px;
+  height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(253,240,245,0.85);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(232,180,192,0.2);
+  transition:box-shadow 0.3s;
+}
+nav.scrolled{box-shadow:0 4px 30px rgba(200,120,150,0.1)}
+.nav-logo{
+  font-family:'Great Vibes',cursive;
+  font-size:2rem;
+  color:var(--rose-deep);
+  letter-spacing:0.02em;
+}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{
+  font-size:0.85rem;
+  font-weight:500;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  transition:color 0.3s;
+}
+.nav-links a:hover{color:var(--rose-deep)}
+.nav-cta{
+  background:var(--rose-deep);
+  color:white!important;
+  padding:10px 22px;
+  border-radius:50px;
+  font-size:0.82rem!important;
+  transition:background 0.3s, transform 0.2s!important;
+}
+.nav-cta:hover{background:#b06880!important;transform:scale(1.03)}
+.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.nav-burger span{width:24px;height:2px;background:var(--rose-deep);border-radius:2px;transition:all 0.3s}
+.mobile-menu{
+  display:none;
+  position:fixed;
+  top:68px;left:0;right:0;
+  background:rgba(253,240,245,0.97);
+  backdrop-filter:blur(20px);
+  padding:20px 24px 28px;
+  z-index:99;
+  flex-direction:column;
+  gap:18px;
+  border-bottom:1px solid var(--border);
+}
+.mobile-menu.open{display:flex}
+.mobile-menu a{
+  font-size:1rem;
+  font-weight:500;
+  color:var(--text);
+  padding:8px 0;
+  border-bottom:1px solid var(--border);
+}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:100px 24px 60px;
+  position:relative;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(232,180,192,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(249,216,227,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(255,255,255,0.6) 0%, transparent 70%),
+    linear-gradient(135deg, #FDF0F5 0%, #F9D8E3 50%, #FDF0F5 100%);
+  z-index:0;
+}
+.hero-petals{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.petal{
+  position:absolute;
+  border-radius:50% 0 50% 0;
+  opacity:0.15;
+  animation:float linear infinite;
+}
+@keyframes float{
+  0%{transform:translateY(-20px) rotate(0deg);opacity:0}
+  10%{opacity:0.15}
+  90%{opacity:0.15}
+  100%{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
+.hero-content{position:relative;z-index:1;max-width:700px}
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(255,255,255,0.8);
+  border:1px solid var(--border);
+  border-radius:50px;
+  padding:8px 18px;
+  font-size:0.82rem;
+  font-weight:500;
+  color:var(--rose-deep);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  margin-bottom:24px;
+  backdrop-filter:blur(10px);
+}
+.hero-badge::before{content:'✦';color:var(--gold)}
+.hero-script{
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(4rem,12vw,7rem);
+  color:var(--rose-deep);
+  line-height:0.95;
+  margin-bottom:8px;
+  text-shadow:0 2px 20px rgba(201,125,148,0.2);
+}
+.hero-subtitle{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1rem,3vw,1.4rem);
+  font-weight:400;
+  font-style:italic;
+  color:var(--text-muted);
+  margin-bottom:12px;
+  letter-spacing:0.04em;
+}
+.hero-tagline{
+  font-size:0.95rem;
+  color:var(--text-muted);
+  margin-bottom:36px;
+  font-weight:300;
+  letter-spacing:0.04em;
+}
+.hero-tagline span{color:var(--rose-deep);font-weight:500}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-primary{
+  background:linear-gradient(135deg,var(--rose-deep),#b06880);
+  color:white;
+  padding:14px 32px;
+  border-radius:50px;
+  font-size:0.9rem;
+  font-weight:600;
+  letter-spacing:0.05em;
+  box-shadow:0 8px 30px rgba(201,125,148,0.35);
+  transition:transform 0.2s,box-shadow 0.2s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(201,125,148,0.45)}
+.btn-secondary{
+  background:rgba(255,255,255,0.9);
+  color:var(--rose-deep);
+  padding:14px 32px;
+  border-radius:50px;
+  font-size:0.9rem;
+  font-weight:600;
+  letter-spacing:0.05em;
+  border:2px solid var(--rose);
+  backdrop-filter:blur(10px);
+  transition:all 0.2s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-secondary:hover{background:var(--rose-light);transform:translateY(-2px)}
+.hero-stats{
+  display:flex;
+  gap:40px;
+  justify-content:center;
+  margin-top:52px;
+  flex-wrap:wrap;
+}
+.stat{text-align:center}
+.stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:2rem;
+  font-weight:700;
+  color:var(--rose-deep);
+  line-height:1;
+}
+.stat-label{font-size:0.78rem;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-top:4px}
+.stat-divider{width:1px;background:var(--border);align-self:stretch}
+
+/* ===== SECTION BASE ===== */
+section{padding:90px 24px}
+.section-label{
+  display:inline-block;
+  font-size:0.75rem;
+  font-weight:600;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--rose-deep);
+  margin-bottom:12px;
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5vw,3rem);
+  font-weight:600;
+  color:var(--text);
+  line-height:1.15;
+  margin-bottom:16px;
+}
+.section-title em{font-style:italic;color:var(--rose-deep)}
+.section-desc{
+  font-size:1rem;
+  color:var(--text-muted);
+  max-width:540px;
+  line-height:1.7;
+  font-weight:300;
+}
+.text-center{text-align:center}
+.text-center .section-desc{margin:0 auto}
+.container{max-width:1200px;margin:0 auto}
+
+/* ===== ABOUT ===== */
+.about{background:var(--white)}
+.about-inner{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:70px;
+  align-items:center;
+  max-width:1100px;
+  margin:0 auto;
+}
+.about-img-wrap{
+  position:relative;
+  border-radius:30px;
+  overflow:hidden;
+  aspect-ratio:4/5;
+  box-shadow:var(--shadow-hover);
+}
+.about-img-wrap::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(201,125,148,0.15) 0%,transparent 50%);
+}
+.about-img-placeholder{
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#F9D8E3 0%,#F5C5D5 40%,#E8B4C0 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+.about-img-placeholder svg{width:80px;height:80px;opacity:0.3}
+.about-tag{
+  position:absolute;
+  bottom:24px;left:24px;right:24px;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(12px);
+  border-radius:16px;
+  padding:16px 20px;
+  z-index:2;
+  display:flex;align-items:center;gap:14px;
+}
+.about-tag-icon{font-size:1.8rem}
+.about-tag-text strong{display:block;font-size:0.9rem;font-weight:600;color:var(--text)}
+.about-tag-text span{font-size:0.8rem;color:var(--text-muted)}
+.about-feats{display:flex;flex-direction:column;gap:16px;margin-top:28px}
+.about-feat{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 18px;
+  background:var(--cream);
+  border-radius:14px;
+  border:1px solid var(--border);
+  transition:box-shadow 0.3s;
+}
+.about-feat:hover{box-shadow:var(--shadow)}
+.about-feat-icon{
+  width:40px;height:40px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--rose-light),var(--rose));
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;
+}
+.about-feat-title{font-weight:600;font-size:0.9rem;margin-bottom:2px}
+.about-feat-desc{font-size:0.82rem;color:var(--text-muted);line-height:1.5}
+
+/* ===== CATEGORIES ===== */
+.categories{background:var(--cream)}
+.cats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  margin-top:50px;
+  max-width:1000px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.cat-card{
+  background:var(--white);
+  border-radius:24px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  transition:transform 0.3s,box-shadow 0.3s;
+  cursor:pointer;
+  text-align:center;
+}
+.cat-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
+.cat-img{
+  height:160px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;
+}
+.cat-img.torty{background:linear-gradient(135deg,#F9D8E3,#F5C5D5)}
+.cat-img.bento{background:linear-gradient(135deg,#FCE8F3,#F9D0E5)}
+.cat-img.weselne{background:linear-gradient(135deg,#FEF3E0,#FAE5B8)}
+.cat-img.kap{background:linear-gradient(135deg,#E8F5E9,#C8E6C9)}
+.cat-name{
+  padding:16px;
+  font-family:'Playfair Display',serif;
+  font-size:1rem;
+  font-weight:600;
+  color:var(--text);
+}
+.cat-count{
+  font-size:0.78rem;
+  color:var(--text-muted);
+  padding:0 16px 16px;
+}
+
+/* ===== GALLERY ===== */
+.gallery{background:var(--white)}
+.gallery-filter{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  margin:36px 0;
+  flex-wrap:wrap;
+}
+.filter-btn{
+  padding:9px 22px;
+  border-radius:50px;
+  font-size:0.83rem;
+  font-weight:500;
+  letter-spacing:0.04em;
+  border:2px solid var(--border);
+  color:var(--text-muted);
+  background:transparent;
+  transition:all 0.25s;
+  cursor:pointer;
+}
+.filter-btn.active,.filter-btn:hover{
+  background:var(--rose-deep);
+  border-color:var(--rose-deep);
+  color:white;
+}
+.gallery-grid{
+  columns:3;
+  column-gap:16px;
+  max-width:1100px;
+  margin:0 auto;
+}
+.gallery-item{
+  break-inside:avoid;
+  margin-bottom:16px;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  box-shadow:0 2px 16px rgba(200,120,150,0.1);
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.gallery-item:hover{transform:scale(1.02);box-shadow:var(--shadow-hover)}
+.gallery-item img,.gallery-placeholder{
+  width:100%;
+  display:block;
+  transition:transform 0.5s;
+}
+.gallery-item:hover img,.gallery-item:hover .gallery-placeholder{transform:scale(1.05)}
+.gallery-placeholder{
+  background:linear-gradient(135deg,#F9D8E3 0%,#F5C5D5 50%,#E8B4C0 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.5rem;
+}
+.gallery-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(44,20,28,0.55) 0%,transparent 50%);
+  opacity:0;
+  transition:opacity 0.3s;
+  display:flex;align-items:flex-end;padding:18px;
+}
+.gallery-item:hover .gallery-overlay{opacity:1}
+.gallery-overlay-text{color:white;font-size:0.88rem;font-weight:500}
+.gallery-load{
+  text-align:center;
+  margin-top:40px;
+}
+
+/* ===== FLAVORS ===== */
+.flavors{background:var(--cream)}
+.flavors-inner{
+  max-width:900px;
+  margin:0 auto;
+}
+.flavors-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:48px;
+}
+.flavor-item{
+  background:var(--white);
+  border-radius:14px;
+  padding:16px 20px;
+  border:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+  transition:all 0.25s;
+  cursor:default;
+}
+.flavor-item:hover{
+  border-color:var(--rose);
+  box-shadow:var(--shadow);
+  transform:translateY(-2px);
+}
+.flavor-dot{
+  width:10px;height:10px;flex-shrink:0;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--rose-deep),var(--gold));
+}
+.flavor-name{font-size:0.88rem;font-weight:500;color:var(--text)}
+.flavor-note{font-size:0.75rem;color:var(--text-muted);margin-top:1px}
+
+/* ===== HOW TO ORDER ===== */
+.howto{background:var(--white)}
+.steps{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+  margin-top:52px;
+  max-width:1000px;
+  margin-left:auto;margin-right:auto;
+  position:relative;
+}
+.steps::before{
+  content:'';
+  position:absolute;
+  top:36px;left:10%;right:10%;
+  height:2px;
+  background:linear-gradient(90deg,var(--rose-light),var(--rose),var(--rose-light));
+  z-index:0;
+}
+.step{
+  text-align:center;
+  position:relative;
+  z-index:1;
+}
+.step-num{
+  width:72px;height:72px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--rose-light),var(--rose));
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;
+  font-family:'Great Vibes',cursive;
+  font-size:1.8rem;
+  color:var(--rose-deep);
+  border:3px solid white;
+  box-shadow:0 4px 20px rgba(201,125,148,0.25);
+}
+.step-title{font-weight:600;font-size:0.95rem;margin-bottom:6px;color:var(--text)}
+.step-desc{font-size:0.83rem;color:var(--text-muted);line-height:1.5}
+
+/* ===== PRICES ===== */
+.prices{background:var(--cream)}
+.prices-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+  margin-top:50px;
+  max-width:900px;
+  margin-left:auto;margin-right:auto;
+}
+.price-card{
+  background:var(--white);
+  border-radius:24px;
+  padding:32px 28px;
+  border:2px solid var(--border);
+  text-align:center;
+  transition:all 0.3s;
+  position:relative;
+  overflow:hidden;
+}
+.price-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:4px;
+  background:linear-gradient(90deg,var(--rose-light),var(--rose-deep));
+}
+.price-card.featured{
+  border-color:var(--rose);
+  transform:scale(1.05);
+  box-shadow:var(--shadow-hover);
+}
+.price-card.featured::before{background:linear-gradient(90deg,var(--rose-deep),var(--gold))}
+.price-badge{
+  position:absolute;
+  top:16px;right:16px;
+  background:var(--rose-deep);
+  color:white;
+  font-size:0.72rem;
+  font-weight:600;
+  letter-spacing:0.06em;
+  padding:4px 10px;
+  border-radius:50px;
+  text-transform:uppercase;
+}
+.price-type{
+  font-family:'Playfair Display',serif;
+  font-size:1.15rem;
+  font-weight:600;
+  margin-bottom:8px;
+  color:var(--text);
+}
+.price-icon{font-size:2.5rem;margin-bottom:12px}
+.price-val{
+  font-family:'Playfair Display',serif;
+  font-size:2rem;
+  font-weight:700;
+  color:var(--rose-deep);
+  margin:12px 0 4px;
+}
+.price-unit{font-size:0.82rem;color:var(--text-muted)}
+.price-features{
+  margin-top:20px;
+  display:flex;flex-direction:column;gap:8px;
+  text-align:left;
+}
+.price-feat{
+  font-size:0.84rem;
+  color:var(--text-muted);
+  display:flex;align-items:center;gap:8px;
+}
+.price-feat::before{content:'✓';color:var(--rose-deep);font-weight:700;font-size:0.9rem}
+
+/* ===== TESTIMONIALS ===== */
+.reviews{background:var(--white)}
+.reviews-track{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-top:50px;
+  max-width:1000px;
+  margin-left:auto;margin-right:auto;
+}
+.review-card{
+  background:var(--cream);
+  border-radius:20px;
+  padding:28px;
+  border:1px solid var(--border);
+  position:relative;
+  transition:box-shadow 0.3s;
+}
+.review-card:hover{box-shadow:var(--shadow)}
+.review-quote{
+  font-size:3rem;
+  line-height:1;
+  color:var(--rose-light);
+  font-family:'Playfair Display',serif;
+  margin-bottom:8px;
+}
+.review-text{
+  font-size:0.9rem;
+  color:var(--text);
+  line-height:1.65;
+  font-style:italic;
+  margin-bottom:20px;
+}
+.review-stars{color:var(--gold);font-size:0.9rem;margin-bottom:14px;letter-spacing:2px}
+.review-author{display:flex;align-items:center;gap:12px}
+.review-avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rose-light),var(--rose));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-weight:600;color:var(--rose-deep);
+}
+.review-name{font-weight:600;font-size:0.88rem}
+.review-date{font-size:0.78rem;color:var(--text-muted)}
+
+/* ===== CONTACT ===== */
+.contact{
+  background:linear-gradient(135deg,#2D1520 0%,#3D1F2B 50%,#2D1520 100%);
+  color:white;
+  text-align:center;
+  padding:90px 24px 70px;
+}
+.contact .section-label{color:var(--rose)}
+.contact .section-title{color:white}
+.contact .section-title em{color:var(--rose)}
+.contact .section-desc{color:rgba(255,255,255,0.65)}
+.contact-cards{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin:44px 0;
+}
+.contact-card{
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(232,180,192,0.2);
+  border-radius:20px;
+  padding:24px 28px;
+  min-width:190px;
+  transition:all 0.3s;
+  backdrop-filter:blur(10px);
+  text-align:center;
+}
+.contact-card:hover{
+  background:rgba(232,180,192,0.12);
+  border-color:var(--rose);
+  transform:translateY(-4px);
+}
+.contact-card-icon{font-size:2rem;margin-bottom:10px}
+.contact-card-label{
+  font-size:0.75rem;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.5);
+  margin-bottom:4px;
+}
+.contact-card-val{
+  font-weight:600;
+  font-size:0.95rem;
+  color:white;
+}
+.contact-divider{
+  width:60px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--rose),transparent);
+  margin:32px auto;
+}
+.contact-location{
+  font-size:0.9rem;
+  color:rgba(255,255,255,0.6);
+  display:flex;align-items:center;gap:8px;justify-content:center;
+  margin-top:12px;
+}
+.contact-hours{font-size:0.85rem;color:rgba(255,255,255,0.5);margin-top:8px}
+.contact-social{
+  display:flex;gap:14px;justify-content:center;margin-top:36px;
+}
+.social-btn{
+  width:48px;height:48px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(232,180,192,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+  transition:all 0.3s;
+}
+.social-btn:hover{background:var(--rose-deep);border-color:var(--rose-deep)}
+
+/* ===== FOOTER ===== */
+footer{
+  background:#200D16;
+  color:rgba(255,255,255,0.4);
+  text-align:center;
+  padding:20px 24px;
+  font-size:0.8rem;
+}
+footer span{color:var(--rose);font-size:0.9rem}
+
+/* ===== FLOATING CTA ===== */
+.floating-wa{
+  position:fixed;
+  bottom:24px;right:24px;
+  z-index:200;
+  width:58px;height:58px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#25D366,#128C7E);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 24px rgba(37,211,102,0.4);
+  transition:transform 0.3s,box-shadow 0.3s;
+  font-size:1.5rem;
+}
+.floating-wa:hover{transform:scale(1.1);box-shadow:0 10px 32px rgba(37,211,102,0.5)}
+
+/* ===== LIGHTBOX ===== */
+.lightbox{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(20,5,12,0.9);
+  z-index:1000;
+  align-items:center;
+  justify-content:center;
+  backdrop-filter:blur(8px);
+}
+.lightbox.open{display:flex}
+.lightbox-img{
+  max-width:90vw;
+  max-height:85vh;
+  border-radius:16px;
+  object-fit:contain;
+  box-shadow:0 20px 80px rgba(0,0,0,0.6);
+}
+.lightbox-close{
+  position:fixed;
+  top:20px;right:20px;
+  width:44px;height:44px;
+  background:rgba(255,255,255,0.1);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;color:white;cursor:pointer;
+  transition:background 0.2s;
+}
+.lightbox-close:hover{background:rgba(255,255,255,0.2)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .about-inner{grid-template-columns:1fr;gap:40px}
+  .about-img-wrap{aspect-ratio:3/2;max-height:360px}
+  .cats-grid{grid-template-columns:repeat(2,1fr)}
+  .gallery-grid{columns:2}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .steps::before{display:none}
+  .prices-grid{grid-template-columns:1fr}
+  .price-card.featured{transform:none}
+  .reviews-track{grid-template-columns:1fr}
+  .flavors-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .nav-links{display:none}
+  .nav-burger{display:flex}
+  .hero-stats{gap:20px}
+  .stat-divider{display:none}
+  .gallery-grid{columns:1}
+  .cats-grid{grid-template-columns:repeat(2,1fr)}
+  .flavors-grid{grid-template-columns:1fr}
+  section{padding:60px 16px}
+  .hero{padding:90px 16px 50px}
+}
+
+/* ===== ANIMATIONS INIT (hidden until GSAP fires) ===== */
+.gsap-hidden{opacity:0;transform:translateY(30px)}
+.gsap-hidden-left{opacity:0;transform:translateX(-40px)}
+.gsap-hidden-right{opacity:0;transform:translateX(40px)}
+.gsap-scale{opacity:0;transform:scale(0.9)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Gula Cake</a>
+  <div class="nav-links">
+    <a href="#katalog">Katalog</a>
+    <a href="#smaki">Smaki</a>
+    <a href="#zamowienie">Zamówienie</a>
+    <a href="#ceny">Ceny</a>
+    <a href="#kontakt" class="nav-cta">Zamów teraz</a>
+  </div>
+  <div class="nav-burger" id="burger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#katalog" onclick="toggleMenu()">Katalog</a>
+  <a href="#smaki" onclick="toggleMenu()">Smaki</a>
+  <a href="#zamowienie" onclick="toggleMenu()">Jak zamówić?</a>
+  <a href="#ceny" onclick="toggleMenu()">Ceny</a>
+  <a href="#kontakt" onclick="toggleMenu()">Zamów teraz ✦</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-petals" id="petals"></div>
+  <div class="hero-content">
+    <div class="hero-badge gsap-hidden">Warszawa · Białołęka · Realizacja w 24h</div>
+    <div class="hero-script gsap-hidden">Gula Cake</div>
+    <p class="hero-subtitle gsap-hidden">Torty na wyjątkowe chwile</p>
+    <p class="hero-tagline gsap-hidden">Autorskie torty, bento cakes i słodycze na każdą okazję.<br><span>Każdy tort to historia opowiedziana ciastem.</span></p>
+    <div class="hero-actions gsap-hidden">
+      <a href="https://t.me/gulacake_warszawa" target="_blank" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.83.941z"/></svg>
+        Zamów przez Telegram
+      </a>
+      <a href="#katalog" class="btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Zobacz katalog
+      </a>
+    </div>
+    <div class="hero-stats gsap-hidden">
+      <div class="stat">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">Szczęśliwych klientów</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">16</div>
+        <div class="stat-label">Smaków</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">24h</div>
+        <div class="stat-label">Realizacja</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-img-wrap gsap-hidden-left">
+      <div class="about-img-placeholder" style="height:100%">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="35" r="20" fill="#C97D94" opacity="0.4"/>
+          <path d="M20 80 Q50 50 80 80" stroke="#C97D94" stroke-width="3" fill="none" opacity="0.4"/>
+          <text x="50" y="90" text-anchor="middle" font-size="8" fill="#C97D94" opacity="0.6" font-family="serif">Olena</text>
+        </svg>
+      </div>
+      <div class="about-tag">
+        <div class="about-tag-icon">🎂</div>
+        <div class="about-tag-text">
+          <strong>Olena — cukiernik z pasją</strong>
+          <span>Warszawa, Białołęka</span>
+        </div>
+      </div>
+    </div>
+    <div class="gsap-hidden-right">
+      <span class="section-label">O mnie</span>
+      <h2 class="section-title">Każdy tort to<br><em>dzieło sztuki</em></h2>
+      <p class="section-desc">Jestem Olena — tworzę torty na zamówienie w Warszawie. Każdy wypiek to połączenie smaku i pięknej formy. Pracuję z pasją, dbam o każdy detal i staram się, aby Twój tort był dokładnie taki, jak wymarzyłeś.</p>
+      <div class="about-feats">
+        <div class="about-feat">
+          <div class="about-feat-icon">⚡</div>
+          <div>
+            <div class="about-feat-title">Realizacja nawet za 24h</div>
+            <div class="about-feat-desc">Pilne zamówienia? Żaden problem — zrealizuję tort w ciągu doby</div>
+          </div>
+        </div>
+        <div class="about-feat">
+          <div class="about-feat-icon">🎨</div>
+          <div>
+            <div class="about-feat-title">Indywidualny projekt</div>
+            <div class="about-feat-desc">Każdy tort tworzę od podstaw według Twojej wizji i okazji</div>
+          </div>
+        </div>
+        <div class="about-feat">
+          <div class="about-feat-icon">🌿</div>
+          <div>
+            <div class="about-feat-title">Tylko naturalne składniki</div>
+            <div class="about-feat-desc">Świeże produkty, bez konserwantów — smak i jakość na pierwszym miejscu</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories" id="typy">
+  <div class="container">
+    <div class="text-center gsap-hidden">
+      <span class="section-label">Nasze wypieki</span>
+      <h2 class="section-title">Co <em>tworzymy</em></h2>
+    </div>
+    <div class="cats-grid">
+      <div class="cat-card gsap-scale">
+        <div class="cat-img torty">🎂</div>
+        <div class="cat-name">Torty</div>
+        <div class="cat-count">Torty urodzinowe, okolicznościowe</div>
+      </div>
+      <div class="cat-card gsap-scale">
+        <div class="cat-img bento">🎁</div>
+        <div class="cat-name">Bento Cakes</div>
+        <div class="cat-count">Miniaturki z personalizacją</div>
+      </div>
+      <div class="cat-card gsap-scale">
+        <div class="cat-img weselne">💍</div>
+        <div class="cat-name">Torty Weselne</div>
+        <div class="cat-count">Torty na szczególny dzień</div>
+      </div>
+      <div class="cat-card gsap-scale">
+        <div class="cat-img kap">🧁</div>
+        <div class="cat-name">Kapkejki</div>
+        <div class="cat-count">Babeczki na każdą okazję</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="katalog">
+  <div class="container">
+    <div class="text-center gsap-hidden">
+      <span class="section-label">Portfolio</span>
+      <h2 class="section-title">Nasze <em>realizacje</em></h2>
+      <p class="section-desc">Każdy tort to wyjątkowa historia. Dodaj swoje zdjęcia do tej galerii!</p>
+    </div>
+    <div class="gallery-filter">
+      <button class="filter-btn active" data-filter="all">Wszystkie</button>
+      <button class="filter-btn" data-filter="torty">Torty</button>
+      <button class="filter-btn" data-filter="bento">Bento</button>
+      <button class="filter-btn" data-filter="weselne">Weselne</button>
+      <button class="filter-btn" data-filter="kap">Kapkejki</button>
+    </div>
+    <div class="gallery-grid" id="galleryGrid">
+
+      <!-- Gallery items - replace src="" with real photo paths -->
+      <div class="gallery-item" data-cat="torty">
+        <div class="gallery-placeholder" style="height:280px">🎂</div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Tort urodzinowy</span></div>
+      </div>
+      <div class="gallery-item" data-cat="weselne">
+        <div class="gallery-placeholder" style="height:340px;background:linear-gradient(135deg,#FEF3E0,#F5C5D5)">💍</div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Tort weselny</span></div>
+      </div>
+      <div class="gallery-item" data-cat="bento">
+        <div class="gallery-placeholder" style="height:220px;background:linear-gradient(135deg,#FCE8F3,#E8B4C0)">🎁</div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Bento cake</span></div>
+      </div>
+      <div class="gallery-item" data-cat="torty">
+        <div class="gallery-placeholder" style="height:310px;background:linear-gradient(135deg,#E8D5F0,#D4B4E0)">🎀</div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Red Velvet</span></div>
+      </div>
+      <div class="gallery-item" data-cat="kap">
+        <div class="gallery-placeholder" style="height:250px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">🧁</div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Kapkejki</span></div>
+      </div>
+      <div class="gallery-item" data-cat="torty">
+        <div class="gallery-placeholder" style="height:290px;background:linear-gradient(135deg,#1a1a1a,#333)">🎂</div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Tort "Happy Birthday 23"</span></div>
+      </div>
+      <div class="gallery-item" data-cat="bento">
+        <div class="gallery-placeholder" style="height:200px;background:linear-gradient(135deg,#FCE4EC,#F8BBD0)">🦄</div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Bento unicorn</span></div>
+      </div>
+      <div class="gallery-item" data-cat="weselne">
+        <div class="gallery-placeholder" style="height:360px;background:linear-gradient(135deg,#FAFAFA,#F5E6EA)">🌸</div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Tort weselny biały</span></div>
+      </div>
+      <div class="gallery-item" data-cat="torty">
+        <div class="gallery-placeholder" style="height:260px;background:linear-gradient(135deg,#FFF8E1,#FFE082)">⭐</div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Tort z kwiatami</span></div>
+      </div>
+
+    </div>
+    <div class="gallery-load gsap-hidden">
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px">Więcej realizacji na Instagramie</p>
+      <a href="https://www.instagram.com/gulacake_warszawa/" target="_blank" class="btn-primary" style="display:inline-flex">
+        📸 @gulacake_warszawa
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FLAVORS -->
+<section class="flavors" id="smaki">
+  <div class="flavors-inner">
+    <div class="text-center gsap-hidden">
+      <span class="section-label">Smaki</span>
+      <h2 class="section-title">Wybierz swój <em>ulubiony smak</em></h2>
+      <p class="section-desc">16 autorskich receptur — od klasyki po zaskakujące kompozycje</p>
+    </div>
+    <div class="flavors-grid">
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Napoleon</div><div class="flavor-note">Klasyczny, warstwowy</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Miodovik</div><div class="flavor-note">Miodowy, delikatny</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Kijowski Tort</div><div class="flavor-note">Tradycyjny przepis</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Owocowy</div><div class="flavor-note">Sezonowe owoce</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Red Velvet</div><div class="flavor-note">Czerwony Aksamit</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Oreo</div><div class="flavor-note">Czekoladowy, kremowy</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Mleczna Dziewczynka</div><div class="flavor-note">Delikatny, mleczny</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Marchewkowy z Maliną</div><div class="flavor-note">Zaskakujące połączenie</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Bubble Gum</div><div class="flavor-note">Słodki, owocowy</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Snickers</div><div class="flavor-note">Karmel, orzech, czekolada</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Czekolada·Kokos·Bounty</div><div class="flavor-note">Tropikalna słodycz</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Milka</div><div class="flavor-note">Mleczna czekolada</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot" style="background:linear-gradient(135deg,#C9A84C,#E8D5A3)"></div>
+        <div><div class="flavor-name">Dubaj Chocolate</div><div class="flavor-note">✨ Hit sezonu!</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Jagodowe Rafaello</div><div class="flavor-note">Kokos i jagody</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Truskawkowe Oreo</div><div class="flavor-note">Truskawka + czekolada</div></div>
+      </div>
+      <div class="flavor-item gsap-scale">
+        <div class="flavor-dot"></div>
+        <div><div class="flavor-name">Kinder Bueno</div><div class="flavor-note">Laskowy z kremem</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO ORDER -->
+<section class="howto" id="zamowienie">
+  <div class="container">
+    <div class="text-center gsap-hidden">
+      <span class="section-label">Jak zamówić?</span>
+      <h2 class="section-title">Proste jak <em>zrobienie tortu</em></h2>
+      <p class="section-desc">4 proste kroki i Twój wymarzony tort trafi na stół</p>
+    </div>
+    <div class="steps">
+      <div class="step gsap-hidden">
+        <div class="step-num">1</div>
+        <div class="step-title">Napisz do nas</div>
+        <div class="step-desc">Telegram, WhatsApp lub Instagram — wybierz jak Ci wygodnie</div>
+      </div>
+      <div class="step gsap-hidden">
+        <div class="step-num">2</div>
+        <div class="step-title">Opisz wizję</div>
+        <div class="step-desc">Okazja, smak, wygląd, liczba porcji — omówimy wszystkie szczegóły</div>
+      </div>
+      <div class="step gsap-hidden">
+        <div class="step-num">3</div>
+        <div class="step-title">Potwierdzamy</div>
+        <div class="step-desc">Ustalamy termin i cenę, potwierdzamy zamówienie zaliczką</div>
+      </div>
+      <div class="step gsap-hidden">
+        <div class="step-num">4</div>
+        <div class="step-title">Odbierasz tort</div>
+        <div class="step-desc">Odbiór w Białołęce lub dostawa — świeży tort gotowy na czas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICES -->
+<section class="prices" id="ceny">
+  <div class="container">
+    <div class="text-center gsap-hidden">
+      <span class="section-label">Cennik</span>
+      <h2 class="section-title">Przejrzyste <em>ceny</em></h2>
+      <p class="section-desc">Dokładna wycena po omówieniu szczegółów. Poniżej orientacyjne ceny.</p>
+    </div>
+    <div class="prices-grid">
+      <div class="price-card gsap-scale">
+        <div class="price-icon">🧁</div>
+        <div class="price-type">Bento Cake</div>
+        <div class="price-val">od 80 zł</div>
+        <div class="price-unit">miniaturka / 1-2 osoby</div>
+        <div class="price-features">
+          <div class="price-feat">Personalizacja napisu</div>
+          <div class="price-feat">Dowolny smak</div>
+          <div class="price-feat">Realizacja w 24h</div>
+        </div>
+      </div>
+      <div class="price-card featured gsap-scale">
+        <div class="price-badge">Popularny</div>
+        <div class="price-icon">🎂</div>
+        <div class="price-type">Tort Urodzinowy</div>
+        <div class="price-val">od 250 zł</div>
+        <div class="price-unit">od 10 porcji</div>
+        <div class="price-features">
+          <div class="price-feat">Indywidualny projekt</div>
+          <div class="price-feat">Dowolny smak i dekoracja</div>
+          <div class="price-feat">Figurki i napisy</div>
+          <div class="price-feat">Zdjęcia przed odbiorem</div>
+        </div>
+      </div>
+      <div class="price-card gsap-scale">
+        <div class="price-icon">💍</div>
+        <div class="price-type">Tort Weselny</div>
+        <div class="price-val">od 500 zł</div>
+        <div class="price-unit">wielopiętrowy</div>
+        <div class="price-features">
+          <div class="price-feat">Projekt na miarę</div>
+          <div class="price-feat">Degustacja do uzgodnienia</div>
+          <div class="price-feat">Dostawa i montaż</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="opinie">
+  <div class="container">
+    <div class="text-center gsap-hidden">
+      <span class="section-label">Opinie</span>
+      <h2 class="section-title">Co mówią nasi <em>klienci</em></h2>
+    </div>
+    <div class="reviews-track">
+      <div class="review-card gsap-scale">
+        <div class="review-quote">"</div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Tort był przepiękny i pyszny! Olena dopasowała projekt dokładnie do moich wyobrażeń. Wszyscy goście byli zachwyceni. Na pewno zamówię ponownie!</p>
+        <div class="review-author">
+          <div class="review-avatar">A</div>
+          <div>
+            <div class="review-name">Anna K.</div>
+            <div class="review-date">Tort urodzinowy · Kwiecień 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card gsap-scale">
+        <div class="review-quote">"</div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Zamawiałam tort weselny z krótkim wyprzedzeniem — Olena zrobiła cud! Tort był piękny, smaczny i gotowy na czas. Dziękuję z całego serca!</p>
+        <div class="review-author">
+          <div class="review-avatar">M</div>
+          <div>
+            <div class="review-name">Marta W.</div>
+            <div class="review-date">Tort weselny · Maj 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card gsap-scale">
+        <div class="review-quote">"</div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Bento cake na urodziny córeczki — śliczna, z jednorożcem, dokładnie jak prosiłam. Smak rewelacyjny, dziecko było zachwycone!</p>
+        <div class="review-author">
+          <div class="review-avatar">K</div>
+          <div>
+            <div class="review-name">Katarzyna L.</div>
+            <div class="review-date">Bento cake · Marzec 2024</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="kontakt">
+  <span class="section-label">Kontakt</span>
+  <h2 class="section-title">Zamów swój <em>wymarzony tort</em></h2>
+  <p class="section-desc" style="margin:16px auto 0">Napisz do nas — odpowiemy szybko i omówimy wszystkie szczegóły</p>
+  <div class="contact-cards gsap-hidden">
+    <a href="https://t.me/gulacake_warszawa" target="_blank" class="contact-card">
+      <div class="contact-card-icon">✈️</div>
+      <div class="contact-card-label">Telegram</div>
+      <div class="contact-card-val">@gulacake_warszawa</div>
+    </a>
+    <a href="https://wa.me/message/WARSAWGULACAKE" target="_blank" class="contact-card">
+      <div class="contact-card-icon">💬</div>
+      <div class="contact-card-label">WhatsApp</div>
+      <div class="contact-card-val">Napisz teraz</div>
+    </a>
+    <a href="https://www.instagram.com/gulacake_warszawa/" target="_blank" class="contact-card">
+      <div class="contact-card-icon">📸</div>
+      <div class="contact-card-label">Instagram</div>
+      <div class="contact-card-val">@gulacake_warszawa</div>
+    </a>
+  </div>
+  <div class="contact-divider"></div>
+  <div class="contact-location gsap-hidden">
+    📍 Odbiór: Warszawa, Białołęka
+  </div>
+  <div class="contact-hours gsap-hidden">Dostępna: pon–nd · Szybka odpowiedź</div>
+  <div class="contact-social gsap-hidden">
+    <a href="https://t.me/gulacake_warszawa" target="_blank" class="social-btn" title="Telegram">✈️</a>
+    <a href="https://www.instagram.com/gulacake_warszawa/" target="_blank" class="social-btn" title="Instagram">📸</a>
+    <a href="https://wa.me/" target="_blank" class="social-btn" title="WhatsApp">💬</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2024 Gula Cake — Torty na zamówienie, Warszawa <span>✦</span> Olena</p>
+</footer>
+
+<!-- FLOATING WhatsApp -->
+<a href="https://t.me/gulacake_warszawa" target="_blank" class="floating-wa" title="Napisz na Telegram">✈️</a>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="">
+</div>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ===== HERO ENTRANCE ===== */
+const heroItems = document.querySelectorAll('.hero .gsap-hidden');
+gsap.from(heroItems, {
+  opacity:0, y:40, duration:0.9,
+  stagger:0.15, ease:'power3.out',
+  delay:0.2,
+  onStart: function(){heroItems.forEach(el=>el.classList.remove('gsap-hidden'))}
+});
+
+/* ===== PETALS ===== */
+(function createPetals(){
+  const container = document.getElementById('petals');
+  const colors = ['#E8B4C0','#F9D8E3','#C9A84C','#F5C5D5','#FAEBD7'];
+  for(let i=0;i<18;i++){
+    const p = document.createElement('div');
+    p.className='petal';
+    const size = Math.random()*16+6;
+    p.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;
+      top:-20px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*12+8}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    container.appendChild(p);
+  }
+})();
+
+/* ===== NAVBAR SCROLL ===== */
+ScrollTrigger.create({
+  start:'top -60',
+  onUpdate: s => document.getElementById('navbar').classList.toggle('scrolled', s.progress>0)
+});
+
+/* ===== SCROLL ANIMATIONS ===== */
+// Generic gsap-hidden
+gsap.utils.toArray('.gsap-hidden').forEach(el => {
+  gsap.from(el, {
+    opacity:0, y:35, duration:0.8, ease:'power3.out',
+    scrollTrigger:{trigger:el, start:'top 85%', once:true},
+    onStart(){el.classList.remove('gsap-hidden')}
+  });
+});
+
+// Left slide
+gsap.utils.toArray('.gsap-hidden-left').forEach(el => {
+  gsap.from(el, {
+    opacity:0, x:-50, duration:0.9, ease:'power3.out',
+    scrollTrigger:{trigger:el, start:'top 80%', once:true},
+    onStart(){el.classList.remove('gsap-hidden-left')}
+  });
+});
+
+// Right slide
+gsap.utils.toArray('.gsap-hidden-right').forEach(el => {
+  gsap.from(el, {
+    opacity:0, x:50, duration:0.9, ease:'power3.out',
+    scrollTrigger:{trigger:el, start:'top 80%', once:true},
+    onStart(){el.classList.remove('gsap-hidden-right')}
+  });
+});
+
+// Scale
+gsap.utils.toArray('.gsap-scale').forEach((el,i) => {
+  gsap.from(el, {
+    opacity:0, scale:0.88, y:20, duration:0.6, ease:'back.out(1.4)',
+    scrollTrigger:{trigger:el, start:'top 88%', once:true},
+    delay: (i % 4) * 0.08,
+    onStart(){el.classList.remove('gsap-scale')}
+  });
+});
+
+/* ===== GALLERY FILTER ===== */
+const filterBtns = document.querySelectorAll('.filter-btn');
+const galleryItems = document.querySelectorAll('.gallery-item');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    galleryItems.forEach(item => {
+      const show = filter === 'all' || item.dataset.cat === filter;
+      gsap.to(item, {
+        opacity: show ? 1 : 0.15,
+        scale: show ? 1 : 0.95,
+        duration: 0.35,
+        ease: 'power2.out'
+      });
+    });
+  });
+});
+
+/* ===== GALLERY LIGHTBOX ===== */
+galleryItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const img = item.querySelector('img');
+    if(img){
+      document.getElementById('lightboxImg').src = img.src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+  });
+});
+
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+}
+document.getElementById('lightbox').addEventListener('click', function(e){
+  if(e.target===this) closeLightbox();
+});
+
+/* ===== MOBILE MENU ===== */
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+/* ===== SMOOTH HOVER on cards ===== */
+document.querySelectorAll('.about-feat').forEach(el => {
+  el.addEventListener('mouseenter', () => gsap.to(el,{y:-3,duration:0.25,ease:'power2.out'}));
+  el.addEventListener('mouseleave', () => gsap.to(el,{y:0,duration:0.25,ease:'power2.out'}));
+});
+</script>
+</body>
+</html>
