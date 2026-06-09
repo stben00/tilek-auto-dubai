@@ -349,10 +349,10 @@ footer span{color:var(--rose-light)}
   <!-- RIGHT: bento-сетка всех видов тортов -->
   <div class="hero-right">
 
-    <!-- Большая карточка — Torty (замените .cake-ph на <img src="foto.jpg">) -->
+    <!-- Большая карточка — Torty -->
     <a href="#gallery" class="cake-card big" onclick="filterGallery('torty')">
       <div class="cake-ph ph-1">
-        <!-- <img src="images/torty.jpg" alt="Torty"> -->
+        <img src="images/tort-angel.jpg" alt="Tort weselny z aniołami">
       </div>
       <span class="cake-emoji">🎂</span>
       <div class="cake-label">
@@ -364,7 +364,7 @@ footer span{color:var(--rose-light)}
     <!-- Bento -->
     <a href="#gallery" class="cake-card" onclick="filterGallery('bento')">
       <div class="cake-ph ph-2">
-        <!-- <img src="images/bento.jpg" alt="Bento"> -->
+        <img src="images/tort-gula23.jpg" alt="Bento cake Gula Cake">
       </div>
       <span class="cake-emoji">🎁</span>
       <div class="cake-label">
@@ -376,7 +376,7 @@ footer span{color:var(--rose-light)}
     <!-- Weselne -->
     <a href="#gallery" class="cake-card" onclick="filterGallery('weselne')">
       <div class="cake-ph ph-3">
-        <!-- <img src="images/weselne.jpg" alt="Weselne"> -->
+        <img src="images/tort-floral.jpg" alt="Tort z niebieskimi kwiatami">
       </div>
       <span class="cake-emoji">💍</span>
       <div class="cake-label">
@@ -388,7 +388,7 @@ footer span{color:var(--rose-light)}
     <!-- Kapkejki -->
     <a href="#gallery" class="cake-card" onclick="filterGallery('kap')">
       <div class="cake-ph ph-4">
-        <!-- <img src="images/kap.jpg" alt="Kapkejki"> -->
+        <img src="images/olena-white.jpg" alt="Olena z tortem">
       </div>
       <span class="cake-emoji">🧁</span>
       <div class="cake-label">
@@ -415,43 +415,43 @@ footer span{color:var(--rose-light)}
       <button class="fb" data-f="kap">Kapkejki</button>
     </div>
     <div class="masonry" id="masonry">
-      <!-- Замените .g-ph на <img src="..." alt="..."> когда добавите фото -->
+
+      <!-- 1 — Tort z aniołami (biały) -->
       <div class="g-item" data-cat="torty">
-        <div class="g-ph" style="height:250px">Dodaj zdjęcie</div>
-        <div class="g-overlay"><span class="g-label">Tort urodzinowy</span></div>
+        <img src="images/tort-angel.jpg" alt="Tort z aniołami">
+        <div class="g-overlay"><span class="g-label">Tort z aniołami</span></div>
       </div>
-      <div class="g-item" data-cat="weselne">
-        <div class="g-ph" style="height:315px;background:linear-gradient(135deg,#FEF3E0,#F5C5D5)">Dodaj zdjęcie</div>
-        <div class="g-overlay"><span class="g-label">Tort weselny</span></div>
-      </div>
-      <div class="g-item" data-cat="bento">
-        <div class="g-ph" style="height:200px;background:linear-gradient(135deg,#FCE8F3,#E8B4C0)">Dodaj zdjęcie</div>
-        <div class="g-overlay"><span class="g-label">Bento cake</span></div>
-      </div>
+
+      <!-- 2 — Czarny tort urodzinowy z jagodami -->
       <div class="g-item" data-cat="torty">
-        <div class="g-ph" style="height:280px;background:linear-gradient(135deg,#E8D5F0,#D4B4E0)">Dodaj zdjęcie</div>
-        <div class="g-overlay"><span class="g-label">Red Velvet</span></div>
+        <img src="images/tort-black18.jpg" alt="Czarny tort urodzinowy z jagodami">
+        <div class="g-overlay"><span class="g-label">Tort urodzinowy 18</span></div>
       </div>
-      <div class="g-item" data-cat="kap">
-        <div class="g-ph" style="height:225px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">Dodaj zdjęcie</div>
-        <div class="g-overlay"><span class="g-label">Kapkejki</span></div>
-      </div>
+
+      <!-- 3 — Tort z niebieskimi kwiatami -->
       <div class="g-item" data-cat="torty">
-        <div class="g-ph" style="height:265px;background:linear-gradient(135deg,#1a1a2e,#4a1942)">Dodaj zdjęcie</div>
-        <div class="g-overlay"><span class="g-label">Tort urodzinowy</span></div>
-      </div>
-      <div class="g-item" data-cat="bento">
-        <div class="g-ph" style="height:190px;background:linear-gradient(135deg,#FCE4EC,#F8BBD0)">Dodaj zdjęcie</div>
-        <div class="g-overlay"><span class="g-label">Bento unicorn</span></div>
-      </div>
-      <div class="g-item" data-cat="weselne">
-        <div class="g-ph" style="height:340px;background:linear-gradient(135deg,#FAFAFA,#F5E6EA)">Dodaj zdjęcie</div>
-        <div class="g-overlay"><span class="g-label">Tort weselny biały</span></div>
-      </div>
-      <div class="g-item" data-cat="torty">
-        <div class="g-ph" style="height:240px;background:linear-gradient(135deg,#FFF8E1,#FFE082)">Dodaj zdjęcie</div>
+        <img src="images/tort-floral.jpg" alt="Tort z niebieskimi kwiatami">
         <div class="g-overlay"><span class="g-label">Tort z kwiatami</span></div>
       </div>
+
+      <!-- 4 — Gula Cake bento "23" -->
+      <div class="g-item" data-cat="bento">
+        <img src="images/tort-gula23.jpg" alt="Bento cake z numerami 23">
+        <div class="g-overlay"><span class="g-label">Bento cake · 23</span></div>
+      </div>
+
+      <!-- 5 — Tort z jednorożcem dla dzieci -->
+      <div class="g-item" data-cat="torty">
+        <img src="images/tort-unicorn.jpg" alt="Tort z jednorożcem">
+        <div class="g-overlay"><span class="g-label">Tort urodzinowy · Jednorożec</span></div>
+      </div>
+
+      <!-- 6 — Olena z eleganckim białym tortem -->
+      <div class="g-item" data-cat="weselne">
+        <img src="images/olena-white.jpg" alt="Elegancki biały tort weselny">
+        <div class="g-overlay"><span class="g-label">Tort weselny</span></div>
+      </div>
+
     </div>
     <div class="ig-link">
       <a href="https://www.instagram.com/gulacake_warszawa/" target="_blank">
