@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FEF0FA"/><stop offset="100%" stop-color="#F0E8FF"/></linearGradient>
+  <linearGradient id="cakePink" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F8BDD8"/><stop offset="100%" stop-color="#F0A8C8"/></linearGradient>
+  <linearGradient id="stand" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8E0F0"/><stop offset="100%" stop-color="#C8C0D8"/></linearGradient>
+  <linearGradient id="numGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F8A8C0"/><stop offset="50%" stop-color="#C8A8F0"/><stop offset="100%" stop-color="#A8C8F0"/></linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#C060A0" flood-opacity="0.18"/></filter>
+  <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="400" height="500" fill="url(#bg)"/>
+<!-- BG decorations -->
+<circle cx="50" cy="90" r="120" fill="#F8D8F0" opacity="0.3"/>
+<circle cx="370" cy="390" r="100" fill="#E8D8FF" opacity="0.3"/>
+<!-- Gold stars BG -->
+<text x="60" y="120" font-size="14" fill="#C9A84C" opacity="0.35">★</text>
+<text x="330" y="90" font-size="12" fill="#C9A84C" opacity="0.3">★</text>
+<text x="350" y="180" font-size="10" fill="#C9A84C" opacity="0.3">★</text>
+<text x="45" y="250" font-size="11" fill="#C9A84C" opacity="0.25">★</text>
+<!-- Stand base -->
+<ellipse cx="200" cy="450" rx="68" ry="10" fill="#C0B8D0"/>
+<rect x="187" y="408" width="26" height="44" rx="5" fill="url(#stand)"/>
+<!-- Gold stand base detail -->
+<ellipse cx="200" cy="452" rx="70" ry="10" fill="#C9A84C" opacity="0.4"/>
+<ellipse cx="200" cy="450" rx="65" ry="8" fill="#B89860"/>
+<!-- Plate -->
+<ellipse cx="200" cy="406" rx="108" ry="12" fill="white" filter="url(#sh)"/>
+<ellipse cx="200" cy="403" rx="105" ry="10" fill="#F8F4FF"/>
+<!-- Cake body -->
+<rect x="108" y="250" width="184" height="156" rx="10" fill="url(#cakePink)" filter="url(#sh)"/>
+<!-- Cake top -->
+<ellipse cx="200" cy="250" rx="92" ry="10" fill="#F8C0D8"/>
+<!-- Gold star sprinkles on cake -->
+<text x="130" y="318" font-size="10" fill="#C9A84C">★</text>
+<text x="155" y="295" font-size="9" fill="#C9A84C" opacity="0.8">★</text>
+<text x="180" y="330" font-size="11" fill="#C9A84C">★</text>
+<text x="225" y="292" font-size="10" fill="#C9A84C">★</text>
+<text x="250" y="320" font-size="9" fill="#C9A84C" opacity="0.8">★</text>
+<text x="270" y="295" font-size="10" fill="#C9A84C">★</text>
+<text x="142" y="348" font-size="8" fill="#C9A84C" opacity="0.7">★</text>
+<text x="258" y="352" font-size="8" fill="#C9A84C" opacity="0.7">★</text>
+<!-- Pearl dots -->
+<circle cx="165" cy="306" r="3" fill="white" opacity="0.8"/>
+<circle cx="200" cy="310" r="3" fill="white" opacity="0.8"/>
+<circle cx="240" cy="304" r="3" fill="white" opacity="0.8"/>
+<circle cx="148" cy="340" r="2.5" fill="white" opacity="0.7"/>
+<circle cx="260" cy="338" r="2.5" fill="white" opacity="0.7"/>
+<!-- "3" number on cake -->
+<text x="200" y="378" font-family="Arial Black,sans-serif" font-size="38" fill="url(#numGrad)" text-anchor="middle" font-weight="900">3</text>
+<!-- Meringues on top -->
+<path d="M168 248 Q164 238 168 230 Q172 238 176 230 Q180 238 172 248 Z" fill="white"/>
+<path d="M228 248 Q224 238 228 230 Q232 238 236 230 Q240 238 232 248 Z" fill="white"/>
+<!-- Unicorn on top (simplified) -->
+<!-- Body -->
+<ellipse cx="200" cy="210" rx="30" ry="22" fill="#E8E0FF"/>
+<!-- Head -->
+<circle cx="218" cy="192" r="18" fill="#EEE8FF"/>
+<!-- Horn -->
+<path d="M222 175 L218 155 L214 175 Z" fill="#C9A84C"/>
+<line x1="218" y1="156" x2="218" y2="174" stroke="#B89838" stroke-width="1"/>
+<!-- Ear -->
+<path d="M226 178 L232 168 L234 180 Z" fill="#F0C8E0"/>
+<!-- Eye -->
+<circle cx="222" cy="190" r="3" fill="#4a3060"/>
+<circle cx="223" cy="189" r="1" fill="white"/>
+<!-- Muzzle -->
+<ellipse cx="226" cy="198" rx="6" ry="5" fill="#F8D8EC"/>
+<!-- Blush -->
+<circle cx="232" cy="196" r="4" fill="#F0A8C0" opacity="0.6"/>
+<!-- Mane/hair (rainbow) -->
+<path d="M212 178 Q205 185 202 200 Q198 215 200 230" stroke="#F08080" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M210 177 Q202 184 200 200 Q196 215 198 230" stroke="#F0C060" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M208 176 Q200 183 198 200 Q193 215 196 230" stroke="#80C0F0" stroke-width="3" fill="none" stroke-linecap="round"/>
+<!-- Legs sitting -->
+<rect x="178" y="224" width="12" height="20" rx="6" fill="#E0D8F8"/>
+<rect x="212" y="224" width="12" height="20" rx="6" fill="#E0D8F8"/>
+<!-- Front paws -->
+<ellipse cx="184" cy="244" rx="7" ry="5" fill="#D8D0F0"/>
+<ellipse cx="218" cy="244" rx="7" ry="5" fill="#D8D0F0"/>
+<!-- Stars floating around unicorn -->
+<text x="155" y="195" font-size="12" fill="#C9A84C" filter="url(#glow)" opacity="0.8">✦</text>
+<text x="248" y="188" font-size="11" fill="#C9A84C" filter="url(#glow)" opacity="0.8">✦</text>
+<text x="242" y="218" font-size="10" fill="#F080A0" opacity="0.7">✦</text>
+<text x="155" y="220" font-size="9" fill="#A080F0" opacity="0.7">✦</text>
+<!-- Balloon hearts on top -->
+<g opacity="0.85">
+  <!-- Left heart balloon -->
+  <path d="M148 182 C148 170 136 170 136 182 C136 194 148 200 148 200 C148 200 160 194 160 182 C160 170 148 170 148 182Z" fill="#F0C8E0" stroke="#E0A8CC" stroke-width="1" opacity="0.8"/>
+  <!-- Right heart balloon -->
+  <path d="M258 178 C258 166 246 166 246 178 C246 190 258 196 258 196 C258 196 270 190 270 178 C270 166 258 166 258 178Z" fill="#D8C8F0" stroke="#C0A8E0" stroke-width="1" opacity="0.8"/>
+</g>
+<!-- Label -->
+<rect x="128" y="462" width="144" height="24" rx="12" fill="rgba(200,100,180,0.12)"/>
+<text x="200" y="478" font-family="Georgia,serif" font-size="11" fill="#C060A0" text-anchor="middle" letter-spacing="1.5">TORT URODZINOWY</text>
+</svg>
