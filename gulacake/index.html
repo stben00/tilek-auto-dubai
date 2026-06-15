@@ -384,38 +384,7 @@ footer span{color:var(--rose-light)}
       <button class="fb" data-f="tematyczne" data-i18n="filter.tematyczne">Tematyczne</button>
       <button class="fb" data-f="kap" data-i18n="filter.kap">Kapkejki</button>
     </div>
-    <div class="masonry" id="masonry">
-      <div class="g-item" data-cat="torty">
-        <img src="images/tort-angel.svg" alt="Tort z aniołami">
-        <div class="g-cat-badge" data-i18n="filter.torty">Torty</div>
-        <div class="g-overlay"><span class="g-label" data-i18n="cake.angel">Tort z aniołami</span></div>
-      </div>
-      <div class="g-item" data-cat="tematyczne">
-        <img src="images/tort-unicorn.svg" alt="Tort z jednorożcem">
-        <div class="g-cat-badge" data-i18n="filter.tematyczne">Tematyczne</div>
-        <div class="g-overlay"><span class="g-label" data-i18n="cake.unicorn">Tort z jednorożcem</span></div>
-      </div>
-      <div class="g-item" data-cat="weselne">
-        <img src="images/tort-floral.svg" alt="Tort weselny z kwiatami">
-        <div class="g-cat-badge" data-i18n="filter.weselne">Weselne</div>
-        <div class="g-overlay"><span class="g-label" data-i18n="cake.floral">Tort z kwiatami</span></div>
-      </div>
-      <div class="g-item" data-cat="torty">
-        <img src="images/tort-black18.svg" alt="Czarny tort urodzinowy">
-        <div class="g-cat-badge" data-i18n="filter.torty">Torty</div>
-        <div class="g-overlay"><span class="g-label" data-i18n="cake.black18">Tort urodzinowy 18</span></div>
-      </div>
-      <div class="g-item" data-cat="bento">
-        <img src="images/tort-gula23.svg" alt="Bento cake Gula 23">
-        <div class="g-cat-badge" data-i18n="filter.bento">Bento</div>
-        <div class="g-overlay"><span class="g-label" data-i18n="cake.gula23">Bento cake · 23</span></div>
-      </div>
-      <div class="g-item" data-cat="weselne">
-        <img src="images/olena-white.svg" alt="Elegancki tort weselny">
-        <div class="g-cat-badge" data-i18n="filter.weselne">Weselne</div>
-        <div class="g-overlay"><span class="g-label" data-i18n="cake.olena">Tort weselny</span></div>
-      </div>
-    </div>
+    <div class="masonry" id="masonry"></div>
     <div class="ig-link">
       <a href="https://www.instagram.com/gulacake_warszawa/" target="_blank">
         📸 <span data-i18n="gallery.ig">Więcej realizacji na Instagram @gulacake_warszawa</span>
@@ -871,6 +840,105 @@ document.querySelectorAll('.cake-card[data-cat]').forEach(card=>{
 });
 
 /* ═══════════════════════════════════════════════
+   AUTO-LOADING CATALOG
+   Кидаешь фото в папку images/ — каталог сам их находит.
+   Имена файлов:
+     • Просто номера:  1.jpg 2.jpg 3.jpg ...        → показываются во "Все"
+     • С категорией:   weselne-1.jpg  bento-1.jpg   → попадают в нужный фильтр
+       Префиксы: torty- bento- weselne- tematyczne- kap-
+   Поддержка: .jpg .jpeg .png .webp
+═══════════════════════════════════════════════ */
+const masonry=document.getElementById('masonry');
+const IMG_DIR='images/';
+const EXTS=['jpg','jpeg','png','webp'];
+const CATS=['','torty','bento','weselne','tematyczne','kap']; // '' = без категории (только "Все")
+const MAX_PER_CAT=80;     // максимум фото на категорию
+const MISS_STOP=4;        // стоп после N подряд отсутствующих
+
+/* Запасные SVG-иллюстрации, если реальных фото ещё нет */
+const FALLBACK=[
+  {src:'tort-angel.svg',cat:'torty',label:'cake.angel'},
+  {src:'tort-unicorn.svg',cat:'tematyczne',label:'cake.unicorn'},
+  {src:'tort-floral.svg',cat:'weselne',label:'cake.floral'},
+  {src:'tort-black18.svg',cat:'torty',label:'cake.black18'},
+  {src:'tort-gula23.svg',cat:'bento',label:'cake.gula23'},
+  {src:'olena-white.svg',cat:'weselne',label:'cake.olena'}
+];
+
+let loadedCount=0;
+
+/* Попытка загрузить картинку: перебирает расширения */
+function tryLoad(base){
+  return new Promise(resolve=>{
+    let i=0;
+    const attempt=()=>{
+      if(i>=EXTS.length){resolve(null);return;}
+      const url=IMG_DIR+base+'.'+EXTS[i];
+      const img=new Image();
+      img.onload=()=>resolve(url);
+      img.onerror=()=>{i++;attempt();};
+      img.src=url;
+    };
+    attempt();
+  });
+}
+
+function catLabel(cat){
+  const map={torty:'filter.torty',bento:'filter.bento',weselne:'filter.weselne',
+    tematyczne:'filter.tematyczne',kap:'filter.kap'};
+  return map[cat]||'filter.all';
+}
+
+function addItem(url,cat){
+  const item=document.createElement('div');
+  item.className='g-item';
+  item.dataset.cat=cat||'all';
+  const badgeKey=catLabel(cat||'all');
+  item.innerHTML=
+    '<img src="'+url+'" alt="Tort Gula Cake" loading="lazy">'+
+    (cat?'<div class="g-cat-badge" data-i18n="'+badgeKey+'"></div>':'');
+  item.addEventListener('click',()=>{lbImg.src=url;lb.classList.add('open');});
+  masonry.appendChild(item);
+  loadedCount++;
+  if(typeof gsap!=='undefined'){
+    gsap.from(item,{opacity:0,y:24,scale:0.94,duration:0.5,ease:'power3.out',
+      scrollTrigger:{trigger:item,start:'top 95%',once:true}});
+  }
+  // обновить перевод бейджа
+  if(cat){const b=item.querySelector('.g-cat-badge');const tr=T[document.documentElement.dataset.lang||'pl'];if(b&&tr[badgeKey])b.textContent=tr[badgeKey];}
+}
+
+/* Сканируем одну категорию по номерам */
+async function scanCat(prefix){
+  let misses=0;
+  for(let n=1;n<=MAX_PER_CAT;n++){
+    const base=prefix?prefix+'-'+n:String(n);
+    const url=await tryLoad(base);
+    if(url){addItem(url,prefix);misses=0;}
+    else{misses++;if(misses>=MISS_STOP)break;}
+  }
+}
+
+async function buildCatalog(){
+  for(const c of CATS){await scanCat(c);}
+  // если реальных фото нет — показать запасные иллюстрации
+  if(loadedCount===0){
+    FALLBACK.forEach(f=>{
+      const item=document.createElement('div');
+      item.className='g-item';
+      item.dataset.cat=f.cat;
+      const tr=T[document.documentElement.dataset.lang||'pl'];
+      item.innerHTML='<img src="'+IMG_DIR+f.src+'" alt="Tort">'+
+        '<div class="g-cat-badge" data-i18n="'+catLabel(f.cat)+'">'+(tr[catLabel(f.cat)]||'')+'</div>'+
+        '<div class="g-overlay"><span class="g-label" data-i18n="'+f.label+'">'+(tr[f.label]||'')+'</span></div>';
+      item.addEventListener('click',()=>{lbImg.src=IMG_DIR+f.src;lb.classList.add('open');});
+      masonry.appendChild(item);
+    });
+  }
+  if(typeof ScrollTrigger!=='undefined')ScrollTrigger.refresh();
+}
+
+/* ═══════════════════════════════════════════════
    GALLERY FILTER
 ═══════════════════════════════════════════════ */
 function filterGallery(cat){
@@ -889,15 +957,12 @@ document.querySelectorAll('.fb').forEach(btn=>{
 ═══════════════════════════════════════════════ */
 const lb=document.getElementById('lb');
 const lbImg=document.getElementById('lb-img');
-document.querySelectorAll('.g-item').forEach(item=>{
-  item.addEventListener('click',()=>{
-    const img=item.querySelector('img');
-    if(img){lbImg.src=img.src;lb.classList.add('open')}
-  });
-});
 document.getElementById('lbClose').addEventListener('click',()=>lb.classList.remove('open'));
 lb.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open')});
+
+/* Запуск каталога */
+buildCatalog();
 
 /* ═══════════════════════════════════════════════
    GSAP ANIMATIONS
@@ -923,11 +988,7 @@ if(typeof gsap!=='undefined'){
     });
   });
 
-  /* Gallery items */
-  gsap.utils.toArray('.g-item').forEach((el,i)=>{
-    gsap.from(el,{opacity:0,y:28,scale:0.93,duration:0.55,ease:'power3.out',
-      delay:(i%4)*0.06,scrollTrigger:{trigger:el,start:'top 92%',once:true}});
-  });
+  /* Gallery items animate on creation (see buildCatalog) */
 
   /* Smak cards */
   gsap.utils.toArray('.smak').forEach((el,i)=>{
