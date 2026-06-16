@@ -182,8 +182,27 @@ section{padding:80px 24px}
 .about-text strong{color:var(--text);font-weight:600}
 
 /* SMAKI */
-#smaki{background:var(--cream)}
-.smaki-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:36px}
+#smaki{background:var(--white);padding:0;overflow:hidden}
+.smaki-split{display:grid;grid-template-columns:1fr 1fr;min-height:600px}
+.smaki-left{padding:72px 56px 72px 80px;display:flex;flex-direction:column;justify-content:center;
+  background:var(--white)}
+.smaki-big{font-size:clamp(4rem,9vw,8rem);font-weight:900;line-height:0.88;
+  letter-spacing:-0.03em;color:var(--text);margin:0 0 8px;font-family:Georgia,serif}
+.smaki-sub{font-size:0.75rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:36px}
+.smaki-list{list-style:none;padding:0;margin:0;columns:2;column-gap:20px}
+.smaki-list li{padding:9px 0;border-bottom:1px solid var(--border);font-size:0.78rem;
+  font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--text);
+  display:flex;align-items:center;gap:9px;break-inside:avoid}
+.smaki-list li::before{content:'';display:block;width:7px;height:7px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rose),var(--gold));flex-shrink:0}
+.smaki-list li.smak-hit{color:var(--rose)}
+.smaki-list li.smak-hit::before{background:linear-gradient(135deg,var(--gold),#e8a040)}
+.smaki-right{position:relative;overflow:hidden;min-height:520px}
+.smaki-right img{width:100%;height:100%;object-fit:cover;object-position:center top;
+  display:block;transition:opacity 0.8s ease}
+.smaki-right-overlay{position:absolute;inset:0;background:linear-gradient(
+  to right,rgba(255,255,255,0.18) 0%,transparent 30%)}
 .smak{background:var(--white);border:1px solid var(--border);border-radius:12px;
   padding:13px 16px;display:flex;align-items:center;gap:10px;
   transition:border-color 0.2s,box-shadow 0.2s,transform 0.2s}
@@ -287,10 +306,14 @@ footer span{color:var(--rose-light)}
   .steps::before{display:none}
   .steps{gap:28px}
   section{padding:64px 16px}
+  .smaki-split{grid-template-columns:1fr}
+  .smaki-right{min-height:300px;order:-1}
+  .smaki-left{padding:48px 24px}
+  .smaki-big{font-size:clamp(3rem,12vw,5rem)}
 }
 @media(max-width:440px){
   .masonry{columns:1}
-  .smaki-grid{grid-template-columns:1fr}
+  .smaki-list{columns:1}
   .lang-btn span{display:none}
 }
 </style>
@@ -426,25 +449,34 @@ footer span{color:var(--rose-light)}
 
 <!-- SMAKI -->
 <section id="smaki">
-  <div class="wrap">
-    <div class="tc">
-      <span class="s-label" data-i18n="smaki.label">Smaki</span>
-      <h2 class="s-title"><em data-i18n="smaki.title_em">Autorskie</em> smaki</h2>
-      <p class="s-desc" data-i18n="smaki.desc">Od klasyki po zaskakujące kompozycje — każdy znajdzie swój ulubiony</p>
+  <div class="smaki-split">
+    <div class="smaki-left">
+      <div class="smaki-sub" data-i18n="smaki.label">Gula Cake — Menu</div>
+      <h2 class="smaki-big" data-i18n="smaki.heading">SMAKI</h2>
+      <ul class="smaki-list">
+        <li>Napoleon</li>
+        <li>Miodownik</li>
+        <li>Spartak</li>
+        <li>Kijwski (Kievski Tort)</li>
+        <li>Owocowy</li>
+        <li>Red Velvet <span style="font-weight:400;text-transform:none;font-size:0.7em">(Czerwony Aksamit)</span></li>
+        <li>Oreo</li>
+        <li>Mleczna Dziewczynka</li>
+        <li>Marchewkowe z Maliną</li>
+        <li>Bubble Gum</li>
+        <li>Snickers</li>
+        <li>Czekolada–Kokos</li>
+        <li>Bounty</li>
+        <li>Milka</li>
+        <li class="smak-hit">Dubaj Chocolate ✦</li>
+        <li>Jagodowe Rafaello</li>
+        <li>Truskawkowe Oreo</li>
+        <li>Kinder Bueno</li>
+      </ul>
     </div>
-    <div class="smaki-grid">
-      <div class="smak"><div class="smak-dot"></div><div><div class="smak-name" data-i18n="smak.1">Truskawka–Mango</div><div class="smak-note" data-i18n="smak.1n">Świeże, owocowe</div></div></div>
-      <div class="smak"><div class="smak-dot"></div><div><div class="smak-name" data-i18n="smak.2">Pistacja–Malina</div><div class="smak-note" data-i18n="smak.2n">Zielono-różowe</div></div></div>
-      <div class="smak"><div class="smak-dot"></div><div><div class="smak-name" data-i18n="smak.3">Pistacja–Wiśnia</div><div class="smak-note" data-i18n="smak.3n">Kwaskowo-słodkie</div></div></div>
-      <div class="smak"><div class="smak-dot"></div><div><div class="smak-name" data-i18n="smak.4">Borówka–Mak</div><div class="smak-note" data-i18n="smak.4n">Delikatne, kremowe</div></div></div>
-      <div class="smak"><div class="smak-dot"></div><div><div class="smak-name" data-i18n="smak.5">Jagodowy z musem</div><div class="smak-note" data-i18n="smak.5n">Z warstwą jagodowego musu</div></div></div>
-      <div class="smak"><div class="smak-dot"></div><div><div class="smak-name" data-i18n="smak.6">Red Velvet</div><div class="smak-note" data-i18n="smak.6n">Z truskawkową coulis</div></div></div>
-      <div class="smak"><div class="smak-dot"></div><div><div class="smak-name" data-i18n="smak.7">Mascarpone–Truskawka</div><div class="smak-note" data-i18n="smak.7n">Lekkie, kremowe</div></div></div>
-      <div class="smak"><div class="smak-dot"></div><div><div class="smak-name" data-i18n="smak.8">Mascarpone–Brzoskwinia</div><div class="smak-note" data-i18n="smak.8n">Letnie, aksamitne</div></div></div>
-      <div class="smak"><div class="smak-dot"></div><div><div class="smak-name" data-i18n="smak.9">Napoleon</div><div class="smak-note" data-i18n="smak.9n">Klasyczny, warstwowy</div></div></div>
-      <div class="smak"><div class="smak-dot"></div><div><div class="smak-name" data-i18n="smak.10">Miodowy</div><div class="smak-note" data-i18n="smak.10n">Delikatny miodowy</div></div></div>
-      <div class="smak"><div class="smak-dot"></div><div><div class="smak-name" data-i18n="smak.11">Snickers</div><div class="smak-note" data-i18n="smak.11n">Karmel, orzech, czekolada</div></div></div>
-      <div class="smak"><div class="smak-dot g"></div><div><div class="smak-name" data-i18n="smak.12">Dubaj Czekolada ✨</div><div class="smak-note" data-i18n="smak.12n">Hit sezonu!</div></div></div>
+    <div class="smaki-right" id="smaki-photo">
+      <img id="smaki-img" src="images/Новая папка/Снимок экрана 2026-06-15 в 07.20.33.png" alt="Tort Gula Cake">
+      <div class="smaki-right-overlay"></div>
     </div>
   </div>
 </section>
@@ -563,7 +595,7 @@ pl:{
   'gallery.ig':'Więcej realizacji na Instagram @gulacake_warszawa',
   'about.label':'O mnie','about.title':'Cześć, jestem','about.desc':'Jestem cukiernikiem z pasją. Od 2019 roku tworzę autorskie torty na zamówienie w Warszawie. Każdy tort to dla mnie małe dzieło sztuki — wkładam w nie serce, doświadczenie i najlepsze składniki. Mieszkam i pracuję na Białołęce, realizuję zamówienia nawet za 24h.',
   'about.f2':'Szczęśliwych klientów','about.f3':'Ekspresowa realizacja','about.cta':'Zobacz więcej na Instagram',
-  'smaki.label':'Smaki','smaki.title_em':'Autorskie','smaki.desc':'Od klasyki po zaskakujące kompozycje — każdy znajdzie swój ulubiony',
+  'smaki.label':'Gula Cake — Menu','smaki.heading':'SMAKI','smaki.title_em':'Autorskie','smaki.desc':'Od klasyki po zaskakujące kompozycje — każdy znajdzie swój ulubiony',
   'smak.1':'Truskawka–Mango','smak.1n':'Świeże, owocowe',
   'smak.2':'Pistacja–Malina','smak.2n':'Zielono-różowe',
   'smak.3':'Pistacja–Wiśnia','smak.3n':'Kwaskowo-słodkie',
@@ -617,7 +649,7 @@ ru:{
   'gallery.ig':'Больше работ в Instagram @gulacake_warszawa',
   'about.label':'Обо мне','about.title':'Привет, я','about.desc':'Я кондитер по призванию. С 2019 года создаю авторские торты на заказ в Варшаве. Каждый торт — это маленькое произведение искусства, в которое я вкладываю душу, опыт и лучшие ингредиенты. Работаю в районе Белоленка, выполняю заказы даже за 24 часа.',
   'about.f2':'Довольных клиентов','about.f3':'Экспресс-изготовление','about.cta':'Посмотреть в Instagram',
-  'smaki.label':'Вкусы','smaki.title_em':'Авторские','smaki.desc':'От классики до неожиданных сочетаний — каждый найдёт любимый',
+  'smaki.label':'Gula Cake — Меню','smaki.heading':'ВКУСЫ','smaki.title_em':'Авторские','smaki.desc':'От классики до неожиданных сочетаний — каждый найдёт любимый',
   'smak.1':'Клубника–Манго','smak.1n':'Свежее, фруктовое',
   'smak.2':'Фисташка–Малина','smak.2n':'Зелёно-розовое',
   'smak.3':'Фисташка–Вишня','smak.3n':'Кисло-сладкое',
@@ -671,7 +703,7 @@ en:{
   'gallery.ig':'More on Instagram @gulacake_warszawa',
   'about.label':'About me','about.title':'Hi, I\'m','about.desc':'I\'m a passionate pastry chef. Since 2019 I\'ve been creating custom cakes in Warsaw. Every cake is a little work of art — I put my heart, experience and the finest ingredients into each one. Based in Białołęka, ready in as little as 24h.',
   'about.f2':'Happy clients','about.f3':'Express creation','about.cta':'See more on Instagram',
-  'smaki.label':'Flavours','smaki.title_em':'Signature','smaki.desc':'From classics to surprising combinations — everyone finds their favourite',
+  'smaki.label':'Gula Cake — Menu','smaki.heading':'FLAVOURS','smaki.title_em':'Signature','smaki.desc':'From classics to surprising combinations — everyone finds their favourite',
   'smak.1':'Strawberry–Mango','smak.1n':'Fresh, fruity',
   'smak.2':'Pistachio–Raspberry','smak.2n':'Green-pink',
   'smak.3':'Pistachio–Cherry','smak.3n':'Sweet-sour',
@@ -725,7 +757,7 @@ uk:{
   'gallery.ig':'Більше робіт в Instagram @gulacake_warszawa',
   'about.label':'Про мене','about.title':'Привіт, я','about.desc':'Я кондитер із покликанням. З 2019 року створюю авторські торти на замовлення у Варшаві. Кожен торт — це маленький витвір мистецтва, у який я вкладаю душу, досвід та найкращі інгредієнти. Живу та працюю на Білоленці, виконую замовлення навіть за 24 години.',
   'about.f2':'Щасливих клієнтів','about.f3':'Експрес-виготовлення','about.cta':'Більше в Instagram',
-  'smaki.label':'Смаки','smaki.title_em':'Авторські','smaki.desc':'Від класики до несподіваних поєднань — кожен знайде свій улюблений',
+  'smaki.label':'Gula Cake — Меню','smaki.heading':'СМАКИ','smaki.title_em':'Авторські','smaki.desc':'Від класики до несподіваних поєднань — кожен знайде свій улюблений',
   'smak.1':'Полуниця–Манго','smak.1n':'Свіже, фруктове',
   'smak.2':'Фісташка–Малина','smak.2n':'Зелено-рожеве',
   'smak.3':'Фісташка–Вишня','smak.3n':'Кисло-солодке',
@@ -779,7 +811,7 @@ by:{
   'gallery.ig':'Больш работ у Instagram @gulacake_warszawa',
   'about.label':'Пра мяне','about.title':'Прывітанне, я','about.desc':'Я кандытар па пакліканні. З 2019 года ствараю аўтарскія торты на замову ў Варшаве. Кожны торт — гэта маленькі твор мастацтва, у які я ўкладаю душу, вопыт і найлепшыя інгрэдыенты. Жыву і працую на Беляленцы, выконваю заказы нават за 24 гадзіны.',
   'about.f2':'Шчаслівых кліентаў','about.f3':'Экспрэс-вырабленне','about.cta':'Больш у Instagram',
-  'smaki.label':'Смакі','smaki.title_em':'Аўтарскія','smaki.desc':'Ад класікі да нечаканых спалучэнняў — кожны знойдзе свой любімы',
+  'smaki.label':'Gula Cake — Меню','smaki.heading':'СМАКІ','smaki.title_em':'Аўтарскія','smaki.desc':'Ад класікі да нечаканых спалучэнняў — кожны знойдзе свой любімы',
   'smak.1':'Суніца–Манга','smak.1n':'Свежае, фруктовае',
   'smak.2':'Фісташка–Маліна','smak.2n':'Зялёна-ружовае',
   'smak.3':'Фісташка–Вішня','smak.3n':'Кісла-салодкае',
@@ -1135,6 +1167,21 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove(
 
 /* Запуск каталога */
 buildCatalog();
+
+/* Ротация фото в разделе SMAKI */
+(function(){
+  const smakiImg=document.getElementById('smaki-img');
+  if(!smakiImg||REAL_PHOTOS.length<2)return;
+  const picks=[0,2,10,17,20,27,30,38,45];
+  let si=0;
+  setInterval(()=>{
+    si=(si+1)%picks.length;
+    const idx=picks[si]%REAL_PHOTOS.length;
+    const next=new Image();
+    next.src=REAL_DIR+REAL_PHOTOS[idx].f;
+    next.onload=()=>{smakiImg.style.opacity='0';setTimeout(()=>{smakiImg.src=next.src;smakiImg.style.opacity='1';},400);};
+  },4000);
+})();
 
 /* ═══════════════════════════════════════════════
    GSAP ANIMATIONS
