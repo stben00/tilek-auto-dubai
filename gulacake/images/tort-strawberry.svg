@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <radialGradient id="bgGrad2" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#FEFCFA"/>
+      <stop offset="100%" stop-color="#F5EEE8"/>
+    </radialGradient>
+    <radialGradient id="cakeGrad2" cx="35%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F8F4F0"/>
+    </radialGradient>
+    <linearGradient id="standGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F8F5F2"/>
+      <stop offset="100%" stop-color="#E8E2DC"/>
+    </linearGradient>
+    <radialGradient id="strawberryRed" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="100%" stop-color="#C0392B"/>
+    </radialGradient>
+    <filter id="softShadow2">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="1" dy="3"/>
+      <feComposite in2="SourceGraphic"/>
+    </filter>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="1.2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bgGrad2)"/>
+  <!-- Soft window light -->
+  <radialGradient id="windowLight" cx="20%" cy="20%" r="50%">
+    <stop offset="0%" stop-color="rgba(255,250,245,0.5)"/>
+    <stop offset="100%" stop-color="transparent"/>
+  </radialGradient>
+  <rect width="400" height="500" fill="url(#windowLight)"/>
+
+  <!-- ═══ CAKE STAND ═══ -->
+  <!-- Stand base -->
+  <ellipse cx="200" cy="450" rx="92" ry="11" fill="url(#standGrad2)" stroke="#D8D0C8" stroke-width="1"/>
+  <!-- Stand column -->
+  <rect x="186" y="422" width="28" height="30" fill="url(#standGrad2)" stroke="#D0C8C0" stroke-width="0.5"/>
+  <!-- Stand top plate -->
+  <ellipse cx="200" cy="424" rx="98" ry="10" fill="url(#standGrad2)" stroke="#D8D0C8" stroke-width="1"/>
+  <!-- Stand label -->
+  <text x="200" y="452" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#B0A090" letter-spacing="1.5">GULA CAKE</text>
+  <!-- Bottom label -->
+  <text x="200" y="492" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#C060A0" letter-spacing="1.8" font-style="italic">TORT URODZINOWY</text>
+  <line x1="135" y1="482" x2="265" y2="482" stroke="#D878A8" stroke-width="0.5" opacity="0.5"/>
+
+  <!-- ═══ CAKE BODY ═══ -->
+  <!-- Cake shadow -->
+  <ellipse cx="202" cy="426" rx="86" ry="7" fill="rgba(175,155,140,0.25)"/>
+  <!-- Main cake body -->
+  <rect x="114" y="158" width="172" height="268" rx="5" fill="url(#cakeGrad2)" stroke="#EDE6DF" stroke-width="1"/>
+  <!-- Cake top -->
+  <ellipse cx="200" cy="158" rx="86" ry="9" fill="#FFFFFF" stroke="#EDE6DF" stroke-width="1"/>
+  <!-- Cake highlight -->
+  <rect x="116" y="162" width="38" height="260" rx="4" fill="rgba(255,255,255,0.55)" opacity="0.4"/>
+  <!-- Right cake shadow -->
+  <rect x="260" y="162" width="22" height="260" rx="4" fill="rgba(205,195,185,0.25)"/>
+
+  <!-- ═══ LEFT FLORAL ARRANGEMENT ═══ -->
+  <!-- Stems/leaves -->
+  <path d="M114,320 C95,295 80,270 75,240" stroke="#8DB87C" stroke-width="1.5" fill="none" opacity="0.7"/>
+  <path d="M114,300 C92,278 78,258 70,230" stroke="#8DB87C" stroke-width="1" fill="none" opacity="0.5"/>
+  <!-- Leaf shapes -->
+  <path d="M88,278 C78,265 70,260 65,250 C72,258 82,262 88,278 Z" fill="#7CAB68" opacity="0.6"/>
+  <path d="M80,255 C70,242 62,237 57,228 C64,236 74,240 80,255 Z" fill="#7CAB68" opacity="0.5"/>
+
+  <!-- Large mauve eustoma roses -->
+  <!-- Rose 1 - largest, center-left -->
+  <g transform="translate(82,270)">
+    <circle cx="0" cy="0" r="22" fill="#D878A8" opacity="0.15"/>
+    <path d="M0,0 C-8,-15 -20,-18 -18,-8 C-20,-18 -8,-25 5,-18 C-8,-25 8,-22 12,-10 C8,-22 18,-12 15,0 C18,-12 15,10 5,12 C15,10 5,20 -8,15 C5,20 -18,18 -18,8 C-18,18 -22,2 -15,-8 Z" fill="#D878A8" opacity="0.8"/>
+    <!-- Inner petals -->
+    <path d="M0,0 C-4,-8 -10,-10 -8,-4 C-10,-10 -4,-14 3,-10 C-4,-14 5,-12 7,-5 C5,-12 10,-5 8,2 C10,-5 7,7 2,8 C7,7 2,12 -4,9 C2,12 -10,10 -10,4 Z" fill="#C060A0"/>
+    <!-- Center -->
+    <circle cx="0" cy="0" r="4" fill="#A84890"/>
+    <circle cx="0" cy="0" r="2" fill="#903878"/>
+  </g>
+
+  <!-- Rose 2 -->
+  <g transform="translate(58,245)">
+    <path d="M0,0 C-6,-12 -16,-14 -14,-6 C-16,-14 -6,-20 4,-14 C-6,-20 6,-17 9,-8 C6,-17 14,-9 12,0 C14,-9 12,8 4,10 C12,8 4,16 -6,12 C4,16 -14,14 -14,6 C-14,14 -17,2 -12,-6 Z" fill="#E8A0C0" opacity="0.85"/>
+    <path d="M0,0 C-3,-7 -9,-8 -7,-3 C-9,-8 -3,-12 3,-8 C-3,-12 4,-10 6,-4 C4,-10 8,-4 6,2 C8,-4 5,6 1,7 C5,6 1,10 -3,7 C1,10 -9,8 -8,3 Z" fill="#D878A8"/>
+    <circle cx="0" cy="0" r="3" fill="#C060A0"/>
+  </g>
+
+  <!-- Rose 3 (smaller, below) -->
+  <g transform="translate(90,305)">
+    <path d="M0,0 C-5,-10 -13,-12 -12,-5 C-13,-12 -5,-17 3,-12 C-5,-17 5,-14 8,-7 C5,-14 12,-7 10,0 C12,-7 9,7 3,8 C9,7 3,14 -5,10 C3,14 -12,12 -12,5 C-12,12 -14,1 -10,-5 Z" fill="#C060A0" opacity="0.9"/>
+    <circle cx="0" cy="0" r="3" fill="#A04080"/>
+  </g>
+
+  <!-- Small pink accent flowers (gypsophila) -->
+  <g fill="#E8A0C0" opacity="0.7">
+    <circle cx="68" cy="290" r="3"/>
+    <circle cx="75" cy="282" r="2.5"/>
+    <circle cx="62" cy="300" r="2"/>
+    <circle cx="78" cy="298" r="2"/>
+    <circle cx="55" cy="275" r="2.5"/>
+    <circle cx="65" cy="268" r="2"/>
+    <circle cx="95" cy="285" r="2"/>
+    <circle cx="72" cy="312" r="2.5"/>
+    <circle cx="85" cy="320" r="2"/>
+  </g>
+  <g fill="#D878A8" opacity="0.5">
+    <circle cx="60" cy="258" r="2"/>
+    <circle cx="100" cy="295" r="1.5"/>
+    <circle cx="48" cy="268" r="1.5"/>
+    <circle cx="88" cy="315" r="1.5"/>
+  </g>
+
+  <!-- ═══ STRAWBERRIES ON TOP ═══ -->
+  <!-- Arranged in a half-circle arc on cake top -->
+  <g transform="translate(200, 158)">
+    <!-- Strawberry 1 (far left) -->
+    <g transform="translate(-55, -12) rotate(-25)">
+      <path d="M0,-20 C-12,-12 -14,5 0,15 C14,5 12,-12 0,-20 Z" fill="url(#strawberryRed)"/>
+      <!-- Seeds -->
+      <ellipse cx="-5" cy="-5" rx="1" ry="1.5" fill="#FFCCCC" transform="rotate(10,-5,-5)"/>
+      <ellipse cx="3" cy="-8" rx="1" ry="1.5" fill="#FFCCCC" transform="rotate(-5,3,-8)"/>
+      <ellipse cx="-3" cy="3" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <ellipse cx="6" cy="0" rx="1" ry="1.5" fill="#FFCCCC" transform="rotate(5,6,0)"/>
+      <ellipse cx="0" cy="8" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <!-- Green top -->
+      <path d="M-6,-20 C-3,-28 -1,-22 0,-20 C1,-22 3,-28 6,-20 C4,-23 2,-19 0,-20 C-2,-19 -4,-23 -6,-20 Z" fill="#5A9E48"/>
+      <line x1="0" y1="-20" x2="0" y2="-26" stroke="#5A9E48" stroke-width="1.2"/>
+    </g>
+    <!-- Strawberry 2 -->
+    <g transform="translate(-35, -18) rotate(-15)">
+      <path d="M0,-18 C-10,-11 -12,4 0,13 C12,4 10,-11 0,-18 Z" fill="url(#strawberryRed)"/>
+      <ellipse cx="-4" cy="-4" rx="1" ry="1.4" fill="#FFCCCC"/>
+      <ellipse cx="3" cy="-7" rx="1" ry="1.4" fill="#FFCCCC"/>
+      <ellipse cx="-2" cy="3" rx="1" ry="1.4" fill="#FFCCCC"/>
+      <ellipse cx="5" cy="1" rx="1" ry="1.4" fill="#FFCCCC"/>
+      <path d="M-5,-18 C-2,-25 -1,-20 0,-18 C1,-20 2,-25 5,-18 C3,-21 1,-18 0,-18 C-1,-18 -3,-21 -5,-18 Z" fill="#5A9E48"/>
+      <line x1="0" y1="-18" x2="0" y2="-24" stroke="#5A9E48" stroke-width="1.2"/>
+    </g>
+    <!-- Strawberry 3 (center-left) -->
+    <g transform="translate(-15, -22) rotate(-5)">
+      <path d="M0,-20 C-12,-12 -14,5 0,15 C14,5 12,-12 0,-20 Z" fill="url(#strawberryRed)"/>
+      <ellipse cx="-5" cy="-5" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <ellipse cx="3" cy="-8" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <ellipse cx="-2" cy="3" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <ellipse cx="6" cy="0" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <ellipse cx="0" cy="8" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <path d="M-6,-20 C-3,-28 -1,-22 0,-20 C1,-22 3,-28 6,-20 C4,-23 2,-19 0,-20 C-2,-19 -4,-23 -6,-20 Z" fill="#5A9E48"/>
+      <line x1="0" y1="-20" x2="0" y2="-26" stroke="#5A9E48" stroke-width="1.2"/>
+    </g>
+    <!-- Strawberry 4 (center) -->
+    <g transform="translate(5, -24)">
+      <path d="M0,-21 C-13,-13 -15,5 0,16 C15,5 13,-13 0,-21 Z" fill="url(#strawberryRed)"/>
+      <ellipse cx="-5" cy="-5" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <ellipse cx="4" cy="-9" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <ellipse cx="-3" cy="3" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <ellipse cx="6" cy="1" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <ellipse cx="0" cy="9" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <path d="M-7,-21 C-3,-30 -1,-23 0,-21 C1,-23 3,-30 7,-21 C5,-24 2,-20 0,-21 C-2,-20 -5,-24 -7,-21 Z" fill="#5A9E48"/>
+      <line x1="0" y1="-21" x2="0" y2="-28" stroke="#5A9E48" stroke-width="1.2"/>
+    </g>
+    <!-- Strawberry 5 (center-right) -->
+    <g transform="translate(25, -22) rotate(5)">
+      <path d="M0,-20 C-12,-12 -14,5 0,15 C14,5 12,-12 0,-20 Z" fill="url(#strawberryRed)"/>
+      <ellipse cx="-5" cy="-5" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <ellipse cx="3" cy="-8" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <ellipse cx="-2" cy="3" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <ellipse cx="6" cy="0" rx="1" ry="1.5" fill="#FFCCCC"/>
+      <path d="M-6,-20 C-3,-28 -1,-22 0,-20 C1,-22 3,-28 6,-20 C4,-23 2,-19 0,-20 C-2,-19 -4,-23 -6,-20 Z" fill="#5A9E48"/>
+      <line x1="0" y1="-20" x2="0" y2="-26" stroke="#5A9E48" stroke-width="1.2"/>
+    </g>
+    <!-- Strawberry 6 -->
+    <g transform="translate(45, -18) rotate(15)">
+      <path d="M0,-18 C-10,-11 -12,4 0,13 C12,4 10,-11 0,-18 Z" fill="url(#strawberryRed)"/>
+      <ellipse cx="-4" cy="-4" rx="1" ry="1.4" fill="#FFCCCC"/>
+      <ellipse cx="3" cy="-7" rx="1" ry="1.4" fill="#FFCCCC"/>
+      <ellipse cx="5" cy="1" rx="1" ry="1.4" fill="#FFCCCC"/>
+      <path d="M-5,-18 C-2,-25 -1,-20 0,-18 C1,-20 2,-25 5,-18 C3,-21 1,-18 0,-18 C-1,-18 -3,-21 -5,-18 Z" fill="#5A9E48"/>
+      <line x1="0" y1="-18" x2="0" y2="-24" stroke="#5A9E48" stroke-width="1.2"/>
+    </g>
+    <!-- Strawberry 7 (far right) -->
+    <g transform="translate(62, -12) rotate(25)">
+      <path d="M0,-18 C-10,-11 -12,4 0,13 C12,4 10,-11 0,-18 Z" fill="url(#strawberryRed)"/>
+      <ellipse cx="-4" cy="-4" rx="1" ry="1.4" fill="#FFCCCC"/>
+      <ellipse cx="3" cy="-7" rx="1" ry="1.4" fill="#FFCCCC"/>
+      <ellipse cx="5" cy="1" rx="1" ry="1.4" fill="#FFCCCC"/>
+      <path d="M-5,-18 C-2,-25 -1,-20 0,-18 C1,-20 2,-25 5,-18 C3,-21 1,-18 0,-18 C-1,-18 -3,-21 -5,-18 Z" fill="#5A9E48"/>
+      <line x1="0" y1="-18" x2="0" y2="-24" stroke="#5A9E48" stroke-width="1.2"/>
+    </g>
+  </g>
+
+  <!-- ═══ HAPPY BIRTHDAY TOPPER ═══ -->
+  <!-- Topper support sticks -->
+  <line x1="160" y1="100" x2="157" y2="148" stroke="#C9A84C" stroke-width="1.2" opacity="0.8"/>
+  <line x1="240" y1="100" x2="243" y2="148" stroke="#C9A84C" stroke-width="1.2" opacity="0.8"/>
+
+  <!-- Acrylic topper plate -->
+  <rect x="148" y="75" width="104" height="32" rx="4" fill="rgba(255,250,240,0.9)" stroke="#C9A84C" stroke-width="1.2"/>
+  <!-- Happy Birthday text -->
+  <text x="200" y="88" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="9" font-style="italic" fill="#C9A84C" filter="url(#glow2)">Happy</text>
+  <text x="200" y="102" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="11" font-style="italic" fill="#C9A84C" filter="url(#glow2)" letter-spacing="0.5">Birthday</text>
+  <!-- Topper flourishes -->
+  <path d="M152,88 C148,85 145,88 148,90 C145,90 148,93 152,90" fill="#C9A84C" opacity="0.5"/>
+  <path d="M248,88 C252,85 255,88 252,90 C255,90 252,93 248,90" fill="#C9A84C" opacity="0.5"/>
+
+  <!-- ═══ CYRILLIC HANDWRITTEN TEXT ON CAKE ═══ -->
+  <text x="200" y="360" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-style="italic" fill="rgba(80,60,50,0.35)" letter-spacing="0.5">Вітаємо!</text>
+  <text x="200" y="382" text-anchor="middle" font-family="Georgia, serif" font-size="11" font-style="italic" fill="rgba(80,60,50,0.25)" letter-spacing="0.3">З Днем Народження</text>
+
+  <!-- ═══ SCATTERED GYPSOPHILA ON CAKE SIDES ═══ -->
+  <g fill="#F0C0D8" opacity="0.6">
+    <circle cx="130" cy="200" r="2.5"/>
+    <circle cx="145" cy="215" r="2"/>
+    <circle cx="128" cy="230" r="1.8"/>
+    <circle cx="140" cy="242" r="2.2"/>
+    <circle cx="125" cy="255" r="2"/>
+    <circle cx="138" cy="268" r="1.5"/>
+    <circle cx="270" cy="205" r="2.5"/>
+    <circle cx="255" cy="220" r="2"/>
+    <circle cx="272" cy="235" r="1.8"/>
+    <circle cx="258" cy="248" r="2.2"/>
+    <circle cx="265" cy="260" r="2"/>
+    <circle cx="275" cy="275" r="1.5"/>
+  </g>
+  <g fill="#D878A8" opacity="0.4">
+    <circle cx="135" cy="185" r="1.5"/>
+    <circle cx="122" cy="210" r="1.5"/>
+    <circle cx="268" cy="190" r="1.5"/>
+    <circle cx="280" cy="215" r="1.5"/>
+    <circle cx="145" cy="390" r="1.5"/>
+    <circle cx="258" cy="385" r="1.5"/>
+  </g>
+</svg>

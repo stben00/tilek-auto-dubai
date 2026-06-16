@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <!-- Background gradient -->
+    <radialGradient id="bgGrad2" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FDF0F4"/>
+    </radialGradient>
+
+    <!-- Cake body gradient - smooth fondant -->
+    <linearGradient id="cakeGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E8A0BC"/>
+      <stop offset="20%" stop-color="#F4B8CC"/>
+      <stop offset="50%" stop-color="#FAC8D8"/>
+      <stop offset="80%" stop-color="#F4B8CC"/>
+      <stop offset="100%" stop-color="#E898B8"/>
+    </linearGradient>
+
+    <!-- Cake top fondant gradient -->
+    <radialGradient id="cakeTopGrad2" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#FCD8E8"/>
+      <stop offset="80%" stop-color="#F0B0C8"/>
+      <stop offset="100%" stop-color="#E8A8C0"/>
+    </radialGradient>
+
+    <!-- Stand gradient -->
+    <linearGradient id="standGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E8E0E4"/>
+      <stop offset="35%" stop-color="#FFFFFF"/>
+      <stop offset="65%" stop-color="#F8F0F4"/>
+      <stop offset="100%" stop-color="#E0D8DC"/>
+    </linearGradient>
+
+    <!-- Column gradient -->
+    <linearGradient id="columnGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#DDD5D8"/>
+      <stop offset="40%" stop-color="#FFFFFF"/>
+      <stop offset="60%" stop-color="#FAFAFA"/>
+      <stop offset="100%" stop-color="#DDD5D8"/>
+    </linearGradient>
+
+    <!-- Bow main gradient - rich pink fabric -->
+    <linearGradient id="bowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F8C8DC"/>
+      <stop offset="40%" stop-color="#F0B0C8"/>
+      <stop offset="80%" stop-color="#E898B8"/>
+      <stop offset="100%" stop-color="#DC88A8"/>
+    </linearGradient>
+
+    <!-- Bow left loop gradient -->
+    <linearGradient id="bowLeftGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F8D0E4"/>
+      <stop offset="50%" stop-color="#F0B0C8"/>
+      <stop offset="100%" stop-color="#D890B0"/>
+    </linearGradient>
+
+    <!-- Bow right loop gradient -->
+    <linearGradient id="bowRightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F8D0E4"/>
+      <stop offset="50%" stop-color="#F0B0C8"/>
+      <stop offset="100%" stop-color="#D890B0"/>
+    </linearGradient>
+
+    <!-- Knot gradient -->
+    <radialGradient id="knotGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#F8D0E4"/>
+      <stop offset="50%" stop-color="#E898B8"/>
+      <stop offset="100%" stop-color="#C870A0"/>
+    </radialGradient>
+
+    <!-- Tail gradient -->
+    <linearGradient id="tailGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F0B0C8"/>
+      <stop offset="100%" stop-color="#E090B0"/>
+    </linearGradient>
+
+    <!-- Distress filter for stand -->
+    <filter id="distress2">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Soft glow for bow -->
+    <filter id="bowGlow" x="-15%" y="-15%" width="130%" height="130%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <!-- Cake soft shadow -->
+    <filter id="cakeShadow2" x="-8%" y="-5%" width="116%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#C080A0" flood-opacity="0.2"/>
+    </filter>
+
+    <!-- Bow drop shadow -->
+    <filter id="bowShadow2" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="4" stdDeviation="6" flood-color="#B06090" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <!-- ========== BACKGROUND ========== -->
+  <rect width="400" height="500" fill="url(#bgGrad2)"/>
+
+  <!-- Very subtle background texture circles -->
+  <circle cx="40" cy="55" r="30" fill="#FDE8F0" opacity="0.5"/>
+  <circle cx="360" cy="80" r="25" fill="#FDE8F0" opacity="0.45"/>
+  <circle cx="20" cy="260" r="20" fill="#FDE8F0" opacity="0.4"/>
+  <circle cx="380" cy="300" r="18" fill="#FDE8F0" opacity="0.4"/>
+  <circle cx="60" cy="440" r="22" fill="#FDE8F0" opacity="0.45"/>
+  <circle cx="340" cy="450" r="18" fill="#FDE8F0" opacity="0.4"/>
+  <circle cx="200" cy="490" r="40" fill="#FDE8F0" opacity="0.35"/>
+
+  <!-- Tiny scattered dots -->
+  <circle cx="70" cy="120" r="2.5" fill="#F0B0C8" opacity="0.4"/>
+  <circle cx="330" cy="110" r="2.5" fill="#F0B0C8" opacity="0.4"/>
+  <circle cx="55" cy="370" r="2.5" fill="#F0B0C8" opacity="0.4"/>
+  <circle cx="345" cy="380" r="2.5" fill="#F0B0C8" opacity="0.4"/>
+  <circle cx="90" cy="470" r="2" fill="#F0B0C8" opacity="0.35"/>
+  <circle cx="310" cy="465" r="2" fill="#F0B0C8" opacity="0.35"/>
+
+  <!-- ========== VINTAGE CAKE STAND ========== -->
+  <!-- Base foot ellipse -->
+  <ellipse cx="200" cy="462" rx="92" ry="14" fill="url(#standGrad2)" filter="url(#distress2)" stroke="#CCBCBC" stroke-width="1.2"/>
+  <!-- Base highlight rim -->
+  <ellipse cx="200" cy="460" rx="88" ry="10" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.7"/>
+  <!-- Distressed edge detail -->
+  <path d="M113,460 Q128,455 143,460 Q158,465 173,460 Q188,455 203,460 Q218,465 233,460 Q248,455 263,460 Q278,465 287,460" fill="none" stroke="#CCBCBC" stroke-width="1.2" opacity="0.7"/>
+  <!-- Small rough texture strokes on base -->
+  <path d="M120,463 Q125,461 130,463" fill="none" stroke="#D8C8C8" stroke-width="0.8" opacity="0.6"/>
+  <path d="M165,464 Q170,462 175,464" fill="none" stroke="#D8C8C8" stroke-width="0.8" opacity="0.6"/>
+  <path d="M220,463 Q225,461 230,463" fill="none" stroke="#D8C8C8" stroke-width="0.8" opacity="0.6"/>
+  <path d="M265,462 Q270,460 275,462" fill="none" stroke="#D8C8C8" stroke-width="0.8" opacity="0.6"/>
+
+  <!-- Pedestal column -->
+  <rect x="181" y="413" width="38" height="52" rx="5" fill="url(#columnGrad2)" filter="url(#distress2)" stroke="#CCBCBC" stroke-width="0.8"/>
+  <!-- Column center highlight -->
+  <line x1="200" y1="415" x2="200" y2="463" stroke="#FFFFFF" stroke-width="2" opacity="0.55"/>
+  <line x1="190" y1="416" x2="190" y2="462" stroke="#EEEEEE" stroke-width="0.8" opacity="0.4"/>
+  <line x1="210" y1="416" x2="210" y2="462" stroke="#EEEEEE" stroke-width="0.8" opacity="0.4"/>
+  <!-- Column rough texture marks -->
+  <path d="M183,425 Q188,424 192,425" fill="none" stroke="#D8D0D0" stroke-width="0.7" opacity="0.5"/>
+  <path d="M208,435 Q213,434 218,435" fill="none" stroke="#D8D0D0" stroke-width="0.7" opacity="0.5"/>
+  <path d="M184,450 Q189,449 193,450" fill="none" stroke="#D8D0D0" stroke-width="0.7" opacity="0.5"/>
+
+  <!-- Plate top of stand -->
+  <ellipse cx="200" cy="417" rx="112" ry="16" fill="url(#standGrad2)" filter="url(#distress2)" stroke="#CCBCBC" stroke-width="1.2"/>
+  <!-- Plate highlight rim -->
+  <ellipse cx="200" cy="415" rx="107" ry="11" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.65"/>
+  <!-- Plate scalloped decorative edge -->
+  <path d="M93,417 Q98,410 108,417 Q118,424 128,417 Q138,410 148,417 Q158,424 168,417 Q178,410 188,417 Q198,424 208,417 Q218,410 228,417 Q238,424 248,417 Q258,410 268,417 Q278,424 288,417 Q298,410 307,417" fill="none" stroke="#D8C8CC" stroke-width="1.3" opacity="0.8"/>
+  <!-- Plate outer rough texture marks -->
+  <path d="M100,418 Q107,416 114,418" fill="none" stroke="#D0C0C4" stroke-width="0.8" opacity="0.55"/>
+  <path d="M280,418 Q287,416 294,418" fill="none" stroke="#D0C0C4" stroke-width="0.8" opacity="0.55"/>
+
+  <!-- ========== CAKE BODY (smooth fondant) ========== -->
+  <rect x="108" y="185" width="184" height="225" rx="10" fill="url(#cakeGrad2)" filter="url(#cakeShadow2)"/>
+
+  <!-- Fondant drape / fold lines - subtle vertical folds -->
+  <path d="M130,185 Q128,280 130,410" fill="none" stroke="#E8A0BC" stroke-width="1.2" opacity="0.35"/>
+  <path d="M155,185 Q153,280 155,410" fill="none" stroke="#EAA8C0" stroke-width="0.9" opacity="0.25"/>
+  <path d="M180,185 Q178,280 180,410" fill="none" stroke="#E8A0BC" stroke-width="1.2" opacity="0.3"/>
+  <path d="M220,185 Q222,280 220,410" fill="none" stroke="#E8A0BC" stroke-width="1.2" opacity="0.3"/>
+  <path d="M245,185 Q247,280 245,410" fill="none" stroke="#EAA8C0" stroke-width="0.9" opacity="0.25"/>
+  <path d="M270,185 Q272,280 270,410" fill="none" stroke="#E8A0BC" stroke-width="1.2" opacity="0.35"/>
+
+  <!-- Slight bulge highlight in center -->
+  <path d="M200,190 Q210,297 200,405" fill="none" stroke="#FCD8E8" stroke-width="3" opacity="0.4"/>
+
+  <!-- Cake top ellipse - fondant smooth -->
+  <ellipse cx="200" cy="188" rx="92" ry="16" fill="url(#cakeTopGrad2)"/>
+  <ellipse cx="200" cy="188" rx="92" ry="16" fill="none" stroke="#EAA8C0" stroke-width="1.5" opacity="0.5"/>
+  <!-- Top surface center highlight -->
+  <ellipse cx="195" cy="185" rx="40" ry="7" fill="#FDE0EC" opacity="0.5"/>
+
+  <!-- Cake bottom ellipse (fondant hem) -->
+  <ellipse cx="200" cy="408" rx="92" ry="12" fill="#E8A0BC" opacity="0.55"/>
+  <!-- Bottom fondant fold -->
+  <path d="M110,408 Q140,415 170,408 Q200,401 230,408 Q260,415 290,408" fill="none" stroke="#E090B0" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- ========== HUGE DECORATIVE BOW ========== -->
+  <!-- BOW RIBBON TAILS - hanging down from knot -->
+  <!-- Left tail -->
+  <path d="M188,230 Q178,255 175,278 Q172,300 178,318 Q182,328 185,330" fill="none" stroke="#E898B8" stroke-width="0"/>
+  <path d="M192,228 C182,250 176,275 174,298 C172,318 176,332 182,338 C178,340 172,345 170,355 C168,365 173,380 178,390"
+        fill="#F0B0C8" stroke="#D890A8" stroke-width="1"/>
+  <!-- Left tail shading -->
+  <path d="M188,232 C179,252 174,275 172,296 C170,315 174,330 180,336"
+        fill="none" stroke="#F8D0E4" stroke-width="2.5" opacity="0.6" stroke-linecap="round"/>
+  <path d="M196,233 C188,254 183,278 181,300 C179,320 183,335 189,341 C185,343 179,348 177,358 C175,368 180,382 185,392"
+        fill="none" stroke="#DC88A8" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- Right tail -->
+  <path d="M208,228 C218,250 224,275 226,298 C228,318 224,332 218,338 C222,340 228,345 230,355 C232,365 227,380 222,390"
+        fill="#F0B0C8" stroke="#D890A8" stroke-width="1"/>
+  <!-- Right tail shading -->
+  <path d="M212,232 C221,252 226,275 228,296 C230,315 226,330 220,336"
+        fill="none" stroke="#F8D0E4" stroke-width="2.5" opacity="0.6" stroke-linecap="round"/>
+  <path d="M204,233 C212,254 217,278 219,300 C221,320 217,335 211,341 C215,343 221,348 223,358 C225,368 220,382 215,392"
+        fill="none" stroke="#DC88A8" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- Tail end frills (cut V-shape) -->
+  <path d="M178,390 Q181,398 184,394 Q187,402 190,394 Q193,402 196,394 Q197,400 200,404 Q203,400 204,394 Q207,402 210,394 Q213,402 216,394 Q219,398 222,390"
+        fill="#EEA8C0" stroke="#D890A8" stroke-width="0.8" opacity="0.9"/>
+
+  <!-- BOW LEFT WING / LOOP - large puffed -->
+  <path d="M200,238
+           C195,228 185,212 168,202
+           C150,192 130,190 116,198
+           C102,206  96,220  99,234
+           C102,248 112,258 126,260
+           C140,262 156,256 168,248
+           C180,240 192,232 200,238 Z"
+        fill="url(#bowLeftGrad)" filter="url(#bowShadow2)"/>
+  <!-- Left loop inner shadow / fold lines -->
+  <path d="M200,238 C194,233 183,225 170,219 C157,213 143,210 131,214"
+        fill="none" stroke="#F8D0E4" stroke-width="2.5" opacity="0.65" stroke-linecap="round"/>
+  <path d="M165,203 C152,196 138,195 125,202"
+        fill="none" stroke="#F8D8E8" stroke-width="2" opacity="0.55" stroke-linecap="round"/>
+  <path d="M125,202 C112,210 106,224 110,238"
+        fill="none" stroke="#F8D8E8" stroke-width="1.8" opacity="0.5" stroke-linecap="round"/>
+  <!-- Left loop fabric creases -->
+  <path d="M155,210 C148,220 143,232 145,244"
+        fill="none" stroke="#DC88A8" stroke-width="1.2" opacity="0.4" stroke-linecap="round"/>
+  <path d="M140,215 C133,225 128,238 131,250"
+        fill="none" stroke="#DC88A8" stroke-width="1.2" opacity="0.4" stroke-linecap="round"/>
+  <!-- Left loop edge outline -->
+  <path d="M200,238
+           C195,228 185,212 168,202
+           C150,192 130,190 116,198
+           C102,206  96,220  99,234
+           C102,248 112,258 126,260
+           C140,262 156,256 168,248
+           C180,240 192,232 200,238 Z"
+        fill="none" stroke="#C870A0" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- BOW RIGHT WING / LOOP - large puffed -->
+  <path d="M200,238
+           C205,228 215,212 232,202
+           C250,192 270,190 284,198
+           C298,206 304,220 301,234
+           C298,248 288,258 274,260
+           C260,262 244,256 232,248
+           C220,240 208,232 200,238 Z"
+        fill="url(#bowRightGrad)" filter="url(#bowShadow2)"/>
+  <!-- Right loop inner shadow / fold lines -->
+  <path d="M200,238 C206,233 217,225 230,219 C243,213 257,210 269,214"
+        fill="none" stroke="#F8D0E4" stroke-width="2.5" opacity="0.65" stroke-linecap="round"/>
+  <path d="M235,203 C248,196 262,195 275,202"
+        fill="none" stroke="#F8D8E8" stroke-width="2" opacity="0.55" stroke-linecap="round"/>
+  <path d="M275,202 C288,210 294,224 290,238"
+        fill="none" stroke="#F8D8E8" stroke-width="1.8" opacity="0.5" stroke-linecap="round"/>
+  <!-- Right loop fabric creases -->
+  <path d="M245,210 C252,220 257,232 255,244"
+        fill="none" stroke="#DC88A8" stroke-width="1.2" opacity="0.4" stroke-linecap="round"/>
+  <path d="M260,215 C267,225 272,238 269,250"
+        fill="none" stroke="#DC88A8" stroke-width="1.2" opacity="0.4" stroke-linecap="round"/>
+  <!-- Right loop edge outline -->
+  <path d="M200,238
+           C205,228 215,212 232,202
+           C250,192 270,190 284,198
+           C298,206 304,220 301,234
+           C298,248 288,258 274,260
+           C260,262 244,256 232,248
+           C220,240 208,232 200,238 Z"
+        fill="none" stroke="#C870A0" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- BOW CENTER KNOT - gathered fabric -->
+  <path d="M183,225 C185,218 190,212 200,210 C210,212 215,218 217,225 C215,235 210,242 200,244 C190,242 185,235 183,225 Z"
+        fill="url(#knotGrad)"/>
+  <!-- Knot gather lines -->
+  <path d="M187,220 C190,222 195,223 200,222 C205,223 210,222 213,220"
+        fill="none" stroke="#F8D0E4" stroke-width="1.5" opacity="0.7"/>
+  <path d="M185,228 C189,230 194,231 200,230 C206,231 211,230 215,228"
+        fill="none" stroke="#F8D0E4" stroke-width="1.5" opacity="0.65"/>
+  <path d="M186,235 C190,237 194,238 200,237 C206,238 210,237 214,235"
+        fill="none" stroke="#E8A8C0" stroke-width="1.2" opacity="0.5"/>
+  <!-- Knot center crease -->
+  <path d="M200,212 L200,242" fill="none" stroke="#D880A8" stroke-width="1.5" opacity="0.4"/>
+  <!-- Knot outline -->
+  <path d="M183,225 C185,218 190,212 200,210 C210,212 215,218 217,225 C215,235 210,242 200,244 C190,242 185,235 183,225 Z"
+        fill="none" stroke="#C060A0" stroke-width="1.5" opacity="0.7"/>
+  <!-- Knot highlight -->
+  <path d="M192,215 C196,213 200,213 204,215"
+        fill="none" stroke="#FDE4F0" stroke-width="2" opacity="0.8" stroke-linecap="round"/>
+
+  <!-- BOW TOP SECOND TIER (smaller loops above knot for fullness) -->
+  <!-- Left upper mini loop -->
+  <path d="M196,213 C192,205 184,198 174,196 C164,194 155,198 153,206 C151,214 157,220 166,220 C175,220 186,215 196,213 Z"
+        fill="#F4B8CC" opacity="0.8"/>
+  <path d="M193,210 C189,204 181,199 172,198"
+        fill="none" stroke="#F8D8E8" stroke-width="1.8" opacity="0.6" stroke-linecap="round"/>
+  <path d="M196,213 C192,205 184,198 174,196 C164,194 155,198 153,206 C151,214 157,220 166,220 C175,220 186,215 196,213 Z"
+        fill="none" stroke="#CC78A8" stroke-width="1" opacity="0.5"/>
+
+  <!-- Right upper mini loop -->
+  <path d="M204,213 C208,205 216,198 226,196 C236,194 245,198 247,206 C249,214 243,220 234,220 C225,220 214,215 204,213 Z"
+        fill="#F4B8CC" opacity="0.8"/>
+  <path d="M207,210 C211,204 219,199 228,198"
+        fill="none" stroke="#F8D8E8" stroke-width="1.8" opacity="0.6" stroke-linecap="round"/>
+  <path d="M204,213 C208,205 216,198 226,196 C236,194 245,198 247,206 C249,214 243,220 234,220 C225,220 214,215 204,213 Z"
+        fill="none" stroke="#CC78A8" stroke-width="1" opacity="0.5"/>
+
+  <!-- ========== "Gula Cake" BRANDING TEXT ========== -->
+  <text x="200" y="433" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-style="italic" text-anchor="middle" fill="#C870A0" opacity="0.75" letter-spacing="1">Gula Cake</text>
+  <!-- Small decorative line under branding -->
+  <line x1="170" y1="436" x2="230" y2="436" stroke="#E0A0C0" stroke-width="0.8" opacity="0.6"/>
+
+  <!-- ========== BOTTOM LABEL ========== -->
+  <rect x="88" y="472" width="224" height="24" rx="5" fill="#D87090" opacity="0.88"/>
+  <rect x="90" y="474" width="220" height="20" rx="4" fill="none" stroke="#F0A8C4" stroke-width="1" opacity="0.6"/>
+  <text x="200" y="489" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#FFFFFF" letter-spacing="2">TORT Z KOKARDĄ</text>
+
+  <!-- ========== DECORATIVE CORNER DETAILS ========== -->
+  <!-- Top left flourish -->
+  <path d="M18,18 Q22,10 30,15 Q22,18 26,28 Q16,24 18,18 Z" fill="#F0B0C8" opacity="0.55"/>
+  <path d="M25,10 Q30,5 35,12" fill="none" stroke="#F0B0C8" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
+  <!-- Top right flourish -->
+  <path d="M382,18 Q378,10 370,15 Q378,18 374,28 Q384,24 382,18 Z" fill="#F0B0C8" opacity="0.55"/>
+  <path d="M375,10 Q370,5 365,12" fill="none" stroke="#F0B0C8" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
+  <!-- Bottom left flourish -->
+  <path d="M18,482 Q22,490 30,485 Q22,482 26,472 Q16,476 18,482 Z" fill="#F0B0C8" opacity="0.55"/>
+  <!-- Bottom right flourish -->
+  <path d="M382,482 Q378,490 370,485 Q378,482 374,472 Q384,476 382,482 Z" fill="#F0B0C8" opacity="0.55"/>
+
+  <!-- Side decorative small pink dots -->
+  <circle cx="30" cy="100" r="3" fill="#F0B0C8" opacity="0.45"/>
+  <circle cx="30" cy="115" r="2" fill="#F0B0C8" opacity="0.35"/>
+  <circle cx="370" cy="100" r="3" fill="#F0B0C8" opacity="0.45"/>
+  <circle cx="370" cy="115" r="2" fill="#F0B0C8" opacity="0.35"/>
+  <circle cx="30" cy="400" r="3" fill="#F0B0C8" opacity="0.4"/>
+  <circle cx="370" cy="400" r="3" fill="#F0B0C8" opacity="0.4"/>
+</svg>
