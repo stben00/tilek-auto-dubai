@@ -1,0 +1,312 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#FBE8F0"/>
+    <stop offset="100%" stop-color="#F5D8E8"/>
+  </linearGradient>
+  <linearGradient id="cakeBody" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#E878A0"/>
+    <stop offset="50%" stop-color="#DC6898"/>
+    <stop offset="100%" stop-color="#D060A0"/>
+  </linearGradient>
+  <linearGradient id="topMeringue" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#FDDCE8"/>
+    <stop offset="100%" stop-color="#F4A8C0"/>
+  </linearGradient>
+  <linearGradient id="baseMeringue" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#F8C8D8"/>
+    <stop offset="100%" stop-color="#F0A0BC"/>
+  </linearGradient>
+  <linearGradient id="standGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#FFFFFF"/>
+    <stop offset="100%" stop-color="#F0EEF0"/>
+  </linearGradient>
+  <filter id="cakeShadow">
+    <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#B040A0" flood-opacity="0.22"/>
+  </filter>
+  <filter id="standShadow">
+    <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#cc88bb" flood-opacity="0.18"/>
+  </filter>
+  <filter id="castleShadow">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#C050A0" flood-opacity="0.25"/>
+  </filter>
+</defs>
+
+<!-- Background -->
+<rect width="400" height="500" fill="url(#bg)"/>
+<!-- Soft sparkle glow blobs -->
+<circle cx="70" cy="80" r="100" fill="#F8C8E0" opacity="0.22"/>
+<circle cx="340" cy="300" r="90" fill="#F4B8D4" opacity="0.18"/>
+<circle cx="180" cy="440" r="80" fill="#F8CCE0" opacity="0.14"/>
+
+<!-- White distressed cake stand -->
+<ellipse cx="200" cy="432" rx="155" ry="17" fill="#C8B8C8" opacity="0.22"/>
+<ellipse cx="200" cy="428" rx="152" ry="15" fill="url(#standGrad)" filter="url(#standShadow)"/>
+<ellipse cx="200" cy="426" rx="148" ry="13" fill="#FEFEFE"/>
+<ellipse cx="200" cy="425" rx="144" ry="11" fill="#FFFFFF" stroke="#ECC8DC" stroke-width="1.2"/>
+<!-- Stand distressed details -->
+<line x1="122" y1="424" x2="128" y2="424" stroke="#E8C0D4" stroke-width="0.7" opacity="0.5"/>
+<line x1="268" y1="424" x2="274" y2="424" stroke="#E8C0D4" stroke-width="0.7" opacity="0.5"/>
+<!-- Stand pedestal -->
+<rect x="190" y="428" width="20" height="24" rx="2" fill="#F8F0F4" stroke="#E8C8D8" stroke-width="1"/>
+<ellipse cx="200" cy="452" rx="28" ry="5.5" fill="#F4EAF0" stroke="#E4C4D4" stroke-width="1"/>
+<rect x="176" y="448" width="48" height="8" rx="3" fill="#F4EAF0" stroke="#E4C4D4" stroke-width="1"/>
+<!-- Gula Cake label -->
+<text x="200" y="430" font-family="Georgia,serif" font-size="8.5" fill="#CC88AA" text-anchor="middle" letter-spacing="1.5" font-style="italic">Gula Cake</text>
+
+<!-- CAKE BODY — tall pink cylinder -->
+<rect x="108" y="170" width="184" height="256" rx="8" fill="url(#cakeBody)" filter="url(#cakeShadow)"/>
+<!-- Cylinder side shading -->
+<rect x="108" y="170" width="18" height="256" rx="8" fill="#B83880" opacity="0.28"/>
+<rect x="274" y="170" width="18" height="256" rx="8" fill="#C84890" opacity="0.18"/>
+<!-- Top ellipse of cake -->
+<ellipse cx="200" cy="170" rx="92" ry="11" fill="#E878A0" stroke="#D060A0" stroke-width="1.2"/>
+
+<!-- Cake surface texture — subtle shimmer lines -->
+<line x1="108" y1="220" x2="292" y2="220" stroke="#E080A8" stroke-width="0.7" opacity="0.30"/>
+<line x1="108" y1="270" x2="292" y2="270" stroke="#E080A8" stroke-width="0.7" opacity="0.25"/>
+<line x1="108" y1="320" x2="292" y2="320" stroke="#E080A8" stroke-width="0.7" opacity="0.25"/>
+<line x1="108" y1="370" x2="292" y2="370" stroke="#E080A8" stroke-width="0.7" opacity="0.25"/>
+
+<!-- === PRINCESS SILHOUETTES on cake sides === -->
+<!-- Simplified princess figures: dress (bell triangle), head (circle), colored hair, arms -->
+
+<!-- Princess 1 — CINDERELLA — blue, far left -->
+<g transform="translate(126, 285)">
+  <!-- dress -->
+  <path d="M0,-60 C-6,-45 -18,0 -22,40 L22,40 C18,0 6,-45 0,-60Z" fill="#4A90D8"/>
+  <path d="M-22,40 L22,40 L24,46 L-24,46Z" fill="#3A78C0"/>
+  <!-- waist band -->
+  <rect x="-8" y="-24" width="16" height="6" rx="3" fill="#2A60A8"/>
+  <!-- bodice -->
+  <path d="M-8,-24 C-6,-38 6,-38 8,-24Z" fill="#3A78C0"/>
+  <!-- head -->
+  <circle cx="0" cy="-48" r="9" fill="#FFDDB8"/>
+  <!-- hair — golden bun -->
+  <ellipse cx="0" cy="-55" rx="7" ry="5" fill="#D4A840"/>
+  <circle cx="-5" cy="-52" r="3.5" fill="#C89A30"/>
+  <circle cx="5" cy="-52" r="3.5" fill="#C89A30"/>
+  <!-- arms -->
+  <path d="M-8,-18 Q-16,-8 -14,4" stroke="#FFDDB8" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M8,-18 Q16,-8 14,4" stroke="#FFDDB8" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- dress sparkle -->
+  <circle cx="-8" cy="10" r="1.5" fill="#FFEEBB" opacity="0.7"/>
+  <circle cx="8" cy="18" r="1.5" fill="#FFEEBB" opacity="0.7"/>
+  <circle cx="0" cy="30" r="2" fill="#FFEEBB" opacity="0.6"/>
+</g>
+
+<!-- Princess 2 — BELLE — yellow, left-center -->
+<g transform="translate(160, 295)">
+  <path d="M0,-55 C-5,-42 -16,0 -20,38 L20,38 C16,0 5,-42 0,-55Z" fill="#F0C830"/>
+  <path d="M-20,38 L20,38 L22,44 L-22,44Z" fill="#D8B020"/>
+  <!-- waist -->
+  <rect x="-7" y="-22" width="14" height="5" rx="2.5" fill="#C09A18"/>
+  <!-- bodice -->
+  <path d="M-7,-22 C-5,-34 5,-34 7,-22Z" fill="#D8B020"/>
+  <circle cx="0" cy="-44" r="8.5" fill="#FFDDB8"/>
+  <!-- brown hair up-do -->
+  <path d="M-5,-51 C-8,-54 -6,-60 0,-58 C6,-60 8,-54 5,-51Z" fill="#7A4820"/>
+  <ellipse cx="0" cy="-52" rx="5" ry="4" fill="#8A5828"/>
+  <!-- arms -->
+  <path d="M-7,-17 Q-14,-8 -12,2" stroke="#FFDDB8" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <path d="M7,-17 Q14,-8 12,2" stroke="#FFDDB8" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <!-- dress detail -->
+  <path d="M-12,10 Q0,5 12,10" stroke="#D8B020" stroke-width="1.2" fill="none" opacity="0.6"/>
+  <circle cx="-6" cy="22" r="1.5" fill="#FFEEBB" opacity="0.7"/>
+  <circle cx="6" cy="28" r="1.5" fill="#FFEEBB" opacity="0.7"/>
+</g>
+
+<!-- Princess 3 — ARIEL — turquoise, center -->
+<g transform="translate(200, 290)">
+  <!-- tail/skirt -->
+  <path d="M0,-50 C-5,-35 -14,5 -12,42 L12,42 C14,5 5,-35 0,-50Z" fill="#2DC8C8"/>
+  <path d="M-12,42 Q0,52 12,42 L12,46 Q0,58 -12,46Z" fill="#18A8A0"/>
+  <!-- waist shell top -->
+  <path d="M-7,-18 C-7,-26 7,-26 7,-18Z" fill="#18A0A0"/>
+  <rect x="-7" y="-22" width="14" height="5" rx="2.5" fill="#18A0A0"/>
+  <circle cx="-5" cy="-20" r="2.5" fill="#F8B8A8"/>
+  <circle cx="5" cy="-20" r="2.5" fill="#F8B8A8"/>
+  <circle cx="0" cy="-38" r="9" fill="#FFD8B0"/>
+  <!-- red hair -->
+  <path d="M-9,-44 C-14,-52 -8,-62 0,-60 C8,-62 14,-52 9,-44" fill="#D83020"/>
+  <path d="M9,-44 C14,-36 12,-20 10,-15" stroke="#D83020" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M-9,-44 C-14,-36 -12,-20 -10,-15" stroke="#D83020" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- arms -->
+  <path d="M-7,-16 Q-15,-6 -13,4" stroke="#FFD8B0" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <path d="M7,-16 Q15,-6 13,4" stroke="#FFD8B0" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <!-- scale dots -->
+  <circle cx="-4" cy="5" r="1.5" fill="#18A0A0" opacity="0.6"/>
+  <circle cx="4" cy="10" r="1.5" fill="#18A0A0" opacity="0.6"/>
+  <circle cx="-2" cy="22" r="1.5" fill="#18A0A0" opacity="0.6"/>
+</g>
+
+<!-- Princess 4 — RAPUNZEL — purple, right-center -->
+<g transform="translate(238, 295)">
+  <path d="M0,-55 C-5,-42 -15,0 -18,38 L18,38 C15,0 5,-42 0,-55Z" fill="#9060C8"/>
+  <path d="M-18,38 L18,38 L20,44 L-20,44Z" fill="#7848B0"/>
+  <rect x="-7" y="-22" width="14" height="5" rx="2.5" fill="#6030A0"/>
+  <path d="M-7,-22 C-5,-34 5,-34 7,-22Z" fill="#7848B0"/>
+  <circle cx="0" cy="-44" r="8.5" fill="#FFDDB8"/>
+  <!-- long golden braid -->
+  <path d="M4,-52 C6,-48 8,-20 6,38 C5,52 3,62 0,68" stroke="#D4AA30" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M2,-52 C4,-48 6,-20 4,38 C3,52 1,62 0,68" stroke="#C89A20" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <!-- crown -->
+  <path d="M-5,-52 L-3,-60 L0,-55 L3,-60 L5,-52Z" fill="#F0C830" stroke="#D4A820" stroke-width="0.5"/>
+  <!-- arms -->
+  <path d="M-7,-17 Q-14,-8 -12,2" stroke="#FFDDB8" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <path d="M7,-17 Q14,-8 12,2" stroke="#FFDDB8" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <circle cx="-6" cy="10" r="1.5" fill="#C8A0E0" opacity="0.7"/>
+  <circle cx="6" cy="20" r="1.5" fill="#C8A0E0" opacity="0.7"/>
+</g>
+
+<!-- Princess 5 — AURORA/SLEEPING BEAUTY — orange/coral, right -->
+<g transform="translate(272, 285)">
+  <path d="M0,-58 C-5,-44 -17,0 -21,40 L21,40 C17,0 5,-44 0,-58Z" fill="#F07840"/>
+  <path d="M-21,40 L21,40 L23,46 L-23,46Z" fill="#D86028"/>
+  <rect x="-8" y="-23" width="16" height="6" rx="3" fill="#C05020"/>
+  <path d="M-8,-23 C-6,-36 6,-36 8,-23Z" fill="#D86028"/>
+  <circle cx="0" cy="-46" r="9" fill="#FFD8B0"/>
+  <!-- strawberry blonde hair -->
+  <path d="M-9,-54 C-10,-62 -4,-66 0,-64 C4,-66 10,-62 9,-54" fill="#D07030"/>
+  <path d="M-9,-54 C-12,-44 -12,-28 -10,-18" stroke="#D07030" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M9,-54 C12,-44 12,-28 10,-18" stroke="#D07030" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <!-- tiara -->
+  <path d="M-4,-63 L-2,-70 L0,-66 L2,-70 L4,-63Z" fill="#F0C830" stroke="#D4A820" stroke-width="0.5"/>
+  <circle cx="0" cy="-66" r="1.5" fill="#FF6080"/>
+  <!-- arms -->
+  <path d="M-8,-17 Q-16,-7 -14,3" stroke="#FFD8B0" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M8,-17 Q16,-7 14,3" stroke="#FFD8B0" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="-8" cy="12" r="1.5" fill="#FFEEBB" opacity="0.7"/>
+  <circle cx="8" cy="20" r="1.5" fill="#FFEEBB" opacity="0.7"/>
+  <circle cx="0" cy="28" r="2" fill="#FFEEBB" opacity="0.6"/>
+</g>
+
+<!-- White butterfly silhouettes on sides -->
+<!-- Butterfly 1 — left -->
+<g transform="translate(116, 225)" opacity="0.70">
+  <path d="M0,0 C-10,-14 -26,-12 -22,0 C-18,10 -6,8 0,0Z" fill="#FFFFFF"/>
+  <path d="M0,0 C-8,10 -18,18 -10,22 C-4,24 0,16 0,0Z" fill="#FFEEF6"/>
+  <path d="M0,0 C10,-14 26,-12 22,0 C18,10 6,8 0,0Z" fill="#FFFFFF"/>
+  <path d="M0,0 C8,10 18,18 10,22 C4,24 0,16 0,0Z" fill="#FFEEF6"/>
+  <path d="M0,-4 Q1,8 0,16" stroke="#CC88AA" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <line x1="-2" y1="-4" x2="-7" y2="-10" stroke="#CC88AA" stroke-width="0.8"/>
+  <line x1="2" y1="-4" x2="7" y2="-10" stroke="#CC88AA" stroke-width="0.8"/>
+</g>
+
+<!-- Butterfly 2 — right -->
+<g transform="translate(284, 345)" opacity="0.65">
+  <path d="M0,0 C-9,-12 -22,-10 -19,0 C-16,9 -5,7 0,0Z" fill="#FFFFFF"/>
+  <path d="M0,0 C-7,9 -15,16 -9,20 C-3,22 0,14 0,0Z" fill="#FFEEF6"/>
+  <path d="M0,0 C9,-12 22,-10 19,0 C16,9 5,7 0,0Z" fill="#FFFFFF"/>
+  <path d="M0,0 C7,9 15,16 9,20 C3,22 0,14 0,0Z" fill="#FFEEF6"/>
+  <path d="M0,-3 Q1,7 0,14" stroke="#CC88AA" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+  <line x1="-2" y1="-3" x2="-6" y2="-8" stroke="#CC88AA" stroke-width="0.7"/>
+  <line x1="2" y1="-3" x2="6" y2="-8" stroke="#CC88AA" stroke-width="0.7"/>
+</g>
+
+<!-- Butterfly 3 — small, upper right -->
+<g transform="translate(280, 200)" opacity="0.55">
+  <path d="M0,0 C-7,-10 -18,-8 -15,0 C-12,7 -4,6 0,0Z" fill="#FFFFFF"/>
+  <path d="M0,0 C-6,7 -12,13 -7,16 C-3,18 0,11 0,0Z" fill="#FFEEF6"/>
+  <path d="M0,0 C7,-10 18,-8 15,0 C12,7 4,6 0,0Z" fill="#FFFFFF"/>
+  <path d="M0,0 C6,7 12,13 7,16 C3,18 0,11 0,0Z" fill="#FFEEF6"/>
+  <path d="M0,-2 Q0.5,5 0,11" stroke="#CC88AA" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+</g>
+
+<!-- BASE MERINGUE KISSES — large overlapping teardrop shapes at bottom -->
+<g fill="url(#baseMeringue)">
+  <!-- Row of large meringue kisses at base -->
+  <path d="M108,416 C104,400 100,385 108,376 C116,367 120,380 116,395 C120,380 128,368 132,380 C136,368 140,380 140,395 C144,380 152,368 156,380 C160,368 164,380 164,395 C168,380 176,368 180,380 C184,368 188,380 188,395 C192,380 200,368 200,380 C208,368 212,380 212,395 C216,380 224,368 228,380 C232,368 236,380 236,395 C240,380 248,368 252,380 C256,368 260,380 260,395 C264,380 272,368 276,380 C280,368 284,380 284,395 C288,380 292,368 292,380 C292,395 292,416 292,416Z" opacity="0.88"/>
+</g>
+<g fill="#F8B8CC" opacity="0.55">
+  <path d="M112,416 C109,403 110,392 116,386 C120,380 122,390 120,400Z"/>
+  <path d="M140,416 C137,403 138,392 142,384 C146,378 148,388 146,400Z"/>
+  <path d="M168,416 C165,403 166,392 170,384 C174,378 176,388 174,400Z"/>
+  <path d="M196,416 C193,403 194,392 198,384 C202,378 204,388 202,400Z"/>
+  <path d="M224,416 C221,403 222,392 226,384 C230,378 232,388 230,400Z"/>
+  <path d="M252,416 C249,403 250,392 254,384 C258,378 260,388 258,400Z"/>
+  <path d="M280,416 C277,403 278,392 282,386 C286,380 288,390 286,400Z"/>
+</g>
+
+<!-- TOP MERINGUE KISSES — on top of cake -->
+<g fill="url(#topMeringue)">
+  <path d="M120,170 C118,158 116,147 122,140 C128,133 130,143 128,155 C134,143 138,133 140,143 C144,133 150,143 148,155 C154,143 160,133 162,143 C166,133 172,143 170,155 C176,143 182,133 184,143 C188,133 194,143 192,155 C196,143 202,133 200,143 C204,133 210,143 208,155 C212,143 218,133 220,143 C224,133 230,143 228,155 C232,143 238,133 240,143 C244,133 250,143 248,155 C252,143 258,133 260,143 C264,133 270,143 268,155 C272,143 278,133 280,143 C280,155 280,170 280,170Z" opacity="0.90"/>
+</g>
+<g fill="#FDEEF4" opacity="0.60">
+  <path d="M124,170 C122,158 123,148 126,144 C130,140 132,150 130,162Z"/>
+  <path d="M148,170 C146,158 147,148 150,144 C154,140 156,150 154,162Z"/>
+  <path d="M172,170 C170,158 171,148 174,144 C178,140 180,150 178,162Z"/>
+  <path d="M196,170 C194,158 195,148 198,144 C202,140 204,150 202,162Z"/>
+  <path d="M220,170 C218,158 219,148 222,144 C226,140 228,150 226,162Z"/>
+  <path d="M244,170 C242,158 243,148 246,144 C250,140 252,150 250,162Z"/>
+  <path d="M268,170 C266,158 267,148 270,144 C274,140 276,150 274,162Z"/>
+</g>
+
+<!-- PINK CASTLE TOPPER on very top -->
+<g filter="url(#castleShadow)">
+  <!-- Castle base platform -->
+  <rect x="166" y="80" width="68" height="62" rx="2" fill="#E060A0"/>
+  <!-- Castle towers -->
+  <!-- Left tower -->
+  <rect x="158" y="54" width="22" height="52" rx="2" fill="#E868A8"/>
+  <!-- Left tower pointed roof -->
+  <path d="M158,54 L169,34 L180,54Z" fill="#C84890"/>
+  <!-- Right tower -->
+  <rect x="220" y="54" width="22" height="52" rx="2" fill="#E868A8"/>
+  <!-- Right tower pointed roof -->
+  <path d="M220,54 L231,34 L242,54Z" fill="#C84890"/>
+  <!-- Center tower (taller) -->
+  <rect x="183" y="42" width="34" height="62" rx="2" fill="#EE70B0"/>
+  <!-- Center pointed roof -->
+  <path d="M183,42 L200,18 L217,42Z" fill="#D050A0"/>
+  <!-- Castle battlements top -->
+  <rect x="166" y="76" width="8" height="8" rx="1" fill="#C84890"/>
+  <rect x="178" y="76" width="8" height="8" rx="1" fill="#C84890"/>
+  <rect x="214" y="76" width="8" height="8" rx="1" fill="#C84890"/>
+  <rect x="226" y="76" width="8" height="8" rx="1" fill="#C84890"/>
+  <!-- Center tower door arch -->
+  <path d="M193,98 L193,82 Q200,75 207,82 L207,98Z" fill="#B83880"/>
+  <!-- Tower windows -->
+  <circle cx="169" cy="72" r="4" fill="#B83880"/>
+  <circle cx="169" cy="72" r="2.5" fill="#F4B0D0"/>
+  <circle cx="231" cy="72" r="4" fill="#B83880"/>
+  <circle cx="231" cy="72" r="2.5" fill="#F4B0D0"/>
+  <circle cx="200" cy="62" r="5" fill="#B83880"/>
+  <circle cx="200" cy="62" r="3" fill="#F4B0D0"/>
+  <!-- Castle flag on center tower -->
+  <line x1="200" y1="18" x2="200" y2="4" stroke="#D050A0" stroke-width="1.5"/>
+  <path d="M200,4 L212,8 L200,12Z" fill="#E860A0"/>
+  <!-- Flags on side towers -->
+  <line x1="169" y1="34" x2="169" y2="22" stroke="#C84090" stroke-width="1.2"/>
+  <path d="M169,22 L178,25 L169,28Z" fill="#D85098"/>
+  <line x1="231" y1="34" x2="231" y2="22" stroke="#C84090" stroke-width="1.2"/>
+  <path d="M231,22 L240,25 L231,28Z" fill="#D85098"/>
+  <!-- Castle sparkles -->
+  <circle cx="168" cy="90" r="1.5" fill="#FFDDE8" opacity="0.8"/>
+  <circle cx="232" cy="90" r="1.5" fill="#FFDDE8" opacity="0.8"/>
+  <circle cx="186" cy="104" r="1.5" fill="#FFDDE8" opacity="0.7"/>
+  <circle cx="214" cy="104" r="1.5" fill="#FFDDE8" opacity="0.7"/>
+</g>
+
+<!-- Silver/glitter "4" -->
+<text x="344" y="340" font-family="Georgia,serif" font-size="52" fill="none" stroke="#D4A8C0" stroke-width="2" text-anchor="middle" opacity="0.55" font-weight="bold">4</text>
+<text x="344" y="340" font-family="Georgia,serif" font-size="52" fill="#F8E0EC" text-anchor="middle" opacity="0.38" font-weight="bold">4</text>
+<!-- Glitter dots around the 4 -->
+<circle cx="322" cy="302" r="2" fill="#EEC8DC" opacity="0.60"/>
+<circle cx="366" cy="298" r="1.5" fill="#EEC8DC" opacity="0.55"/>
+<circle cx="328" cy="348" r="1.5" fill="#EEC8DC" opacity="0.55"/>
+<circle cx="362" cy="344" r="2" fill="#EEC8DC" opacity="0.60"/>
+<circle cx="315" cy="322" r="1.5" fill="#F0D0E4" opacity="0.50"/>
+<circle cx="372" cy="318" r="1.5" fill="#F0D0E4" opacity="0.50"/>
+
+<!-- White banner ribbon across top of cake -->
+<path d="M100,182 C108,176 120,172 200,172 C280,172 292,176 300,182 C292,188 280,192 200,192 C120,192 108,188 100,182Z" fill="#FFFFFF" opacity="0.92"/>
+<path d="M100,182 L94,174 L100,182 L94,190 L100,182Z" fill="#F0E8F0" opacity="0.8"/>
+<path d="M300,182 L306,174 L300,182 L306,190 L300,182Z" fill="#F0E8F0" opacity="0.8"/>
+<!-- Banner text -->
+<text x="200" y="187" font-family="Georgia,serif" font-size="11" fill="#C04080" text-anchor="middle" font-style="italic" letter-spacing="0.5">Вікусі 4 рочки</text>
+
+<!-- Bottom label -->
+<rect x="108" y="458" width="184" height="26" rx="13" fill="rgba(216,80,160,0.12)"/>
+<text x="200" y="475" font-family="Georgia,serif" font-size="11" fill="#C04080" text-anchor="middle" letter-spacing="1.2" font-weight="bold">TORT DLA DZIECI</text>
+</svg>
