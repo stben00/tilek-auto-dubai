@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0F2F0;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#E4E8E4;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Dark green cake body gradient (conical) -->
+    <linearGradient id="cakeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0a3a14;stop-opacity:1"/>
+      <stop offset="15%" style="stop-color:#0e5020;stop-opacity:1"/>
+      <stop offset="40%" style="stop-color:#186030;stop-opacity:1"/>
+      <stop offset="60%" style="stop-color:#1a6a2a;stop-opacity:1"/>
+      <stop offset="85%" style="stop-color:#0e5020;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#082810;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Cake top surface gradient -->
+    <radialGradient id="cakeTopGrad" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" style="stop-color:#1e7030;stop-opacity:1"/>
+      <stop offset="60%" style="stop-color:#145820;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0a3a10;stop-opacity:1"/>
+    </radialGradient>
+    <!-- Gold gradient for text/toppers -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0D060;stop-opacity:1"/>
+      <stop offset="30%" style="stop-color:#C9A84C;stop-opacity:1"/>
+      <stop offset="60%" style="stop-color:#E0C060;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#A07820;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="goldGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#A07820;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#C9A84C;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#F0D060;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Dollar bill gradient -->
+    <linearGradient id="dollarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5a9a50;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#4a8a40;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#387030;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Stand gradient -->
+    <linearGradient id="standGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D8D8D0;stop-opacity:1"/>
+      <stop offset="30%" style="stop-color:#F0F0E8;stop-opacity:1"/>
+      <stop offset="70%" style="stop-color:#FFFFFF;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#C8C8C0;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Gold foil gradient -->
+    <linearGradient id="foilGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8C848;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#C09020;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Drop shadows -->
+    <filter id="cakeShadow" x="-15%" y="-5%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#003308" flood-opacity="0.45"/>
+    </filter>
+    <filter id="standShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="4" stdDeviation="5" flood-color="#506050" flood-opacity="0.2"/>
+    </filter>
+    <filter id="topperShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#805000" flood-opacity="0.4"/>
+    </filter>
+    <filter id="billShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#003308" flood-opacity="0.3"/>
+    </filter>
+    <!-- Green rim gradient -->
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a6a2a;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0a3a10;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bgGrad)"/>
+
+  <!-- Background subtle dots -->
+  <g opacity="0.06">
+    <circle cx="25" cy="30" r="3" fill="#1a6a2a"/>
+    <circle cx="80" cy="15" r="2" fill="#C9A84C"/>
+    <circle cx="140" cy="35" r="2.5" fill="#1a6a2a"/>
+    <circle cx="310" cy="25" r="2" fill="#C9A84C"/>
+    <circle cx="370" cy="40" r="3" fill="#1a6a2a"/>
+    <circle cx="360" cy="8" r="2" fill="#C9A84C"/>
+    <circle cx="15" cy="460" r="2.5" fill="#C9A84C"/>
+    <circle cx="385" cy="470" r="2" fill="#1a6a2a"/>
+    <circle cx="55" cy="488" r="3" fill="#C9A84C"/>
+    <circle cx="345" cy="480" r="2.5" fill="#1a6a2a"/>
+  </g>
+
+  <!-- ======================== STAND ======================== -->
+  <!-- Stand base -->
+  <g filter="url(#standShadow)">
+    <ellipse cx="200" cy="462" rx="82" ry="13" fill="url(#standGrad)" stroke="#B8B8B0" stroke-width="1"/>
+    <ellipse cx="200" cy="459" rx="82" ry="10" fill="none" stroke="#D8D8D0" stroke-width="1"/>
+    <ellipse cx="200" cy="457" rx="78" ry="8" fill="none" stroke="#C8C8C0" stroke-width="0.5"/>
+  </g>
+
+  <!-- Column -->
+  <rect x="190" y="398" width="20" height="62" rx="2.5" fill="url(#standGrad)" stroke="#C0C0B8" stroke-width="0.8"/>
+  <!-- Column rings -->
+  <rect x="188" y="405" width="24" height="4" rx="1.5" fill="#E4E4DC" stroke="#B8B8B0" stroke-width="0.4"/>
+  <rect x="188" y="415" width="24" height="4" rx="1.5" fill="#E4E4DC" stroke="#B8B8B0" stroke-width="0.4"/>
+  <rect x="188" y="425" width="24" height="4" rx="1.5" fill="#E4E4DC" stroke="#B8B8B0" stroke-width="0.4"/>
+  <rect x="188" y="435" width="24" height="4" rx="1.5" fill="#E4E4DC" stroke="#B8B8B0" stroke-width="0.4"/>
+
+  <!-- Plate top of stand -->
+  <g filter="url(#standShadow)">
+    <ellipse cx="200" cy="400" rx="92" ry="14" fill="url(#standGrad)" stroke="#B8B8B0" stroke-width="1"/>
+    <!-- Scalloped edge -->
+    <path d="M110,400 Q115,389 120,400 Q125,389 130,400 Q135,389 140,400 Q145,389 150,400 Q155,389 160,400 Q165,389 170,400 Q175,389 180,400 Q185,389 190,400 Q195,389 200,400 Q205,389 210,400 Q215,389 220,400 Q225,389 230,400 Q235,389 240,400 Q245,389 250,400 Q255,389 260,400 Q265,389 270,400 Q275,389 280,400 Q285,389 290,400" fill="white" stroke="#C8C8C0" stroke-width="0.7"/>
+    <ellipse cx="200" cy="398" rx="84" ry="9" fill="none" stroke="#D4D4CC" stroke-width="0.8"/>
+    <text x="200" y="402" font-family="Georgia, serif" font-size="8" fill="#707068" text-anchor="middle" font-style="italic">Gula Cake</text>
+  </g>
+
+  <!-- ======================== CAKE BODY (slightly conical - wider at bottom) ======================== -->
+  <g filter="url(#cakeShadow)">
+    <!-- Cake body as a trapezoid-ish shape (conical) -->
+    <!-- Bottom ellipse -->
+    <ellipse cx="200" cy="392" rx="110" ry="15" fill="#082810"/>
+    <!-- Cake sides (conical: bottom wider than top) -->
+    <path d="M90,392 L105,220 L295,220 L310,392 Z" fill="url(#cakeGrad)"/>
+    <!-- Top ellipse surface -->
+    <ellipse cx="200" cy="220" rx="95" ry="13" fill="url(#cakeTopGrad)"/>
+  </g>
+
+  <!-- Cake body sheen highlight (left edge) -->
+  <path d="M90,392 L105,220 L118,220 L103,392 Z" fill="white" opacity="0.04"/>
+  <path d="M90,392 L105,220 L110,220 L95,392 Z" fill="white" opacity="0.05"/>
+
+  <!-- Green rim base edge -->
+  <ellipse cx="200" cy="392" rx="110" ry="15" fill="none" stroke="#1a6a2a" stroke-width="2.5"/>
+  <!-- Bottom rim glow -->
+  <ellipse cx="200" cy="393" rx="108" ry="13" fill="none" stroke="#2a8a3a" stroke-width="1" opacity="0.5"/>
+
+  <!-- ======================== DOLLAR BILLS AROUND CAKE SIDES ======================== -->
+  <!-- Bill 1 - front left -->
+  <g transform="translate(128, 330) rotate(-12)" filter="url(#billShadow)">
+    <rect x="-30" y="-14" width="60" height="30" rx="2.5" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="1"/>
+    <rect x="-26" y="-10" width="52" height="22" rx="1.5" fill="none" stroke="#70b060" stroke-width="0.7" opacity="0.6"/>
+    <!-- Center oval portrait area -->
+    <ellipse cx="0" cy="1" rx="9" ry="11" fill="none" stroke="#5a9850" stroke-width="0.6"/>
+    <circle cx="0" cy="0" r="7" fill="#3a7830" opacity="0.5"/>
+    <!-- 100 text -->
+    <text x="-18" y="3" font-family="Arial, sans-serif" font-size="8" fill="#c8e8b8" font-weight="bold">100</text>
+    <text x="12" y="3" font-family="Arial, sans-serif" font-size="8" fill="#c8e8b8" font-weight="bold">100</text>
+    <text x="0" y="-5" font-family="Arial, sans-serif" font-size="5" fill="#a0d090" text-anchor="middle">THE UNITED STATES</text>
+    <text x="0" y="12" font-family="Arial, sans-serif" font-size="4.5" fill="#a0d090" text-anchor="middle">OF AMERICA</text>
+    <!-- Security strip hint -->
+    <line x1="14" y1="-10" x2="14" y2="12" stroke="#80c070" stroke-width="0.6" opacity="0.4" stroke-dasharray="2,1"/>
+  </g>
+
+  <!-- Bill 2 - front right -->
+  <g transform="translate(272, 330) rotate(12)" filter="url(#billShadow)">
+    <rect x="-30" y="-14" width="60" height="30" rx="2.5" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="1"/>
+    <rect x="-26" y="-10" width="52" height="22" rx="1.5" fill="none" stroke="#70b060" stroke-width="0.7" opacity="0.6"/>
+    <ellipse cx="0" cy="1" rx="9" ry="11" fill="none" stroke="#5a9850" stroke-width="0.6"/>
+    <circle cx="0" cy="0" r="7" fill="#3a7830" opacity="0.5"/>
+    <text x="-18" y="3" font-family="Arial, sans-serif" font-size="8" fill="#c8e8b8" font-weight="bold">100</text>
+    <text x="12" y="3" font-family="Arial, sans-serif" font-size="8" fill="#c8e8b8" font-weight="bold">100</text>
+    <text x="0" y="-5" font-family="Arial, sans-serif" font-size="5" fill="#a0d090" text-anchor="middle">THE UNITED STATES</text>
+    <text x="0" y="12" font-family="Arial, sans-serif" font-size="4.5" fill="#a0d090" text-anchor="middle">OF AMERICA</text>
+    <line x1="14" y1="-10" x2="14" y2="12" stroke="#80c070" stroke-width="0.6" opacity="0.4" stroke-dasharray="2,1"/>
+  </g>
+
+  <!-- Bill 3 - left side angled -->
+  <g transform="translate(105, 300) rotate(-35)" filter="url(#billShadow)">
+    <rect x="-28" y="-13" width="56" height="26" rx="2" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="0.8"/>
+    <rect x="-24" y="-9" width="48" height="18" rx="1" fill="none" stroke="#60a050" stroke-width="0.6" opacity="0.5"/>
+    <text x="0" y="1" font-family="Arial, sans-serif" font-size="7" fill="#c8e8b8" text-anchor="middle" font-weight="bold">$100</text>
+    <ellipse cx="0" cy="1" rx="7" ry="9" fill="none" stroke="#4a8840" stroke-width="0.5"/>
+  </g>
+
+  <!-- Bill 4 - right side angled -->
+  <g transform="translate(295, 300) rotate(35)" filter="url(#billShadow)">
+    <rect x="-28" y="-13" width="56" height="26" rx="2" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="0.8"/>
+    <rect x="-24" y="-9" width="48" height="18" rx="1" fill="none" stroke="#60a050" stroke-width="0.6" opacity="0.5"/>
+    <text x="0" y="1" font-family="Arial, sans-serif" font-size="7" fill="#c8e8b8" text-anchor="middle" font-weight="bold">$100</text>
+    <ellipse cx="0" cy="1" rx="7" ry="9" fill="none" stroke="#4a8840" stroke-width="0.5"/>
+  </g>
+
+  <!-- Bill 5 - lower front center-left -->
+  <g transform="translate(158, 365) rotate(-6)" filter="url(#billShadow)">
+    <rect x="-32" y="-13" width="64" height="26" rx="2.5" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="1"/>
+    <rect x="-28" y="-9" width="56" height="18" rx="1.5" fill="none" stroke="#70b060" stroke-width="0.6" opacity="0.5"/>
+    <ellipse cx="0" cy="0" rx="8" ry="10" fill="none" stroke="#5a9850" stroke-width="0.6"/>
+    <circle cx="0" cy="0" r="6" fill="#3a7830" opacity="0.4"/>
+    <text x="-20" y="2" font-family="Arial, sans-serif" font-size="7" fill="#c8e8b8" font-weight="bold">100</text>
+    <text x="14" y="2" font-family="Arial, sans-serif" font-size="7" fill="#c8e8b8" font-weight="bold">100</text>
+    <text x="0" y="-4" font-family="Arial, sans-serif" font-size="4" fill="#a0d090" text-anchor="middle">THE UNITED STATES</text>
+    <text x="0" y="11" font-family="Arial, sans-serif" font-size="4" fill="#a0d090" text-anchor="middle">OF AMERICA</text>
+  </g>
+
+  <!-- Bill 6 - lower front center-right -->
+  <g transform="translate(242, 365) rotate(6)" filter="url(#billShadow)">
+    <rect x="-32" y="-13" width="64" height="26" rx="2.5" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="1"/>
+    <rect x="-28" y="-9" width="56" height="18" rx="1.5" fill="none" stroke="#70b060" stroke-width="0.6" opacity="0.5"/>
+    <ellipse cx="0" cy="0" rx="8" ry="10" fill="none" stroke="#5a9850" stroke-width="0.6"/>
+    <circle cx="0" cy="0" r="6" fill="#3a7830" opacity="0.4"/>
+    <text x="-20" y="2" font-family="Arial, sans-serif" font-size="7" fill="#c8e8b8" font-weight="bold">100</text>
+    <text x="14" y="2" font-family="Arial, sans-serif" font-size="7" fill="#c8e8b8" font-weight="bold">100</text>
+    <text x="0" y="-4" font-family="Arial, sans-serif" font-size="4" fill="#a0d090" text-anchor="middle">THE UNITED STATES</text>
+    <text x="0" y="11" font-family="Arial, sans-serif" font-size="4" fill="#a0d090" text-anchor="middle">OF AMERICA</text>
+  </g>
+
+  <!-- Bill 7 - upper left wrap -->
+  <g transform="translate(113, 265) rotate(-22)" filter="url(#billShadow)">
+    <rect x="-25" y="-11" width="50" height="22" rx="2" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="0.7"/>
+    <rect x="-21" y="-8" width="42" height="16" rx="1" fill="none" stroke="#60a050" stroke-width="0.5" opacity="0.5"/>
+    <text x="0" y="2" font-family="Arial, sans-serif" font-size="6" fill="#c8e8b8" text-anchor="middle" font-weight="bold">$100</text>
+  </g>
+
+  <!-- Bill 8 - upper right wrap -->
+  <g transform="translate(287, 265) rotate(22)" filter="url(#billShadow)">
+    <rect x="-25" y="-11" width="50" height="22" rx="2" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="0.7"/>
+    <rect x="-21" y="-8" width="42" height="16" rx="1" fill="none" stroke="#60a050" stroke-width="0.5" opacity="0.5"/>
+    <text x="0" y="2" font-family="Arial, sans-serif" font-size="6" fill="#c8e8b8" text-anchor="middle" font-weight="bold">$100</text>
+  </g>
+
+  <!-- ======================== HAPPY BIRTHDAY TEXT ON CAKE FRONT ======================== -->
+  <text x="200" y="298" font-family="Georgia, 'Times New Roman', serif" font-size="16"
+        fill="url(#goldGrad)" text-anchor="middle" font-style="italic" font-weight="bold">Happy</text>
+  <text x="200" y="318" font-family="Georgia, 'Times New Roman', serif" font-size="16"
+        fill="url(#goldGrad2)" text-anchor="middle" font-style="italic" font-weight="bold">Birthday!</text>
+  <!-- Gold text outline/shadow -->
+  <text x="201" y="299" font-family="Georgia, 'Times New Roman', serif" font-size="16"
+        fill="#6a4800" text-anchor="middle" font-style="italic" font-weight="bold" opacity="0.3">Happy</text>
+  <text x="201" y="319" font-family="Georgia, 'Times New Roman', serif" font-size="16"
+        fill="#6a4800" text-anchor="middle" font-style="italic" font-weight="bold" opacity="0.3">Birthday!</text>
+  <!-- Gold decorative line under text -->
+  <path d="M160,325 Q200,330 240,325" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- ======================== GOLD FOIL FLAKES ON GREEN ======================== -->
+  <!-- Scattered gold foil accent shapes -->
+  <g fill="#C9A84C" opacity="0.75">
+    <!-- Upper cake area flakes -->
+    <ellipse cx="130" cy="248" rx="4" ry="2" transform="rotate(30,130,248)"/>
+    <ellipse cx="152" cy="238" rx="3" ry="1.5" transform="rotate(-20,152,238)"/>
+    <ellipse cx="145" cy="258" rx="3.5" ry="1.8" transform="rotate(55,145,258)"/>
+    <ellipse cx="118" cy="270" rx="3" ry="1.5" transform="rotate(-40,118,270)"/>
+    <ellipse cx="260" cy="245" rx="4" ry="2" transform="rotate(-30,260,245)"/>
+    <ellipse cx="276" cy="260" rx="3" ry="1.5" transform="rotate(25,276,260)"/>
+    <ellipse cx="248" cy="236" rx="3.5" ry="1.8" transform="rotate(-55,248,236)"/>
+    <ellipse cx="283" cy="278" rx="3" ry="1.5" transform="rotate(40,283,278)"/>
+    <!-- Middle area flakes -->
+    <ellipse cx="120" cy="340" rx="3.5" ry="1.8" transform="rotate(20,120,340)"/>
+    <ellipse cx="136" cy="354" rx="3" ry="1.5" transform="rotate(-35,136,354)"/>
+    <ellipse cx="278" cy="342" rx="3.5" ry="1.8" transform="rotate(-20,278,342)"/>
+    <ellipse cx="262" cy="358" rx="3" ry="1.5" transform="rotate(35,262,358)"/>
+    <!-- Lower area flakes -->
+    <ellipse cx="110" cy="380" rx="4" ry="2" transform="rotate(45,110,380)"/>
+    <ellipse cx="290" cy="380" rx="4" ry="2" transform="rotate(-45,290,380)"/>
+    <!-- Random scattered -->
+    <ellipse cx="175" cy="243" rx="2.5" ry="1.2" transform="rotate(70,175,243)"/>
+    <ellipse cx="225" cy="240" rx="2.5" ry="1.2" transform="rotate(-70,225,240)"/>
+    <ellipse cx="168" cy="385" rx="2.5" ry="1.2" transform="rotate(20,168,385)"/>
+    <ellipse cx="232" cy="388" rx="2.5" ry="1.2" transform="rotate(-20,232,388)"/>
+  </g>
+
+  <!-- Small star flakes -->
+  <g fill="#E0C048" opacity="0.6">
+    <polygon points="132,232 133.5,236 137.5,236 134.5,238.5 135.5,242.5 132,240 128.5,242.5 129.5,238.5 126.5,236 130.5,236" transform="scale(0.6) translate(88,145)"/>
+    <polygon points="268,235 269.5,239 273.5,239 270.5,241.5 271.5,245.5 268,243 264.5,245.5 265.5,241.5 262.5,239 266.5,239" transform="scale(0.5) translate(132,136)"/>
+    <polygon points="200,248 201.2,251.6 205,251.6 202.1,253.8 203.2,257.6 200,255.4 196.8,257.6 197.9,253.8 195,251.6 198.8,251.6" transform="scale(0.7) translate(-60,95)"/>
+  </g>
+
+  <!-- ======================== GOLD WIRE STAR/BURST TOPPERS ======================== -->
+  <!-- Topper sticks -->
+  <line x1="155" y1="155" x2="155" y2="218" stroke="#C9A84C" stroke-width="2" stroke-linecap="round"/>
+  <line x1="200" y1="148" x2="200" y2="218" stroke="#C9A84C" stroke-width="2" stroke-linecap="round"/>
+  <line x1="245" y1="155" x2="245" y2="218" stroke="#C9A84C" stroke-width="2" stroke-linecap="round"/>
+  <line x1="175" y1="152" x2="175" y2="218" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="225" y1="152" x2="225" y2="218" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Star burst 1 (left) -->
+  <g transform="translate(155, 140)" filter="url(#topperShadow)">
+    <line x1="0" y1="-18" x2="0" y2="18" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="-18" y1="0" x2="18" y2="0" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="-13" y1="-13" x2="13" y2="13" stroke="url(#goldGrad)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="13" y1="-13" x2="-13" y2="13" stroke="url(#goldGrad)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="-7" y1="-17" x2="7" y2="17" stroke="url(#goldGrad)" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+    <line x1="17" y1="-7" x2="-17" y2="7" stroke="url(#goldGrad)" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+    <circle cx="0" cy="0" r="4" fill="url(#goldGrad)" stroke="#F0D060" stroke-width="1"/>
+  </g>
+
+  <!-- Star burst 2 (center) - bigger -->
+  <g transform="translate(200, 132)" filter="url(#topperShadow)">
+    <line x1="0" y1="-22" x2="0" y2="22" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-22" y1="0" x2="22" y2="0" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-16" y1="-16" x2="16" y2="16" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="16" y1="-16" x2="-16" y2="16" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="-8" y1="-21" x2="8" y2="21" stroke="url(#goldGrad)" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+    <line x1="21" y1="-8" x2="-21" y2="8" stroke="url(#goldGrad)" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+    <line x1="-20" y1="-10" x2="20" y2="10" stroke="url(#goldGrad)" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+    <line x1="-10" y1="20" x2="10" y2="-20" stroke="url(#goldGrad)" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="0" cy="0" r="5" fill="url(#goldGrad)" stroke="#F0D060" stroke-width="1.5"/>
+    <circle cx="0" cy="0" r="2.5" fill="#F5E080"/>
+  </g>
+
+  <!-- Star burst 3 (right) -->
+  <g transform="translate(245, 140)" filter="url(#topperShadow)">
+    <line x1="0" y1="-18" x2="0" y2="18" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="-18" y1="0" x2="18" y2="0" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="-13" y1="-13" x2="13" y2="13" stroke="url(#goldGrad)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="13" y1="-13" x2="-13" y2="13" stroke="url(#goldGrad)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="-7" y1="-17" x2="7" y2="17" stroke="url(#goldGrad)" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+    <line x1="17" y1="-7" x2="-17" y2="7" stroke="url(#goldGrad)" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+    <circle cx="0" cy="0" r="4" fill="url(#goldGrad)" stroke="#F0D060" stroke-width="1"/>
+  </g>
+
+  <!-- Small star burst 4 (left-center) -->
+  <g transform="translate(175, 136)" filter="url(#topperShadow)">
+    <line x1="0" y1="-14" x2="0" y2="14" stroke="url(#goldGrad)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="-14" y1="0" x2="14" y2="0" stroke="url(#goldGrad)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="-10" y1="-10" x2="10" y2="10" stroke="url(#goldGrad)" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="10" y1="-10" x2="-10" y2="10" stroke="url(#goldGrad)" stroke-width="1.2" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="3" fill="url(#goldGrad)" stroke="#F0D060" stroke-width="0.8"/>
+  </g>
+
+  <!-- Small star burst 5 (right-center) -->
+  <g transform="translate(225, 136)" filter="url(#topperShadow)">
+    <line x1="0" y1="-14" x2="0" y2="14" stroke="url(#goldGrad)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="-14" y1="0" x2="14" y2="0" stroke="url(#goldGrad)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="-10" y1="-10" x2="10" y2="10" stroke="url(#goldGrad)" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="10" y1="-10" x2="-10" y2="10" stroke="url(#goldGrad)" stroke-width="1.2" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="3" fill="url(#goldGrad)" stroke="#F0D060" stroke-width="0.8"/>
+  </g>
+
+  <!-- ======================== BOTTOM LABEL ======================== -->
+  <rect x="80" y="472" width="240" height="24" rx="4" fill="#0e5020" stroke="#1a8030" stroke-width="1.2"/>
+  <rect x="84" y="475" width="232" height="18" rx="3" fill="none" stroke="#2a9a40" stroke-width="0.6"/>
+  <text x="200" y="489" font-family="Arial, Helvetica, sans-serif" font-size="10"
+        fill="#70e890" text-anchor="middle" font-weight="bold" letter-spacing="2">TORT URODZINOWY</text>
+
+  <!-- Decorative dollar signs at label ends -->
+  <text x="90" y="489" font-family="Arial" font-size="9" fill="#40c060" text-anchor="middle">$</text>
+  <text x="310" y="489" font-family="Arial" font-size="9" fill="#40c060" text-anchor="middle">$</text>
+</svg>
