@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C8E4F8"/><stop offset="60%" stop-color="#A8D0F0"/><stop offset="100%" stop-color="#88B8E0"/></linearGradient>
+  <linearGradient id="tier1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#B8D8F0"/><stop offset="100%" stop-color="#98C0E0"/></linearGradient>
+  <linearGradient id="tier2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#A8CCE8"/><stop offset="100%" stop-color="#88B0D8"/></linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#204080" flood-opacity="0.18"/></filter>
+</defs>
+<!-- Sky background -->
+<rect width="400" height="500" fill="url(#bg)"/>
+<!-- White stand (distressed) -->
+<ellipse cx="200" cy="448" rx="80" ry="12" fill="#B0A898" opacity="0.5"/>
+<rect x="188" y="408" width="24" height="42" rx="4" fill="#C8C0B0"/>
+<ellipse cx="200" cy="406" rx="112" ry="14" fill="#C8C0B0" filter="url(#sh)"/>
+<ellipse cx="200" cy="403" rx="108" ry="12" fill="#D8D0C0"/>
+<ellipse cx="200" cy="401" rx="102" ry="10" fill="#EAE6DC"/>
+<!-- Lower tier (wider, NYC skyline + taxis) -->
+<rect x="100" y="320" width="200" height="84" rx="6" fill="url(#tier2)" filter="url(#sh)"/>
+<!-- NYC skyline silhouette on lower tier -->
+<g fill="#1a1a2a" opacity="0.85">
+  <rect x="108" y="340" width="14" height="50"/><rect x="110" y="332" width="10" height="12"/>
+  <rect x="125" y="348" width="12" height="42"/><rect x="127" y="338" width="8" height="14"/>
+  <rect x="140" y="344" width="16" height="46"/><rect x="144" y="334" width="8" height="14"/>
+  <rect x="158" y="358" width="10" height="32"/>
+  <rect x="172" y="352" width="14" height="38"/>
+  <!-- Empire State style -->
+  <rect x="188" y="336" width="16" height="54"/><rect x="191" y="325" width="10" height="16"/><rect x="194" y="318" width="4" height="10"/>
+  <rect x="208" y="352" width="12" height="38"/>
+  <rect x="224" y="344" width="14" height="46"/><rect x="226" y="334" width="10" height="14"/>
+  <rect x="241" y="348" width="12" height="42"/>
+  <rect x="256" y="342" width="16" height="48"/><rect x="259" y="332" width="10" height="14"/>
+  <rect x="275" y="352" width="10" height="38"/>
+  <rect x="288" y="346" width="12" height="44"/>
+</g>
+<!-- Yellow taxis on lower tier -->
+<g>
+  <rect x="115" y="388" width="28" height="14" rx="3" fill="#FFD700"/>
+  <rect x="113" y="391" width="32" height="8" rx="2" fill="#FFD700"/>
+  <rect x="118" y="388" width="6" height="4" rx="1" fill="#B8ECF8"/><rect x="130" y="388" width="6" height="4" rx="1" fill="#B8ECF8"/>
+  <circle cx="118" cy="402" r="3.5" fill="#1a1a1a"/><circle cx="134" cy="402" r="3.5" fill="#1a1a1a"/>
+  <rect x="250" y="384" width="28" height="14" rx="3" fill="#FFD700"/>
+  <rect x="248" y="387" width="32" height="8" rx="2" fill="#FFD700"/>
+  <rect x="253" y="384" width="6" height="4" rx="1" fill="#B8ECF8"/><rect x="265" y="384" width="6" height="4" rx="1" fill="#B8ECF8"/>
+  <circle cx="253" cy="398" r="3.5" fill="#1a1a1a"/><circle cx="269" cy="398" r="3.5" fill="#1a1a1a"/>
+</g>
+<!-- "17 lat Bartka" text on lower tier -->
+<text x="200" y="402" font-family="Georgia,serif" font-size="9" fill="#1a1a2a" text-anchor="middle" font-style="italic" opacity="0.7">17 lat Bartka</text>
+<!-- Upper tier (narrower, colorful NY icons) -->
+<rect x="130" y="186" width="140" height="138" rx="6" fill="url(#tier1)" filter="url(#sh)"/>
+<ellipse cx="200" cy="186" rx="70" ry="9" fill="#C0D8F0"/>
+<!-- "I ❤ NY" sign -->
+<rect x="166" y="258" width="68" height="48" rx="4" fill="white"/>
+<text x="200" y="274" font-family="Arial,sans-serif" font-size="10" fill="#1a1a2a" text-anchor="middle" font-weight="bold">I</text>
+<path d="M198 282 C198 278 192 278 192 282 C192 286 198 290 198 290 C198 290 204 286 204 282 C204 278 198 278 198 282Z" fill="#CC0000"/>
+<text x="210" y="282" font-family="Arial,sans-serif" font-size="10" fill="#CC0000" text-anchor="middle" font-weight="bold"> NY</text>
+<text x="200" y="298" font-family="Arial Black,sans-serif" font-size="12" fill="#1a1a2a" text-anchor="middle" font-weight="900">NY</text>
+<!-- Pizza slice -->
+<g transform="translate(148 234) rotate(-15)">
+  <path d="M0 0 L14 26 L-14 26Z" fill="#F4A830"/>
+  <path d="M-2 20 L2 20 L2 24 L-2 24Z" fill="#CC2020"/>
+  <circle cx="4" cy="16" r="2.5" fill="#CC2020"/>
+  <circle cx="-3" cy="22" r="2" fill="#CC2020"/>
+</g>
+<!-- Hot dog -->
+<g transform="translate(243 248) rotate(20)">
+  <ellipse cx="0" cy="0" rx="18" ry="8" fill="#D4824A"/>
+  <rect x="-14" y="-4" width="28" height="8" rx="4" fill="#C87040"/>
+  <path d="M-10 0 Q0 4 10 0" stroke="#E8C060" stroke-width="1.5" fill="none"/>
+</g>
+<!-- Donut -->
+<g transform="translate(260 212)">
+  <circle cx="0" cy="0" r="12" fill="#D47050"/>
+  <circle cx="0" cy="0" r="5" fill="#C0D8F0"/>
+  <g stroke="#F0C0E0" stroke-width="2" fill="none" stroke-dasharray="2 2">
+    <path d="M-6 -8 Q0 -12 6 -8"/>
+    <path d="M8 2 Q12 6 8 10"/>
+  </g>
+</g>
+<!-- Apple (Big Apple) -->
+<g transform="translate(145 208)">
+  <path d="M0 -14 Q14 -14 14 2 Q14 16 0 18 Q-14 16 -14 2 Q-14 -14 0 -14Z" fill="#C02020"/>
+  <path d="M0 -14 Q-3 -20 -1 -22 Q2 -20 0 -14Z" fill="#5a8a42"/>
+  <circle cx="4" cy="0" r="4" fill="#E03030" opacity="0.4"/>
+</g>
+<!-- Statue of Liberty (simplified) on top -->
+<g transform="translate(200 148)">
+  <!-- Robe -->
+  <path d="M-10 40 Q-14 20 -8 0 Q0 -5 8 0 Q14 20 10 40Z" fill="#8ab8a8"/>
+  <!-- Torch arm -->
+  <path d="M8 8 Q16 4 18 -2 Q14 -2 12 4Z" fill="#9ac8b8"/>
+  <circle cx="18" cy="-4" r="3" fill="#F0D080"/>
+  <!-- Head with crown -->
+  <circle cx="0" cy="-8" r="9" fill="#9ac8b8"/>
+  <path d="M-6 -14 L-4 -22 L0 -18 L4 -22 L6 -14 Z" fill="#9ac8b8"/>
+  <!-- Face -->
+  <circle cx="-2" cy="-8" r="1.2" fill="#6a9888"/><circle cx="2" cy="-8" r="1.2" fill="#6a9888"/>
+</g>
+<!-- Buildings on top (skyscraper toppers) -->
+<g fill="#1a1a2a" opacity="0.7">
+  <rect x="135" y="175" width="10" height="15"/><rect x="137" y="168" width="6" height="10"/>
+  <rect x="252" y="172" width="10" height="18"/><rect x="254" y="165" width="6" height="10"/>
+  <rect x="270" y="178" width="8" height="12"/>
+</g>
+<!-- Label -->
+<rect x="112" y="466" width="176" height="24" rx="12" fill="rgba(30,60,120,0.12)"/>
+<text x="200" y="482" font-family="Georgia,serif" font-size="11" fill="#1a3870" text-anchor="middle" letter-spacing="1.2">TORT TEMATYCZNY</text>
+</svg>
