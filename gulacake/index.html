@@ -148,14 +148,16 @@ section{padding:80px 24px}
 .g-item:hover img{transform:scale(1.06)}
 .g-ph{width:100%;display:block;transition:transform 0.55s}
 .g-item:hover .g-ph{transform:scale(1.06)}
-.g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(44,20,28,0.58) 0%,transparent 55%);
-  opacity:0;transition:opacity 0.3s;display:flex;align-items:flex-end;padding:14px}
+.g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(30,8,18,0.72) 0%,rgba(30,8,18,0.1) 50%,transparent 100%);
+  opacity:0;transition:opacity 0.35s;display:flex;align-items:flex-end;padding:16px 14px}
 .g-item:hover .g-overlay{opacity:1}
-.g-cat-badge{position:absolute;top:10px;left:10px;background:rgba(255,255,255,0.92);
-  border-radius:50px;padding:4px 11px;font-size:0.68rem;font-weight:700;
-  letter-spacing:0.06em;text-transform:uppercase;color:var(--rose);
-  backdrop-filter:blur(4px)}
-.g-label{color:#fff;font-size:0.82rem;font-weight:500}
+.g-cat-badge{position:absolute;top:10px;left:10px;background:rgba(255,255,255,0.93);
+  border-radius:50px;padding:4px 12px;font-size:0.67rem;font-weight:700;
+  letter-spacing:0.07em;text-transform:uppercase;color:var(--rose);
+  backdrop-filter:blur(6px);box-shadow:0 2px 8px rgba(200,100,130,0.12)}
+.g-label{color:#fff;font-family:Georgia,serif;font-size:0.88rem;font-style:italic;
+  font-weight:400;letter-spacing:0.02em;line-height:1.3;
+  text-shadow:0 1px 6px rgba(0,0,0,0.6)}
 .g-hidden{opacity:0.12;pointer-events:none;transform:scale(0.97)}
 .ig-link{text-align:center;margin-top:36px;padding:0 24px}
 .ig-link a{display:inline-flex;align-items:center;gap:9px;font-size:0.84rem;font-weight:600;
@@ -261,6 +263,11 @@ footer span{color:var(--rose-light)}
   background:rgba(255,255,255,0.12);color:#fff;font-size:1.2rem;
   display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s}
 .lb-x:hover{background:rgba(255,255,255,0.25)}
+.lb-caption{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  color:#fff;font-family:Georgia,serif;font-size:0.95rem;font-style:italic;
+  letter-spacing:0.04em;text-align:center;background:rgba(0,0,0,0.45);
+  padding:8px 22px;border-radius:50px;backdrop-filter:blur(6px);
+  pointer-events:none;max-width:80vw}
 
 /* RESPONSIVE */
 @media(max-width:900px){
@@ -522,6 +529,7 @@ footer span{color:var(--rose-light)}
 <div class="lb" id="lb">
   <button class="lb-x" id="lbClose">✕</button>
   <img id="lb-img" src="" alt="">
+  <div class="lb-caption" id="lb-caption"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -895,40 +903,69 @@ const CATS=['','torty','bento','weselne','tematyczne','kap'];
 const MAX_PER_CAT=80;
 const MISS_STOP=4;
 
-/* Реальные фотки Олены — загружены напрямую */
-const REAL_PHOTOS=[
-  'Снимок экрана 2026-06-15 в 07.20.33.png','Снимок экрана 2026-06-15 в 07.20.44.png',
-  'Снимок экрана 2026-06-15 в 07.20.52.png','Снимок экрана 2026-06-15 в 07.21.00.png',
-  'Снимок экрана 2026-06-15 в 07.21.09.png','Снимок экрана 2026-06-15 в 07.21.18.png',
-  'Снимок экрана 2026-06-15 в 07.21.29.png','Снимок экрана 2026-06-15 в 07.22.00.png',
-  'Снимок экрана 2026-06-15 в 07.22.07.png','Снимок экрана 2026-06-15 в 07.22.19.png',
-  'Снимок экрана 2026-06-15 в 07.22.26.png','Снимок экрана 2026-06-15 в 07.22.33.png',
-  'Снимок экрана 2026-06-15 в 07.22.42.png','Снимок экрана 2026-06-15 в 07.22.49.png',
-  'Снимок экрана 2026-06-15 в 07.22.57.png','Снимок экрана 2026-06-15 в 07.23.03.png',
-  'Снимок экрана 2026-06-15 в 07.23.11.png','Снимок экрана 2026-06-15 в 07.23.17.png',
-  'Снимок экрана 2026-06-15 в 07.23.22.png','Снимок экрана 2026-06-15 в 07.23.32.png',
-  'Снимок экрана 2026-06-15 в 07.23.40.png','Снимок экрана 2026-06-15 в 07.23.45.png',
-  'Снимок экрана 2026-06-15 в 07.23.50.png','Снимок экрана 2026-06-15 в 07.24.02.png',
-  'Снимок экрана 2026-06-15 в 07.24.07.png','Снимок экрана 2026-06-15 в 07.24.15.png',
-  'Снимок экрана 2026-06-15 в 07.24.20.png','Снимок экрана 2026-06-15 в 07.24.26.png',
-  'Снимок экрана 2026-06-15 в 07.24.32.png','Снимок экрана 2026-06-15 в 07.24.38.png',
-  'Снимок экрана 2026-06-15 в 07.24.44.png','Снимок экрана 2026-06-15 в 07.25.02.png',
-  'Снимок экрана 2026-06-15 в 07.25.08.png','Снимок экрана 2026-06-15 в 07.25.19.png',
-  'Снимок экрана 2026-06-15 в 07.25.28.png','Снимок экрана 2026-06-15 в 07.25.35.png',
-  'Снимок экрана 2026-06-15 в 07.25.42.png','Снимок экрана 2026-06-15 в 07.25.49.png',
-  'Снимок экрана 2026-06-15 в 07.25.59.png','Снимок экрана 2026-06-15 в 07.26.06.png',
-  'Снимок экрана 2026-06-15 в 07.26.11.png','Снимок экрана 2026-06-15 в 07.26.17.png',
-  'Снимок экрана 2026-06-15 в 07.26.23.png','Снимок экрана 2026-06-15 в 07.26.32.png',
-  'Снимок экрана 2026-06-15 в 07.26.38.png','Снимок экрана 2026-06-15 в 07.26.43.png',
-  'Снимок экрана 2026-06-15 в 07.26.48.png','Снимок экрана 2026-06-15 в 07.26.54.png',
-  'Снимок экрана 2026-06-15 в 07.27.00.png','Снимок экрана 2026-06-15 в 07.27.05.png',
-  'Снимок экрана 2026-06-15 в 07.27.11.png','Снимок экрана 2026-06-15 в 07.27.22.png',
-  'Снимок экрана 2026-06-15 в 07.27.27.png','Снимок экрана 2026-06-15 в 07.27.33.png',
-  'Снимок экрана 2026-06-15 в 07.27.39.png','Снимок экрана 2026-06-15 в 07.27.47.png',
-  'Снимок экрана 2026-06-15 в 07.27.54.png','Снимок экрана 2026-06-15 в 07.27.59.png',
-  'Снимок экрана 2026-06-15 в 07.28.09.png'
-];
+/* Реальные фотки Олены — с красивыми именами и категориями */
 const REAL_DIR='images/Новая папка/';
+const REAL_PHOTOS=[
+  {f:'Снимок экрана 2026-06-15 в 07.20.33.png',n:'Tort z Perłami i Kokardą',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.20.44.png',n:'Tort z Różową Kokardą',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.20.52.png',n:'Chrzest — Anielskie Pióra',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.21.00.png',n:'Tort z Truskawkami',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.21.09.png',n:'Tort Bocian — Narodziny',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.21.18.png',n:'Tort Serce Niebieskie',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.21.29.png',n:'Tort Tematyczny BMW',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.00.png',n:'Tort z Pieniędzmi',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.07.png',n:'Tort Wielkanocny ХВ',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.19.png',n:'Tort Vintage Bordo',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.26.png',n:'Tort Plisowany z Różami',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.33.png',n:'Tort Baby Boy',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.42.png',n:'Tort z Kokardkami',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.49.png',n:'Chrzest Sofii',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.57.png',n:'Tort Różowy Króliczek',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.03.png',n:'Tort na Pierwszą Komunię',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.11.png',n:'Tort Serce Różowe',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.17.png',n:'Tort w Cętki Leoparda',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.22.png',n:'Tort z Białą Orchideą',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.32.png',n:'Tort Nowy Jork',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.40.png',n:'Tort Vintage Różowy',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.45.png',n:'Tort z Kokardą i Perłami',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.50.png',n:'Chrzest — Białe Pióra',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.02.png',n:'Tort z Truskawkami i Kwiatami',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.07.png',n:'Tort Bocian Biały',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.15.png',n:'Tort Serce Czerwone — 24 lata',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.20.png',n:'Tort Zielony Krem',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.26.png',n:'Tort Księżniczka',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.32.png',n:'Tort z Płatkami Bezy',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.38.png',n:'Tort Plisowany — 21 lat',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.44.png',n:'Tort Biały Plisowany',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.02.png',n:'Tort Urodzinowy z Kremem',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.08.png',n:'Tort Piętrowy Elegancki',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.19.png',n:'Tort Czekoladowy Luksus',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.28.png',n:'Tort Kwiatowy Pastelowy',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.35.png',n:'Tort dla Dziewczynki',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.42.png',n:'Tort Urodzinowy Złoty',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.49.png',n:'Tort Bento z Kwiatem',cat:'bento'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.59.png',n:'Tort Motylkowy',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.06.png',n:'Tort Weselny Biały',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.11.png',n:'Tort Urodzinowy Malinowy',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.17.png',n:'Tort Bento Serce',cat:'bento'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.23.png',n:'Tort Arabski Złoty',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.32.png',n:'Tort z Muszelkami i Różami',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.38.png',n:'Tort Kwiatowy Biały',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.43.png',n:'Tort dla Chłopca',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.48.png',n:'Tort Szkolny',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.54.png',n:'Tort Piętrowy Floral',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.00.png',n:'Tort Makaroniki i Kwiaty',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.05.png',n:'Tort Anioł',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.11.png',n:'Tort Bento Urodzinowy',cat:'bento'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.22.png',n:'Tort Waniliowy z Różami',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.27.png',n:'Tort Porzeczkowy',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.33.png',n:'Tort na Jubileusz',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.39.png',n:'Tort Bento z Napisem',cat:'bento'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.47.png',n:'Tort Jednorożec',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.54.png',n:'Tort na 18-stkę',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.59.png',n:'Tort z Różami Cukrowymi',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.28.09.png',n:'Tort Piętrowy z Kwiatami',cat:'weselne'}
+];
 
 /* Запасные SVG-иллюстрации, если реальных фото ещё нет */
 const FALLBACK=[
@@ -1001,7 +1038,7 @@ function addItem(url,cat){
   item.innerHTML=
     '<img src="'+url+'" alt="Tort Gula Cake" loading="lazy">'+
     (cat?'<div class="g-cat-badge" data-i18n="'+badgeKey+'"></div>':'');
-  item.addEventListener('click',()=>{lbImg.src=url;lb.classList.add('open');});
+  item.addEventListener('click',()=>{lbImg.src=url;document.getElementById('lb-caption').textContent='';lb.classList.add('open');});
   masonry.appendChild(item);
   loadedCount++;
   if(typeof gsap!=='undefined'){
@@ -1026,13 +1063,24 @@ async function scanCat(prefix){
 async function buildCatalog(){
   // Сначала показываем настоящие фотки если они есть
   if(REAL_PHOTOS.length>0){
-    REAL_PHOTOS.forEach(name=>{
-      const url=REAL_DIR+name;
+    const lang=document.documentElement.dataset.lang||'pl';
+    const tr=T[lang]||T['pl'];
+    REAL_PHOTOS.forEach(photo=>{
+      const url=REAL_DIR+photo.f;
       const item=document.createElement('div');
       item.className='g-item';
-      item.dataset.cat='';
-      item.innerHTML='<img src="'+url+'" alt="Tort Gula Cake" loading="lazy">';
-      item.addEventListener('click',()=>{lbImg.src=url;lb.classList.add('open');});
+      item.dataset.cat=photo.cat||'all';
+      const badgeKey=catLabel(photo.cat);
+      const badgeText=tr[badgeKey]||photo.cat||'';
+      item.innerHTML=
+        '<img src="'+url+'" alt="'+photo.n+'" loading="lazy">'+
+        '<div class="g-overlay"><span class="g-label">'+photo.n+'</span></div>'+
+        (photo.cat?'<div class="g-cat-badge">'+badgeText+'</div>':'');
+      item.addEventListener('click',()=>{
+        lbImg.src=url;
+        document.getElementById('lb-caption').textContent=photo.n;
+        lb.classList.add('open');
+      });
       masonry.appendChild(item);
       loadedCount++;
       if(typeof gsap!=='undefined'){
@@ -1055,7 +1103,7 @@ async function buildCatalog(){
       item.innerHTML='<img src="'+IMG_DIR+f.src+'" alt="Tort">'+
         '<div class="g-cat-badge" data-i18n="'+catLabel(f.cat)+'">'+(tr[catLabel(f.cat)]||'')+'</div>'+
         '<div class="g-overlay"><span class="g-label" data-i18n="'+f.label+'">'+(tr[f.label]||'')+'</span></div>';
-      item.addEventListener('click',()=>{lbImg.src=IMG_DIR+f.src;lb.classList.add('open');});
+      item.addEventListener('click',()=>{lbImg.src=IMG_DIR+f.src;document.getElementById('lb-caption').textContent=tr[f.label]||'';lb.classList.add('open');});
       masonry.appendChild(item);
     });
   }
