@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FCFAF5"/><stop offset="100%" stop-color="#F3EEE2"/></linearGradient>
+  <linearGradient id="cream" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FBF6EA"/><stop offset="100%" stop-color="#EFE6D2"/></linearGradient>
+  <radialGradient id="sphere" cx="0.35" cy="0.3" r="0.75"><stop offset="0%" stop-color="#FFFDF8"/><stop offset="65%" stop-color="#F4ECDA"/><stop offset="100%" stop-color="#E0D4BC"/></radialGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#a09070" flood-opacity="0.18"/></filter>
+  <filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="400" height="500" fill="url(#bg)"/>
+<!-- soft silk drapes background -->
+<path d="M0 120 Q100 90 200 120 Q300 150 400 110 L400 500 L0 500Z" fill="#F6F0E2" opacity="0.5"/>
+<circle cx="70" cy="110" r="110" fill="#F0E8D6" opacity="0.4"/>
+<circle cx="340" cy="400" r="95" fill="#EDE4D0" opacity="0.35"/>
+<!-- Wire stars above -->
+<g stroke="#D8CDB0" stroke-width="1">
+  <line x1="150" y1="180" x2="150" y2="120"/><line x1="185" y1="175" x2="185" y2="105"/>
+  <line x1="220" y1="178" x2="220" y2="110"/><line x1="255" y1="182" x2="255" y2="125"/>
+</g>
+<text x="150" y="120" font-size="16" fill="#F4ECD8" stroke="#D8CDB0" stroke-width="0.5" text-anchor="middle" filter="url(#glow)">★</text>
+<text x="185" y="106" font-size="18" fill="#FBF6EA" stroke="#D8CDB0" stroke-width="0.5" text-anchor="middle" filter="url(#glow)">★</text>
+<text x="220" y="112" font-size="15" fill="#F4ECD8" stroke="#D8CDB0" stroke-width="0.5" text-anchor="middle" filter="url(#glow)">★</text>
+<text x="255" y="128" font-size="14" fill="#FBF6EA" stroke="#D8CDB0" stroke-width="0.5" text-anchor="middle" filter="url(#glow)">★</text>
+<!-- Plate / board -->
+<ellipse cx="200" cy="430" rx="125" ry="15" fill="#7a5a3a" opacity="0.25"/>
+<ellipse cx="200" cy="426" rx="122" ry="13" fill="#6E4E2E" filter="url(#sh)"/>
+<ellipse cx="200" cy="423" rx="118" ry="11" fill="#8a6a44"/>
+<!-- Cake body (ivory, textured) -->
+<rect x="118" y="226" width="164" height="200" rx="10" fill="url(#cream)" filter="url(#sh)"/>
+<ellipse cx="200" cy="226" rx="82" ry="12" fill="#FBF6EA"/>
+<!-- Baroque relief texture on side -->
+<g stroke="#E2D6BE" stroke-width="1.4" fill="none" opacity="0.85">
+  <path d="M140 300 Q150 285 162 298 Q168 305 160 314 Q150 320 145 310"/>
+  <path d="M165 320 Q176 305 188 318 Q194 325 186 334 Q176 340 171 330"/>
+  <path d="M200 305 Q212 290 224 303 Q230 310 222 319 Q212 325 207 315"/>
+  <path d="M230 322 Q242 308 254 320 Q260 327 252 336 Q242 342 237 332"/>
+  <path d="M150 348 Q162 336 172 348"/><path d="M210 350 Q222 338 232 350"/>
+  <path d="M178 360 Q190 350 200 360 Q210 350 222 360"/>
+</g>
+<!-- Cross emblem (white, center) -->
+<g filter="url(#glow)">
+  <rect x="194" y="330" width="12" height="40" rx="2" fill="#FBF6EA" stroke="#E2D6BE" stroke-width="0.8"/>
+  <rect x="182" y="342" width="36" height="11" rx="2" fill="#FBF6EA" stroke="#E2D6BE" stroke-width="0.8"/>
+  <circle cx="200" cy="347" r="3" fill="#C9A84C"/>
+  <circle cx="200" cy="336" r="2" fill="#C9A84C"/><circle cx="200" cy="364" r="2" fill="#C9A84C"/>
+  <circle cx="188" cy="347" r="2" fill="#C9A84C"/><circle cx="212" cy="347" r="2" fill="#C9A84C"/>
+</g>
+<!-- Spheres / balls on top -->
+<circle cx="148" cy="210" r="22" fill="url(#sphere)"/>
+<circle cx="252" cy="210" r="22" fill="url(#sphere)"/>
+<circle cx="184" cy="196" r="18" fill="url(#sphere)"/>
+<circle cx="220" cy="198" r="16" fill="url(#sphere)"/>
+<!-- Spheres at base -->
+<circle cx="132" cy="418" r="16" fill="url(#sphere)"/>
+<circle cx="270" cy="418" r="16" fill="url(#sphere)"/>
+<!-- Open book on top -->
+<g>
+  <path d="M186 198 L200 194 L200 210 L186 214Z" fill="#FBF6EA" stroke="#E2D6BE" stroke-width="0.8"/>
+  <path d="M214 198 L200 194 L200 210 L214 214Z" fill="#F4ECD8" stroke="#E2D6BE" stroke-width="0.8"/>
+  <line x1="190" y1="202" x2="198" y2="200" stroke="#C9A84C" stroke-width="0.6"/>
+  <line x1="202" y1="200" x2="210" y2="202" stroke="#C9A84C" stroke-width="0.6"/>
+  <circle cx="200" cy="200" r="2" fill="#C9A84C"/>
+</g>
+<!-- Two angels (cherubs) -->
+<g>
+  <!-- Angel left -->
+  <circle cx="178" cy="216" r="9" fill="#F5D8C0"/>
+  <ellipse cx="178" cy="232" rx="11" ry="13" fill="#FBF6EA"/>
+  <path d="M167 226 Q158 222 162 232 Q166 236 172 232Z" fill="#F0E6D0"/>
+  <ellipse cx="178" cy="210" rx="11" ry="3" fill="none" stroke="#C9A84C" stroke-width="1.2"/>
+  <circle cx="175" cy="216" r="1" fill="#7a5a3a"/><circle cx="181" cy="216" r="1" fill="#7a5a3a"/>
+  <!-- Angel right -->
+  <circle cx="222" cy="216" r="9" fill="#F5D8C0"/>
+  <ellipse cx="222" cy="232" rx="11" ry="13" fill="#FBF6EA"/>
+  <path d="M233 226 Q242 222 238 232 Q234 236 228 232Z" fill="#F0E6D0"/>
+  <ellipse cx="222" cy="210" rx="11" ry="3" fill="none" stroke="#C9A84C" stroke-width="1.2"/>
+  <circle cx="219" cy="216" r="1" fill="#7a5a3a"/><circle cx="225" cy="216" r="1" fill="#7a5a3a"/>
+</g>
+<!-- Gula Cake plate text -->
+<text x="200" y="424" font-family="Georgia,serif" font-size="9" fill="#E8DCC4" text-anchor="middle" letter-spacing="1.5">♛ Gula Cake</text>
+<!-- Label -->
+<rect x="120" y="466" width="160" height="24" rx="12" fill="rgba(160,144,112,0.14)"/>
+<text x="200" y="482" font-family="Georgia,serif" font-size="11" fill="#9a8460" text-anchor="middle" letter-spacing="1.2">TORT NA CHRZEST</text>
+</svg>

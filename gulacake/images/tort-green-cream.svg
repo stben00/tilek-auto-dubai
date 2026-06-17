@@ -1,0 +1,250 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#FAFAF6"/>
+    <stop offset="100%" stop-color="#F4F4EC"/>
+  </linearGradient>
+  <linearGradient id="cakeBody" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#FEFAEC"/>
+    <stop offset="50%" stop-color="#F8F4E0"/>
+    <stop offset="100%" stop-color="#F0ECD8"/>
+  </linearGradient>
+  <linearGradient id="greenBand" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#A8C882"/>
+    <stop offset="100%" stop-color="#9AB87A"/>
+  </linearGradient>
+  <linearGradient id="creamBand" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#F8F4E4"/>
+    <stop offset="100%" stop-color="#EDE8CC"/>
+  </linearGradient>
+  <linearGradient id="standGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#FFFFFF"/>
+    <stop offset="100%" stop-color="#EEEEEE"/>
+  </linearGradient>
+  <filter id="cakeShadow">
+    <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#808060" flood-opacity="0.18"/>
+  </filter>
+  <filter id="standShadow">
+    <feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#aaa" flood-opacity="0.20"/>
+  </filter>
+</defs>
+
+<!-- Background -->
+<rect width="400" height="500" fill="url(#bg)"/>
+<!-- Soft blobs -->
+<circle cx="80" cy="100" r="100" fill="#E8F0DC" opacity="0.22"/>
+<circle cx="330" cy="350" r="90" fill="#EAF0D8" opacity="0.18"/>
+
+<!-- 2 tall white candle silhouettes on left -->
+<!-- Candle 1 -->
+<rect x="44" y="185" width="14" height="90" rx="3" fill="#FEFEFE" stroke="#E8E4DC" stroke-width="1"/>
+<rect x="44" y="183" width="14" height="8" rx="2" fill="#F0ECE0"/>
+<!-- Wick -->
+<line x1="51" y1="183" x2="51" y2="175" stroke="#4A3A28" stroke-width="1.5" stroke-linecap="round"/>
+<!-- Flame -->
+<ellipse cx="51" cy="170" rx="4" ry="7" fill="#FFD060" opacity="0.95"/>
+<ellipse cx="51" cy="169" rx="2.5" ry="4.5" fill="#FF8820" opacity="0.85"/>
+<ellipse cx="51" cy="168" rx="1.2" ry="2.5" fill="#FFFFFF" opacity="0.60"/>
+<!-- Candle texture lines -->
+<line x1="44" y1="205" x2="58" y2="205" stroke="#EDE8DC" stroke-width="0.8" opacity="0.8"/>
+<line x1="44" y1="225" x2="58" y2="225" stroke="#EDE8DC" stroke-width="0.8" opacity="0.8"/>
+<line x1="44" y1="245" x2="58" y2="245" stroke="#EDE8DC" stroke-width="0.8" opacity="0.8"/>
+<!-- Candle 2 -->
+<rect x="68" y="200" width="14" height="75" rx="3" fill="#FEFEFE" stroke="#E8E4DC" stroke-width="1"/>
+<rect x="68" y="198" width="14" height="8" rx="2" fill="#F0ECE0"/>
+<line x1="75" y1="198" x2="75" y2="190" stroke="#4A3A28" stroke-width="1.5" stroke-linecap="round"/>
+<ellipse cx="75" cy="185" rx="4" ry="7" fill="#FFD060" opacity="0.95"/>
+<ellipse cx="75" cy="184" rx="2.5" ry="4.5" fill="#FF8820" opacity="0.85"/>
+<ellipse cx="75" cy="183" rx="1.2" ry="2.5" fill="#FFFFFF" opacity="0.60"/>
+<line x1="68" y1="218" x2="82" y2="218" stroke="#EDE8DC" stroke-width="0.8" opacity="0.8"/>
+<line x1="68" y1="240" x2="82" y2="240" stroke="#EDE8DC" stroke-width="0.8" opacity="0.8"/>
+<!-- Candle drips -->
+<path d="M47,202 Q46,208 48,210" stroke="#FEFEFE" stroke-width="2" fill="none" stroke-linecap="round"/>
+<path d="M55,200 Q57,206 56,209" stroke="#FEFEFE" stroke-width="2" fill="none" stroke-linecap="round"/>
+<path d="M71,218 Q70,224 72,226" stroke="#FEFEFE" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+<!-- White distressed cake stand -->
+<!-- Stand plate top -->
+<ellipse cx="218" cy="418" rx="160" ry="18" fill="#D0CCC0" opacity="0.25"/>
+<ellipse cx="218" cy="414" rx="157" ry="16" fill="url(#standGrad)" filter="url(#standShadow)"/>
+<ellipse cx="218" cy="412" rx="153" ry="14" fill="#FEFEFE"/>
+<ellipse cx="218" cy="411" rx="149" ry="12" fill="#FFFFFF" stroke="#E8E4DC" stroke-width="1.2"/>
+<!-- Distressed details on stand -->
+<line x1="130" y1="410" x2="136" y2="410" stroke="#E0DDD5" stroke-width="0.7" opacity="0.5"/>
+<line x1="296" y1="410" x2="302" y2="410" stroke="#E0DDD5" stroke-width="0.7" opacity="0.5"/>
+<!-- Stand pedestal -->
+<rect x="208" y="414" width="20" height="28" rx="2" fill="#F8F8F4" stroke="#E4E0D8" stroke-width="1"/>
+<ellipse cx="218" cy="444" rx="30" ry="6" fill="#F4F0E8" stroke="#E0DCD0" stroke-width="1"/>
+<rect x="192" y="440" width="52" height="8" rx="3" fill="#F4F0E8" stroke="#E0DCD0" stroke-width="1"/>
+<!-- Gula Cake label on stand -->
+<text x="218" y="415" font-family="Georgia,serif" font-size="8.5" fill="#AAAAAA" text-anchor="middle" letter-spacing="1.5" font-style="italic">Gula Cake</text>
+
+<!-- CAKE BODY — tall round cream/ivory cylinder -->
+<rect x="118" y="155" width="200" height="258" rx="8" fill="url(#cakeBody)" filter="url(#cakeShadow)"/>
+<!-- Cake side shadow -->
+<rect x="118" y="155" width="18" height="258" rx="8" fill="#E8E4CC" opacity="0.35"/>
+<rect x="300" y="155" width="18" height="258" rx="8" fill="#E8E4CC" opacity="0.25"/>
+
+<!-- Top ellipse of cake -->
+<ellipse cx="218" cy="155" rx="100" ry="12" fill="#FEFAEC" stroke="#EDE8CC" stroke-width="1.5"/>
+
+<!-- === PIPING BANDS — alternating green and cream scallop waves === -->
+<!-- Green band 1 (top) — around y=180 -->
+<g opacity="0.92">
+  <!-- Scallop row: overlapping arcs -->
+  <path d="M120,172 Q130,160 140,172 Q150,160 160,172 Q170,160 180,172 Q190,160 200,172 Q210,160 220,172 Q230,160 240,172 Q250,160 260,172 Q270,160 280,172 Q290,160 300,172 Q310,160 318,172 L318,188 Q310,200 300,188 Q290,200 280,188 Q270,200 260,188 Q250,200 240,188 Q230,200 220,188 Q210,200 200,188 Q190,200 180,188 Q170,200 160,188 Q150,200 140,188 Q130,200 120,188 Z" fill="url(#greenBand)"/>
+  <!-- Green band highlight -->
+  <path d="M120,172 Q130,162 140,172 Q150,162 160,172 Q170,162 180,172 Q190,162 200,172 Q210,162 220,172 Q230,162 240,172 Q250,162 260,172 Q270,162 280,172 Q290,162 300,172 Q310,162 318,172" fill="none" stroke="#C0D890" stroke-width="1.2" opacity="0.45"/>
+</g>
+
+<!-- Cream band 1 — around y=220 -->
+<g opacity="0.88">
+  <path d="M120,210 Q130,198 140,210 Q150,198 160,210 Q170,198 180,210 Q190,198 200,210 Q210,198 220,210 Q230,198 240,210 Q250,198 260,210 Q270,198 280,210 Q290,198 300,210 Q310,198 318,210 L318,226 Q310,238 300,226 Q290,238 280,226 Q270,238 260,226 Q250,238 240,226 Q230,238 220,226 Q210,238 200,226 Q190,238 180,226 Q170,238 160,226 Q150,238 140,226 Q130,238 120,226 Z" fill="url(#creamBand)"/>
+  <path d="M120,210 Q130,200 140,210 Q150,200 160,210 Q170,200 180,210 Q190,200 200,210 Q210,200 220,210 Q230,200 240,210 Q250,200 260,210 Q270,200 280,210 Q290,200 300,210 Q310,200 318,210" fill="none" stroke="#FEFAE8" stroke-width="1.2" opacity="0.60"/>
+</g>
+
+<!-- Green band 2 — around y=258 -->
+<g opacity="0.92">
+  <path d="M120,248 Q130,236 140,248 Q150,236 160,248 Q170,236 180,248 Q190,236 200,248 Q210,236 220,248 Q230,236 240,248 Q250,236 260,248 Q270,236 280,248 Q290,236 300,248 Q310,236 318,248 L318,264 Q310,276 300,264 Q290,276 280,264 Q270,276 260,264 Q250,276 240,264 Q230,276 220,264 Q210,276 200,264 Q190,276 180,264 Q170,276 160,264 Q150,276 140,264 Q130,276 120,264 Z" fill="url(#greenBand)"/>
+  <path d="M120,248 Q130,238 140,248 Q150,238 160,248 Q170,238 180,248 Q190,238 200,248 Q210,238 220,248 Q230,238 240,248 Q250,238 260,248 Q270,238 280,248 Q290,238 300,248 Q310,238 318,248" fill="none" stroke="#C0D890" stroke-width="1.2" opacity="0.45"/>
+</g>
+
+<!-- Cream band 2 — around y=295 -->
+<g opacity="0.88">
+  <path d="M120,285 Q130,273 140,285 Q150,273 160,285 Q170,273 180,285 Q190,273 200,285 Q210,273 220,285 Q230,273 240,285 Q250,273 260,285 Q270,273 280,285 Q290,273 300,285 Q310,273 318,285 L318,301 Q310,313 300,301 Q290,313 280,301 Q270,313 260,301 Q250,313 240,301 Q230,313 220,301 Q210,313 200,301 Q190,313 180,301 Q170,313 160,301 Q150,313 140,301 Q130,313 120,301 Z" fill="url(#creamBand)"/>
+</g>
+
+<!-- Green band 3 (bottom) — around y=335 -->
+<g opacity="0.92">
+  <path d="M120,323 Q130,311 140,323 Q150,311 160,323 Q170,311 180,323 Q190,311 200,323 Q210,311 220,323 Q230,311 240,323 Q250,311 260,323 Q270,311 280,323 Q290,311 300,323 Q310,311 318,323 L318,339 Q310,351 300,339 Q290,351 280,339 Q270,351 260,339 Q250,351 240,339 Q230,351 220,339 Q210,351 200,339 Q190,351 180,339 Q170,351 160,339 Q150,351 140,339 Q130,351 120,339 Z" fill="url(#greenBand)"/>
+  <path d="M120,323 Q130,313 140,323 Q150,313 160,323 Q170,313 180,323 Q190,313 200,323 Q210,313 220,323 Q230,313 240,323 Q250,313 260,323 Q270,313 280,323 Q290,313 300,323 Q310,313 318,323" fill="none" stroke="#C0D890" stroke-width="1.2" opacity="0.45"/>
+</g>
+
+<!-- Bottom cream base strip -->
+<path d="M120,360 Q130,348 140,360 Q150,348 160,360 Q170,348 180,360 Q190,348 200,360 Q210,348 220,360 Q230,348 240,360 Q250,348 260,360 Q270,348 280,360 Q290,348 300,360 Q310,348 318,360 L318,376 Q310,388 300,376 Q290,388 280,376 Q270,388 260,376 Q250,388 240,376 Q230,388 220,376 Q210,388 200,376 Q190,388 180,376 Q170,388 160,376 Q150,388 140,376 Q130,388 120,376 Z" fill="url(#creamBand)" opacity="0.88"/>
+
+<!-- Bottom base of cake -->
+<rect x="118" y="390" width="200" height="22" rx="5" fill="#EDE8CC"/>
+<!-- base scallop -->
+<path d="M118,390 Q128,380 138,390 Q148,380 158,390 Q168,380 178,390 Q188,380 198,390 Q208,380 218,390 Q228,380 238,390 Q248,380 258,390 Q268,380 278,390 Q288,380 298,390 Q308,380 318,390" fill="none" stroke="#9AB87A" stroke-width="2" opacity="0.60"/>
+
+<!-- === CREAM/IVORY SATIN RIBBON BOWS around sides === -->
+<!-- Bow 1 — left side mid -->
+<g transform="translate(128,265)">
+  <ellipse cx="-11" cy="-3" rx="13" ry="7" fill="#F8F4E4" stroke="#DDD8BC" stroke-width="0.8" transform="rotate(-25 -11 -3)"/>
+  <ellipse cx="-11" cy="-3" rx="9" ry="4.5" fill="#FEFAEE" transform="rotate(-25 -11 -3)" opacity="0.7"/>
+  <ellipse cx="11" cy="-3" rx="13" ry="7" fill="#F8F4E4" stroke="#DDD8BC" stroke-width="0.8" transform="rotate(25 11 -3)"/>
+  <ellipse cx="11" cy="-3" rx="9" ry="4.5" fill="#FEFAEE" transform="rotate(25 11 -3)" opacity="0.7"/>
+  <ellipse cx="0" cy="0" rx="5" ry="4" fill="#EDE8CC"/>
+  <ellipse cx="0" cy="0" rx="3" ry="2.5" fill="#F8F4E4" opacity="0.6"/>
+  <path d="M-4,4 Q-10,18 -6,26" stroke="#EDE8CC" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M4,4 Q10,18 6,26" stroke="#EDE8CC" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M-5,3 Q-14,16 -12,26" stroke="#DDD8BC" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M5,3 Q14,16 12,26" stroke="#DDD8BC" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</g>
+
+<!-- Bow 2 — right side mid -->
+<g transform="translate(308,265)">
+  <ellipse cx="-11" cy="-3" rx="13" ry="7" fill="#F8F4E4" stroke="#DDD8BC" stroke-width="0.8" transform="rotate(-25 -11 -3)"/>
+  <ellipse cx="-11" cy="-3" rx="9" ry="4.5" fill="#FEFAEE" transform="rotate(-25 -11 -3)" opacity="0.7"/>
+  <ellipse cx="11" cy="-3" rx="13" ry="7" fill="#F8F4E4" stroke="#DDD8BC" stroke-width="0.8" transform="rotate(25 11 -3)"/>
+  <ellipse cx="11" cy="-3" rx="9" ry="4.5" fill="#FEFAEE" transform="rotate(25 11 -3)" opacity="0.7"/>
+  <ellipse cx="0" cy="0" rx="5" ry="4" fill="#EDE8CC"/>
+  <ellipse cx="0" cy="0" rx="3" ry="2.5" fill="#F8F4E4" opacity="0.6"/>
+  <path d="M-4,4 Q-10,18 -6,26" stroke="#EDE8CC" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M4,4 Q10,18 6,26" stroke="#EDE8CC" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M-5,3 Q-14,16 -12,26" stroke="#DDD8BC" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M5,3 Q14,16 12,26" stroke="#DDD8BC" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</g>
+
+<!-- Bow 3 — center front upper -->
+<g transform="translate(218,195)">
+  <ellipse cx="-13" cy="-3" rx="15" ry="8" fill="#F8F4E4" stroke="#DDD8BC" stroke-width="0.8" transform="rotate(-20 -13 -3)"/>
+  <ellipse cx="-13" cy="-3" rx="11" ry="5.5" fill="#FEFAEE" transform="rotate(-20 -13 -3)" opacity="0.7"/>
+  <ellipse cx="13" cy="-3" rx="15" ry="8" fill="#F8F4E4" stroke="#DDD8BC" stroke-width="0.8" transform="rotate(20 13 -3)"/>
+  <ellipse cx="13" cy="-3" rx="11" ry="5.5" fill="#FEFAEE" transform="rotate(20 13 -3)" opacity="0.7"/>
+  <ellipse cx="0" cy="0" rx="6" ry="4.5" fill="#EDE8CC"/>
+  <ellipse cx="0" cy="0" rx="3.5" ry="2.5" fill="#F8F4E4" opacity="0.6"/>
+  <path d="M-4,4 Q-12,22 -8,32" stroke="#EDE8CC" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M4,4 Q12,22 8,32" stroke="#EDE8CC" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M-6,3 Q-16,20 -14,30" stroke="#DDD8BC" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M6,3 Q16,20 14,30" stroke="#DDD8BC" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</g>
+
+<!-- Bow 4 — center front lower -->
+<g transform="translate(218,355)">
+  <ellipse cx="-11" cy="-3" rx="13" ry="7" fill="#F8F4E4" stroke="#DDD8BC" stroke-width="0.8" transform="rotate(-22 -11 -3)"/>
+  <ellipse cx="-11" cy="-3" rx="9" ry="4.5" fill="#FEFAEE" transform="rotate(-22 -11 -3)" opacity="0.7"/>
+  <ellipse cx="11" cy="-3" rx="13" ry="7" fill="#F8F4E4" stroke="#DDD8BC" stroke-width="0.8" transform="rotate(22 11 -3)"/>
+  <ellipse cx="11" cy="-3" rx="9" ry="4.5" fill="#FEFAEE" transform="rotate(22 11 -3)" opacity="0.7"/>
+  <ellipse cx="0" cy="0" rx="5" ry="4" fill="#EDE8CC"/>
+  <ellipse cx="0" cy="0" rx="3" ry="2.5" fill="#F8F4E4" opacity="0.6"/>
+  <path d="M-4,4 Q-10,16 -6,22" stroke="#EDE8CC" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M4,4 Q10,16 6,22" stroke="#EDE8CC" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</g>
+
+<!-- TOP SURFACE of cake — flat cream -->
+<ellipse cx="218" cy="156" rx="98" ry="11" fill="#FEFAEC"/>
+<ellipse cx="218" cy="155" rx="94" ry="9" fill="#FDFAEE" stroke="#EDE8CC" stroke-width="1"/>
+
+<!-- Gypsophila baby's breath wreath around top edge -->
+<!-- Green stems forming a circle -->
+<circle cx="218" cy="155" r="88" fill="none" stroke="#9AB87A" stroke-width="0.8" opacity="0.40" stroke-dasharray="3,4"/>
+<!-- Baby's breath clusters — tiny white dots around top perimeter -->
+<g fill="#FEFEFE" stroke="#E0DCCA" stroke-width="0.4">
+  <!-- Top arc dots -->
+  <circle cx="218" cy="68" r="3.5"/>
+  <circle cx="204" cy="69" r="2.5"/>
+  <circle cx="232" cy="69" r="2.5"/>
+  <circle cx="190" cy="72" r="3"/>
+  <circle cx="246" cy="72" r="3"/>
+  <circle cx="177" cy="78" r="2.5"/>
+  <circle cx="259" cy="78" r="2.5"/>
+  <circle cx="166" cy="86" r="3"/>
+  <circle cx="270" cy="86" r="3"/>
+  <circle cx="157" cy="97" r="2.5"/>
+  <circle cx="279" cy="97" r="2.5"/>
+  <circle cx="151" cy="109" r="3"/>
+  <circle cx="285" cy="109" r="3"/>
+  <circle cx="148" cy="122" r="2.5"/>
+  <circle cx="288" cy="122" r="2.5"/>
+  <circle cx="148" cy="136" r="3"/>
+  <circle cx="288" cy="136" r="3"/>
+  <!-- Smaller accent dots scattered -->
+  <circle cx="210" cy="67" r="1.8"/>
+  <circle cx="226" cy="67" r="1.8"/>
+  <circle cx="196" cy="70" r="1.8"/>
+  <circle cx="240" cy="70" r="1.8"/>
+  <circle cx="183" cy="74" r="1.8"/>
+  <circle cx="253" cy="74" r="1.8"/>
+  <circle cx="172" cy="81" r="2"/>
+  <circle cx="264" cy="81" r="2"/>
+  <circle cx="163" cy="91" r="1.8"/>
+  <circle cx="273" cy="91" r="1.8"/>
+  <circle cx="155" cy="103" r="2"/>
+  <circle cx="281" cy="103" r="2"/>
+  <circle cx="151" cy="115" r="1.8"/>
+  <circle cx="285" cy="115" r="1.8"/>
+  <circle cx="149" cy="129" r="1.8"/>
+  <circle cx="287" cy="129" r="1.8"/>
+</g>
+<!-- Green stem accent lines in gypsophila -->
+<line x1="218" y1="68" x2="210" y2="74" stroke="#9AB87A" stroke-width="0.7" opacity="0.6"/>
+<line x1="204" y1="69" x2="196" y2="74" stroke="#9AB87A" stroke-width="0.7" opacity="0.6"/>
+<line x1="232" y1="69" x2="240" y2="74" stroke="#9AB87A" stroke-width="0.7" opacity="0.6"/>
+<line x1="190" y1="72" x2="183" y2="78" stroke="#9AB87A" stroke-width="0.7" opacity="0.6"/>
+<line x1="246" y1="72" x2="253" y2="78" stroke="#9AB87A" stroke-width="0.7" opacity="0.6"/>
+<line x1="177" y1="78" x2="172" y2="84" stroke="#9AB87A" stroke-width="0.7" opacity="0.6"/>
+<line x1="259" y1="78" x2="264" y2="84" stroke="#9AB87A" stroke-width="0.7" opacity="0.6"/>
+<line x1="151" y1="109" x2="155" y2="115" stroke="#9AB87A" stroke-width="0.7" opacity="0.6"/>
+<line x1="285" y1="109" x2="281" y2="115" stroke="#9AB87A" stroke-width="0.7" opacity="0.6"/>
+
+<!-- Decorative script text on top surface -->
+<text x="218" y="105" font-family="Georgia,serif" font-size="15" fill="#5A6840" text-anchor="middle" font-style="italic" letter-spacing="1">МИ</text>
+<text x="218" y="124" font-family="Georgia,serif" font-size="12" fill="#6A7850" text-anchor="middle" font-style="italic" letter-spacing="0.8">ЧОЛОВІК</text>
+<text x="218" y="140" font-family="Georgia,serif" font-size="12" fill="#6A7850" text-anchor="middle" font-style="italic" letter-spacing="0.8">І ЖІНКА</text>
+
+<!-- Bottom label -->
+<rect x="118" y="460" width="200" height="26" rx="13" fill="rgba(154,184,122,0.14)"/>
+<text x="218" y="477" font-family="Georgia,serif" font-size="11" fill="#6B8845" text-anchor="middle" letter-spacing="1.3" font-weight="bold">TORT ŚLUBNY</text>
+</svg>

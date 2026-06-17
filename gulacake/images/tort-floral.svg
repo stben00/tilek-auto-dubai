@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F0F4FF"/><stop offset="100%" stop-color="#E0E8F8"/></linearGradient>
+  <linearGradient id="cake" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#F5F0F8"/></linearGradient>
+  <linearGradient id="hand" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5CEB0"/><stop offset="100%" stop-color="#E8B898"/></linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#1a3a6e" flood-opacity="0.12"/></filter>
+</defs>
+<rect width="400" height="500" fill="url(#bg)"/>
+<circle cx="80" cy="100" r="120" fill="#D8E4FF" opacity="0.25"/>
+<circle cx="330" cy="400" r="100" fill="#C8D8F8" opacity="0.2"/>
+<!-- Hand holding cake -->
+<ellipse cx="200" cy="420" rx="55" ry="20" fill="url(#hand)"/>
+<rect x="162" y="380" width="76" height="52" rx="12" fill="url(#hand)"/>
+<!-- Fingers suggestion -->
+<rect x="162" y="382" width="14" height="38" rx="7" fill="#E8B898"/>
+<rect x="180" y="378" width="14" height="42" rx="7" fill="#EAC0A4"/>
+<rect x="198" y="377" width="14" height="44" rx="7" fill="#EAC0A4"/>
+<rect x="216" y="378" width="14" height="42" rx="7" fill="#E8B898"/>
+<rect x="232" y="383" width="12" height="35" rx="6" fill="#E0B090"/>
+<!-- Wrist bracelet -->
+<line x1="162" y1="406" x2="238" y2="406" stroke="#90C890" stroke-width="2" stroke-linecap="round"/>
+<!-- Cake body on hand -->
+<rect x="140" y="240" width="120" height="150" rx="10" fill="url(#cake)" stroke="#E0E8F8" stroke-width="1.5" filter="url(#sh)"/>
+<!-- Cake board -->
+<rect x="132" y="386" width="136" height="10" rx="4" fill="#E8E0F0" stroke="#D0C8E0" stroke-width="1"/>
+<!-- Top of cake -->
+<ellipse cx="200" cy="240" rx="62" ry="9" fill="white" stroke="#E0E8F8" stroke-width="1.2"/>
+<!-- Blue floral decorations on cake side -->
+<!-- Vine stems -->
+<path d="M148 360 Q155 340 150 310 Q157 295 155 270" stroke="#1a3580" stroke-width="1.5" fill="none"/>
+<path d="M252 355 Q245 335 250 305 Q243 290 245 268" stroke="#1a3580" stroke-width="1.5" fill="none"/>
+<path d="M175 380 Q185 365 178 340 Q183 320 180 295" stroke="#1a3580" stroke-width="1.5" fill="none"/>
+<path d="M225 378 Q215 362 222 338 Q217 318 220 293" stroke="#1a3580" stroke-width="1.5" fill="none"/>
+<!-- Leaves on vines -->
+<ellipse cx="153" cy="325" rx="7" ry="5" fill="#1a3580" transform="rotate(-30 153 325)"/>
+<ellipse cx="248" cy="320" rx="7" ry="5" fill="#1a3580" transform="rotate(30 248 320)"/>
+<ellipse cx="177" cy="345" rx="6" ry="4" fill="#1a3580" transform="rotate(-20 177 345)"/>
+<ellipse cx="223" cy="343" rx="6" ry="4" fill="#1a3580" transform="rotate(20 223 343)"/>
+<ellipse cx="152" cy="290" rx="6" ry="4" fill="#1a3580" transform="rotate(-40 152 290)"/>
+<ellipse cx="248" cy="285" rx="6" ry="4" fill="#1a3580" transform="rotate(40 248 285)"/>
+<!-- Flowers on cake sides -->
+<!-- Left flower -->
+<circle cx="155" cy="305" r="5" fill="white" stroke="#1a3580" stroke-width="1"/>
+<circle cx="155" cy="296" r="4" fill="white" stroke="#1a3580" stroke-width="1"/>
+<circle cx="155" cy="314" r="4" fill="white" stroke="#1a3580" stroke-width="1"/>
+<circle cx="147" cy="305" r="4" fill="white" stroke="#1a3580" stroke-width="1"/>
+<circle cx="163" cy="305" r="4" fill="white" stroke="#1a3580" stroke-width="1"/>
+<circle cx="155" cy="305" r="3" fill="#5068C0"/>
+<!-- Right flower -->
+<circle cx="245" cy="300" r="5" fill="white" stroke="#1a3580" stroke-width="1"/>
+<circle cx="245" cy="291" r="4" fill="white" stroke="#1a3580" stroke-width="1"/>
+<circle cx="245" cy="309" r="4" fill="white" stroke="#1a3580" stroke-width="1"/>
+<circle cx="237" cy="300" r="4" fill="white" stroke="#1a3580" stroke-width="1"/>
+<circle cx="253" cy="300" r="4" fill="white" stroke="#1a3580" stroke-width="1"/>
+<circle cx="245" cy="300" r="3" fill="#5068C0"/>
+<!-- Top flowers (3 flowers on top) -->
+<g transform="translate(175 220)">
+  <circle cx="0" cy="0" r="7" fill="white" stroke="#1a3580" stroke-width="1.2"/>
+  <circle cx="0" cy="-9" r="6" fill="white" stroke="#1a3580" stroke-width="1"/>
+  <circle cx="0" cy="9" r="6" fill="white" stroke="#1a3580" stroke-width="1"/>
+  <circle cx="-9" cy="0" r="6" fill="white" stroke="#1a3580" stroke-width="1"/>
+  <circle cx="9" cy="0" r="6" fill="white" stroke="#1a3580" stroke-width="1"/>
+  <circle cx="0" cy="0" r="4" fill="#5068C0"/>
+</g>
+<g transform="translate(200 215)">
+  <circle cx="0" cy="0" r="8" fill="white" stroke="#1a3580" stroke-width="1.2"/>
+  <circle cx="0" cy="-10" r="7" fill="white" stroke="#1a3580" stroke-width="1"/>
+  <circle cx="0" cy="10" r="7" fill="white" stroke="#1a3580" stroke-width="1"/>
+  <circle cx="-10" cy="0" r="7" fill="white" stroke="#1a3580" stroke-width="1"/>
+  <circle cx="10" cy="0" r="7" fill="white" stroke="#1a3580" stroke-width="1"/>
+  <circle cx="0" cy="0" r="5" fill="#5068C0"/>
+</g>
+<g transform="translate(225 222)">
+  <circle cx="0" cy="0" r="7" fill="white" stroke="#1a3580" stroke-width="1.2"/>
+  <circle cx="0" cy="-9" r="6" fill="white" stroke="#1a3580" stroke-width="1"/>
+  <circle cx="0" cy="9" r="6" fill="white" stroke="#1a3580" stroke-width="1"/>
+  <circle cx="-9" cy="0" r="6" fill="white" stroke="#1a3580" stroke-width="1"/>
+  <circle cx="9" cy="0" r="6" fill="white" stroke="#1a3580" stroke-width="1"/>
+  <circle cx="0" cy="0" r="4" fill="#5068C0"/>
+</g>
+<!-- "JAK ZAMÓWIĆ TORT?" style text faint in background -->
+<text x="200" y="80" font-family="Arial Black,sans-serif" font-size="22" fill="#1a3580" opacity="0.1" text-anchor="middle" font-weight="900">JAK ZAMÓWIĆ TORT?</text>
+<!-- Label -->
+<rect x="130" y="462" width="140" height="24" rx="12" fill="rgba(26,53,128,0.1)"/>
+<text x="200" y="478" font-family="Georgia,serif" font-size="11" fill="#1a3580" text-anchor="middle" letter-spacing="1.5">TORT Z KWIATAMI</text>
+</svg>

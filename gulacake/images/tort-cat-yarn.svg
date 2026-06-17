@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FBF6F9"/><stop offset="100%" stop-color="#F4ECF2"/></linearGradient>
+  <radialGradient id="yarn" cx="0.4" cy="0.35" r="0.75"><stop offset="0%" stop-color="#F9B8CE"/><stop offset="100%" stop-color="#EC93B4"/></radialGradient>
+  <linearGradient id="catBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a3a3e"/><stop offset="100%" stop-color="#1c1c20"/></linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#c060a0" flood-opacity="0.18"/></filter>
+</defs>
+<rect width="400" height="500" fill="url(#bg)"/>
+<circle cx="60" cy="90" r="110" fill="#F8D8E8" opacity="0.3"/>
+<circle cx="350" cy="400" r="95" fill="#EAD8F0" opacity="0.3"/>
+<!-- Confetti scattered on table -->
+<g opacity="0.85">
+  <circle cx="90" cy="430" r="6" fill="#E060A0"/><rect x="120" y="450" width="9" height="9" rx="2" fill="#C040C0" transform="rotate(20 124 454)"/>
+  <circle cx="300" cy="425" r="5" fill="#F080B0"/><rect x="320" y="448" width="8" height="8" rx="2" fill="#B030B0" transform="rotate(-15 324 452)"/>
+  <text x="70" y="400" font-size="12" fill="#D040A0" opacity="0.7">★</text>
+  <text x="330" y="390" font-size="11" fill="#C040C0" opacity="0.7">★</text>
+  <circle cx="110" cy="410" r="3" fill="#F0A0D0"/><circle cx="290" cy="455" r="4" fill="#E070B0"/>
+  <rect x="270" y="430" width="7" height="7" rx="2" fill="#D850A8" transform="rotate(30 273 433)"/>
+</g>
+<!-- Plate -->
+<ellipse cx="200" cy="420" rx="115" ry="14" fill="#FFFFFF" filter="url(#sh)"/>
+<ellipse cx="200" cy="417" rx="110" ry="12" fill="#FBF4F8"/>
+<!-- Cake body — ball of yarn (rounded dome) -->
+<path d="M104 330 Q104 232 200 232 Q296 232 296 330 Q296 416 200 416 Q104 416 104 330Z" fill="url(#yarn)" filter="url(#sh)"/>
+<!-- Yarn strands (curved lines wrapping) -->
+<g stroke="#D87BA8" stroke-width="2.5" fill="none" opacity="0.8" stroke-linecap="round">
+  <path d="M118 300 Q160 280 210 290 Q260 300 286 285"/>
+  <path d="M112 322 Q150 340 200 332 Q255 322 290 338"/>
+  <path d="M120 345 Q165 330 215 342 Q262 352 284 340"/>
+  <path d="M118 368 Q155 385 205 376 Q258 368 286 382"/>
+  <path d="M128 390 Q170 378 218 388 Q258 396 278 388"/>
+  <path d="M140 408 Q180 416 225 410 Q255 406 270 410"/>
+</g>
+<g stroke="#F6A8C8" stroke-width="1.6" fill="none" opacity="0.7" stroke-linecap="round">
+  <path d="M122 290 Q165 272 215 282 Q262 292 288 278"/>
+  <path d="M114 334 Q158 350 208 343 Q258 334 288 350"/>
+  <path d="M122 378 Q165 392 212 384 Q260 376 282 390"/>
+</g>
+<!-- Dangling yarn end -->
+<path d="M270 408 Q285 425 278 440 Q272 450 282 458" stroke="#D87BA8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<circle cx="282" cy="460" r="4" fill="#EC93B4"/>
+<!-- Black cat peeking on top -->
+<!-- Body -->
+<ellipse cx="200" cy="245" rx="42" ry="30" fill="url(#catBody)"/>
+<!-- Head -->
+<circle cx="200" cy="210" r="30" fill="url(#catBody)"/>
+<!-- Ears -->
+<path d="M178 192 L170 162 L196 182Z" fill="url(#catBody)"/>
+<path d="M222 192 L230 162 L204 182Z" fill="url(#catBody)"/>
+<path d="M180 188 L176 172 L190 183Z" fill="#E89BB8"/>
+<path d="M220 188 L224 172 L210 183Z" fill="#E89BB8"/>
+<!-- Tail curling up -->
+<path d="M240 250 Q272 240 274 208 Q275 188 260 184 Q250 182 252 192 Q254 200 262 200 Q268 200 266 210 Q262 232 238 240Z" fill="url(#catBody)"/>
+<!-- Eyes -->
+<ellipse cx="189" cy="208" rx="6" ry="7" fill="#FFFFFF"/>
+<ellipse cx="211" cy="208" rx="6" ry="7" fill="#FFFFFF"/>
+<circle cx="190" cy="209" r="3.5" fill="#2a2a2a"/><circle cx="210" cy="209" r="3.5" fill="#2a2a2a"/>
+<circle cx="191" cy="207" r="1.2" fill="#fff"/><circle cx="211" cy="207" r="1.2" fill="#fff"/>
+<!-- Nose + muzzle -->
+<ellipse cx="200" cy="220" rx="9" ry="6" fill="#3a3a3e"/>
+<path d="M196 218 L204 218 L200 223Z" fill="#E89BB8"/>
+<path d="M200 223 Q196 228 192 226" stroke="#888" stroke-width="1" fill="none"/>
+<path d="M200 223 Q204 228 208 226" stroke="#888" stroke-width="1" fill="none"/>
+<!-- Whiskers -->
+<g stroke="#cfcfcf" stroke-width="0.9" opacity="0.8">
+  <line x1="180" y1="218" x2="156" y2="214"/><line x1="180" y1="222" x2="156" y2="224"/>
+  <line x1="220" y1="218" x2="244" y2="214"/><line x1="220" y1="222" x2="244" y2="224"/>
+</g>
+<!-- Paws resting on yarn -->
+<ellipse cx="170" cy="270" rx="13" ry="9" fill="url(#catBody)"/>
+<ellipse cx="230" cy="270" rx="13" ry="9" fill="url(#catBody)"/>
+<!-- Name plate on cake -->
+<ellipse cx="248" cy="392" rx="22" ry="13" fill="#FBF0D8"/>
+<text x="248" y="390" font-family="Georgia,serif" font-size="7" fill="#C9A84C" text-anchor="middle">Magda</text>
+<text x="248" y="398" font-family="Georgia,serif" font-size="7" fill="#C9A84C" text-anchor="middle">8 lat</text>
+<!-- Label -->
+<rect x="120" y="466" width="160" height="24" rx="12" fill="rgba(200,80,160,0.12)"/>
+<text x="200" y="482" font-family="Georgia,serif" font-size="11" fill="#C040A0" text-anchor="middle" letter-spacing="1.2">TORT DLA DZIECI</text>
+</svg>

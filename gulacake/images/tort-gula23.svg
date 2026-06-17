@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F8F8F8"/><stop offset="100%" stop-color="#EFEFEF"/></linearGradient>
+  <linearGradient id="cakeBlack" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#222222"/><stop offset="100%" stop-color="#0e0e0e"/></linearGradient>
+  <linearGradient id="plate" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5F5F5"/><stop offset="100%" stop-color="#E0E0E0"/></linearGradient>
+  <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E8E8E8"/><stop offset="50%" stop-color="#C0C0C0"/><stop offset="100%" stop-color="#A0A0A0"/></linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#000000" flood-opacity="0.22"/></filter>
+  <filter id="silverGlow"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#C0C0C0" flood-opacity="0.6"/></filter>
+</defs>
+<rect width="400" height="500" fill="url(#bg)"/>
+<!-- Subtle BG -->
+<circle cx="80" cy="80" r="100" fill="#E8E8E8" opacity="0.35"/>
+<circle cx="340" cy="430" r="90" fill="#E0E0E0" opacity="0.3"/>
+<!-- Candle holders in background -->
+<rect x="50" y="180" width="12" height="90" rx="3" fill="#D4C090"/>
+<ellipse cx="56" cy="178" rx="8" ry="4" fill="#D4C090"/>
+<ellipse cx="56" cy="175" rx="5" ry="8" fill="#F0E898"/>
+<path d="M56 168 Q58 162 56 158 Q54 162 56 168Z" fill="#FF9840"/>
+<rect x="336" y="175" width="12" height="90" rx="3" fill="#D4C090"/>
+<ellipse cx="342" cy="173" rx="8" ry="4" fill="#D4C090"/>
+<ellipse cx="342" cy="170" rx="5" ry="8" fill="#F0E898"/>
+<path d="M342 163 Q344 157 342 153 Q340 157 342 163Z" fill="#FF9840"/>
+<!-- Plate (round, white marble look) -->
+<ellipse cx="200" cy="415" rx="130" ry="15" fill="#E8E8E8" filter="url(#sh)"/>
+<ellipse cx="200" cy="412" rx="127" ry="13" fill="url(#plate)"/>
+<!-- Cake body — round black cake -->
+<rect x="112" y="252" width="176" height="162" rx="12" fill="url(#cakeBlack)" filter="url(#sh)"/>
+<ellipse cx="200" cy="252" rx="88" ry="11" fill="#2a2a2a"/>
+<!-- "HAPPY BIRTHDAY" hand-written style on cake top -->
+<text x="200" y="272" font-family="Georgia,serif" font-size="10" fill="#F5F5F5" text-anchor="middle" letter-spacing="1.5" opacity="0.9">HAPPY BIRTHDAY.</text>
+<!-- Balloon numbers "2" and "3" in silver -->
+<!-- Number 2 body -->
+<g filter="url(#silverGlow)">
+  <!-- Balloon "2" -->
+  <path d="M152 368 Q148 340 162 325 Q172 315 182 320 Q196 326 192 342 Q188 354 168 368 L192 368 L192 376 L148 376 Z" fill="url(#silver)" stroke="#A0A0A0" stroke-width="1"/>
+  <!-- String 2 -->
+  <path d="M165 376 Q160 390 155 405 Q160 395 163 408" stroke="#A0A0A0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M155 408 Q157 412 153 415 Q158 412 162 415" stroke="#A0A0A0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Balloon "3" -->
+  <path d="M210 355 Q208 340 220 330 Q230 322 240 328 Q250 334 246 344 Q242 352 232 354 Q244 356 246 368 Q248 378 238 384 Q228 390 216 384 Q206 378 208 370 L212 372 Q216 378 226 380 Q236 378 234 370 Q232 362 220 360 Q218 357 214 356 Z" fill="url(#silver)" stroke="#A0A0A0" stroke-width="1"/>
+  <!-- String 3 -->
+  <path d="M228 390 Q232 400 238 410 Q233 402 235 415" stroke="#A0A0A0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M235 415 Q237 419 233 422 Q238 419 242 422" stroke="#A0A0A0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</g>
+<!-- Gula Cake plate branding -->
+<text x="200" y="427" font-family="Georgia,serif" font-size="11" fill="#888" text-anchor="middle" letter-spacing="1" opacity="0.8">Gula Cake</text>
+<!-- Small logo circle on plate -->
+<circle cx="172" cy="422" r="7" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.6"/>
+<circle cx="172" cy="422" r="4" fill="#C9A84C" opacity="0.3"/>
+<!-- Label -->
+<rect x="136" y="462" width="128" height="24" rx="12" fill="rgba(0,0,0,0.07)"/>
+<text x="200" y="478" font-family="Georgia,serif" font-size="11" fill="#555" text-anchor="middle" letter-spacing="1.5">BENTO CAKE</text>
+</svg>

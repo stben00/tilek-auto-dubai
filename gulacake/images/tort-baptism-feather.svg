@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#FDFAF5"/>
+      <stop offset="100%" stop-color="#F0EAE0"/>
+    </radialGradient>
+    <radialGradient id="cakeGrad" cx="40%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F5F0EA"/>
+    </radialGradient>
+    <linearGradient id="standGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F8F4EE"/>
+      <stop offset="100%" stop-color="#E8E0D4"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="2" dy="4"/>
+      <feComposite in2="SourceGraphic"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bgGrad)"/>
+
+  <!-- Soft vignette -->
+  <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+    <stop offset="60%" stop-color="transparent"/>
+    <stop offset="100%" stop-color="rgba(200,185,165,0.3)"/>
+  </radialGradient>
+  <rect width="400" height="500" fill="url(#vignette)"/>
+
+  <!-- ═══ CAKE STAND ═══ -->
+  <!-- Stand base plate -->
+  <ellipse cx="200" cy="450" rx="95" ry="12" fill="url(#standGrad)" stroke="#D8D0C4" stroke-width="1"/>
+  <!-- Stand column -->
+  <rect x="185" y="420" width="30" height="32" fill="url(#standGrad)" stroke="#D8D0C4" stroke-width="0.5"/>
+  <!-- Stand top plate -->
+  <ellipse cx="200" cy="422" rx="100" ry="11" fill="url(#standGrad)" stroke="#D8D0C4" stroke-width="1"/>
+  <!-- Distressed texture lines on stand -->
+  <line x1="120" y1="445" x2="125" y2="455" stroke="#C8C0B4" stroke-width="0.5" opacity="0.5"/>
+  <line x1="155" y1="443" x2="158" y2="453" stroke="#C8C0B4" stroke-width="0.5" opacity="0.5"/>
+  <line x1="240" y1="443" x2="243" y2="453" stroke="#C8C0B4" stroke-width="0.5" opacity="0.5"/>
+  <line x1="272" y1="445" x2="275" y2="455" stroke="#C8C0B4" stroke-width="0.5" opacity="0.5"/>
+  <!-- Stand label -->
+  <text x="200" y="453" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#B8A898" letter-spacing="1.5">GULA CAKE</text>
+
+  <!-- ═══ CAKE BODY ═══ -->
+  <!-- Cake shadow -->
+  <ellipse cx="203" cy="425" rx="88" ry="8" fill="rgba(180,165,145,0.3)"/>
+  <!-- Main cake cylinder -->
+  <rect x="112" y="155" width="176" height="268" rx="6" fill="url(#cakeGrad)" stroke="#EDE8E0" stroke-width="1"/>
+  <!-- Cake top ellipse -->
+  <ellipse cx="200" cy="155" rx="88" ry="10" fill="#FFFFFF" stroke="#EDE8E0" stroke-width="1"/>
+  <!-- Cake highlight -->
+  <rect x="115" y="158" width="40" height="260" rx="4" fill="rgba(255,255,255,0.6)" opacity="0.5"/>
+  <!-- Cake right shadow -->
+  <rect x="262" y="158" width="24" height="260" rx="4" fill="rgba(210,200,185,0.3)"/>
+
+  <!-- ═══ LEFT FEATHERS ═══ -->
+  <!-- Large left feather 1 -->
+  <g opacity="0.9">
+    <path d="M112,260 C90,220 55,195 40,160" stroke="#F8F4EE" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M112,260 C88,225 62,205 48,175 C60,205 85,220 112,260" fill="#F5F0E8" opacity="0.7"/>
+    <!-- Barbs -->
+    <path d="M100,238 C85,225 70,218 58,210" stroke="#EDE8DF" stroke-width="1" fill="none" opacity="0.8"/>
+    <path d="M96,228 C80,215 65,208 52,200" stroke="#EDE8DF" stroke-width="1" fill="none" opacity="0.6"/>
+    <path d="M90,215 C75,202 60,195 47,187" stroke="#EDE8DF" stroke-width="1" fill="none" opacity="0.5"/>
+    <path d="M82,200 C68,188 54,180 42,172" stroke="#EDE8DF" stroke-width="1" fill="none" opacity="0.4"/>
+    <path d="M73,185 C60,173 47,165 37,158" stroke="#EDE8DF" stroke-width="1" fill="none" opacity="0.3"/>
+  </g>
+  <!-- Left feather 2 -->
+  <g opacity="0.7">
+    <path d="M112,290 C85,255 55,240 35,215" stroke="#F0EBE3" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M112,290 C88,260 60,245 38,222 C55,245 82,258 112,290" fill="#EDE8E0" opacity="0.5"/>
+    <path d="M98,272 C78,258 60,250 44,242" stroke="#E5E0D8" stroke-width="0.8" fill="none" opacity="0.6"/>
+    <path d="M88,258 C68,244 50,236 35,228" stroke="#E5E0D8" stroke-width="0.8" fill="none" opacity="0.4"/>
+  </g>
+  <!-- Left feather 3 (smaller) -->
+  <g opacity="0.6">
+    <path d="M112,320 C92,300 72,295 55,285" stroke="#EDE8E0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M98,308 C80,298 65,294 52,286" stroke="#E5E0D8" stroke-width="0.7" fill="none" opacity="0.5"/>
+  </g>
+
+  <!-- ═══ RIGHT FEATHERS ═══ -->
+  <!-- Large right feather 1 -->
+  <g opacity="0.9">
+    <path d="M288,260 C310,220 345,195 360,160" stroke="#F8F4EE" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M288,260 C312,225 338,205 352,175 C340,205 315,220 288,260" fill="#F5F0E8" opacity="0.7"/>
+    <!-- Barbs -->
+    <path d="M300,238 C315,225 330,218 342,210" stroke="#EDE8DF" stroke-width="1" fill="none" opacity="0.8"/>
+    <path d="M304,228 C320,215 335,208 348,200" stroke="#EDE8DF" stroke-width="1" fill="none" opacity="0.6"/>
+    <path d="M310,215 C325,202 340,195 353,187" stroke="#EDE8DF" stroke-width="1" fill="none" opacity="0.5"/>
+    <path d="M318,200 C332,188 346,180 358,172" stroke="#EDE8DF" stroke-width="1" fill="none" opacity="0.4"/>
+    <path d="M327,185 C340,173 353,165 363,158" stroke="#EDE8DF" stroke-width="1" fill="none" opacity="0.3"/>
+  </g>
+  <!-- Right feather 2 -->
+  <g opacity="0.7">
+    <path d="M288,290 C315,255 345,240 365,215" stroke="#F0EBE3" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M288,290 C312,260 340,245 362,222 C345,245 318,258 288,290" fill="#EDE8E0" opacity="0.5"/>
+    <path d="M302,272 C322,258 340,250 356,242" stroke="#E5E0D8" stroke-width="0.8" fill="none" opacity="0.6"/>
+    <path d="M312,258 C332,244 350,236 365,228" stroke="#E5E0D8" stroke-width="0.8" fill="none" opacity="0.4"/>
+  </g>
+  <!-- Right feather 3 (smaller) -->
+  <g opacity="0.6">
+    <path d="M288,320 C308,300 328,295 345,285" stroke="#EDE8E0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M302,308 C320,298 335,294 348,286" stroke="#E5E0D8" stroke-width="0.7" fill="none" opacity="0.5"/>
+  </g>
+
+  <!-- ═══ GOLD SCRIPT ON CAKE ═══ -->
+  <text x="200" y="295" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="18" font-style="italic" fill="#C9A84C" filter="url(#glow)" letter-spacing="0.5">Хрещення</text>
+  <text x="200" y="322" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="20" font-style="italic" fill="#C9A84C" filter="url(#glow)" letter-spacing="1">Адама</text>
+
+  <!-- Decorative divider lines -->
+  <line x1="140" y1="305" x2="175" y2="305" stroke="#C9A84C" stroke-width="0.7" opacity="0.6"/>
+  <line x1="225" y1="305" x2="260" y2="305" stroke="#C9A84C" stroke-width="0.7" opacity="0.6"/>
+  <circle cx="200" cy="305" r="2" fill="#C9A84C" opacity="0.6"/>
+
+  <!-- ═══ GOLD TOPPER BANNERS ═══ -->
+  <!-- Date banner -->
+  <g transform="translate(200, 105)">
+    <!-- Banner shape -->
+    <path d="M-65,-12 L-55,-18 L55,-18 L65,-12 L55,-6 L-55,-6 Z" fill="#F5F0E0" stroke="#C9A84C" stroke-width="1"/>
+    <path d="M-55,-18 L-65,-12 L-55,-6" fill="#E8E0C0" stroke="#C9A84C" stroke-width="0.8"/>
+    <path d="M55,-18 L65,-12 L55,-6" fill="#E8E0C0" stroke="#C9A84C" stroke-width="0.8"/>
+    <text x="0" y="-9" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#C9A84C" letter-spacing="0.5">14.03.2026</text>
+  </g>
+
+  <!-- Stats banners row -->
+  <g transform="translate(200, 130)">
+    <!-- 1 год -->
+    <rect x="-60" y="-10" width="38" height="16" rx="3" fill="#F5F0E0" stroke="#C9A84C" stroke-width="0.8"/>
+    <text x="-41" y="1" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#C9A84C">1 год</text>
+    <!-- 3870g -->
+    <rect x="-16" y="-10" width="32" height="16" rx="3" fill="#F5F0E0" stroke="#C9A84C" stroke-width="0.8"/>
+    <text x="0" y="1" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#C9A84C">3870g</text>
+    <!-- 57cm -->
+    <rect x="22" y="-10" width="34" height="16" rx="3" fill="#F5F0E0" stroke="#C9A84C" stroke-width="0.8"/>
+    <text x="39" y="1" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#C9A84C">57см</text>
+  </g>
+
+  <!-- ═══ CAKE TOP DECORATION ═══ -->
+  <!-- Cloud shapes on top -->
+  <g transform="translate(200, 155)">
+    <!-- Cloud 1 (left) -->
+    <ellipse cx="-35" cy="-18" rx="22" ry="12" fill="white" opacity="0.95"/>
+    <ellipse cx="-22" cy="-25" rx="15" ry="10" fill="white" opacity="0.95"/>
+    <ellipse cx="-48" cy="-22" rx="12" ry="9" fill="white" opacity="0.9"/>
+    <!-- Cloud 2 (right) -->
+    <ellipse cx="35" cy="-18" rx="22" ry="12" fill="white" opacity="0.95"/>
+    <ellipse cx="48" cy="-25" rx="15" ry="10" fill="white" opacity="0.95"/>
+    <ellipse cx="22" cy="-25" rx="12" ry="9" fill="white" opacity="0.9"/>
+    <!-- Center cloud puff -->
+    <ellipse cx="0" cy="-20" rx="18" ry="11" fill="white" opacity="0.95"/>
+    <ellipse cx="0" cy="-29" rx="13" ry="9" fill="white" opacity="0.95"/>
+  </g>
+
+  <!-- Gold star pins -->
+  <g fill="#C9A84C" filter="url(#glow)">
+    <!-- Star 1 -->
+    <polygon points="165,120 167,114 169,120 175,120 170,124 172,130 167,126 162,130 164,124 159,120" transform="scale(0.6) translate(108,-40)"/>
+    <!-- Star pin stick -->
+    <line x1="165" y1="128" x2="165" y2="145" stroke="#C9A84C" stroke-width="1"/>
+    <!-- Star 2 -->
+    <polygon points="200,115 202,109 204,115 210,115 205,119 207,125 202,121 197,125 199,119 194,115" transform="scale(0.5) translate(198,-52)"/>
+    <line x1="200" y1="122" x2="200" y2="140" stroke="#C9A84C" stroke-width="1"/>
+    <!-- Star 3 -->
+    <polygon points="235,120 237,114 239,120 245,120 240,124 242,130 237,126 232,130 234,124 229,120" transform="scale(0.6) translate(-88,-40)"/>
+    <line x1="235" y1="128" x2="235" y2="145" stroke="#C9A84C" stroke-width="1"/>
+  </g>
+
+  <!-- Sleeping baby figurine -->
+  <g transform="translate(200, 148)">
+    <!-- Swaddle body -->
+    <ellipse cx="0" cy="0" rx="16" ry="10" fill="#F5D5C8" stroke="#E8C0B0" stroke-width="0.8"/>
+    <!-- Baby head -->
+    <circle cx="14" cy="-2" r="7" fill="#F5D5C8" stroke="#E8C0B0" stroke-width="0.8"/>
+    <!-- Sleeping eyes (closed lines) -->
+    <path d="M11,-3 Q13,-5 15,-3" stroke="#C09080" stroke-width="0.8" fill="none"/>
+    <path d="M15,-3 Q17,-5 19,-3" stroke="#C09080" stroke-width="0.8" fill="none"/>
+    <!-- Swaddle wrap lines -->
+    <path d="M-12,4 Q0,8 12,4" stroke="#E8C0B0" stroke-width="0.7" fill="none" opacity="0.6"/>
+    <path d="M-8,-2 Q0,2 8,-2" stroke="#E8C0B0" stroke-width="0.7" fill="none" opacity="0.4"/>
+  </g>
+
+  <!-- ═══ BOTTOM LABEL ═══ -->
+  <text x="200" y="490" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="10" fill="#C9A84C" letter-spacing="2" font-style="italic">TORT NA CHRZEST</text>
+  <line x1="130" y1="480" x2="270" y2="480" stroke="#C9A84C" stroke-width="0.5" opacity="0.5"/>
+</svg>

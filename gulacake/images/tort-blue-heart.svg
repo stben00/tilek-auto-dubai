@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F4F8FC;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#E8F0F8;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Heart cake gradient -->
+    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#C0D8EE;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#A8C0D8;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#8BACC8;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Inner white surface gradient -->
+    <radialGradient id="innerGrad" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1"/>
+      <stop offset="70%" style="stop-color:#F8FBFF;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#EDF3FA;stop-opacity:1"/>
+    </radialGradient>
+    <!-- Stand column gradient -->
+    <linearGradient id="standGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#E8E4DC;stop-opacity:1"/>
+      <stop offset="30%" style="stop-color:#F8F5EE;stop-opacity:1"/>
+      <stop offset="70%" style="stop-color:#FFFFFF;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#D8D4CC;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Pearl shadow filter -->
+    <filter id="pearlShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0.5" dy="1" stdDeviation="0.8" flood-color="#A0B8CC" flood-opacity="0.5"/>
+    </filter>
+    <!-- Cake drop shadow -->
+    <filter id="cakeShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="3" dy="5" stdDeviation="8" flood-color="#7090A8" flood-opacity="0.3"/>
+    </filter>
+    <!-- Stand shadow filter -->
+    <filter id="standShadow">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#B0A898" flood-opacity="0.3"/>
+    </filter>
+    <!-- Ribbon gradient -->
+    <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#A8C8E8;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#7BA8C8;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#5888B0;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="ribbonGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8AB0CC;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#6898B8;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bgGrad)"/>
+
+  <!-- Subtle background dots pattern -->
+  <g opacity="0.08">
+    <circle cx="30" cy="40" r="3" fill="#7BA8C8"/>
+    <circle cx="80" cy="20" r="2" fill="#7BA8C8"/>
+    <circle cx="130" cy="50" r="2.5" fill="#7BA8C8"/>
+    <circle cx="320" cy="30" r="2" fill="#7BA8C8"/>
+    <circle cx="370" cy="55" r="3" fill="#7BA8C8"/>
+    <circle cx="350" cy="10" r="2" fill="#7BA8C8"/>
+    <circle cx="20" cy="460" r="2.5" fill="#7BA8C8"/>
+    <circle cx="380" cy="470" r="2" fill="#7BA8C8"/>
+    <circle cx="60" cy="490" r="3" fill="#7BA8C8"/>
+    <circle cx="340" cy="485" r="2.5" fill="#7BA8C8"/>
+  </g>
+
+  <!-- ======================== CAKE STAND ======================== -->
+  <!-- Stand base ellipse (bottom) -->
+  <g filter="url(#standShadow)">
+    <ellipse cx="200" cy="458" rx="80" ry="14" fill="url(#standGrad)" stroke="#C8C0B4" stroke-width="1"/>
+    <!-- Base edge detail -->
+    <ellipse cx="200" cy="455" rx="80" ry="10" fill="none" stroke="#E8E0D4" stroke-width="1.5"/>
+    <ellipse cx="200" cy="453" rx="76" ry="8" fill="none" stroke="#D0C8BC" stroke-width="0.5"/>
+  </g>
+
+  <!-- Column -->
+  <rect x="188" y="390" width="24" height="65" rx="3" fill="url(#standGrad)" stroke="#D0C8B8" stroke-width="0.8"/>
+  <!-- Column decoration rings -->
+  <rect x="186" y="398" width="28" height="5" rx="2" fill="#EAE4D8" stroke="#C8C0B0" stroke-width="0.5"/>
+  <rect x="186" y="408" width="28" height="5" rx="2" fill="#EAE4D8" stroke="#C8C0B0" stroke-width="0.5"/>
+  <rect x="186" y="418" width="28" height="5" rx="2" fill="#EAE4D8" stroke="#C8C0B0" stroke-width="0.5"/>
+  <rect x="186" y="428" width="28" height="5" rx="2" fill="#EAE4D8" stroke="#C8C0B0" stroke-width="0.5"/>
+
+  <!-- Scalloped plate top -->
+  <g filter="url(#standShadow)">
+    <!-- Plate body -->
+    <ellipse cx="200" cy="393" rx="90" ry="13" fill="url(#standGrad)" stroke="#C8C0B4" stroke-width="1"/>
+    <!-- Scallop details around plate edge -->
+    <path d="M112,393 Q117,382 122,393 Q127,382 132,393 Q137,382 142,393 Q147,382 152,393 Q157,382 162,393 Q167,382 172,393 Q177,382 182,393 Q187,382 192,393 Q197,382 202,393 Q207,382 212,393 Q217,382 222,393 Q227,382 232,393 Q237,382 242,393 Q247,382 252,393 Q257,382 262,393 Q267,382 272,393 Q277,382 282,393 Q287,382 288,393" fill="white" stroke="#D8D0C4" stroke-width="0.8"/>
+    <!-- Plate inner rim -->
+    <ellipse cx="200" cy="391" rx="82" ry="9" fill="none" stroke="#E0D8CC" stroke-width="1"/>
+    <!-- Gula Cake text on stand -->
+    <text x="200" y="395" font-family="Georgia, serif" font-size="8" fill="#8A8070" text-anchor="middle" font-style="italic">Gula Cake</text>
+  </g>
+
+  <!-- ======================== HEART CAKE ======================== -->
+  <!-- Heart shape (outer blue) - centered at ~(200, 270) -->
+  <g filter="url(#cakeShadow)">
+    <!-- Outer heart - blue-gray fill -->
+    <path d="M200,340 C200,340 100,295 100,225 C100,185 130,160 165,160 C180,160 195,168 200,175 C205,168 220,160 235,160 C270,160 300,185 300,225 C300,295 200,340 200,340 Z"
+          fill="url(#heartGrad)" stroke="#7BA8C8" stroke-width="2"/>
+  </g>
+
+  <!-- Inner white cream surface -->
+  <path d="M200,322 C200,322 118,282 118,222 C118,190 143,170 168,170 C181,170 194,177 200,183 C206,177 219,170 232,170 C257,170 282,190 282,222 C282,282 200,322 200,322 Z"
+        fill="url(#innerGrad)" stroke="#E8F2FA" stroke-width="1"/>
+
+  <!-- ======================== BLUE CREAM ROSETTE BORDER ======================== -->
+  <!-- Outer wavy scallop border - blue -->
+  <g fill="none" stroke="#7BA8C8" stroke-width="4" stroke-linecap="round">
+    <!-- Left side scallops -->
+    <path d="M118,222 C114,216 108,210 112,204 C116,198 122,200 124,206 C126,200 132,196 136,202 C138,196 144,194 146,200 C148,194 152,192 154,198"/>
+    <!-- Left-lower scallops -->
+    <path d="M120,240 C114,236 110,230 114,224 C118,218 124,220 125,226"/>
+    <path d="M130,262 C124,256 120,250 124,244 C128,238 134,240 135,246"/>
+    <path d="M148,282 C142,276 138,270 142,264 C146,258 152,260 153,266"/>
+    <!-- Right side scallops -->
+    <path d="M282,222 C286,216 292,210 288,204 C284,198 278,200 276,206 C274,200 268,196 264,202 C262,196 256,194 254,200 C252,194 248,192 246,198"/>
+    <path d="M280,240 C286,236 290,230 286,224 C282,218 276,220 275,226"/>
+    <path d="M270,262 C276,256 280,250 276,244 C272,238 266,240 265,246"/>
+    <path d="M252,282 C258,276 262,270 258,264 C254,258 248,260 247,266"/>
+    <!-- Top-left curve scallops -->
+    <path d="M150,178 C148,172 152,166 158,168 C164,170 164,176 160,180 C166,176 172,174 174,180 C178,174 184,174 184,180"/>
+    <!-- Top-right curve scallops -->
+    <path d="M250,178 C252,172 248,166 242,168 C236,170 236,176 240,180 C234,176 228,174 226,180 C222,174 216,174 216,180"/>
+    <!-- Bottom point scallops -->
+    <path d="M185,314 C182,308 184,302 190,304 C194,306 194,312 192,316"/>
+    <path d="M215,314 C218,308 216,302 210,304 C206,306 206,312 208,316"/>
+  </g>
+
+  <!-- Blue rosette swirls as filled shapes -->
+  <g fill="#7BA8C8" opacity="0.85">
+    <!-- Left side rosettes -->
+    <circle cx="112" cy="206" r="5"/>
+    <circle cx="118" cy="220" r="5"/>
+    <circle cx="116" cy="236" r="5"/>
+    <circle cx="120" cy="252" r="5"/>
+    <circle cx="128" cy="267" r="5"/>
+    <circle cx="140" cy="282" r="5"/>
+    <circle cx="155" cy="295" r="5"/>
+    <circle cx="172" cy="307" r="5"/>
+    <!-- Right side rosettes -->
+    <circle cx="288" cy="206" r="5"/>
+    <circle cx="282" cy="220" r="5"/>
+    <circle cx="284" cy="236" r="5"/>
+    <circle cx="280" cy="252" r="5"/>
+    <circle cx="272" cy="267" r="5"/>
+    <circle cx="260" cy="282" r="5"/>
+    <circle cx="245" cy="295" r="5"/>
+    <circle cx="228" cy="307" r="5"/>
+    <!-- Top-left arc rosettes -->
+    <circle cx="148" cy="178" r="5"/>
+    <circle cx="160" cy="168" r="5"/>
+    <circle cx="173" cy="163" r="5"/>
+    <circle cx="187" cy="162" r="5"/>
+    <!-- Top-right arc rosettes -->
+    <circle cx="252" cy="178" r="5"/>
+    <circle cx="240" cy="168" r="5"/>
+    <circle cx="227" cy="163" r="5"/>
+    <circle cx="213" cy="162" r="5"/>
+    <!-- Bottom tip -->
+    <circle cx="200" cy="334" r="5"/>
+    <circle cx="192" cy="325" r="4.5"/>
+    <circle cx="208" cy="325" r="4.5"/>
+  </g>
+
+  <!-- ======================== WHITE CREAM INNER ROSETTES ======================== -->
+  <g fill="white" stroke="#D8EAF5" stroke-width="0.5" opacity="0.95">
+    <!-- Left side white rosettes (inner ring) -->
+    <circle cx="124" cy="210" r="4"/>
+    <circle cx="124" cy="226" r="4"/>
+    <circle cx="124" cy="243" r="4"/>
+    <circle cx="128" cy="259" r="4"/>
+    <circle cx="137" cy="274" r="4"/>
+    <circle cx="150" cy="288" r="4"/>
+    <circle cx="165" cy="300" r="4"/>
+    <circle cx="182" cy="310" r="4"/>
+    <!-- Right side white rosettes -->
+    <circle cx="276" cy="210" r="4"/>
+    <circle cx="276" cy="226" r="4"/>
+    <circle cx="276" cy="243" r="4"/>
+    <circle cx="272" cy="259" r="4"/>
+    <circle cx="263" cy="274" r="4"/>
+    <circle cx="250" cy="288" r="4"/>
+    <circle cx="235" cy="300" r="4"/>
+    <circle cx="218" cy="310" r="4"/>
+    <!-- Top arc white rosettes -->
+    <circle cx="155" cy="174" r="4"/>
+    <circle cx="167" cy="165" r="4"/>
+    <circle cx="180" cy="161" r="4"/>
+    <circle cx="193" cy="159" r="4"/>
+    <circle cx="207" cy="159" r="4"/>
+    <circle cx="220" cy="161" r="4"/>
+    <circle cx="233" cy="165" r="4"/>
+    <circle cx="245" cy="174" r="4"/>
+    <!-- Bottom tip white -->
+    <circle cx="199" cy="320" r="3.5"/>
+  </g>
+
+  <!-- White rosette swirl details -->
+  <g fill="none" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.7">
+    <path d="M120,210 C118,207 119,204 122,204 C125,204 126,207 124,210"/>
+    <path d="M120,226 C118,223 119,220 122,220 C125,220 126,223 124,226"/>
+    <path d="M272,210 C270,207 271,204 274,204 C277,204 278,207 276,210"/>
+  </g>
+
+  <!-- ======================== PEARL DOTS ======================== -->
+  <g filter="url(#pearlShadow)">
+    <!-- Pearl dots along border - left side -->
+    <circle cx="108" cy="214" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="106" cy="228" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="108" cy="244" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="112" cy="260" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="120" cy="274" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="132" cy="288" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="146" cy="300" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="162" cy="310" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="178" cy="318" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <!-- Pearl dots - right side -->
+    <circle cx="292" cy="214" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="294" cy="228" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="292" cy="244" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="288" cy="260" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="280" cy="274" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="268" cy="288" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="254" cy="300" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="238" cy="310" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="222" cy="318" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <!-- Pearl dots top-left arc -->
+    <circle cx="140" cy="186" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="150" cy="174" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="162" cy="164" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="176" cy="158" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="190" cy="156" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <!-- Pearl dots top-right arc -->
+    <circle cx="260" cy="186" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="250" cy="174" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="238" cy="164" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="224" cy="158" r="3.5" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <circle cx="210" cy="156" r="3" fill="#F0EEE8" stroke="#E0DED8" stroke-width="0.5"/>
+    <!-- Pearl highlight -->
+    <circle cx="107.5" cy="213" r="1" fill="white" opacity="0.8"/>
+    <circle cx="291.5" cy="213" r="1" fill="white" opacity="0.8"/>
+    <circle cx="149.5" cy="173" r="1" fill="white" opacity="0.8"/>
+    <circle cx="250.5" cy="173" r="1" fill="white" opacity="0.8"/>
+  </g>
+
+  <!-- ======================== BIRTHDAY TEXT ======================== -->
+  <text x="200" y="222" font-family="Georgia, 'Times New Roman', serif" font-size="13"
+        fill="#7BA8C8" text-anchor="middle" font-style="italic" font-weight="bold">Happy Birthday</text>
+  <text x="200" y="248" font-family="Georgia, 'Times New Roman', serif" font-size="14"
+        fill="#5888B0" text-anchor="middle" font-style="italic" font-weight="bold">Evgeniya!</text>
+  <!-- Small decorative line under text -->
+  <path d="M158,256 Q200,262 242,256" fill="none" stroke="#A8C8E0" stroke-width="1.5"/>
+  <!-- Small hearts decoration -->
+  <text x="170" y="272" font-family="Arial" font-size="10" fill="#A8C8E0" text-anchor="middle">♥</text>
+  <text x="200" y="275" font-family="Arial" font-size="12" fill="#7BA8C8" text-anchor="middle">♥</text>
+  <text x="230" y="272" font-family="Arial" font-size="10" fill="#A8C8E0" text-anchor="middle">♥</text>
+
+  <!-- ======================== SATIN RIBBON BOWS ======================== -->
+  <!-- BOW 1: Top-left (near top-left bump of heart ~155,175) -->
+  <g transform="translate(148, 172) rotate(-20)">
+    <!-- Left loop -->
+    <path d="M0,0 C-12,-8 -18,-18 -12,-22 C-6,-26 0,-16 0,0 Z" fill="url(#ribbonGrad)" stroke="#5888B0" stroke-width="0.5"/>
+    <!-- Right loop -->
+    <path d="M0,0 C12,-8 18,-18 12,-22 C6,-26 0,-16 0,0 Z" fill="url(#ribbonGrad2)" stroke="#5888B0" stroke-width="0.5"/>
+    <!-- Left streamer -->
+    <path d="M0,0 C-8,6 -10,14 -14,20" fill="none" stroke="#7BA8C8" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Right streamer -->
+    <path d="M0,0 C6,8 6,14 8,22" fill="none" stroke="#8AB0CC" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Center knot -->
+    <ellipse cx="0" cy="-2" rx="4" ry="3" fill="#A0C4DC" stroke="#6898B8" stroke-width="0.5"/>
+  </g>
+
+  <!-- BOW 2: Top-right (near top-right bump ~252,175) -->
+  <g transform="translate(252, 172) rotate(20)">
+    <path d="M0,0 C-12,-8 -18,-18 -12,-22 C-6,-26 0,-16 0,0 Z" fill="url(#ribbonGrad)" stroke="#5888B0" stroke-width="0.5"/>
+    <path d="M0,0 C12,-8 18,-18 12,-22 C6,-26 0,-16 0,0 Z" fill="url(#ribbonGrad2)" stroke="#5888B0" stroke-width="0.5"/>
+    <path d="M0,0 C-8,6 -10,14 -14,20" fill="none" stroke="#7BA8C8" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M0,0 C6,8 6,14 8,22" fill="none" stroke="#8AB0CC" stroke-width="2.5" stroke-linecap="round"/>
+    <ellipse cx="0" cy="-2" rx="4" ry="3" fill="#A0C4DC" stroke="#6898B8" stroke-width="0.5"/>
+  </g>
+
+  <!-- BOW 3: Bottom-left (~148, 292) -->
+  <g transform="translate(148, 292) rotate(-35)">
+    <path d="M0,0 C-10,-6 -14,-14 -9,-17 C-4,-20 0,-12 0,0 Z" fill="url(#ribbonGrad)" stroke="#5888B0" stroke-width="0.5"/>
+    <path d="M0,0 C10,-6 14,-14 9,-17 C4,-20 0,-12 0,0 Z" fill="url(#ribbonGrad2)" stroke="#5888B0" stroke-width="0.5"/>
+    <path d="M0,0 C-6,5 -8,10 -10,16" fill="none" stroke="#7BA8C8" stroke-width="2" stroke-linecap="round"/>
+    <path d="M0,0 C4,6 5,10 6,16" fill="none" stroke="#8AB0CC" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="0" cy="-1" rx="3" ry="2.5" fill="#A0C4DC" stroke="#6898B8" stroke-width="0.5"/>
+  </g>
+
+  <!-- BOW 4: Bottom-right (~252, 292) -->
+  <g transform="translate(252, 292) rotate(35)">
+    <path d="M0,0 C-10,-6 -14,-14 -9,-17 C-4,-20 0,-12 0,0 Z" fill="url(#ribbonGrad)" stroke="#5888B0" stroke-width="0.5"/>
+    <path d="M0,0 C10,-6 14,-14 9,-17 C4,-20 0,-12 0,0 Z" fill="url(#ribbonGrad2)" stroke="#5888B0" stroke-width="0.5"/>
+    <path d="M0,0 C-6,5 -8,10 -10,16" fill="none" stroke="#7BA8C8" stroke-width="2" stroke-linecap="round"/>
+    <path d="M0,0 C4,6 5,10 6,16" fill="none" stroke="#8AB0CC" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="0" cy="-1" rx="3" ry="2.5" fill="#A0C4DC" stroke="#6898B8" stroke-width="0.5"/>
+  </g>
+
+  <!-- ======================== BOTTOM LABEL ======================== -->
+  <rect x="80" y="470" width="240" height="25" rx="4" fill="#D4E8F5" stroke="#7BA8C8" stroke-width="1.2"/>
+  <!-- Label inner border -->
+  <rect x="84" y="473" width="232" height="19" rx="3" fill="none" stroke="#A8C8E0" stroke-width="0.6"/>
+  <text x="200" y="487" font-family="Georgia, 'Times New Roman', serif" font-size="10"
+        fill="#4A7898" text-anchor="middle" font-weight="bold" letter-spacing="1.5">TORT W KSZTAŁCIE SERCA</text>
+
+  <!-- Small decorative stars at bottom corners -->
+  <text x="92" y="487" font-size="8" fill="#7BA8C8" text-anchor="middle">✦</text>
+  <text x="308" y="487" font-size="8" fill="#7BA8C8" text-anchor="middle">✦</text>
+</svg>

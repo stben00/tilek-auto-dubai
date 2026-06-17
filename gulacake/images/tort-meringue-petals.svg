@@ -1,0 +1,489 @@
+<svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#EDEDEB"/>
+    </radialGradient>
+
+    <!-- Plate gradient -->
+    <radialGradient id="plateGrad" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#F0F2F4"/>
+      <stop offset="40%" stop-color="#D8DEE4"/>
+      <stop offset="75%" stop-color="#B8C2CC"/>
+      <stop offset="100%" stop-color="#9AAAB8"/>
+    </radialGradient>
+    <radialGradient id="plateInner" cx="48%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#FBFCFC"/>
+      <stop offset="60%" stop-color="#F2F4F5"/>
+      <stop offset="100%" stop-color="#E8EAEC"/>
+    </radialGradient>
+
+    <!-- Petal gradients -->
+    <linearGradient id="petalGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#F7F5F2"/>
+      <stop offset="100%" stop-color="#EDE9E4"/>
+    </linearGradient>
+    <linearGradient id="petalGradLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="55%" stop-color="#F5F3EF"/>
+      <stop offset="100%" stop-color="#EAE6E0"/>
+    </linearGradient>
+    <linearGradient id="petalGradTop" x1="0%" y1="0%" x2="60%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="60%" stop-color="#F8F6F3"/>
+      <stop offset="100%" stop-color="#EFECEA"/>
+    </linearGradient>
+    <linearGradient id="petalShadowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D8D4CF" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#C8C4BE" stop-opacity="0.15"/>
+    </linearGradient>
+
+    <!-- Candle gradients -->
+    <linearGradient id="candleGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8A98A8"/>
+      <stop offset="20%" stop-color="#C8D0D8"/>
+      <stop offset="45%" stop-color="#F0F4F6"/>
+      <stop offset="65%" stop-color="#D0D8E0"/>
+      <stop offset="85%" stop-color="#A8B4C0"/>
+      <stop offset="100%" stop-color="#8090A0"/>
+    </linearGradient>
+    <linearGradient id="candleGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#909AA8"/>
+      <stop offset="25%" stop-color="#C0C8D4"/>
+      <stop offset="50%" stop-color="#EEF2F6"/>
+      <stop offset="70%" stop-color="#C8D2DC"/>
+      <stop offset="100%" stop-color="#8898A8"/>
+    </linearGradient>
+
+    <!-- Flame glow -->
+    <radialGradient id="flameGlow" cx="50%" cy="70%" r="50%">
+      <stop offset="0%" stop-color="#FFF8E0" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#FFE8A0" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FFD060" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Drop shadows for petals -->
+    <filter id="petalShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2.5" flood-color="#C0BAAF" flood-opacity="0.28"/>
+    </filter>
+    <filter id="petalShadowSoft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0.5" dy="1.5" stdDeviation="2" flood-color="#C8C2B8" flood-opacity="0.22"/>
+    </filter>
+    <filter id="plateShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#9AAABB" flood-opacity="0.30"/>
+    </filter>
+    <filter id="candleGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Cake body clip -->
+    <clipPath id="cakeClip">
+      <ellipse cx="200" cy="200" rx="138" ry="185"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bgGrad)"/>
+
+  <!-- Soft ambient shadow under cake -->
+  <ellipse cx="200" cy="420" rx="128" ry="18" fill="#B8C4CC" opacity="0.22"/>
+
+  <!-- === PLATE === -->
+  <!-- Plate outer rim shadow -->
+  <ellipse cx="200" cy="405" rx="135" ry="22" fill="#C0CAD4" opacity="0.18" filter="url(#plateShadow)"/>
+  <!-- Plate outer rim -->
+  <ellipse cx="200" cy="400" rx="135" ry="21" fill="url(#plateGrad)" filter="url(#plateShadow)"/>
+  <!-- Plate rim highlight top arc -->
+  <path d="M 75 393 Q 200 375 325 393" stroke="#E8EEF4" stroke-width="2.5" fill="none" opacity="0.8"/>
+  <!-- Plate inner face -->
+  <ellipse cx="200" cy="399" rx="122" ry="17" fill="url(#plateInner)"/>
+  <!-- Plate inner highlight -->
+  <ellipse cx="190" cy="395" rx="60" ry="6" fill="#FFFFFF" opacity="0.5"/>
+  <!-- Plate rim chrome detail -->
+  <ellipse cx="200" cy="400" rx="135" ry="21" fill="none" stroke="#C8D4DE" stroke-width="1.2"/>
+  <ellipse cx="200" cy="400" rx="129" ry="18.5" fill="none" stroke="#E4EAF0" stroke-width="0.7" opacity="0.7"/>
+
+  <!-- === CAKE BODY BASE SHAPE === -->
+  <!-- Subtle cake body fill (underneath petals) -->
+  <ellipse cx="200" cy="250" rx="136" ry="165" fill="#F5F3F0"/>
+
+  <!-- ===================================================== -->
+  <!-- ROW 1 — BOTTOM ROW: 14 large petals -->
+  <!-- ===================================================== -->
+  <!-- Petal shapes: tall teardrops tilted outward from cake bottom edges -->
+  <!-- Each petal: slightly tilted elongated oval, ridge line down center, subtle shadow -->
+
+  <!-- Petal B1 — far left -->
+  <g transform="translate(80, 370) rotate(-52)">
+    <ellipse cx="0" cy="-28" rx="17" ry="38" fill="url(#petalGradLeft)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-8" x2="0" y2="-50" stroke="#DDD9D3" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-3" cy="-40" rx="4" ry="7" fill="#FFFFFF" opacity="0.55"/>
+  </g>
+
+  <!-- Petal B2 -->
+  <g transform="translate(104, 385) rotate(-42)">
+    <ellipse cx="0" cy="-30" rx="18" ry="40" fill="url(#petalGradLeft)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-10" x2="0" y2="-54" stroke="#DDD9D3" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-3" cy="-44" rx="4.5" ry="8" fill="#FFFFFF" opacity="0.55"/>
+  </g>
+
+  <!-- Petal B3 -->
+  <g transform="translate(130, 393) rotate(-28)">
+    <ellipse cx="0" cy="-31" rx="18" ry="42" fill="url(#petalGrad1)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-10" x2="0" y2="-56" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-2" cy="-46" rx="4.5" ry="8" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal B4 -->
+  <g transform="translate(158, 397) rotate(-15)">
+    <ellipse cx="0" cy="-32" rx="18" ry="43" fill="url(#petalGrad1)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-10" x2="0" y2="-57" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-2" cy="-47" rx="4.5" ry="9" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal B5 — center-left -->
+  <g transform="translate(183, 399) rotate(-5)">
+    <ellipse cx="0" cy="-33" rx="19" ry="44" fill="url(#petalGradTop)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-11" x2="0" y2="-59" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-2" cy="-49" rx="5" ry="9" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal B6 — center -->
+  <g transform="translate(200, 400) rotate(0)">
+    <ellipse cx="0" cy="-34" rx="19" ry="45" fill="url(#petalGradTop)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-12" x2="0" y2="-60" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-2" cy="-50" rx="5" ry="9" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal B7 — center-right -->
+  <g transform="translate(217, 399) rotate(5)">
+    <ellipse cx="0" cy="-33" rx="19" ry="44" fill="url(#petalGradTop)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-11" x2="0" y2="-59" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="2" cy="-49" rx="5" ry="9" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal B8 -->
+  <g transform="translate(242, 397) rotate(15)">
+    <ellipse cx="0" cy="-32" rx="18" ry="43" fill="url(#petalGrad1)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-10" x2="0" y2="-57" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="2" cy="-47" rx="4.5" ry="9" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal B9 -->
+  <g transform="translate(270, 393) rotate(28)">
+    <ellipse cx="0" cy="-31" rx="18" ry="42" fill="url(#petalGrad1)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-10" x2="0" y2="-56" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="2" cy="-46" rx="4.5" ry="8" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal B10 -->
+  <g transform="translate(296, 385) rotate(42)">
+    <ellipse cx="0" cy="-30" rx="18" ry="40" fill="url(#petalGradLeft)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-10" x2="0" y2="-54" stroke="#DDD9D3" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="3" cy="-44" rx="4.5" ry="8" fill="#FFFFFF" opacity="0.55"/>
+  </g>
+
+  <!-- Petal B11 — far right -->
+  <g transform="translate(320, 370) rotate(52)">
+    <ellipse cx="0" cy="-28" rx="17" ry="38" fill="url(#petalGradLeft)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-8" x2="0" y2="-50" stroke="#DDD9D3" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="3" cy="-40" rx="4" ry="7" fill="#FFFFFF" opacity="0.55"/>
+  </g>
+
+  <!-- Extra bottom-row petals to fill sides -->
+  <g transform="translate(64, 350) rotate(-66)">
+    <ellipse cx="0" cy="-24" rx="15" ry="34" fill="url(#petalGradLeft)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-6" x2="0" y2="-44" stroke="#DDD9D3" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-3" cy="-36" rx="3.5" ry="6" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <g transform="translate(336, 350) rotate(66)">
+    <ellipse cx="0" cy="-24" rx="15" ry="34" fill="url(#petalGradLeft)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-6" x2="0" y2="-44" stroke="#DDD9D3" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="3" cy="-36" rx="3.5" ry="6" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <g transform="translate(55, 328) rotate(-76)">
+    <ellipse cx="0" cy="-22" rx="14" ry="30" fill="url(#petalGradLeft)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-5" x2="0" y2="-40" stroke="#DDD9D3" stroke-width="0.8" opacity="0.65"/>
+  </g>
+
+  <g transform="translate(345, 328) rotate(76)">
+    <ellipse cx="0" cy="-22" rx="14" ry="30" fill="url(#petalGradLeft)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-5" x2="0" y2="-40" stroke="#DDD9D3" stroke-width="0.8" opacity="0.65"/>
+  </g>
+
+  <!-- ===================================================== -->
+  <!-- ROW 2 — MIDDLE ROW: 12 medium petals, offset -->
+  <!-- ===================================================== -->
+
+  <!-- Petal M1 — far left -->
+  <g transform="translate(72, 305) rotate(-68)">
+    <ellipse cx="0" cy="-25" rx="16" ry="36" fill="url(#petalGradLeft)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-7" x2="0" y2="-47" stroke="#DDD9D3" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-3" cy="-39" rx="4" ry="7" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal M2 -->
+  <g transform="translate(92, 320) rotate(-55)">
+    <ellipse cx="0" cy="-27" rx="17" ry="38" fill="url(#petalGradLeft)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-8" x2="0" y2="-50" stroke="#DDD9D3" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-3" cy="-42" rx="4" ry="7.5" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal M3 -->
+  <g transform="translate(117, 333) rotate(-38)">
+    <ellipse cx="0" cy="-28" rx="17" ry="39" fill="url(#petalGrad1)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-9" x2="0" y2="-52" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-2" cy="-43" rx="4" ry="8" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal M4 -->
+  <g transform="translate(145, 343) rotate(-22)">
+    <ellipse cx="0" cy="-30" rx="18" ry="41" fill="url(#petalGrad1)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-9" x2="0" y2="-55" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-2" cy="-45" rx="4.5" ry="8.5" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal M5 -->
+  <g transform="translate(172, 350) rotate(-10)">
+    <ellipse cx="0" cy="-31" rx="18" ry="42" fill="url(#petalGradTop)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-10" x2="0" y2="-56" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-2" cy="-47" rx="4.5" ry="9" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal M6 center-left -->
+  <g transform="translate(196, 353) rotate(-2)">
+    <ellipse cx="0" cy="-32" rx="18" ry="43" fill="url(#petalGradTop)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-10" x2="0" y2="-57" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="-2" cy="-48" rx="4.5" ry="9" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal M7 center-right -->
+  <g transform="translate(204, 353) rotate(2)">
+    <ellipse cx="0" cy="-32" rx="18" ry="43" fill="url(#petalGradTop)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-10" x2="0" y2="-57" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="2" cy="-48" rx="4.5" ry="9" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal M8 -->
+  <g transform="translate(228, 350) rotate(10)">
+    <ellipse cx="0" cy="-31" rx="18" ry="42" fill="url(#petalGradTop)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-10" x2="0" y2="-56" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="2" cy="-47" rx="4.5" ry="9" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal M9 -->
+  <g transform="translate(255, 343) rotate(22)">
+    <ellipse cx="0" cy="-30" rx="18" ry="41" fill="url(#petalGrad1)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-9" x2="0" y2="-55" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="2" cy="-45" rx="4.5" ry="8.5" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal M10 -->
+  <g transform="translate(283, 333) rotate(38)">
+    <ellipse cx="0" cy="-28" rx="17" ry="39" fill="url(#petalGrad1)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-9" x2="0" y2="-52" stroke="#DEDBD6" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="2" cy="-43" rx="4" ry="8" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal M11 -->
+  <g transform="translate(308, 320) rotate(55)">
+    <ellipse cx="0" cy="-27" rx="17" ry="38" fill="url(#petalGradLeft)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-8" x2="0" y2="-50" stroke="#DDD9D3" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="3" cy="-42" rx="4" ry="7.5" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal M12 — far right -->
+  <g transform="translate(328, 305) rotate(68)">
+    <ellipse cx="0" cy="-25" rx="16" ry="36" fill="url(#petalGradLeft)" filter="url(#petalShadow)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-7" x2="0" y2="-47" stroke="#DDD9D3" stroke-width="0.8" opacity="0.7"/>
+    <ellipse cx="3" cy="-39" rx="4" ry="7" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- ===================================================== -->
+  <!-- ROW 3 — TOP ROW: 10 smaller petals covering dome -->
+  <!-- ===================================================== -->
+
+  <!-- Petal T1 — far left -->
+  <g transform="translate(85, 255) rotate(-72)">
+    <ellipse cx="0" cy="-22" rx="14" ry="30" fill="url(#petalGradLeft)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-6" x2="0" y2="-40" stroke="#DDD9D3" stroke-width="0.7" opacity="0.65"/>
+    <ellipse cx="-2" cy="-34" rx="3.5" ry="6" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal T2 -->
+  <g transform="translate(107, 267) rotate(-58)">
+    <ellipse cx="0" cy="-23" rx="15" ry="33" fill="url(#petalGradLeft)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-6" x2="0" y2="-44" stroke="#DDD9D3" stroke-width="0.7" opacity="0.65"/>
+    <ellipse cx="-2" cy="-37" rx="3.5" ry="6.5" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal T3 -->
+  <g transform="translate(133, 278) rotate(-40)">
+    <ellipse cx="0" cy="-25" rx="16" ry="35" fill="url(#petalGrad1)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-7" x2="0" y2="-47" stroke="#DEDBD6" stroke-width="0.7" opacity="0.65"/>
+    <ellipse cx="-2" cy="-39" rx="4" ry="7" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal T4 -->
+  <g transform="translate(162, 289) rotate(-22)">
+    <ellipse cx="0" cy="-26" rx="16" ry="37" fill="url(#petalGrad1)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-7" x2="0" y2="-50" stroke="#DEDBD6" stroke-width="0.7" opacity="0.65"/>
+    <ellipse cx="-2" cy="-42" rx="4" ry="7.5" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal T5 center-left -->
+  <g transform="translate(188, 295) rotate(-8)">
+    <ellipse cx="0" cy="-27" rx="17" ry="38" fill="url(#petalGradTop)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-8" x2="0" y2="-52" stroke="#DEDBD6" stroke-width="0.7" opacity="0.65"/>
+    <ellipse cx="-2" cy="-44" rx="4" ry="8" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal T6 center-right -->
+  <g transform="translate(212, 295) rotate(8)">
+    <ellipse cx="0" cy="-27" rx="17" ry="38" fill="url(#petalGradTop)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-8" x2="0" y2="-52" stroke="#DEDBD6" stroke-width="0.7" opacity="0.65"/>
+    <ellipse cx="2" cy="-44" rx="4" ry="8" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal T7 -->
+  <g transform="translate(238, 289) rotate(22)">
+    <ellipse cx="0" cy="-26" rx="16" ry="37" fill="url(#petalGrad1)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-7" x2="0" y2="-50" stroke="#DEDBD6" stroke-width="0.7" opacity="0.65"/>
+    <ellipse cx="2" cy="-42" rx="4" ry="7.5" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal T8 -->
+  <g transform="translate(267, 278) rotate(40)">
+    <ellipse cx="0" cy="-25" rx="16" ry="35" fill="url(#petalGrad1)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-7" x2="0" y2="-47" stroke="#DEDBD6" stroke-width="0.7" opacity="0.65"/>
+    <ellipse cx="2" cy="-39" rx="4" ry="7" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal T9 -->
+  <g transform="translate(293, 267) rotate(58)">
+    <ellipse cx="0" cy="-23" rx="15" ry="33" fill="url(#petalGradLeft)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-6" x2="0" y2="-44" stroke="#DDD9D3" stroke-width="0.7" opacity="0.65"/>
+    <ellipse cx="2" cy="-37" rx="3.5" ry="6.5" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Petal T10 — far right -->
+  <g transform="translate(315, 255) rotate(72)">
+    <ellipse cx="0" cy="-22" rx="14" ry="30" fill="url(#petalGradLeft)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-6" x2="0" y2="-40" stroke="#DDD9D3" stroke-width="0.7" opacity="0.65"/>
+    <ellipse cx="2" cy="-34" rx="3.5" ry="6" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- ===================================================== -->
+  <!-- TOP DOME — cap petals (covering the very top) -->
+  <!-- ===================================================== -->
+
+  <!-- Top dome fill -->
+  <ellipse cx="200" cy="215" rx="90" ry="70" fill="#F8F6F3" opacity="0.85"/>
+
+  <!-- 5 tiny petals fanning the dome top -->
+  <g transform="translate(175, 215) rotate(-18)">
+    <ellipse cx="0" cy="-20" rx="13" ry="28" fill="url(#petalGradTop)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-6" x2="0" y2="-37" stroke="#DEDBD6" stroke-width="0.7" opacity="0.6"/>
+    <ellipse cx="-1.5" cy="-30" rx="3" ry="5.5" fill="#FFFFFF" opacity="0.55"/>
+  </g>
+
+  <g transform="translate(191, 207) rotate(-6)">
+    <ellipse cx="0" cy="-21" rx="14" ry="30" fill="url(#petalGradTop)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-6" x2="0" y2="-39" stroke="#DEDBD6" stroke-width="0.7" opacity="0.6"/>
+    <ellipse cx="-1.5" cy="-33" rx="3.5" ry="6" fill="#FFFFFF" opacity="0.55"/>
+  </g>
+
+  <g transform="translate(200, 204) rotate(0)">
+    <ellipse cx="0" cy="-22" rx="14" ry="31" fill="url(#petalGradTop)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-7" x2="0" y2="-41" stroke="#DEDBD6" stroke-width="0.7" opacity="0.6"/>
+    <ellipse cx="-1.5" cy="-34" rx="3.5" ry="6" fill="#FFFFFF" opacity="0.55"/>
+  </g>
+
+  <g transform="translate(209, 207) rotate(6)">
+    <ellipse cx="0" cy="-21" rx="14" ry="30" fill="url(#petalGradTop)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-6" x2="0" y2="-39" stroke="#DEDBD6" stroke-width="0.7" opacity="0.6"/>
+    <ellipse cx="1.5" cy="-33" rx="3.5" ry="6" fill="#FFFFFF" opacity="0.55"/>
+  </g>
+
+  <g transform="translate(225, 215) rotate(18)">
+    <ellipse cx="0" cy="-20" rx="13" ry="28" fill="url(#petalGradTop)" filter="url(#petalShadowSoft)" stroke="#E8E4DE" stroke-width="0.5"/>
+    <line x1="0" y1="-6" x2="0" y2="-37" stroke="#DEDBD6" stroke-width="0.7" opacity="0.6"/>
+    <ellipse cx="1.5" cy="-30" rx="3" ry="5.5" fill="#FFFFFF" opacity="0.55"/>
+  </g>
+
+  <!-- Tiny tip cap -->
+  <ellipse cx="200" cy="185" rx="28" ry="20" fill="#FDFCFB"/>
+  <ellipse cx="200" cy="182" rx="18" ry="13" fill="#FFFFFF" opacity="0.7"/>
+
+  <!-- ===================================================== -->
+  <!-- SILVER CANDLES — 5 elegant thin metallic sticks -->
+  <!-- ===================================================== -->
+
+  <!-- Candle 1 — leftmost, tallest -->
+  <!-- Wick/body: thin rectangle with metallic gradient, slightly curved -->
+  <path d="M 153 183 Q 151 155 152 120 Q 152.5 108 153 95" stroke="url(#candleGrad1)" stroke-width="4.5" fill="none" stroke-linecap="round" filter="url(#candleGlow)"/>
+  <!-- Candle highlight -->
+  <path d="M 152.5 183 Q 150.5 155 151.5 120 Q 152 108 152.5 95" stroke="#F0F4F8" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <!-- Flame glow halo -->
+  <ellipse cx="153" cy="89" rx="9" ry="9" fill="url(#flameGlow)" opacity="0.7"/>
+  <!-- Flame -->
+  <path d="M 153 97 Q 149 90 152 83 Q 154 78 153 72 Q 156 79 156 85 Q 158 90 153 97Z" fill="#FFF5CC" opacity="0.92"/>
+  <path d="M 153 95 Q 150 89 152.5 84 Q 153.8 80 153 75 Q 155.5 81 155.5 86 Q 156.5 90 153 95Z" fill="#FFE87A" opacity="0.7"/>
+  <ellipse cx="153" cy="95" rx="2" ry="1.5" fill="#FFD84A" opacity="0.5"/>
+
+  <!-- Candle 2 — second from left, medium height -->
+  <path d="M 172 181 Q 170 158 171 130 Q 171.5 120 172 108" stroke="url(#candleGrad2)" stroke-width="4.5" fill="none" stroke-linecap="round" filter="url(#candleGlow)"/>
+  <path d="M 171.5 181 Q 169.5 158 170.5 130 Q 171 120 171.5 108" stroke="#F0F4F8" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <ellipse cx="172" cy="102" rx="9" ry="9" fill="url(#flameGlow)" opacity="0.7"/>
+  <path d="M 172 110 Q 168 103 171 96 Q 173 91 172 85 Q 175 92 175 98 Q 177 103 172 110Z" fill="#FFF5CC" opacity="0.92"/>
+  <path d="M 172 108 Q 169 102 171.5 97 Q 172.8 93 172 88 Q 174.5 94 174.5 99 Q 175.5 103 172 108Z" fill="#FFE87A" opacity="0.7"/>
+  <ellipse cx="172" cy="108" rx="2" ry="1.5" fill="#FFD84A" opacity="0.5"/>
+
+  <!-- Candle 3 — center, tallest of all -->
+  <path d="M 200 181 Q 198 150 199 115 Q 199.5 101 200 86" stroke="url(#candleGrad1)" stroke-width="5" fill="none" stroke-linecap="round" filter="url(#candleGlow)"/>
+  <path d="M 199.5 181 Q 197.5 150 198.5 115 Q 199 101 199.5 86" stroke="#F2F6FA" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.65"/>
+  <ellipse cx="200" cy="80" rx="10" ry="10" fill="url(#flameGlow)" opacity="0.75"/>
+  <path d="M 200 88 Q 196 80 199 72 Q 201 66 200 59 Q 203.5 67 203.5 73 Q 205.5 79 200 88Z" fill="#FFF5CC" opacity="0.93"/>
+  <path d="M 200 86 Q 197 79 199.5 73 Q 201 69 200 63 Q 203 70 203 75 Q 204.5 80 200 86Z" fill="#FFE87A" opacity="0.72"/>
+  <ellipse cx="200" cy="86" rx="2.2" ry="1.6" fill="#FFD84A" opacity="0.5"/>
+
+  <!-- Candle 4 — second from right, medium-short -->
+  <path d="M 228 181 Q 227 160 227.5 134 Q 228 122 228 112" stroke="url(#candleGrad2)" stroke-width="4.5" fill="none" stroke-linecap="round" filter="url(#candleGlow)"/>
+  <path d="M 227.5 181 Q 226.5 160 227 134 Q 227.5 122 227.5 112" stroke="#F0F4F8" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <ellipse cx="228" cy="106" rx="9" ry="9" fill="url(#flameGlow)" opacity="0.7"/>
+  <path d="M 228 114 Q 224 107 227 100 Q 229 95 228 89 Q 231 96 231 102 Q 233 107 228 114Z" fill="#FFF5CC" opacity="0.92"/>
+  <path d="M 228 112 Q 225 106 227.5 101 Q 228.8 97 228 92 Q 230.5 98 230.5 103 Q 231.5 107 228 112Z" fill="#FFE87A" opacity="0.7"/>
+  <ellipse cx="228" cy="112" rx="2" ry="1.5" fill="#FFD84A" opacity="0.5"/>
+
+  <!-- Candle 5 — rightmost, second-tallest -->
+  <path d="M 247 183 Q 246 158 246.5 126 Q 247 113 247 99" stroke="url(#candleGrad1)" stroke-width="4.5" fill="none" stroke-linecap="round" filter="url(#candleGlow)"/>
+  <path d="M 246.5 183 Q 245.5 158 246 126 Q 246.5 113 246.5 99" stroke="#F0F4F8" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <ellipse cx="247" cy="93" rx="9" ry="9" fill="url(#flameGlow)" opacity="0.7"/>
+  <path d="M 247 101 Q 243 94 246 87 Q 248 82 247 76 Q 250 83 250 89 Q 252 94 247 101Z" fill="#FFF5CC" opacity="0.92"/>
+  <path d="M 247 99 Q 244 93 246.5 88 Q 247.8 84 247 79 Q 249.5 85 249.5 90 Q 250.5 94 247 99Z" fill="#FFE87A" opacity="0.7"/>
+  <ellipse cx="247" cy="99" rx="2" ry="1.5" fill="#FFD84A" opacity="0.5"/>
+
+  <!-- ===================================================== -->
+  <!-- LABEL -->
+  <!-- ===================================================== -->
+  <text
+    x="200"
+    y="460"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="13"
+    font-weight="400"
+    fill="#A8A49E"
+    letter-spacing="4.5"
+  >TORT BEZOWY</text>
+
+  <!-- Decorative thin lines flanking label -->
+  <line x1="100" y1="458" x2="148" y2="458" stroke="#C8C4BE" stroke-width="0.6" opacity="0.7"/>
+  <line x1="252" y1="458" x2="300" y2="458" stroke="#C8C4BE" stroke-width="0.6" opacity="0.7"/>
+
+</svg>

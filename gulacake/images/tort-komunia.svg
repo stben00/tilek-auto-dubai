@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FAFAF8"/><stop offset="100%" stop-color="#F0EEE8"/></linearGradient>
+  <linearGradient id="cake" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FDFBF4"/><stop offset="100%" stop-color="#EEE8D8"/></linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#a0906a" flood-opacity="0.15"/></filter>
+</defs>
+<rect width="400" height="500" fill="url(#bg)"/>
+<circle cx="80" cy="100" r="110" fill="#F0EDE4" opacity="0.4"/>
+<circle cx="340" cy="420" r="90" fill="#E8E4D8" opacity="0.35"/>
+<!-- White board/plate (distressed look) -->
+<ellipse cx="200" cy="440" rx="140" ry="17" fill="#C8C8C4" opacity="0.5" filter="url(#sh)"/>
+<ellipse cx="200" cy="437" rx="138" ry="15" fill="#F0EEE8"/>
+<ellipse cx="200" cy="434" rx="130" ry="12" fill="#FAF8F4"/>
+<!-- Cake body — ivory/cream, textured horizontal lines -->
+<rect x="118" y="222" width="164" height="216" rx="8" fill="url(#cake)" filter="url(#sh)"/>
+<ellipse cx="200" cy="222" rx="82" ry="10" fill="#FDFBF4"/>
+<!-- Subtle horizontal texture lines -->
+<g stroke="#E6DFCE" stroke-width="1.5" fill="none" opacity="0.7">
+  <line x1="120" y1="262" x2="280" y2="262"/>
+  <line x1="120" y1="302" x2="280" y2="302"/>
+  <line x1="120" y1="342" x2="280" y2="342"/>
+  <line x1="120" y1="382" x2="280" y2="382"/>
+</g>
+<!-- Pearl row border at bottom -->
+<g>
+  <circle cx="130" cy="430" r="4" fill="#F4F0E8"/><circle cx="148" cy="433" r="4" fill="#F4F0E8"/>
+  <circle cx="166" cy="434" r="4" fill="#F4F0E8"/><circle cx="184" cy="435" r="4" fill="#F4F0E8"/>
+  <circle cx="202" cy="435" r="4" fill="#F4F0E8"/><circle cx="220" cy="435" r="4" fill="#F4F0E8"/>
+  <circle cx="238" cy="434" r="4" fill="#F4F0E8"/><circle cx="256" cy="433" r="4" fill="#F4F0E8"/>
+  <circle cx="272" cy="430" r="4" fill="#F4F0E8"/>
+</g>
+<!-- Top of cake — cream surface -->
+<ellipse cx="200" cy="222" rx="80" ry="9" fill="#FDFBF6"/>
+<!-- Gypsophila wreath (baby's breath) ring on top -->
+<g>
+  <!-- wreath ring base -->
+  <circle cx="200" cy="195" r="54" fill="none" stroke="#E8E4DC" stroke-width="14" opacity="0.3"/>
+  <!-- Flower clusters around ring -->
+  <!-- Top -->
+  <circle cx="200" cy="142" r="7" fill="white" stroke="#D8D4CC" stroke-width="0.5"/>
+  <circle cx="188" cy="146" r="6" fill="white" stroke="#D8D4CC" stroke-width="0.5"/>
+  <circle cx="212" cy="146" r="6" fill="white" stroke="#D8D4CC" stroke-width="0.5"/>
+  <circle cx="200" cy="138" r="5" fill="white"/>
+  <!-- Top-right -->
+  <circle cx="236" cy="155" r="6" fill="white" stroke="#D8D4CC" stroke-width="0.5"/>
+  <circle cx="248" cy="165" r="7" fill="white" stroke="#D8D4CC" stroke-width="0.5"/>
+  <circle cx="256" cy="178" r="6" fill="white" stroke="#D8D4CC" stroke-width="0.5"/>
+  <!-- Right -->
+  <circle cx="250" cy="196" r="6" fill="white"/><circle cx="254" cy="207" r="5" fill="white"/>
+  <!-- Bottom-right -->
+  <circle cx="244" cy="222" r="7" fill="white" stroke="#D8D4CC" stroke-width="0.5"/>
+  <circle cx="234" cy="232" r="6" fill="white"/>
+  <!-- Bottom -->
+  <circle cx="218" cy="238" r="5" fill="white"/><circle cx="200" cy="241" r="6" fill="white"/>
+  <circle cx="183" cy="238" r="5" fill="white"/>
+  <!-- Bottom-left -->
+  <circle cx="166" cy="232" r="6" fill="white"/>
+  <circle cx="155" cy="222" r="7" fill="white" stroke="#D8D4CC" stroke-width="0.5"/>
+  <!-- Left -->
+  <circle cx="147" cy="207" r="5" fill="white"/><circle cx="144" cy="195" r="6" fill="white"/>
+  <!-- Top-left -->
+  <circle cx="148" cy="178" r="6" fill="white" stroke="#D8D4CC" stroke-width="0.5"/>
+  <circle cx="156" cy="165" r="7" fill="white" stroke="#D8D4CC" stroke-width="0.5"/>
+  <circle cx="168" cy="155" r="6" fill="white" stroke="#D8D4CC" stroke-width="0.5"/>
+  <!-- Tiny filler flowers -->
+  <circle cx="178" cy="142" r="4" fill="white"/><circle cx="222" cy="142" r="4" fill="white"/>
+  <circle cx="260" cy="190" r="4" fill="white"/><circle cx="140" cy="190" r="4" fill="white"/>
+  <!-- Green stems/leaves (tiny) -->
+  <line x1="200" y1="148" x2="196" y2="155" stroke="#9aaa88" stroke-width="1"/>
+  <line x1="248" y1="168" x2="244" y2="176" stroke="#9aaa88" stroke-width="1"/>
+  <line x1="152" y1="168" x2="156" y2="176" stroke="#9aaa88" stroke-width="1"/>
+  <line x1="200" y1="235" x2="198" y2="228" stroke="#9aaa88" stroke-width="1"/>
+</g>
+<!-- Gold script inscription in center -->
+<text x="200" y="186" font-family="Georgia,serif" font-size="13" fill="#C9A84C" text-anchor="middle" font-style="italic">Komunia</text>
+<text x="200" y="202" font-family="Georgia,serif" font-size="11" fill="#C9A84C" text-anchor="middle" font-style="italic">Święta</text>
+<text x="200" y="217" font-family="Georgia,serif" font-size="11" fill="#C9A84C" text-anchor="middle" font-style="italic">Hani</text>
+<!-- Label -->
+<rect x="118" y="466" width="164" height="24" rx="12" fill="rgba(180,160,100,0.13)"/>
+<text x="200" y="482" font-family="Georgia,serif" font-size="11" fill="#9a8050" text-anchor="middle" letter-spacing="1.2">TORT NA KOMUNIĘ</text>
+</svg>

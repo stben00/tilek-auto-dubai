@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FAFAF8"/><stop offset="100%" stop-color="#F0EEE8"/></linearGradient>
+  <linearGradient id="cake" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFFEF9"/><stop offset="100%" stop-color="#F0ECDF"/></linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#a09070" flood-opacity="0.16"/></filter>
+  <filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="400" height="500" fill="url(#bg)"/>
+<circle cx="70" cy="100" r="110" fill="#F0EDE4" opacity="0.4"/>
+<circle cx="340" cy="410" r="90" fill="#EAE4D8" opacity="0.35"/>
+<!-- Vintage/distressed white stand -->
+<ellipse cx="200" cy="448" rx="75" ry="12" fill="#B0A898" opacity="0.6"/>
+<rect x="187" y="408" width="26" height="42" rx="4" fill="#D8D0C0"/>
+<ellipse cx="200" cy="406" rx="115" ry="14" fill="#D8D4C8" filter="url(#sh)"/>
+<ellipse cx="200" cy="403" rx="112" ry="12" fill="#E8E4DA"/>
+<ellipse cx="200" cy="401" rx="106" ry="10" fill="#F5F2EC"/>
+<!-- Cake body (tall, ivory) -->
+<rect x="124" y="200" width="152" height="204" rx="8" fill="url(#cake)" filter="url(#sh)"/>
+<ellipse cx="200" cy="200" rx="76" ry="10" fill="#FFFEF9"/>
+<!-- Baroque lace pattern on cake -->
+<g stroke="#E8E0CC" stroke-width="1.2" fill="none" opacity="0.8">
+  <!-- Left scroll -->
+  <path d="M148 260 Q140 248 148 238 Q156 228 164 238 Q168 244 162 252 Q156 256 152 250"/>
+  <path d="M152 250 Q148 262 158 268 Q168 272 170 262 Q170 256 164 254"/>
+  <!-- Center bottom scroll -->
+  <path d="M200 280 Q188 268 196 256 Q204 244 212 254 Q216 262 208 268 Q202 272 200 280"/>
+  <!-- Right scroll -->
+  <path d="M252 260 Q260 248 252 238 Q244 228 236 238 Q232 244 238 252 Q244 256 248 250"/>
+  <path d="M248 250 Q252 262 242 268 Q232 272 230 262 Q230 256 236 254"/>
+  <!-- Connecting flourishes -->
+  <path d="M170 262 Q185 270 200 268 Q215 270 230 262"/>
+  <path d="M148 280 Q174 296 200 292 Q226 296 252 280"/>
+  <path d="M135 310 Q168 326 200 322 Q232 326 265 310"/>
+  <path d="M130 340 Q165 356 200 352 Q235 356 270 340"/>
+  <path d="M132 370 Q165 384 200 380 Q235 384 268 370"/>
+</g>
+<!-- Gold dot accents -->
+<g fill="#C9A84C" opacity="0.7">
+  <circle cx="160" cy="244" r="2"/><circle cx="200" cy="250" r="2"/><circle cx="240" cy="244" r="2"/>
+  <circle cx="148" cy="288" r="1.5"/><circle cx="200" cy="296" r="1.5"/><circle cx="252" cy="288" r="1.5"/>
+</g>
+<!-- White orchid flowers (3 large) -->
+<!-- Orchid center-right -->
+<g>
+  <path d="M258 280 Q262 270 268 264 Q272 276 264 284Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <path d="M258 280 Q252 272 252 262 Q264 266 262 278Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <path d="M258 280 Q268 282 272 292 Q262 292 256 286Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <path d="M258 280 Q250 288 248 298 Q256 294 260 288Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <path d="M258 280 Q256 268 252 264 Q248 274 254 282Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <circle cx="259" cy="280" r="5" fill="#F8F0E0"/>
+  <circle cx="259" cy="280" r="2" fill="#C9A84C" opacity="0.8"/>
+</g>
+<!-- Orchid lower-left -->
+<g>
+  <path d="M148 360 Q142 350 136 344 Q132 356 140 364Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <path d="M148 360 Q154 352 154 342 Q142 346 144 358Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <path d="M148 360 Q138 362 134 372 Q144 372 150 366Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <path d="M148 360 Q156 368 158 378 Q150 374 146 368Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <path d="M148 360 Q150 348 154 344 Q158 354 152 362Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <circle cx="148" cy="360" r="5" fill="#F8F0E0"/>
+  <circle cx="148" cy="360" r="2" fill="#C9A84C" opacity="0.8"/>
+</g>
+<!-- Orchid upper-left -->
+<g>
+  <path d="M134 240 Q128 230 122 224 Q118 236 126 244Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <path d="M134 240 Q140 232 140 222 Q128 226 130 238Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <path d="M134 240 Q124 242 120 252 Q130 252 136 246Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <path d="M134 240 Q142 248 144 258 Q136 254 132 248Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <path d="M134 240 Q136 228 140 224 Q144 234 138 242Z" fill="white" stroke="#EEE8D8" stroke-width="0.8"/>
+  <circle cx="134" cy="240" r="5" fill="#F8F0E0"/>
+  <circle cx="134" cy="240" r="2" fill="#C9A84C" opacity="0.8"/>
+</g>
+<!-- Gold topper (script acrylic) -->
+<rect x="148" y="165" width="104" height="38" rx="4" fill="none"/>
+<path d="M148 190 Q160 170 200 168 Q240 170 252 190" fill="none" stroke="#C9A84C" stroke-width="1.5" filter="url(#glow)"/>
+<text x="200" y="180" font-family="Georgia,serif" font-size="9.5" fill="#C9A84C" text-anchor="middle" font-style="italic" filter="url(#glow)" letter-spacing="0.3">Запрошуємо</text>
+<text x="200" y="192" font-family="Georgia,serif" font-size="9.5" fill="#C9A84C" text-anchor="middle" font-style="italic" filter="url(#glow)" letter-spacing="0.3">Вчительку</text>
+<text x="200" y="204" font-family="Georgia,serif" font-size="8" fill="#C9A84C" text-anchor="middle" font-style="italic" filter="url(#glow)">батьки</text>
+<!-- Infinity/scroll base of topper -->
+<path d="M166 208 Q183 198 200 208 Q217 198 234 208" stroke="#C9A84C" stroke-width="1.5" fill="none" filter="url(#glow)"/>
+<!-- Label -->
+<rect x="118" y="466" width="164" height="24" rx="12" fill="rgba(180,160,100,0.13)"/>
+<text x="200" y="482" font-family="Georgia,serif" font-size="11" fill="#9a8050" text-anchor="middle" letter-spacing="1.2">TORT Z ORCHIDEĄ</text>
+</svg>

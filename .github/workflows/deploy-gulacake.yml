@@ -1,0 +1,27 @@
+name: Deploy Gula Cake site
+
+on:
+  push:
+    branches: [claude/new-website-7UXBD]
+    paths: [gulacake/**]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Deploy gulacake/ to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./gulacake
+          destination_dir: gulacake
+          keep_files: true

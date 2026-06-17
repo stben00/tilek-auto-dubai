@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FAF8F5"/><stop offset="100%" stop-color="#EEE8E0"/></linearGradient>
+  <linearGradient id="leo" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D4A870"/><stop offset="100%" stop-color="#C09050"/></linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#6a4010" flood-opacity="0.2"/></filter>
+</defs>
+<rect width="400" height="500" fill="url(#bg)"/>
+<circle cx="70" cy="100" r="120" fill="#EDE0D0" opacity="0.35"/>
+<circle cx="340" cy="400" r="95" fill="#E8DDD0" opacity="0.3"/>
+<!-- Glass/mirror surface -->
+<ellipse cx="200" cy="428" rx="138" ry="16" fill="#D0D0D0" opacity="0.5" filter="url(#sh)"/>
+<ellipse cx="200" cy="425" rx="134" ry="14" fill="#E8E8EC"/>
+<ellipse cx="200" cy="422" rx="128" ry="12" fill="#F0F0F4"/>
+<!-- Cake body (square/rectangular) -->
+<rect x="115" y="230" width="170" height="196" rx="4" fill="url(#leo)" filter="url(#sh)"/>
+<!-- Leopard spots (dark brown rosettes on tan) -->
+<!-- Row 1 -->
+<g fill="#2a1808">
+  <ellipse cx="148" cy="265" rx="15" ry="10" opacity="0.7" transform="rotate(-15 148 265)"/>
+  <ellipse cx="200" cy="258" rx="18" ry="11" opacity="0.7" transform="rotate(5 200 258)"/>
+  <ellipse cx="252" cy="268" rx="14" ry="9" opacity="0.7" transform="rotate(15 252 268)"/>
+</g>
+<g fill="#3a2010">
+  <ellipse cx="148" cy="265" rx="10" ry="6" opacity="0.6" transform="rotate(-15 148 265)"/>
+  <ellipse cx="200" cy="258" rx="12" ry="7" opacity="0.6" transform="rotate(5 200 258)"/>
+  <ellipse cx="252" cy="268" rx="9" ry="6" opacity="0.6" transform="rotate(15 252 268)"/>
+</g>
+<!-- Row 2 -->
+<g fill="#2a1808">
+  <ellipse cx="132" cy="304" rx="12" ry="14" opacity="0.7"/>
+  <ellipse cx="175" cy="298" rx="16" ry="10" opacity="0.7" transform="rotate(-10 175 298)"/>
+  <ellipse cx="225" cy="302" rx="15" ry="11" opacity="0.7" transform="rotate(10 225 302)"/>
+  <ellipse cx="268" cy="298" rx="12" ry="14" opacity="0.7"/>
+</g>
+<g fill="#3a2010">
+  <ellipse cx="132" cy="304" rx="7" ry="9" opacity="0.6"/>
+  <ellipse cx="175" cy="298" rx="10" ry="6" opacity="0.6" transform="rotate(-10 175 298)"/>
+  <ellipse cx="225" cy="302" rx="10" ry="7" opacity="0.6" transform="rotate(10 225 302)"/>
+  <ellipse cx="268" cy="298" rx="7" ry="9" opacity="0.6"/>
+</g>
+<!-- Row 3 -->
+<g fill="#2a1808">
+  <ellipse cx="150" cy="342" rx="14" ry="10" opacity="0.7" transform="rotate(-8 150 342)"/>
+  <ellipse cx="202" cy="348" rx="17" ry="11" opacity="0.7" transform="rotate(6 202 348)"/>
+  <ellipse cx="255" cy="340" rx="13" ry="10" opacity="0.7" transform="rotate(-12 255 340)"/>
+</g>
+<g fill="#3a2010">
+  <ellipse cx="150" cy="342" rx="9" ry="6" opacity="0.6" transform="rotate(-8 150 342)"/>
+  <ellipse cx="202" cy="348" rx="11" ry="7" opacity="0.6" transform="rotate(6 202 348)"/>
+  <ellipse cx="255" cy="340" rx="8" ry="6" opacity="0.6" transform="rotate(-12 255 340)"/>
+</g>
+<!-- Row 4 -->
+<g fill="#2a1808">
+  <ellipse cx="135" cy="382" rx="12" ry="13" opacity="0.7"/>
+  <ellipse cx="180" cy="388" rx="15" ry="10" opacity="0.7" transform="rotate(5 180 388)"/>
+  <ellipse cx="230" cy="384" rx="16" ry="10" opacity="0.7" transform="rotate(-7 230 384)"/>
+  <ellipse cx="272" cy="380" rx="11" ry="13" opacity="0.7"/>
+</g>
+<g fill="#3a2010">
+  <ellipse cx="135" cy="382" rx="7" ry="8" opacity="0.6"/>
+  <ellipse cx="180" cy="388" rx="9" ry="6" opacity="0.6" transform="rotate(5 180 388)"/>
+  <ellipse cx="230" cy="384" rx="10" ry="6" opacity="0.6" transform="rotate(-7 230 384)"/>
+  <ellipse cx="272" cy="380" rx="7" ry="8" opacity="0.6"/>
+</g>
+<!-- Row 5 -->
+<g fill="#2a1808">
+  <ellipse cx="155" cy="414" rx="14" ry="9" opacity="0.65" transform="rotate(-10 155 414)"/>
+  <ellipse cx="205" cy="418" rx="17" ry="10" opacity="0.65"/>
+  <ellipse cx="250" cy="412" rx="13" ry="9" opacity="0.65" transform="rotate(12 250 412)"/>
+</g>
+<g fill="#3a2010">
+  <ellipse cx="155" cy="414" rx="9" ry="5" opacity="0.6" transform="rotate(-10 155 414)"/>
+  <ellipse cx="205" cy="418" rx="11" ry="6" opacity="0.6"/>
+  <ellipse cx="250" cy="412" rx="8" ry="5" opacity="0.6" transform="rotate(12 250 412)"/>
+</g>
+<!-- Black ruffle borders (all 4 edges + corners) -->
+<!-- Top edge -->
+<g fill="#1a1a1a">
+  <path d="M115 230 Q122 218 130 230 Q137 218 145 230 Q152 218 160 230 Q167 218 175 230 Q182 218 190 230 Q197 218 205 230 Q212 218 220 230 Q227 218 235 230 Q242 218 250 230 Q257 218 265 230 Q272 218 280 230 Q285 218 285 230 L115 230Z" opacity="0.9"/>
+</g>
+<!-- Bottom edge -->
+<g fill="#1a1a1a">
+  <path d="M115 426 Q122 438 130 426 Q137 438 145 426 Q152 438 160 426 Q167 438 175 426 Q182 438 190 426 Q197 438 205 426 Q212 438 220 426 Q227 438 235 426 Q242 438 250 426 Q257 438 265 426 Q272 438 280 426 Q285 438 285 426 L115 426Z" opacity="0.9"/>
+</g>
+<!-- Left edge -->
+<g fill="#1a1a1a">
+  <path d="M115 230 Q103 238 115 246 Q103 254 115 262 Q103 270 115 278 Q103 286 115 294 Q103 302 115 310 Q103 318 115 326 Q103 334 115 342 Q103 350 115 358 Q103 366 115 374 Q103 382 115 390 Q103 398 115 406 Q103 414 115 426 L115 230Z" opacity="0.9"/>
+</g>
+<!-- Right edge -->
+<g fill="#1a1a1a">
+  <path d="M285 230 Q297 238 285 246 Q297 254 285 262 Q297 270 285 278 Q297 286 285 294 Q297 302 285 310 Q297 318 285 326 Q297 334 285 342 Q297 350 285 358 Q297 366 285 374 Q297 382 285 390 Q297 398 285 406 Q297 414 285 426 L285 230Z" opacity="0.9"/>
+</g>
+<!-- Black ribbon bows at each corner -->
+<g fill="none" stroke="#1a1a1a" stroke-width="4">
+  <!-- TL bow -->
+  <path d="M115 230 Q106 218 115 230"/><circle cx="115" cy="230" r="5" fill="#1a1a1a"/>
+  <!-- TR bow -->
+  <circle cx="285" cy="230" r="5" fill="#1a1a1a"/>
+  <!-- BL bow -->
+  <circle cx="115" cy="426" r="5" fill="#1a1a1a"/>
+  <!-- BR bow -->
+  <circle cx="285" cy="426" r="5" fill="#1a1a1a"/>
+</g>
+<!-- Actual bow ribbons -->
+<g fill="#111111">
+  <!-- Corner bows -->
+  <path d="M115 230 Q98 218 108 228 Q112 234 115 230Z" opacity="0.9"/>
+  <path d="M115 230 Q98 242 108 232 Q112 226 115 230Z" opacity="0.9"/>
+  <path d="M285 230 Q302 218 292 228 Q288 234 285 230Z" opacity="0.9"/>
+  <path d="M285 230 Q302 242 292 232 Q288 226 285 230Z" opacity="0.9"/>
+  <path d="M115 426 Q98 414 108 424 Q112 430 115 426Z" opacity="0.9"/>
+  <path d="M115 426 Q98 438 108 428 Q112 422 115 426Z" opacity="0.9"/>
+  <path d="M285 426 Q302 414 292 424 Q288 430 285 426Z" opacity="0.9"/>
+  <path d="M285 426 Q302 438 292 428 Q288 422 285 426Z" opacity="0.9"/>
+</g>
+<!-- Ribbon streamers -->
+<line x1="108" y1="234" x2="100" y2="258" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="108" y1="226" x2="100" y2="202" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="292" y1="234" x2="300" y2="258" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="292" y1="226" x2="300" y2="202" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+<!-- Label -->
+<rect x="108" y="466" width="184" height="24" rx="12" fill="rgba(42,24,8,0.12)"/>
+<text x="200" y="482" font-family="Georgia,serif" font-size="11" fill="#5a3a18" text-anchor="middle" letter-spacing="1.2">TORT W CĘTKI</text>
+</svg>

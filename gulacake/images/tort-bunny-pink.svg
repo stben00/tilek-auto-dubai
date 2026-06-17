@@ -1,0 +1,511 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF0F5"/>
+      <stop offset="50%" stop-color="#FCE8F0"/>
+      <stop offset="100%" stop-color="#F8E0EC"/>
+    </linearGradient>
+
+    <!-- Cake gradient (bright pink cylinder) -->
+    <linearGradient id="cakeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C850A0"/>
+      <stop offset="15%" stop-color="#E070B0"/>
+      <stop offset="50%" stop-color="#E878A8"/>
+      <stop offset="80%" stop-color="#E070B0"/>
+      <stop offset="100%" stop-color="#C050A0"/>
+    </linearGradient>
+
+    <!-- Cake top gradient -->
+    <radialGradient id="cakeTopGrad" cx="45%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#F090C0"/>
+      <stop offset="100%" stop-color="#D060A0"/>
+    </radialGradient>
+
+    <!-- Stand gradient -->
+    <linearGradient id="standGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E0D8D0"/>
+      <stop offset="30%" stop-color="#F5F0EA"/>
+      <stop offset="70%" stop-color="#F5F0EA"/>
+      <stop offset="100%" stop-color="#D8D0C8"/>
+    </linearGradient>
+    <linearGradient id="standTopGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D8D0C8"/>
+      <stop offset="50%" stop-color="#EDE8E2"/>
+      <stop offset="100%" stop-color="#D0C8C0"/>
+    </linearGradient>
+
+    <!-- Silver "1" gradient -->
+    <linearGradient id="silverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DDEAF5"/>
+      <stop offset="30%" stop-color="#C0CED8"/>
+      <stop offset="60%" stop-color="#B0B8C8"/>
+      <stop offset="100%" stop-color="#8898A8"/>
+    </linearGradient>
+
+    <!-- Pink ball gradient -->
+    <radialGradient id="pinkBallGrad" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FFB8D0"/>
+      <stop offset="50%" stop-color="#F090B0"/>
+      <stop offset="100%" stop-color="#D06080"/>
+    </radialGradient>
+    <!-- Cream ball gradient -->
+    <radialGradient id="creamBallGrad" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#F5EFE8"/>
+      <stop offset="100%" stop-color="#D8D0C4"/>
+    </radialGradient>
+    <!-- Gold ball gradient -->
+    <radialGradient id="goldBallGrad" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#F0D878"/>
+      <stop offset="50%" stop-color="#C9A84C"/>
+      <stop offset="100%" stop-color="#907030"/>
+    </radialGradient>
+
+    <!-- Cloud gradient -->
+    <radialGradient id="cloudGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F0ECE8"/>
+    </radialGradient>
+
+    <!-- Bunny gradient -->
+    <radialGradient id="bunnyGrad" cx="45%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="60%" stop-color="#F5F0E8"/>
+      <stop offset="100%" stop-color="#E8E0D4"/>
+    </radialGradient>
+
+    <!-- Candle gradient -->
+    <linearGradient id="candleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E8E4DE"/>
+      <stop offset="50%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#D8D4CE"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="cakeShadow">
+      <feDropShadow dx="3" dy="5" stdDeviation="8" flood-color="#A04080" flood-opacity="0.3"/>
+    </filter>
+    <filter id="standShadow">
+      <feDropShadow dx="2" dy="4" stdDeviation="6" flood-color="#A09888" flood-opacity="0.3"/>
+    </filter>
+    <filter id="ballShadow">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#80406060" flood-opacity="0.35"/>
+    </filter>
+    <filter id="cloudShadow">
+      <feDropShadow dx="1" dy="2" stdDeviation="4" flood-color="#C090B0" flood-opacity="0.25"/>
+    </filter>
+    <filter id="bunnyShadow">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#C0A090" flood-opacity="0.3"/>
+    </filter>
+    <filter id="silverGlow">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#B0D0F0" flood-opacity="0.7"/>
+    </filter>
+    <filter id="textShadow">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#80406080" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- Clip for cake surface decorations -->
+    <clipPath id="cakeBodyClip">
+      <rect x="108" y="148" width="184" height="228"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bgGrad)"/>
+
+  <!-- Soft background glow spots -->
+  <circle cx="320" cy="80" r="60" fill="#FFD0E8" opacity="0.2"/>
+  <circle cx="60" cy="380" r="50" fill="#FFD0E8" opacity="0.15"/>
+  <circle cx="360" cy="350" r="40" fill="#FFE0F0" opacity="0.2"/>
+
+  <!-- === CANDLE SILHOUETTE far left === -->
+  <g opacity="0.35">
+    <!-- Candle body -->
+    <rect x="28" y="200" width="18" height="70" rx="4" fill="url(#candleGrad)"/>
+    <!-- Candle wick -->
+    <line x1="37" y1="200" x2="37" y2="192" stroke="#888070" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Candle flame -->
+    <ellipse cx="37" cy="188" rx="5" ry="8" fill="#FFD060" opacity="0.8"/>
+    <ellipse cx="37" cy="190" rx="3" ry="5" fill="#FF9020" opacity="0.7"/>
+    <ellipse cx="37" cy="193" rx="1.5" ry="2.5" fill="#FFFFFF" opacity="0.6"/>
+    <!-- Flame glow -->
+    <ellipse cx="37" cy="188" rx="9" ry="12" fill="#FFD060" opacity="0.15"/>
+  </g>
+
+  <!-- === CAKE STAND === -->
+  <!-- Stand column/pedestal -->
+  <rect x="175" y="370" width="50" height="28" rx="4" fill="url(#standGrad)" filter="url(#standShadow)"/>
+  <!-- Stand column highlight -->
+  <rect x="185" y="372" width="8" height="24" rx="2" fill="#FFFFFF" opacity="0.35"/>
+
+  <!-- Stand top plate (wide flat disc) -->
+  <ellipse cx="200" cy="370" rx="100" ry="12" fill="url(#standTopGrad)" filter="url(#standShadow)"/>
+  <ellipse cx="200" cy="368" rx="100" ry="10" fill="#EDE8E2"/>
+  <ellipse cx="200" cy="367" rx="98" ry="9" fill="#F5F0EA" opacity="0.8"/>
+  <!-- Stand top edge -->
+  <ellipse cx="200" cy="366" rx="100" ry="10" fill="none" stroke="#D0C8BE" stroke-width="1.5"/>
+
+  <!-- Stand base -->
+  <ellipse cx="200" cy="398" rx="60" ry="8" fill="url(#standTopGrad)" filter="url(#standShadow)"/>
+  <ellipse cx="200" cy="396" rx="60" ry="7" fill="#EDE8E2"/>
+  <ellipse cx="200" cy="395" rx="58" ry="6" fill="#F5F0EA" opacity="0.8"/>
+  <ellipse cx="200" cy="395" rx="60" ry="7" fill="none" stroke="#D0C8BE" stroke-width="1"/>
+
+  <!-- "Gula Cake" label on stand -->
+  <text x="200" y="385"
+        font-family="Georgia, serif"
+        font-size="8"
+        font-style="italic"
+        fill="#A09080"
+        text-anchor="middle"
+        letter-spacing="1.5">Gula Cake</text>
+
+  <!-- Distressed vintage effect on stand - subtle marks -->
+  <g opacity="0.2">
+    <line x1="120" y1="368" x2="140" y2="368" stroke="#C0B8B0" stroke-width="0.8"/>
+    <line x1="260" y1="368" x2="275" y2="368" stroke="#C0B8B0" stroke-width="0.8"/>
+    <line x1="145" y1="370" x2="158" y2="370" stroke="#C0B8B0" stroke-width="0.6"/>
+    <line x1="242" y1="370" x2="256" y2="370" stroke="#C0B8B0" stroke-width="0.6"/>
+  </g>
+
+  <!-- === MAIN CAKE BODY (cylinder) === -->
+  <!-- Main cylinder -->
+  <rect x="108" y="148" width="184" height="228" rx="0" fill="url(#cakeGrad)" filter="url(#cakeShadow)"/>
+  <!-- Top curve of cylinder -->
+  <ellipse cx="200" cy="148" rx="92" ry="12" fill="#E878A8"/>
+  <ellipse cx="200" cy="146" rx="92" ry="11" fill="#F090C0"/>
+  <ellipse cx="200" cy="145" rx="90" ry="10" fill="url(#cakeTopGrad)"/>
+
+  <!-- Cake left edge shadow -->
+  <rect x="108" y="148" width="22" height="228" fill="#C050A0" opacity="0.4"/>
+  <!-- Cake right edge shadow -->
+  <rect x="270" y="148" width="22" height="228" fill="#A04090" opacity="0.3"/>
+  <!-- Cake center highlight -->
+  <rect x="175" y="148" width="50" height="228" fill="#FFFFFF" opacity="0.08"/>
+
+  <!-- === CAKE SURFACE DECORATIONS — stars and cloud shapes === -->
+  <g clip-path="url(#cakeBodyClip)">
+    <!-- White star shapes -->
+    <!-- Star 1 -->
+    <g transform="translate(140,175) rotate(15)">
+      <polygon points="0,-9 2,-3 8,-3 3,1 5,7 0,3 -5,7 -3,1 -8,-3 -2,-3"
+               fill="#FFFFFF" opacity="0.55"/>
+    </g>
+    <!-- Star 2 -->
+    <g transform="translate(270,190) rotate(-20)">
+      <polygon points="0,-7 1.5,-2.5 6,-2.5 2.5,1 4,6 0,3 -4,6 -2.5,1 -6,-2.5 -1.5,-2.5"
+               fill="#FFFFFF" opacity="0.5"/>
+    </g>
+    <!-- Star 3 -->
+    <g transform="translate(155,290) rotate(10)">
+      <polygon points="0,-8 2,-3 7,-3 3,1 4.5,6.5 0,3.5 -4.5,6.5 -3,1 -7,-3 -2,-3"
+               fill="#FFFFFF" opacity="0.45"/>
+    </g>
+    <!-- Star 4 -->
+    <g transform="translate(258,310) rotate(-10)">
+      <polygon points="0,-6 1.5,-2 5.5,-2 2.5,1 3.5,5.5 0,3 -3.5,5.5 -2.5,1 -5.5,-2 -1.5,-2"
+               fill="#FFFFFF" opacity="0.5"/>
+    </g>
+    <!-- Star 5 -->
+    <g transform="translate(200,350) rotate(25)">
+      <polygon points="0,-7 2,-2.5 6,-2.5 3,0.5 4,6 0,3 -4,6 -3,0.5 -6,-2.5 -2,-2.5"
+               fill="#FFFFFF" opacity="0.4"/>
+    </g>
+    <!-- More small stars -->
+    <g transform="translate(228,168) rotate(-5)">
+      <polygon points="0,-5 1.2,-1.8 4.5,-1.8 2,0.8 3,4.5 0,2.5 -3,4.5 -2,0.8 -4.5,-1.8 -1.2,-1.8"
+               fill="#FFFFFF" opacity="0.45"/>
+    </g>
+    <g transform="translate(172,335) rotate(30)">
+      <polygon points="0,-5 1.2,-1.8 4.5,-1.8 2,0.8 3,4.5 0,2.5 -3,4.5 -2,0.8 -4.5,-1.8 -1.2,-1.8"
+               fill="#FFFFFF" opacity="0.4"/>
+    </g>
+    <g transform="translate(245,240) rotate(-15)">
+      <polygon points="0,-6 1.5,-2 5.5,-2 2.5,0.8 3.5,5 0,2.8 -3.5,5 -2.5,0.8 -5.5,-2 -1.5,-2"
+               fill="#FFFFFF" opacity="0.45"/>
+    </g>
+
+    <!-- Small cloud shapes (rounded blobs) on cake surface -->
+    <!-- Cloud 1 -->
+    <g transform="translate(128,220)" opacity="0.45">
+      <circle cx="0" cy="0" r="7" fill="#FFFFFF"/>
+      <circle cx="9" cy="-2" r="6" fill="#FFFFFF"/>
+      <circle cx="17" cy="1" r="5" fill="#FFFFFF"/>
+      <circle cx="5" cy="4" r="5" fill="#FFFFFF"/>
+      <circle cx="13" cy="5" r="5" fill="#FFFFFF"/>
+    </g>
+    <!-- Cloud 2 -->
+    <g transform="translate(255,255)" opacity="0.4">
+      <circle cx="0" cy="0" r="6" fill="#FFFFFF"/>
+      <circle cx="8" cy="-2" r="5" fill="#FFFFFF"/>
+      <circle cx="15" cy="0" r="5" fill="#FFFFFF"/>
+      <circle cx="4" cy="4" r="5" fill="#FFFFFF"/>
+      <circle cx="11" cy="5" r="4" fill="#FFFFFF"/>
+    </g>
+    <!-- Small dots scattered -->
+    <circle cx="165" cy="200" r="3" fill="#FFFFFF" opacity="0.4"/>
+    <circle cx="235" cy="210" r="2.5" fill="#FFFFFF" opacity="0.38"/>
+    <circle cx="220" cy="300" r="3" fill="#FFFFFF" opacity="0.35"/>
+    <circle cx="145" cy="270" r="2.5" fill="#FFFFFF" opacity="0.4"/>
+    <circle cx="275" cy="180" r="2" fill="#FFFFFF" opacity="0.38"/>
+    <circle cx="130" cy="330" r="2.5" fill="#FFFFFF" opacity="0.35"/>
+    <circle cx="270" cy="340" r="3" fill="#FFFFFF" opacity="0.38"/>
+    <circle cx="190" cy="165" r="2.5" fill="#FFFFFF" opacity="0.4"/>
+  </g>
+
+  <!-- === HAPPY BIRTHDAY TEXT === -->
+  <text x="200" y="267"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="19"
+        font-style="italic"
+        font-weight="bold"
+        fill="#1A1A1A"
+        text-anchor="middle"
+        filter="url(#textShadow)"
+        letter-spacing="0.5">Happy</text>
+  <text x="200" y="295"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="22"
+        font-style="italic"
+        font-weight="bold"
+        fill="#1A1A1A"
+        text-anchor="middle"
+        filter="url(#textShadow)"
+        letter-spacing="0.5">Birthday</text>
+  <!-- Slight shine accent on text -->
+  <text x="200" y="267"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="19"
+        font-style="italic"
+        font-weight="bold"
+        fill="#FFFFFF"
+        text-anchor="middle"
+        opacity="0.12"
+        letter-spacing="0.5">Happy</text>
+  <text x="200" y="295"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="22"
+        font-style="italic"
+        font-weight="bold"
+        fill="#FFFFFF"
+        text-anchor="middle"
+        opacity="0.12"
+        letter-spacing="0.5">Birthday</text>
+
+  <!-- === SCATTERED METALLIC BALLS AROUND CAKE BASE === -->
+  <!-- Left side balls -->
+  <circle cx="78" cy="368" r="14" fill="url(#pinkBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="74" cy="363" r="4" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="60" cy="348" r="10" fill="url(#creamBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="57" cy="344" r="3" fill="#FFFFFF" opacity="0.6"/>
+
+  <circle cx="85" cy="345" r="7" fill="url(#goldBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="83" cy="342" r="2.2" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="68" cy="325" r="8" fill="url(#pinkBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="65" cy="321" r="2.5" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="55" cy="308" r="6" fill="url(#creamBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="53" cy="305" r="2" fill="#FFFFFF" opacity="0.6"/>
+
+  <circle cx="82" cy="310" r="9" fill="url(#pinkBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="79" cy="306" r="2.8" fill="#FFFFFF" opacity="0.55"/>
+
+  <!-- Right side balls -->
+  <circle cx="322" cy="368" r="13" fill="url(#pinkBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="318" cy="363" r="4" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="338" cy="350" r="9" fill="url(#goldBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="335" cy="346" r="2.8" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="315" cy="345" r="7" fill="url(#creamBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="313" cy="342" r="2.2" fill="#FFFFFF" opacity="0.6"/>
+
+  <circle cx="345" cy="325" r="11" fill="url(#pinkBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="341" cy="321" r="3.5" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="322" cy="320" r="7" fill="url(#goldBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="320" cy="317" r="2.2" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="340" cy="300" r="8" fill="url(#creamBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="337" cy="296" r="2.5" fill="#FFFFFF" opacity="0.6"/>
+
+  <!-- Front base balls (below cake on stand plate) -->
+  <circle cx="130" cy="375" r="9" fill="url(#pinkBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="127" cy="371" r="2.8" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="150" cy="372" r="7" fill="url(#goldBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="148" cy="369" r="2.2" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="170" cy="376" r="8" fill="url(#creamBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="168" cy="372" r="2.5" fill="#FFFFFF" opacity="0.6"/>
+
+  <circle cx="230" cy="376" r="7" fill="url(#pinkBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="228" cy="372" r="2.2" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="248" cy="372" r="9" fill="url(#creamBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="245" cy="368" r="2.8" fill="#FFFFFF" opacity="0.6"/>
+
+  <circle cx="268" cy="375" r="7" fill="url(#goldBallGrad)" filter="url(#ballShadow)"/>
+  <circle cx="266" cy="371" r="2.2" fill="#FFFFFF" opacity="0.55"/>
+
+  <!-- === CLOUD BASE ON CAKE TOP === -->
+  <g filter="url(#cloudShadow)">
+    <!-- Cloud cluster on top of cake -->
+    <circle cx="170" cy="140" r="18" fill="url(#cloudGrad)"/>
+    <circle cx="190" cy="133" r="22" fill="url(#cloudGrad)"/>
+    <circle cx="214" cy="130" r="20" fill="url(#cloudGrad)"/>
+    <circle cx="234" cy="137" r="17" fill="url(#cloudGrad)"/>
+    <circle cx="178" cy="148" r="16" fill="url(#cloudGrad)"/>
+    <circle cx="200" cy="144" r="19" fill="url(#cloudGrad)"/>
+    <circle cx="222" cy="146" r="16" fill="url(#cloudGrad)"/>
+    <!-- Inner brighter cloud highlights -->
+    <circle cx="192" cy="136" r="14" fill="#FFFFFF" opacity="0.6"/>
+    <circle cx="212" cy="133" r="12" fill="#FFFFFF" opacity="0.5"/>
+  </g>
+
+  <!-- Pearl sprinkles on cake top -->
+  <g opacity="0.85">
+    <circle cx="160" cy="148" r="3" fill="#F5F0EA"/>
+    <circle cx="160" cy="148" r="1.5" fill="#FFFFFF"/>
+    <circle cx="176" cy="143" r="3.5" fill="#F0E8E0"/>
+    <circle cx="176" cy="143" r="1.8" fill="#FFFFFF"/>
+    <circle cx="195" cy="138" r="3" fill="#F5F0EA"/>
+    <circle cx="195" cy="138" r="1.5" fill="#FFFFFF"/>
+    <circle cx="217" cy="136" r="3.5" fill="#F0E8E0"/>
+    <circle cx="217" cy="136" r="1.8" fill="#FFFFFF"/>
+    <circle cx="237" cy="140" r="3" fill="#F5F0EA"/>
+    <circle cx="237" cy="140" r="1.5" fill="#FFFFFF"/>
+    <circle cx="250" cy="147" r="3" fill="#F0E8E0"/>
+    <circle cx="250" cy="147" r="1.5" fill="#FFFFFF"/>
+    <circle cx="155" cy="155" r="2.5" fill="#F5F0EA"/>
+    <circle cx="155" cy="155" r="1.2" fill="#FFFFFF"/>
+    <circle cx="244" cy="155" r="2.5" fill="#F0E8E0"/>
+    <circle cx="244" cy="155" r="1.2" fill="#FFFFFF"/>
+  </g>
+
+  <!-- === CUTE BUNNY ON TOP OF CLOUD === -->
+  <g transform="translate(200, 90)" filter="url(#bunnyShadow)">
+    <!-- Left ear (floppy) -->
+    <path d="M -12,-50 C -20,-80 -28,-82 -25,-60 C -22,-45 -16,-42 -12,-40"
+          fill="url(#bunnyGrad)" stroke="#E0D8CC" stroke-width="0.8"/>
+    <!-- Left ear inner pink -->
+    <path d="M -13,-48 C -19,-72 -25,-74 -22,-58 C -20,-45 -15,-42 -13,-40"
+          fill="#F0C0C8" opacity="0.6"/>
+
+    <!-- Right ear (floppy) -->
+    <path d="M 12,-50 C 20,-80 28,-82 25,-60 C 22,-45 16,-42 12,-40"
+          fill="url(#bunnyGrad)" stroke="#E0D8CC" stroke-width="0.8"/>
+    <!-- Right ear inner pink -->
+    <path d="M 13,-48 C 19,-72 25,-74 22,-58 C 20,-45 15,-42 13,-40"
+          fill="#F0C0C8" opacity="0.6"/>
+
+    <!-- Body (round) -->
+    <ellipse cx="0" cy="-5" rx="22" ry="24" fill="url(#bunnyGrad)" stroke="#E0D8CC" stroke-width="0.8"/>
+
+    <!-- Head -->
+    <circle cx="0" cy="-36" r="18" fill="url(#bunnyGrad)" stroke="#E0D8CC" stroke-width="0.8"/>
+
+    <!-- Cheeks -->
+    <circle cx="-8" cy="-33" r="5" fill="#F8C0C8" opacity="0.5"/>
+    <circle cx="8" cy="-33" r="5" fill="#F8C0C8" opacity="0.5"/>
+
+    <!-- Eyes -->
+    <circle cx="-6" cy="-38" r="3.5" fill="#2A2020"/>
+    <circle cx="6" cy="-38" r="3.5" fill="#2A2020"/>
+    <!-- Eye shine -->
+    <circle cx="-5" cy="-39.5" r="1.3" fill="#FFFFFF"/>
+    <circle cx="7" cy="-39.5" r="1.3" fill="#FFFFFF"/>
+
+    <!-- Nose -->
+    <ellipse cx="0" cy="-32" rx="2.5" ry="2" fill="#F090A8"/>
+
+    <!-- Mouth smile -->
+    <path d="M -4,-29 Q 0,-26 4,-29" fill="none" stroke="#D07090" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- Small whiskers -->
+    <line x1="-14" y1="-32" x2="-5" y2="-31" stroke="#D0C8B8" stroke-width="0.8" opacity="0.7"/>
+    <line x1="-13" y1="-29" x2="-5" y2="-29" stroke="#D0C8B8" stroke-width="0.8" opacity="0.7"/>
+    <line x1="14" y1="-32" x2="5" y2="-31" stroke="#D0C8B8" stroke-width="0.8" opacity="0.7"/>
+    <line x1="13" y1="-29" x2="5" y2="-29" stroke="#D0C8B8" stroke-width="0.8" opacity="0.7"/>
+
+    <!-- Arms making heart gesture -->
+    <!-- Left arm -->
+    <path d="M -20,-8 C -30,-10 -32,-2 -26,4 C -24,8 -18,10 -14,8"
+          fill="url(#bunnyGrad)" stroke="#E0D8CC" stroke-width="1.2"/>
+    <!-- Right arm -->
+    <path d="M 20,-8 C 30,-10 32,-2 26,4 C 24,8 18,10 14,8"
+          fill="url(#bunnyGrad)" stroke="#E0D8CC" stroke-width="1.2"/>
+
+    <!-- Heart between paws -->
+    <path d="M 0,6 C -2,3 -7,3 -7,7 C -7,10 0,15 0,15 C 0,15 7,10 7,7 C 7,3 2,3 0,6 Z"
+          fill="#FF6090" opacity="0.85"/>
+    <path d="M -2,6 C -2.5,4.5 -4.5,4.5 -4.5,6.5 C -4.5,8 -2,10.5 -2,10.5"
+          fill="#FFFFFF" opacity="0.35"/>
+
+    <!-- Little tail -->
+    <circle cx="0" cy="18" r="6" fill="#FFFFFF"/>
+    <circle cx="0" cy="18" r="4" fill="url(#bunnyGrad)"/>
+
+    <!-- Tiny feet -->
+    <ellipse cx="-10" cy="24" rx="8" ry="5" fill="url(#bunnyGrad)" stroke="#E0D8CC" stroke-width="0.8"/>
+    <ellipse cx="10" cy="24" rx="8" ry="5" fill="url(#bunnyGrad)" stroke="#E0D8CC" stroke-width="0.8"/>
+  </g>
+
+  <!-- === SILVER GLITTER "1" NUMBER TOPPER === -->
+  <g filter="url(#silverGlow)">
+    <!-- Topper stick -->
+    <rect x="197" y="80" width="6" height="52" rx="3" fill="#C0CED8"/>
+    <rect x="199" y="80" width="2" height="52" rx="1" fill="#DDEAF5" opacity="0.6"/>
+
+    <!-- Big "1" -->
+    <text x="274" y="80"
+          font-family="Arial, 'Helvetica Neue', sans-serif"
+          font-size="58"
+          font-weight="900"
+          fill="url(#silverGrad)"
+          text-anchor="middle">1</text>
+    <!-- "1" shine -->
+    <text x="272" y="78"
+          font-family="Arial, 'Helvetica Neue', sans-serif"
+          font-size="58"
+          font-weight="900"
+          fill="#FFFFFF"
+          text-anchor="middle"
+          opacity="0.2">1</text>
+  </g>
+
+  <!-- Sparkle dots around "1" -->
+  <g fill="#B8D0E8" opacity="0.9">
+    <circle cx="248" cy="35" r="2.5"/>
+    <circle cx="303" cy="28" r="2"/>
+    <circle cx="310" cy="55" r="3"/>
+    <circle cx="245" cy="65" r="2"/>
+    <circle cx="302" cy="72" r="2.5"/>
+    <circle cx="256" cy="20" r="1.5"/>
+    <circle cx="295" cy="15" r="2"/>
+  </g>
+  <!-- 4-point sparkle stars near "1" -->
+  <g fill="#DDEAF5" opacity="0.8">
+    <path d="M 252,48 L 254,44 L 256,48 L 254,52 Z"/>
+    <path d="M 298,42 L 300,38 L 302,42 L 300,46 Z"/>
+    <path d="M 308,68 L 310,64 L 312,68 L 310,72 Z"/>
+  </g>
+
+  <!-- === BOTTOM LABEL === -->
+  <text x="200" y="478"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="12"
+        font-style="italic"
+        fill="#E060A0"
+        text-anchor="middle"
+        letter-spacing="3.5"
+        opacity="0.9">TORT URODZINOWY</text>
+
+  <!-- Small decorative hearts flanking label -->
+  <g fill="#E878A8" opacity="0.6">
+    <path d="M 55,474 C 54,472 51,472 51,474 C 51,476 55,479 55,479 C 55,479 59,476 59,474 C 59,472 56,472 55,474 Z"/>
+    <path d="M 345,474 C 344,472 341,472 341,474 C 341,476 345,479 345,479 C 345,479 349,476 349,474 C 349,472 346,472 345,474 Z"/>
+  </g>
+</svg>
