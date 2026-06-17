@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FFF0F4"/><stop offset="100%" stop-color="#FAE8EE"/></linearGradient>
+  <linearGradient id="hpink" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F9C8D8"/><stop offset="100%" stop-color="#F0A8BC"/></linearGradient>
+  <linearGradient id="rosette" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F8B8CE"/><stop offset="100%" stop-color="#EC9AB4"/></linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#d060a0" flood-opacity="0.15"/></filter>
+</defs>
+<rect width="400" height="500" fill="url(#bg)"/>
+<circle cx="70" cy="90" r="120" fill="#FFD8E8" opacity="0.25"/>
+<circle cx="340" cy="400" r="100" fill="#F8D0E4" opacity="0.22"/>
+<!-- White plate -->
+<ellipse cx="200" cy="428" rx="145" ry="16" fill="#e0e0e0" opacity="0.4"/>
+<ellipse cx="200" cy="424" rx="142" ry="14" fill="#FFFFFF" filter="url(#sh)"/>
+<ellipse cx="200" cy="421" rx="138" ry="12" fill="#FDFCFC"/>
+<text x="290" y="427" font-family="Georgia,serif" font-size="8" fill="#999" text-anchor="middle" letter-spacing="1">Gula Cake</text>
+<!-- Cake body (heart shape) — lower tier, squarish base -->
+<rect x="112" y="330" width="176" height="94" rx="6" fill="url(#hpink)" filter="url(#sh)"/>
+<!-- Lower tier rosette border -->
+<g fill="url(#rosette)" opacity="0.9">
+  <circle cx="118" cy="425" r="8"/><circle cx="138" cy="420" r="9"/><circle cx="160" cy="418" r="10"/>
+  <circle cx="184" cy="416" r="10"/><circle cx="208" cy="416" r="10"/><circle cx="232" cy="418" r="10"/>
+  <circle cx="254" cy="420" r="9"/><circle cx="274" cy="425" r="8"/>
+</g>
+<g fill="#ffffff" opacity="0.25">
+  <circle cx="118" cy="422" r="5"/><circle cx="138" cy="417" r="6"/><circle cx="160" cy="415" r="6"/>
+  <circle cx="184" cy="413" r="6"/><circle cx="208" cy="413" r="6"/><circle cx="232" cy="415" r="6"/>
+  <circle cx="254" cy="417" r="6"/><circle cx="274" cy="422" r="5"/>
+</g>
+<!-- Red ribbon border sides on lower tier -->
+<rect x="112" y="336" width="176" height="7" fill="#CC1040" opacity="0.85"/>
+<rect x="112" y="418" width="176" height="7" fill="#CC1040" opacity="0.85"/>
+<!-- Heart-shaped top tier -->
+<path d="M200 208 C200 208 145 168 130 210 C115 250 155 280 200 316 C245 280 285 250 270 210 C255 168 200 208 200 208Z" fill="url(#hpink)" filter="url(#sh)"/>
+<!-- Heart rosette border ring -->
+<g fill="url(#rosette)" opacity="0.9">
+  <circle cx="148" cy="172" r="9"/><circle cx="170" cy="160" r="9"/><circle cx="194" cy="156" r="8"/>
+  <circle cx="218" cy="158" r="8"/><circle cx="240" cy="168" r="9"/><circle cx="256" cy="184" r="8"/>
+  <circle cx="265" cy="202" r="8"/><circle cx="262" cy="224" r="9"/><circle cx="248" cy="244" r="9"/>
+  <circle cx="228" cy="264" r="9"/><circle cx="208" cy="282" r="9"/><circle cx="188" cy="264" r="9"/>
+  <circle cx="168" cy="244" r="9"/><circle cx="150" cy="224" r="9"/><circle cx="138" cy="202" r="8"/>
+  <circle cx="136" cy="184" r="8"/>
+</g>
+<!-- Red ribbon on heart border -->
+<path d="M200 208 C200 208 148 172 133 212 C118 252 158 282 200 316 C242 282 282 252 267 212 C252 172 200 208 200 208Z" fill="none" stroke="#CC1040" stroke-width="5" opacity="0.6"/>
+<!-- Red ribbon bows (corners) -->
+<g fill="#CC1040">
+  <path d="M143 172 Q138 160 148 160 Q152 164 148 172Z"/>
+  <path d="M143 172 Q138 180 148 180 Q152 176 148 172Z"/>
+  <circle cx="143" cy="172" r="4"/>
+  <path d="M257 172 Q262 160 252 160 Q248 164 252 172Z"/>
+  <path d="M257 172 Q262 180 252 180 Q248 176 252 172Z"/>
+  <circle cx="257" cy="172" r="4"/>
+</g>
+<!-- Cherries -->
+<circle cx="168" cy="168" r="9" fill="#B01030"/>
+<circle cx="168" cy="168" r="7" fill="#D01840" stroke="#B01030" stroke-width="1"/>
+<circle cx="166" cy="164" r="2.5" fill="white" opacity="0.5"/>
+<line x1="172" y1="160" x2="176" y2="152" stroke="#5a8a42" stroke-width="1.5"/>
+<circle cx="234" cy="168" r="9" fill="#B01030"/>
+<circle cx="234" cy="168" r="7" fill="#D01840" stroke="#B01030" stroke-width="1"/>
+<circle cx="232" cy="164" r="2.5" fill="white" opacity="0.5"/>
+<line x1="238" y1="160" x2="242" y2="152" stroke="#5a8a42" stroke-width="1.5"/>
+<circle cx="200" cy="162" r="8" fill="#B01030"/>
+<circle cx="200" cy="162" r="6" fill="#D01840" stroke="#B01030" stroke-width="1"/>
+<circle cx="198" cy="158" r="2" fill="white" opacity="0.5"/>
+<line x1="203" y1="155" x2="206" y2="147" stroke="#5a8a42" stroke-width="1.5"/>
+<!-- Text on heart -->
+<text x="200" y="235" font-family="Georgia,serif" font-size="12" fill="#C01040" text-anchor="middle" font-style="italic">Witches don't</text>
+<text x="200" y="252" font-family="Georgia,serif" font-size="12" fill="#C01040" text-anchor="middle" font-style="italic">age</text>
+<!-- Red ribbon streamers hanging -->
+<path d="M136 380 Q128 400 136 420" stroke="#CC1040" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M264 380 Q272 400 264 420" stroke="#CC1040" stroke-width="3" fill="none" stroke-linecap="round"/>
+<!-- Label -->
+<rect x="112" y="466" width="176" height="24" rx="12" fill="rgba(200,50,100,0.11)"/>
+<text x="200" y="482" font-family="Georgia,serif" font-size="11" fill="#B02050" text-anchor="middle" letter-spacing="1.2">TORT W KSZTAŁCIE SERCA</text>
+</svg>

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <!-- Background gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="75%">
+      <stop offset="0%" stop-color="#FDFBF8"/>
+      <stop offset="100%" stop-color="#F0EAE0"/>
+    </radialGradient>
+
+    <!-- Top cake surface gradient -->
+    <radialGradient id="topGrad" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#FBF6EC"/>
+      <stop offset="100%" stop-color="#E8DECA"/>
+    </radialGradient>
+
+    <!-- Stand gradient -->
+    <linearGradient id="standGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E8E0D0"/>
+      <stop offset="20%" stop-color="#F5EFE3"/>
+      <stop offset="50%" stop-color="#FDFAF5"/>
+      <stop offset="80%" stop-color="#F5EFE3"/>
+      <stop offset="100%" stop-color="#E0D8C8"/>
+    </linearGradient>
+
+    <!-- Cream rosette gradient -->
+    <radialGradient id="creamRosetteGrad" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FBF5E6"/>
+      <stop offset="60%" stop-color="#EDE0C4"/>
+      <stop offset="100%" stop-color="#D8CCAA"/>
+    </radialGradient>
+
+    <!-- Red rosette gradient -->
+    <radialGradient id="redRosetteGrad" cx="35%" cy="25%" r="65%">
+      <stop offset="0%" stop-color="#E83030"/>
+      <stop offset="55%" stop-color="#C82020"/>
+      <stop offset="100%" stop-color="#9A1010"/>
+    </radialGradient>
+
+    <!-- Pearl gradient -->
+    <radialGradient id="pearlGrad" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="60%" stop-color="#F0EBE0"/>
+      <stop offset="100%" stop-color="#D8D0C0"/>
+    </radialGradient>
+
+    <!-- Ribbon gradient -->
+    <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="40%" stop-color="#F8F5F0"/>
+      <stop offset="100%" stop-color="#E8E4DC"/>
+    </linearGradient>
+
+    <!-- Shadow filter -->
+    <filter id="cakeShadow" x="-15%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="4" dy="8" stdDeviation="12" flood-color="#8A6050" flood-opacity="0.2"/>
+    </filter>
+
+    <filter id="softDrop" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="1" dy="2" stdDeviation="4" flood-color="#6A4030" flood-opacity="0.15"/>
+    </filter>
+
+    <!-- Clip for cake body -->
+    <clipPath id="cakeClip">
+      <rect x="68" y="150" width="264" height="248" rx="8"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bgGrad)"/>
+
+  <!-- Soft vignette corners -->
+  <radialGradient id="vignetteGrad" cx="50%" cy="50%" r="70%">
+    <stop offset="65%" stop-color="transparent"/>
+    <stop offset="100%" stop-color="#D8CDB8" stop-opacity="0.3"/>
+  </radialGradient>
+  <rect width="400" height="500" fill="url(#vignetteGrad)"/>
+
+  <!-- Background decorative flourishes -->
+  <text x="22" y="90" font-family="Georgia, serif" font-size="28" fill="#E8DECE" opacity="0.4" transform="rotate(-15,22,90)">✿</text>
+  <text x="355" y="130" font-family="Georgia, serif" font-size="22" fill="#E8DECE" opacity="0.35" transform="rotate(12,355,130)">✿</text>
+  <text x="30" y="380" font-family="Georgia, serif" font-size="20" fill="#E0D0C0" opacity="0.3" transform="rotate(-10,30,380)">✿</text>
+  <text x="360" y="360" font-family="Georgia, serif" font-size="24" fill="#E0D0C0" opacity="0.3" transform="rotate(8,360,360)">✿</text>
+
+  <!-- === VINTAGE STAND === -->
+  <!-- Stand base -->
+  <ellipse cx="200" cy="430" rx="105" ry="14" fill="#D8D0C0"/>
+  <rect x="95" y="418" width="210" height="16" rx="6" fill="url(#standGrad)"/>
+  <rect x="98" y="420" width="204" height="12" rx="5" fill="#F5F0E8"/>
+  <!-- Distressed texture lines on stand -->
+  <line x1="120" y1="421" x2="120" y2="431" stroke="#D8D0C0" stroke-width="1" opacity="0.5"/>
+  <line x1="150" y1="421" x2="150" y2="431" stroke="#D8D0C0" stroke-width="1" opacity="0.4"/>
+  <line x1="200" y1="421" x2="200" y2="431" stroke="#D8D0C0" stroke-width="1" opacity="0.5"/>
+  <line x1="250" y1="421" x2="250" y2="431" stroke="#D8D0C0" stroke-width="1" opacity="0.4"/>
+  <line x1="280" y1="421" x2="280" y2="431" stroke="#D8D0C0" stroke-width="1" opacity="0.5"/>
+  <!-- Stand feet -->
+  <ellipse cx="130" cy="432" rx="18" ry="5" fill="#C8C0B0"/>
+  <ellipse cx="200" cy="433" rx="20" ry="5" fill="#C8C0B0"/>
+  <ellipse cx="270" cy="432" rx="18" ry="5" fill="#C8C0B0"/>
+  <!-- "Gula Cake" on stand -->
+  <text x="200" y="428"
+        font-family="'Palatino Linotype', Georgia, serif"
+        font-size="9"
+        font-style="italic"
+        letter-spacing="1.5"
+        fill="#8A7860"
+        text-anchor="middle">Gula Cake</text>
+
+  <!-- === CAKE BODY - Main Rectangle/Rounded form === -->
+  <!-- Cake shadow -->
+  <rect x="72" y="154" width="256" height="250" rx="10" fill="#8A6050" opacity="0.12" transform="translate(6,8)"/>
+
+  <!-- === LAYER 5 (BOTTOM) - Red rosette border === -->
+  <!-- Base band fill -->
+  <rect x="70" y="358" width="260" height="44" rx="0" fill="#B81A1A"/>
+  <!-- Bottom rosettes - red -->
+  <g>
+    <!-- Generate red rosettes along bottom band -->
+    <!-- Each rosette: center + radiating petals -->
+    <!-- Rosette template as path macro -->
+    <!-- Rosette at x=88 -->
+    <g transform="translate(88,380)">
+      <circle r="14" fill="#C82020"/>
+      <path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030"/>
+      <path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(45)"/>
+      <path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(90)"/>
+      <path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(135)"/>
+      <path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(180)"/>
+      <path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(225)"/>
+      <path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(270)"/>
+      <path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(315)"/>
+      <circle r="7" fill="#9A1010"/>
+      <circle r="3.5" fill="#C82020"/>
+    </g>
+    <g transform="translate(118,380)">
+      <circle r="13" fill="#C82020"/>
+      <path d="M0,-13 C-4,-9 -4,-5 0,-3 C4,-5 4,-9 0,-13Z" fill="#D83030" transform="rotate(22.5)"/>
+      <path d="M0,-13 C-4,-9 -4,-5 0,-3 C4,-5 4,-9 0,-13Z" fill="#D83030" transform="rotate(67.5)"/>
+      <path d="M0,-13 C-4,-9 -4,-5 0,-3 C4,-5 4,-9 0,-13Z" fill="#D83030" transform="rotate(112.5)"/>
+      <path d="M0,-13 C-4,-9 -4,-5 0,-3 C4,-5 4,-9 0,-13Z" fill="#D83030" transform="rotate(157.5)"/>
+      <path d="M0,-13 C-4,-9 -4,-5 0,-3 C4,-5 4,-9 0,-13Z" fill="#D83030" transform="rotate(202.5)"/>
+      <path d="M0,-13 C-4,-9 -4,-5 0,-3 C4,-5 4,-9 0,-13Z" fill="#D83030" transform="rotate(247.5)"/>
+      <path d="M0,-13 C-4,-9 -4,-5 0,-3 C4,-5 4,-9 0,-13Z" fill="#D83030" transform="rotate(292.5)"/>
+      <path d="M0,-13 C-4,-9 -4,-5 0,-3 C4,-5 4,-9 0,-13Z" fill="#D83030" transform="rotate(337.5)"/>
+      <circle r="6.5" fill="#9A1010"/>
+      <circle r="3" fill="#C82020"/>
+    </g>
+    <g transform="translate(148,380)">
+      <circle r="13" fill="#C82020"/>
+      <path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(0)"/>
+      <path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(45)"/>
+      <path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(90)"/>
+      <path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(135)"/>
+      <path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(180)"/>
+      <path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(225)"/>
+      <path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(270)"/>
+      <path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(315)"/>
+      <circle r="6" fill="#901010"/>
+      <circle r="3" fill="#C82020"/>
+    </g>
+    <g transform="translate(178,380)"><circle r="13" fill="#C82020"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(22.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(67.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(112.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(157.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(202.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(247.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(292.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(337.5)"/><circle r="6" fill="#901010"/><circle r="3" fill="#C82020"/></g>
+    <g transform="translate(208,380)"><circle r="13" fill="#C82020"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(0)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(45)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(90)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(135)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(180)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(225)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(270)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(315)"/><circle r="6" fill="#901010"/><circle r="3" fill="#C82020"/></g>
+    <g transform="translate(238,380)"><circle r="13" fill="#C82020"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(22.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(67.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(112.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(157.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(202.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(247.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(292.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(337.5)"/><circle r="6" fill="#901010"/><circle r="3" fill="#C82020"/></g>
+    <g transform="translate(268,380)"><circle r="14" fill="#C82020"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(0)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(45)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(90)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(135)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(180)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(225)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(270)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(315)"/><circle r="7" fill="#9A1010"/><circle r="3.5" fill="#C82020"/></g>
+    <g transform="translate(298,380)"><circle r="13" fill="#C82020"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(22.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(67.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(112.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(157.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(202.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(247.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(292.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(337.5)"/><circle r="6" fill="#901010"/><circle r="3" fill="#C82020"/></g>
+  </g>
+
+  <!-- === LAYER 4 - Cream ruffle wave band === -->
+  <rect x="70" y="298" width="260" height="64" fill="#E8DABE"/>
+  <!-- Cream wave piping -->
+  <path d="M70,298 C82,288 96,308 110,298 C124,288 138,308 152,298 C166,288 180,308 194,298 C208,288 222,308 236,298 C250,288 264,308 278,298 C292,288 306,308 320,298 C334,288 330,308 330,298"
+        stroke="#F0E8D0" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M70,310 C82,300 96,320 110,310 C124,300 138,320 152,310 C166,300 180,320 194,310 C208,300 222,320 236,310 C250,300 264,320 278,310 C292,300 306,320 320,310 C330,300 330,310 330,310"
+        stroke="#E0D4B0" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M70,322 C82,312 96,332 110,322 C124,312 138,332 152,322 C166,312 180,332 194,322 C208,312 222,332 236,322 C250,312 264,332 278,322 C292,312 306,332 320,322 C330,314 330,322 330,322"
+        stroke="#F5EDD8" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M70,333 C82,323 96,343 110,333 C124,323 138,343 152,333 C166,323 180,343 194,333 C208,323 222,343 236,333 C250,323 264,343 278,333 C292,323 306,343 320,333 C330,325 330,333 330,333"
+        stroke="#EDE0C0" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <!-- Small cream ruffle dots -->
+  <circle cx="88" cy="355" r="3" fill="#F8F4EC"/>
+  <circle cx="118" cy="352" r="2.5" fill="#F8F4EC"/>
+  <circle cx="148" cy="356" r="3" fill="#F8F4EC"/>
+  <circle cx="178" cy="353" r="2.5" fill="#F8F4EC"/>
+  <circle cx="208" cy="355" r="3" fill="#F8F4EC"/>
+  <circle cx="238" cy="352" r="2.5" fill="#F8F4EC"/>
+  <circle cx="268" cy="356" r="3" fill="#F8F4EC"/>
+  <circle cx="298" cy="353" r="2.5" fill="#F8F4EC"/>
+
+  <!-- === LAYER 3 - Red middle ruffle band === -->
+  <rect x="70" y="234" width="260" height="68" fill="#C82020"/>
+  <!-- Red ruffle waves -->
+  <path d="M70,240 C83,228 98,250 113,238 C128,226 143,248 158,236 C173,224 188,246 203,234 C218,222 233,244 248,232 C263,220 278,242 293,230 C308,218 323,240 330,228"
+        stroke="#E03030" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M70,255 C83,243 98,265 113,253 C128,241 143,263 158,251 C173,239 188,261 203,249 C218,237 233,259 248,247 C263,235 278,257 293,245 C308,233 323,255 330,243"
+        stroke="#D42828" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M70,270 C83,258 98,280 113,268 C128,256 143,278 158,266 C173,254 188,276 203,264 C218,252 233,274 248,262 C263,250 278,272 293,260 C308,248 323,270 330,258"
+        stroke="#B81818" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <!-- Red pearls -->
+  <circle cx="93" cy="295" r="3.5" fill="#F8F4EC"/>
+  <circle cx="128" cy="293" r="3" fill="#F8F4EC"/>
+  <circle cx="163" cy="296" r="3.5" fill="#F8F4EC"/>
+  <circle cx="198" cy="293" r="3" fill="#F8F4EC"/>
+  <circle cx="233" cy="296" r="3.5" fill="#F8F4EC"/>
+  <circle cx="268" cy="293" r="3" fill="#F8F4EC"/>
+  <circle cx="303" cy="296" r="3.5" fill="#F8F4EC"/>
+
+  <!-- === LAYER 2 - Cream wave band === -->
+  <rect x="70" y="185" width="260" height="53" fill="#EDE3C8"/>
+  <!-- Cream scallop ruffle -->
+  <path d="M70,190 C80,180 94,200 108,190 C122,180 136,200 150,190 C164,180 178,200 192,190 C206,180 220,200 234,190 C248,180 262,200 276,190 C290,180 304,200 318,190 C328,182 330,190 330,190"
+        stroke="#F5EDD8" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M70,204 C80,194 94,214 108,204 C122,194 136,214 150,204 C164,194 178,214 192,204 C206,194 220,214 234,204 C248,194 262,214 276,204 C290,194 304,214 318,204 C328,196 330,204 330,204"
+        stroke="#E8DABA" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <path d="M70,217 C80,207 94,227 108,217 C122,207 136,227 150,217 C164,207 178,227 192,217 C206,207 220,227 234,217 C248,207 262,227 276,217 C290,207 304,227 318,217 C328,210 330,217 330,217"
+        stroke="#F0E5C5" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- Cream band pearls -->
+  <circle cx="88" cy="233" r="3" fill="#F8F4EC"/>
+  <circle cx="118" cy="230" r="3.5" fill="#F8F4EC"/>
+  <circle cx="148" cy="233" r="3" fill="#F8F4EC"/>
+  <circle cx="178" cy="230" r="3.5" fill="#F8F4EC"/>
+  <circle cx="208" cy="233" r="3" fill="#F8F4EC"/>
+  <circle cx="238" cy="230" r="3.5" fill="#F8F4EC"/>
+  <circle cx="268" cy="233" r="3" fill="#F8F4EC"/>
+  <circle cx="298" cy="230" r="3.5" fill="#F8F4EC"/>
+
+  <!-- === LAYER 1 (TOP ROSETTE BORDER) - Red === -->
+  <rect x="70" y="152" width="260" height="37" fill="#B81818"/>
+  <!-- Top red rosette border -->
+  <g>
+    <g transform="translate(88,170)"><circle r="14" fill="#C82020"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(0)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(45)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(90)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(135)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(180)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(225)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(270)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(315)"/><circle r="7" fill="#9A1010"/><circle r="3.5" fill="#C82020"/></g>
+    <g transform="translate(118,170)"><circle r="13" fill="#C82020"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(22.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(67.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(112.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(157.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(202.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(247.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(292.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(337.5)"/><circle r="6" fill="#901010"/><circle r="3" fill="#C82020"/></g>
+    <g transform="translate(148,170)"><circle r="13" fill="#C82020"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(0)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(45)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(90)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(135)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(180)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(225)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(270)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(315)"/><circle r="6" fill="#901010"/><circle r="3" fill="#C82020"/></g>
+    <g transform="translate(178,170)"><circle r="13" fill="#C82020"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(22.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(67.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(112.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(157.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(202.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(247.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(292.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(337.5)"/><circle r="6" fill="#901010"/><circle r="3" fill="#C82020"/></g>
+    <g transform="translate(208,170)"><circle r="13" fill="#C82020"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(0)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(45)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(90)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(135)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(180)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(225)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(270)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(315)"/><circle r="6" fill="#901010"/><circle r="3" fill="#C82020"/></g>
+    <g transform="translate(238,170)"><circle r="13" fill="#C82020"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(22.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(67.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(112.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(157.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(202.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(247.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(292.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#D82828" transform="rotate(337.5)"/><circle r="6" fill="#901010"/><circle r="3" fill="#C82020"/></g>
+    <g transform="translate(268,170)"><circle r="14" fill="#C82020"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(0)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(45)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(90)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(135)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(180)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(225)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(270)"/><path d="M0,-14 C-4,-10 -4,-6 0,-4 C4,-6 4,-10 0,-14Z" fill="#E03030" transform="rotate(315)"/><circle r="7" fill="#9A1010"/><circle r="3.5" fill="#C82020"/></g>
+    <g transform="translate(298,170)"><circle r="13" fill="#C82020"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(22.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(67.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(112.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(157.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(202.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(247.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(292.5)"/><path d="M0,-13 C-3.5,-9 -3.5,-5 0,-3 C3.5,-5 3.5,-9 0,-13Z" fill="#E03838" transform="rotate(337.5)"/><circle r="6" fill="#901010"/><circle r="3" fill="#C82020"/></g>
+  </g>
+
+  <!-- === TOP CAKE SURFACE === -->
+  <rect x="70" y="148" width="260" height="10" rx="3" fill="#EDE3C8"/>
+  <ellipse cx="200" cy="150" rx="130" ry="10" fill="url(#topGrad)"/>
+  <!-- Top surface subtle detail -->
+  <ellipse cx="200" cy="150" rx="120" ry="7" fill="#F5EDDA" opacity="0.6"/>
+
+  <!-- Cake outline/border -->
+  <rect x="70" y="150" width="260" height="250" rx="5" fill="none" stroke="#C0A888" stroke-width="1" opacity="0.3"/>
+
+  <!-- === WHITE SATIN BOWS === -->
+  <!-- BOW 1 - Front center (on red middle band) -->
+  <g transform="translate(200, 265)">
+    <!-- Left loop -->
+    <path d="M0,-2 C-10,-16 -32,-22 -36,-14 C-40,-6 -26,4 -14,4 C-7,4 -2,2 0,-2Z"
+          fill="#F8F5F0" stroke="#E0D8CC" stroke-width="1"/>
+    <path d="M0,-2 C-8,-14 -28,-20 -32,-13 C-30,-8 -18,2 -12,3"
+          fill="none" stroke="#EDE8E0" stroke-width="1" opacity="0.6"/>
+    <!-- Right loop -->
+    <path d="M0,-2 C10,-16 32,-22 36,-14 C40,-6 26,4 14,4 C7,4 2,2 0,-2Z"
+          fill="#F8F5F0" stroke="#E0D8CC" stroke-width="1"/>
+    <path d="M0,-2 C8,-14 28,-20 32,-13 C30,-8 18,2 12,3"
+          fill="none" stroke="#EDE8E0" stroke-width="1" opacity="0.6"/>
+    <!-- Streamers -->
+    <path d="M-2,2 C-8,12 -12,22 -10,30" stroke="#F5F0EA" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M2,2 C8,12 12,22 10,30" stroke="#F5F0EA" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- Knot -->
+    <ellipse cx="0" cy="0" rx="7" ry="5" fill="#EDE8E0" stroke="#D8D0C4" stroke-width="0.5"/>
+    <ellipse cx="0" cy="0" rx="4" ry="3" fill="#F5F2EC"/>
+  </g>
+
+  <!-- BOW 2 - Left side (on cream band) -->
+  <g transform="translate(88, 210)">
+    <path d="M0,-1 C-6,-11 -22,-16 -25,-10 C-28,-4 -18,4 -9,3 C-4,3 -1,1 0,-1Z"
+          fill="#F8F5F0" stroke="#E0D8CC" stroke-width="0.8"/>
+    <path d="M0,-1 C6,-11 22,-16 25,-10 C28,-4 18,4 9,3 C4,3 1,1 0,-1Z"
+          fill="#F8F5F0" stroke="#E0D8CC" stroke-width="0.8"/>
+    <path d="M-1,1 C-4,8 -5,16 -4,21" stroke="#F5F0EA" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M1,1 C4,8 5,16 4,21" stroke="#F5F0EA" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="0" cy="0" rx="5" ry="4" fill="#EDE8E0" stroke="#D8D0C4" stroke-width="0.5"/>
+    <ellipse cx="0" cy="0" rx="3" ry="2" fill="#F5F2EC"/>
+  </g>
+
+  <!-- BOW 3 - Right side (on cream band) -->
+  <g transform="translate(312, 210)">
+    <path d="M0,-1 C-6,-11 -22,-16 -25,-10 C-28,-4 -18,4 -9,3 C-4,3 -1,1 0,-1Z"
+          fill="#F8F5F0" stroke="#E0D8CC" stroke-width="0.8"/>
+    <path d="M0,-1 C6,-11 22,-16 25,-10 C28,-4 18,4 9,3 C4,3 1,1 0,-1Z"
+          fill="#F8F5F0" stroke="#E0D8CC" stroke-width="0.8"/>
+    <path d="M-1,1 C-4,8 -5,16 -4,21" stroke="#F5F0EA" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M1,1 C4,8 5,16 4,21" stroke="#F5F0EA" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="0" cy="0" rx="5" ry="4" fill="#EDE8E0" stroke="#D8D0C4" stroke-width="0.5"/>
+    <ellipse cx="0" cy="0" rx="3" ry="2" fill="#F5F2EC"/>
+  </g>
+
+  <!-- BOW 4 - Front on bottom red band -->
+  <g transform="translate(200, 380)">
+    <path d="M0,-1 C-7,-12 -24,-17 -27,-10 C-30,-3 -19,5 -10,4 C-4,3 -1,1 0,-1Z"
+          fill="#F8F5F0" stroke="#E0D8CC" stroke-width="0.8"/>
+    <path d="M0,-1 C7,-12 24,-17 27,-10 C30,-3 19,5 10,4 C4,3 1,1 0,-1Z"
+          fill="#F8F5F0" stroke="#E0D8CC" stroke-width="0.8"/>
+    <path d="M-1,2 C-5,10 -7,20 -5,26" stroke="#F5F0EA" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M1,2 C5,10 7,20 5,26" stroke="#F5F0EA" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="0" cy="0" rx="6" ry="4" fill="#EDE8E0" stroke="#D8D0C4" stroke-width="0.5"/>
+    <ellipse cx="0" cy="0" rx="3" ry="2.5" fill="#F5F2EC"/>
+  </g>
+
+  <!-- === PEARLS scattered through ruffles === -->
+  <!-- Layer 1 top pearls -->
+  <circle cx="103" cy="165" r="3.5" fill="url(#pearlGrad)" stroke="#E8E0D0" stroke-width="0.5"/>
+  <circle cx="133" cy="162" r="2.5" fill="url(#pearlGrad)"/>
+  <circle cx="163" cy="165" r="3" fill="url(#pearlGrad)" stroke="#E8E0D0" stroke-width="0.5"/>
+  <circle cx="193" cy="162" r="2.5" fill="url(#pearlGrad)"/>
+  <circle cx="223" cy="165" r="3" fill="url(#pearlGrad)" stroke="#E8E0D0" stroke-width="0.5"/>
+  <circle cx="253" cy="162" r="2.5" fill="url(#pearlGrad)"/>
+  <circle cx="283" cy="165" r="3.5" fill="url(#pearlGrad)" stroke="#E8E0D0" stroke-width="0.5"/>
+  <circle cx="313" cy="162" r="2.5" fill="url(#pearlGrad)"/>
+
+  <!-- Extra scattered pearls -->
+  <circle cx="78" cy="320" r="3" fill="url(#pearlGrad)"/>
+  <circle cx="322" cy="320" r="3" fill="url(#pearlGrad)"/>
+  <circle cx="78" cy="260" r="2.5" fill="url(#pearlGrad)"/>
+  <circle cx="322" cy="260" r="2.5" fill="url(#pearlGrad)"/>
+
+  <!-- === BOTTOM LABEL === -->
+  <g transform="translate(200, 465)">
+    <!-- Label backing -->
+    <rect x="-75" y="-16" width="150" height="24" rx="5" fill="#FBF7F0" stroke="#C82020" stroke-width="1.5"/>
+    <!-- Decorative corner ornaments -->
+    <text x="-62" y="3" font-family="Georgia, serif" font-size="10" fill="#C82020" opacity="0.6">✦</text>
+    <text x="52" y="3" font-family="Georgia, serif" font-size="10" fill="#C82020" opacity="0.6">✦</text>
+    <text x="0" y="3"
+          font-family="'Trebuchet MS', 'Arial Narrow', Arial, sans-serif"
+          font-size="11"
+          font-weight="700"
+          letter-spacing="3"
+          fill="#C82020"
+          text-anchor="middle">TORT VINTAGE</text>
+  </g>
+</svg>

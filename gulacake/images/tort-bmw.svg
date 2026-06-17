@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5F5F5;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#E8E8EC;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Cake body gradient (dark cylinder) -->
+    <linearGradient id="cakeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0a0a0a;stop-opacity:1"/>
+      <stop offset="20%" style="stop-color:#1e1e1e;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#2a2a2a;stop-opacity:1"/>
+      <stop offset="80%" style="stop-color:#1a1a1a;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#080808;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Cake top surface gradient -->
+    <radialGradient id="cakeTopGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#333333;stop-opacity:1"/>
+      <stop offset="70%" style="stop-color:#1a1a1a;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1"/>
+    </radialGradient>
+    <!-- Silver metallic gradient -->
+    <linearGradient id="silverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8ECF0;stop-opacity:1"/>
+      <stop offset="30%" style="stop-color:#B0B8C0;stop-opacity:1"/>
+      <stop offset="60%" style="stop-color:#D0D8E0;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#909AA4;stop-opacity:1"/>
+    </linearGradient>
+    <!-- BMW blue gradient -->
+    <linearGradient id="bmwBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0076CE;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0055A0;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Gold topper gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5D77A;stop-opacity:1"/>
+      <stop offset="40%" style="stop-color:#D4A820;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#B8880C;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Green dollar bill gradient -->
+    <linearGradient id="dollarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5a9a50;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#4a8a40;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#3a7030;stop-opacity:1"/>
+    </linearGradient>
+    <!-- Plate gradient -->
+    <radialGradient id="plateGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1"/>
+      <stop offset="60%" style="stop-color:#F5F5F5;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#E8E8E8;stop-opacity:1"/>
+    </radialGradient>
+    <!-- Drop shadow -->
+    <filter id="cakeShadow" x="-15%" y="-5%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+    <filter id="logoGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#0066B1" flood-opacity="0.4"/>
+    </filter>
+    <!-- BMW ring silver -->
+    <linearGradient id="bmwRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0F4F8;stop-opacity:1"/>
+      <stop offset="30%" style="stop-color:#C0C8D4;stop-opacity:1"/>
+      <stop offset="60%" style="stop-color:#E8ECF0;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#909CB0;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bgGrad)"/>
+
+  <!-- Subtle grid pattern background -->
+  <g opacity="0.04" stroke="#404040" stroke-width="0.5">
+    <line x1="0" y1="50" x2="400" y2="50"/>
+    <line x1="0" y1="100" x2="400" y2="100"/>
+    <line x1="0" y1="150" x2="400" y2="150"/>
+    <line x1="0" y1="200" x2="400" y2="200"/>
+    <line x1="0" y1="250" x2="400" y2="250"/>
+    <line x1="0" y1="300" x2="400" y2="300"/>
+    <line x1="0" y1="350" x2="400" y2="350"/>
+    <line x1="0" y1="400" x2="400" y2="400"/>
+    <line x1="0" y1="450" x2="400" y2="450"/>
+    <line x1="50" y1="0" x2="50" y2="500"/>
+    <line x1="100" y1="0" x2="100" y2="500"/>
+    <line x1="150" y1="0" x2="150" y2="500"/>
+    <line x1="200" y1="0" x2="200" y2="500"/>
+    <line x1="250" y1="0" x2="250" y2="500"/>
+    <line x1="300" y1="0" x2="300" y2="500"/>
+    <line x1="350" y1="0" x2="350" y2="500"/>
+  </g>
+
+  <!-- ======================== PLATE ======================== -->
+  <ellipse cx="200" cy="420" rx="130" ry="20" fill="#C8C8C8" opacity="0.4"/>
+  <ellipse cx="200" cy="417" rx="130" ry="18" fill="url(#plateGrad)" stroke="#D8D8D8" stroke-width="1.5"/>
+  <!-- Plate rim detail -->
+  <ellipse cx="200" cy="415" rx="122" ry="14" fill="none" stroke="#E8E8E8" stroke-width="1"/>
+  <ellipse cx="200" cy="414" rx="114" ry="11" fill="none" stroke="#D0D0D0" stroke-width="0.5"/>
+  <!-- Gula Cake label on plate -->
+  <text x="200" y="419" font-family="Georgia, serif" font-size="8" fill="#888888" text-anchor="middle" font-style="italic">Gula Cake</text>
+
+  <!-- ======================== CAKE BODY ======================== -->
+  <!-- Cake side/cylinder body -->
+  <g filter="url(#cakeShadow)">
+    <!-- Bottom ellipse (base) -->
+    <ellipse cx="200" cy="405" rx="115" ry="16" fill="#050505"/>
+    <!-- Cake sides (rectangle connecting top and bottom ellipses) -->
+    <rect x="85" y="220" width="230" height="185" fill="url(#cakeGrad)"/>
+    <!-- Top ellipse surface -->
+    <ellipse cx="200" cy="220" rx="115" ry="16" fill="url(#cakeTopGrad)"/>
+  </g>
+
+  <!-- Cake side highlight (subtle sheen on the black) -->
+  <rect x="85" y="220" width="30" height="185" fill="white" opacity="0.04" rx="2"/>
+  <rect x="85" y="220" width="8" height="185" fill="white" opacity="0.06"/>
+
+  <!-- Horizontal decoration lines on cake -->
+  <g stroke="#333333" stroke-width="0.8" opacity="0.8">
+    <ellipse cx="200" cy="265" rx="115" ry="16" fill="none"/>
+    <ellipse cx="200" cy="310" rx="115" ry="16" fill="none"/>
+    <ellipse cx="200" cy="355" rx="115" ry="16" fill="none"/>
+  </g>
+
+  <!-- ======================== DOLLAR BILLS AROUND CAKE TOP ======================== -->
+  <!-- Bill 1 - left side -->
+  <g transform="translate(100, 205) rotate(-25)">
+    <rect x="-28" y="-12" width="56" height="28" rx="2" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="0.8"/>
+    <rect x="-24" y="-9" width="48" height="22" rx="1" fill="none" stroke="#6ab060" stroke-width="0.6" opacity="0.6"/>
+    <text x="0" y="-1" font-family="Arial, sans-serif" font-size="7" fill="#c8e8b8" text-anchor="middle" font-weight="bold">100</text>
+    <text x="0" y="7" font-family="Arial, sans-serif" font-size="5" fill="#a8c898" text-anchor="middle">FEDERAL RESERVE</text>
+    <!-- Ben Franklin oval hint -->
+    <ellipse cx="0" cy="1" rx="7" ry="9" fill="none" stroke="#5a9850" stroke-width="0.5"/>
+    <circle cx="0" cy="0" r="5" fill="#3a7830" opacity="0.4"/>
+  </g>
+
+  <!-- Bill 2 - center-left -->
+  <g transform="translate(148, 198) rotate(-10)">
+    <rect x="-28" y="-12" width="56" height="28" rx="2" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="0.8"/>
+    <rect x="-24" y="-9" width="48" height="22" rx="1" fill="none" stroke="#6ab060" stroke-width="0.6" opacity="0.6"/>
+    <text x="0" y="-1" font-family="Arial, sans-serif" font-size="7" fill="#c8e8b8" text-anchor="middle" font-weight="bold">100</text>
+    <text x="0" y="7" font-family="Arial, sans-serif" font-size="5" fill="#a8c898" text-anchor="middle">FEDERAL RESERVE</text>
+    <ellipse cx="0" cy="1" rx="7" ry="9" fill="none" stroke="#5a9850" stroke-width="0.5"/>
+    <circle cx="0" cy="0" r="5" fill="#3a7830" opacity="0.4"/>
+  </g>
+
+  <!-- Bill 3 - center-right -->
+  <g transform="translate(252, 198) rotate(10)">
+    <rect x="-28" y="-12" width="56" height="28" rx="2" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="0.8"/>
+    <rect x="-24" y="-9" width="48" height="22" rx="1" fill="none" stroke="#6ab060" stroke-width="0.6" opacity="0.6"/>
+    <text x="0" y="-1" font-family="Arial, sans-serif" font-size="7" fill="#c8e8b8" text-anchor="middle" font-weight="bold">100</text>
+    <text x="0" y="7" font-family="Arial, sans-serif" font-size="5" fill="#a8c898" text-anchor="middle">FEDERAL RESERVE</text>
+    <ellipse cx="0" cy="1" rx="7" ry="9" fill="none" stroke="#5a9850" stroke-width="0.5"/>
+    <circle cx="0" cy="0" r="5" fill="#3a7830" opacity="0.4"/>
+  </g>
+
+  <!-- Bill 4 - right side -->
+  <g transform="translate(302, 205) rotate(28)">
+    <rect x="-28" y="-12" width="56" height="28" rx="2" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="0.8"/>
+    <rect x="-24" y="-9" width="48" height="22" rx="1" fill="none" stroke="#6ab060" stroke-width="0.6" opacity="0.6"/>
+    <text x="0" y="-1" font-family="Arial, sans-serif" font-size="7" fill="#c8e8b8" text-anchor="middle" font-weight="bold">100</text>
+    <text x="0" y="7" font-family="Arial, sans-serif" font-size="5" fill="#a8c898" text-anchor="middle">FEDERAL RESERVE</text>
+    <ellipse cx="0" cy="1" rx="7" ry="9" fill="none" stroke="#5a9850" stroke-width="0.5"/>
+    <circle cx="0" cy="0" r="5" fill="#3a7830" opacity="0.4"/>
+  </g>
+
+  <!-- Bill 5 - far left low -->
+  <g transform="translate(88, 215) rotate(-40)">
+    <rect x="-22" y="-10" width="44" height="22" rx="2" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="0.8"/>
+    <rect x="-18" y="-7" width="36" height="16" rx="1" fill="none" stroke="#6ab060" stroke-width="0.5" opacity="0.5"/>
+    <text x="0" y="2" font-family="Arial, sans-serif" font-size="6" fill="#c8e8b8" text-anchor="middle" font-weight="bold">100</text>
+  </g>
+
+  <!-- Bill 6 - far right low -->
+  <g transform="translate(312, 215) rotate(42)">
+    <rect x="-22" y="-10" width="44" height="22" rx="2" fill="url(#dollarGrad)" stroke="#2a6020" stroke-width="0.8"/>
+    <rect x="-18" y="-7" width="36" height="16" rx="1" fill="none" stroke="#6ab060" stroke-width="0.5" opacity="0.5"/>
+    <text x="0" y="2" font-family="Arial, sans-serif" font-size="6" fill="#c8e8b8" text-anchor="middle" font-weight="bold">100</text>
+  </g>
+
+  <!-- ======================== BMW LOGO ======================== -->
+  <g filter="url(#logoGlow)" transform="translate(200, 320)">
+    <!-- Outer silver ring (large) -->
+    <circle cx="0" cy="0" r="44" fill="url(#bmwRing)" stroke="#A0A8B8" stroke-width="2"/>
+    <circle cx="0" cy="0" r="40" fill="#111111" stroke="#808898" stroke-width="1"/>
+    <!-- Inner BMW roundel -->
+    <circle cx="0" cy="0" r="36" fill="url(#bmwRing)" stroke="#707888" stroke-width="1.5"/>
+    <!-- 4 quadrants -->
+    <!-- Top-left: WHITE -->
+    <path d="M-36,0 A36,36 0 0,1 0,-36 L0,0 Z" fill="#FFFFFF"/>
+    <!-- Top-right: BLUE -->
+    <path d="M0,-36 A36,36 0 0,1 36,0 L0,0 Z" fill="url(#bmwBlue)"/>
+    <!-- Bottom-right: WHITE -->
+    <path d="M36,0 A36,36 0 0,1 0,36 L0,0 Z" fill="#FFFFFF"/>
+    <!-- Bottom-left: BLUE -->
+    <path d="M0,36 A36,36 0 0,1 -36,0 L0,0 Z" fill="url(#bmwBlue)"/>
+    <!-- Cross dividers -->
+    <line x1="-36" y1="0" x2="36" y2="0" stroke="url(#bmwRing)" stroke-width="3"/>
+    <line x1="0" y1="-36" x2="0" y2="36" stroke="url(#bmwRing)" stroke-width="3"/>
+    <!-- Inner ring overlay -->
+    <circle cx="0" cy="0" r="36" fill="none" stroke="url(#bmwRing)" stroke-width="4"/>
+    <circle cx="0" cy="0" r="34" fill="none" stroke="#C0C8D4" stroke-width="1"/>
+  </g>
+
+  <!-- BMW text below logo -->
+  <text x="200" y="378" font-family="Arial Black, Arial, sans-serif" font-size="13"
+        fill="url(#silverGrad)" text-anchor="middle" font-weight="900" letter-spacing="4">BMW</text>
+
+  <!-- ======================== BMW CAR SILHOUETTE ON TOP ======================== -->
+  <g transform="translate(200, 195)" filter="url(#softShadow)">
+    <!-- Car body silhouette -->
+    <path d="M-65,0 L-65,-8 L-50,-8 L-42,-22 L-20,-28 L15,-28 L35,-22 L48,-8 L65,-8 L65,0 Z"
+          fill="#0a0a0a" stroke="#444444" stroke-width="1"/>
+    <!-- Car roof -->
+    <path d="M-38,-22 L-22,-35 L20,-35 L36,-22 Z" fill="#0d0d0d" stroke="#444444" stroke-width="0.8"/>
+    <!-- Windows -->
+    <path d="M-35,-22 L-22,-33 L-2,-33 L-2,-22 Z" fill="#1a3a5a" opacity="0.8"/>
+    <path d="M0,-22 L0,-33 L20,-33 L34,-22 Z" fill="#1a3a5a" opacity="0.8"/>
+    <!-- Window frame -->
+    <line x1="-2" y1="-22" x2="-2" y2="-33" stroke="#333333" stroke-width="1"/>
+    <!-- Wheels -->
+    <circle cx="-42" cy="0" r="14" fill="#0a0a0a" stroke="#505050" stroke-width="2"/>
+    <circle cx="-42" cy="0" r="8" fill="#1a1a1a" stroke="#707070" stroke-width="1.5"/>
+    <circle cx="-42" cy="0" r="3" fill="#909090"/>
+    <circle cx="42" cy="0" r="14" fill="#0a0a0a" stroke="#505050" stroke-width="2"/>
+    <circle cx="42" cy="0" r="8" fill="#1a1a1a" stroke="#707070" stroke-width="1.5"/>
+    <circle cx="42" cy="0" r="3" fill="#909090"/>
+    <!-- Headlights -->
+    <ellipse cx="-62" cy="-4" rx="5" ry="4" fill="#D0D8E0" opacity="0.9"/>
+    <ellipse cx="62" cy="-4" rx="5" ry="4" fill="#D0D8E0" opacity="0.9"/>
+    <!-- Side door line -->
+    <line x1="-2" y1="-8" x2="-2" y2="0" stroke="#333333" stroke-width="0.8"/>
+    <!-- Door handle -->
+    <rect x="-30" y="-12" width="10" height="2" rx="1" fill="#444444"/>
+    <rect x="20" y="-12" width="10" height="2" rx="1" fill="#444444"/>
+  </g>
+
+  <!-- ======================== HAPPY BIRTHDAY GOLD TOPPER ======================== -->
+  <g filter="url(#softShadow)">
+    <!-- Topper sticks -->
+    <rect x="164" y="155" width="2" height="42" fill="#C9A84C" rx="1"/>
+    <rect x="234" y="158" width="2" height="38" fill="#C9A84C" rx="1"/>
+    <!-- Happy Birthday text acrylic sign -->
+    <rect x="140" y="135" width="120" height="24" rx="4" fill="url(#goldGrad)" opacity="0.92" stroke="#B8880C" stroke-width="0.8"/>
+    <rect x="143" y="138" width="114" height="18" rx="3" fill="none" stroke="#F5D77A" stroke-width="0.6" opacity="0.7"/>
+    <text x="200" y="151" font-family="Georgia, 'Times New Roman', serif" font-size="12"
+          fill="#4A2800" text-anchor="middle" font-style="italic" font-weight="bold">Happy Birthday!</text>
+  </g>
+
+  <!-- ======================== SILVER METALLIC BALLS ======================== -->
+  <!-- Balls around base of cake -->
+  <g fill="url(#silverGrad)" stroke="#808898" stroke-width="0.5">
+    <circle cx="90" cy="400" r="6"/>
+    <circle cx="107" cy="408" r="5"/>
+    <circle cx="125" cy="414" r="6.5"/>
+    <circle cx="145" cy="418" r="5"/>
+    <circle cx="165" cy="421" r="6"/>
+    <circle cx="185" cy="422" r="5.5"/>
+    <circle cx="215" cy="422" r="5.5"/>
+    <circle cx="235" cy="421" r="6"/>
+    <circle cx="255" cy="418" r="5"/>
+    <circle cx="275" cy="414" r="6.5"/>
+    <circle cx="293" cy="408" r="5"/>
+    <circle cx="310" cy="400" r="6"/>
+  </g>
+  <!-- Ball highlights -->
+  <g fill="white" opacity="0.6">
+    <circle cx="88" cy="397" r="2"/>
+    <circle cx="123" cy="411" r="2.2"/>
+    <circle cx="163" cy="418" r="2"/>
+    <circle cx="213" cy="419" r="2"/>
+    <circle cx="273" cy="411" r="2.2"/>
+    <circle cx="308" cy="397" r="2"/>
+  </g>
+
+  <!-- Balls around top edge of cake -->
+  <g fill="url(#silverGrad)" stroke="#808898" stroke-width="0.5">
+    <circle cx="100" cy="218" r="5"/>
+    <circle cx="120" cy="210" r="5.5"/>
+    <circle cx="145" cy="205" r="5"/>
+    <circle cx="170" cy="202" r="5.5"/>
+    <circle cx="260" cy="210" r="5.5"/>
+    <circle cx="280" cy="218" r="5"/>
+    <circle cx="300" cy="229" r="5.5"/>
+    <!-- Silver balls on floor -->
+    <circle cx="75" cy="412" r="5"/>
+    <circle cx="330" cy="412" r="5"/>
+    <circle cx="60" cy="425" r="4"/>
+    <circle cx="345" cy="425" r="4"/>
+  </g>
+  <!-- Ball highlights top -->
+  <g fill="white" opacity="0.65">
+    <circle cx="98" cy="215" r="1.8"/>
+    <circle cx="118" cy="207" r="2"/>
+    <circle cx="143" cy="202" r="1.8"/>
+    <circle cx="258" cy="207" r="2"/>
+    <circle cx="278" cy="215" r="1.8"/>
+  </g>
+
+  <!-- ======================== BOTTOM LABEL ======================== -->
+  <rect x="90" y="438" width="220" height="26" rx="4" fill="#1a1a2a" stroke="#404050" stroke-width="1"/>
+  <rect x="94" y="441" width="212" height="20" rx="3" fill="none" stroke="#505060" stroke-width="0.6"/>
+  <text x="200" y="455" font-family="Arial, Helvetica, sans-serif" font-size="10"
+        fill="#B0B8C8" text-anchor="middle" font-weight="bold" letter-spacing="2">TORT URODZINOWY</text>
+
+  <!-- Small BMW logo watermark top right corner -->
+  <g transform="translate(355, 40)" opacity="0.15">
+    <circle cx="0" cy="0" r="18" fill="none" stroke="#0066B1" stroke-width="1.5"/>
+    <path d="M-18,0 A18,18 0 0,1 0,-18 L0,0 Z" fill="white"/>
+    <path d="M0,-18 A18,18 0 0,1 18,0 L0,0 Z" fill="#0066B1"/>
+    <path d="M18,0 A18,18 0 0,1 0,18 L0,0 Z" fill="white"/>
+    <path d="M0,18 A18,18 0 0,1 -18,0 L0,0 Z" fill="#0066B1"/>
+    <line x1="-18" y1="0" x2="18" y2="0" stroke="white" stroke-width="1.5"/>
+    <line x1="0" y1="-18" x2="0" y2="18" stroke="white" stroke-width="1.5"/>
+  </g>
+</svg>

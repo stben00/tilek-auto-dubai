@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F8F8F8"/><stop offset="100%" stop-color="#ECECEC"/></linearGradient>
+  <linearGradient id="stand" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D0C8B8"/><stop offset="100%" stop-color="#A89880"/></linearGradient>
+  <linearGradient id="cakeBlack" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a2a2a"/><stop offset="100%" stop-color="#111111"/></linearGradient>
+  <linearGradient id="plate2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D8D0C4"/><stop offset="100%" stop-color="#B8B0A4"/></linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#000000" flood-opacity="0.2"/></filter>
+</defs>
+<rect width="400" height="500" fill="url(#bg)"/>
+<!-- Subtle bg circles -->
+<circle cx="60" cy="80" r="130" fill="#E8E8E8" opacity="0.4"/>
+<circle cx="350" cy="420" r="100" fill="#E0E0E0" opacity="0.35"/>
+<!-- Stand base -->
+<ellipse cx="200" cy="448" rx="85" ry="12" fill="#C0B8A8"/>
+<rect x="185" y="400" width="30" height="52" rx="6" fill="url(#stand)"/>
+<ellipse cx="200" cy="400" rx="55" ry="8" fill="url(#stand)"/>
+<!-- Plate -->
+<ellipse cx="200" cy="396" rx="115" ry="13" fill="url(#plate2)" filter="url(#sh)"/>
+<ellipse cx="200" cy="393" rx="112" ry="11" fill="#D8D0C4"/>
+<!-- Cake body -->
+<rect x="108" y="240" width="184" height="158" rx="10" fill="url(#cakeBlack)" filter="url(#sh)"/>
+<!-- Silver scratch texture lines -->
+<line x1="130" y1="252" x2="138" y2="395" stroke="white" stroke-width="0.8" opacity="0.12"/>
+<line x1="160" y1="248" x2="153" y2="396" stroke="white" stroke-width="0.5" opacity="0.08"/>
+<line x1="220" y1="250" x2="228" y2="396" stroke="white" stroke-width="0.8" opacity="0.1"/>
+<line x1="260" y1="252" x2="255" y2="395" stroke="white" stroke-width="0.5" opacity="0.08"/>
+<line x1="290" y1="255" x2="282" y2="395" stroke="white" stroke-width="0.6" opacity="0.1"/>
+<!-- Top of cake -->
+<ellipse cx="200" cy="240" rx="92" ry="11" fill="#333333"/>
+<!-- Blueberries on top -->
+<g>
+  <!-- Blueberry clusters -->
+  <circle cx="170" cy="228" r="11" fill="#1a1a3a"/>
+  <circle cx="170" cy="228" r="9" fill="#1e1e3e" stroke="#2a2a5a" stroke-width="1"/>
+  <circle cx="185" cy="222" r="12" fill="#1a1a3a"/>
+  <circle cx="185" cy="222" r="10" fill="#252550" stroke="#303060" stroke-width="1"/>
+  <circle cx="200" cy="218" r="13" fill="#1a1a3a"/>
+  <circle cx="200" cy="218" r="11" fill="#202045" stroke="#2a2a5a" stroke-width="1"/>
+  <circle cx="215" cy="222" r="12" fill="#1a1a3a"/>
+  <circle cx="215" cy="222" r="10" fill="#252550" stroke="#303060" stroke-width="1"/>
+  <circle cx="228" cy="228" r="11" fill="#1a1a3a"/>
+  <circle cx="228" cy="228" r="9" fill="#1e1e3e" stroke="#2a2a5a" stroke-width="1"/>
+  <!-- Smaller berries -->
+  <circle cx="158" cy="233" r="8" fill="#252550"/>
+  <circle cx="240" cy="234" r="8" fill="#202045"/>
+  <circle cx="177" cy="215" r="7" fill="#1a1a3a"/>
+  <circle cx="222" cy="214" r="7" fill="#1a1a3a"/>
+  <!-- Highlight dots on berries -->
+  <circle cx="168" cy="224" r="2" fill="white" opacity="0.3"/>
+  <circle cx="183" cy="218" r="2.5" fill="white" opacity="0.3"/>
+  <circle cx="198" cy="213" r="3" fill="white" opacity="0.3"/>
+  <circle cx="213" cy="218" r="2.5" fill="white" opacity="0.3"/>
+  <circle cx="226" cy="224" r="2" fill="white" opacity="0.3"/>
+</g>
+<!-- Eucalyptus leaves -->
+<path d="M152 240 Q140 222 132 205 Q138 215 148 225 Q136 208 142 190" stroke="#4a7a52" stroke-width="1.5" fill="none"/>
+<ellipse cx="136" cy="208" rx="8" ry="5" fill="#5a8a62" transform="rotate(-40 136 208)"/>
+<ellipse cx="140" cy="220" rx="7" ry="4" fill="#4a7a52" transform="rotate(-30 140 220)"/>
+<path d="M248 240 Q260 222 268 205 Q262 215 252 225 Q264 208 258 190" stroke="#4a7a52" stroke-width="1.5" fill="none"/>
+<ellipse cx="264" cy="208" rx="8" ry="5" fill="#5a8a62" transform="rotate(40 264 208)"/>
+<ellipse cx="260" cy="220" rx="7" ry="4" fill="#4a7a52" transform="rotate(30 260 220)"/>
+<!-- "Happy Birthday" silver topper -->
+<rect x="148" y="340" width="104" height="24" rx="4" fill="#C0C0C0"/>
+<text x="200" y="357" font-family="Georgia,serif" font-size="11" fill="#2a2a2a" text-anchor="middle" font-weight="bold" letter-spacing="0.5">HAPPY Birthday</text>
+<!-- "18" number topper -->
+<text x="192" y="285" font-family="Arial Black,sans-serif" font-size="40" fill="#C8C8C8" text-anchor="middle" font-weight="900" opacity="0.85">18</text>
+<!-- Candle sticks for topper -->
+<line x1="168" y1="248" x2="168" y2="215" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"/>
+<line x1="200" y1="244" x2="200" y2="210" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"/>
+<line x1="232" y1="248" x2="232" y2="215" stroke="#C0C0C0" stroke-width="2" stroke-linecap="round"/>
+<!-- Base berry at cake bottom edge -->
+<circle cx="160" cy="396" r="6" fill="#252550"/>
+<circle cx="240" cy="396" r="6" fill="#202045"/>
+<!-- Plate text -->
+<text x="200" y="408" font-family="Georgia,serif" font-size="9" fill="#888" text-anchor="middle" letter-spacing="1">Gula Cake</text>
+<!-- Label -->
+<rect x="130" y="462" width="140" height="24" rx="12" fill="rgba(0,0,0,0.07)"/>
+<text x="200" y="478" font-family="Georgia,serif" font-size="11" fill="#444" text-anchor="middle" letter-spacing="1.5">TORT URODZINOWY</text>
+</svg>

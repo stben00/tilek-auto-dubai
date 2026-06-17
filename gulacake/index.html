@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="pl" data-lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gula Cake — Torty na zamówienie | Warszawa</title>
+<meta name="description" content="Torty na zamówienie w Warszawie. Torty weselne, bento cakes, kapkejki. Realizacja nawet za 24h.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;scroll-padding-top:66px}
+body{font-family:'Inter',sans-serif;background:#FDF0F5;color:#2D2224;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{width:100%;height:100%;display:block;object-fit:cover}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+:root{
+  --rose:#C97D94;--rose-light:#F9D8E3;--rose-deep:#a8607a;
+  --cream:#FDF0F5;--gold:#C9A84C;--gold-light:#F0E0A0;
+  --text:#2D2224;--muted:#7A5C65;--border:#F0D0DC;--white:#fff;
+  --card-r:18px;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--cream)}
+::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,var(--rose),var(--gold));border-radius:4px}
+
+/* PROGRESS BAR */
+#progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--rose),var(--gold),var(--rose));z-index:999;transition:width 0.1s linear;box-shadow:0 0 8px rgba(201,125,148,0.5)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:66px;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:rgba(253,240,245,0.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid transparent;transition:border-color 0.3s,box-shadow 0.3s}
+nav.scrolled{border-color:var(--border);box-shadow:0 4px 24px rgba(201,125,148,0.1)}
+.logo{font-family:'Great Vibes',cursive;font-size:1.85rem;color:var(--rose);flex-shrink:0}
+.nav-right{display:flex;align-items:center;gap:10px}
+
+/* LANG SWITCHER */
+.lang-switcher{position:relative}
+.lang-btn{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:50px;
+  border:1.5px solid var(--border);font-size:0.78rem;font-weight:600;color:var(--muted);
+  background:var(--white);cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.lang-btn:hover{border-color:var(--rose);color:var(--rose)}
+.lang-btn .arrow{font-size:0.6rem;transition:transform 0.2s}
+.lang-dropdown{position:absolute;top:calc(100% + 8px);right:0;background:var(--white);
+  border:1.5px solid var(--border);border-radius:14px;overflow:hidden;
+  box-shadow:0 12px 40px rgba(201,125,148,0.18);
+  opacity:0;visibility:hidden;transform:translateY(-6px);transition:all 0.22s;min-width:130px;z-index:300}
+.lang-dropdown.open{opacity:1;visibility:visible;transform:translateY(0)}
+.lang-option{display:flex;align-items:center;gap:8px;padding:10px 16px;
+  font-size:0.82rem;font-weight:500;cursor:pointer;transition:background 0.15s;color:var(--text)}
+.lang-option:hover{background:var(--rose-light)}
+.lang-option.active{color:var(--rose);font-weight:600}
+.lang-flag{font-size:1.1rem}
+
+.nav-order{background:var(--rose);color:#fff;padding:9px 22px;border-radius:50px;
+  font-size:0.8rem;font-weight:700;letter-spacing:0.04em;
+  transition:opacity 0.2s,transform 0.2s,box-shadow 0.2s;
+  box-shadow:0 4px 16px rgba(201,125,148,0.3)}
+.nav-order:hover{opacity:0.88;transform:scale(1.03);box-shadow:0 6px 22px rgba(201,125,148,0.4)}
+
+/* PARTICLES */
+.particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.particle{position:absolute;border-radius:50%;animation:float linear infinite}
+@keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}
+  10%{opacity:1}90%{opacity:0.6}100%{transform:translateY(-100px) scale(1.2);opacity:0}}
+
+/* HERO */
+#hero{min-height:100vh;padding:74px 24px 32px;position:relative;
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;
+  max-width:1140px;margin:0 auto}
+.hero-left{position:relative;z-index:1;padding-right:16px}
+.welcome-chip{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,125,148,0.1);border:1px solid rgba(201,125,148,0.25);
+  border-radius:50px;padding:7px 18px;margin-bottom:22px;
+  font-size:0.74rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--rose)}
+.welcome-chip::before{content:'✦';font-size:0.6rem}
+.hero-script{font-family:'Great Vibes',cursive;font-size:clamp(3.5rem,7vw,5.5rem);
+  color:var(--rose);line-height:0.92;margin-bottom:10px}
+.hero-tagline{font-family:'Playfair Display',serif;font-size:clamp(1rem,2.2vw,1.2rem);
+  font-style:italic;color:var(--muted);margin-bottom:16px}
+.hero-desc{font-size:0.9rem;color:var(--muted);font-weight:300;line-height:1.8;margin-bottom:28px}
+.hero-desc strong{color:var(--rose);font-weight:600}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;
+  background:var(--rose);color:#fff;padding:14px 30px;border-radius:50px;
+  font-size:0.88rem;font-weight:700;letter-spacing:0.05em;
+  box-shadow:0 8px 28px rgba(201,125,148,0.4);transition:transform 0.25s,box-shadow 0.25s}
+.hero-cta:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(201,125,148,0.5)}
+.hero-stats{display:flex;gap:24px;margin-top:24px;flex-wrap:wrap}
+.hero-stat{text-align:center}
+.hero-stat-n{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--rose);line-height:1}
+.hero-stat-l{font-size:0.7rem;color:var(--muted);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;margin-top:2px}
+
+/* BENTO GRID */
+.hero-right{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:12px;position:relative;z-index:1}
+.cake-card{border-radius:var(--card-r);overflow:hidden;position:relative;cursor:pointer;
+  box-shadow:0 4px 20px rgba(200,120,150,0.13);transition:transform 0.35s,box-shadow 0.35s;text-decoration:none}
+.cake-card:hover{transform:translateY(-5px) scale(1.015);box-shadow:0 16px 40px rgba(200,120,150,0.24)}
+.cake-card.big{grid-row:span 2}
+.cake-ph{width:100%;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.cake-card.big .cake-ph{height:100%;min-height:310px}
+.cake-card:not(.big) .cake-ph{height:162px}
+.cake-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
+.cake-card:hover .cake-ph img{transform:scale(1.07)}
+.ph-1{background:linear-gradient(140deg,#F9D0DF,#E8A0B8,#C97D94)}
+.ph-2{background:linear-gradient(140deg,#FDEBD0,#F5C6A0,#E8A070)}
+.ph-3{background:linear-gradient(140deg,#F5F0FF,#DDD0FF,#B8A0E8)}
+.ph-4{background:linear-gradient(140deg,#E8F5E9,#C5E8CC,#90C8A0)}
+.cake-label{position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(to top,rgba(44,20,28,0.78) 0%,transparent 100%);
+  padding:24px 14px 14px}
+.cake-label-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:#fff;display:block;margin-bottom:2px}
+.cake-card.big .cake-label-name{font-size:1.2rem}
+.cake-label-sub{font-size:0.72rem;color:rgba(255,255,255,0.72)}
+.cake-emoji{position:absolute;top:12px;right:12px;font-size:1.5rem;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.2))}
+.cake-card.big .cake-emoji{font-size:1.9rem}
+
+/* SECTION BASE */
+section{padding:80px 24px}
+.wrap{max-width:1080px;margin:0 auto}
+.s-label{display:block;font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--rose);margin-bottom:10px}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.8vw,2.6rem);font-weight:600;line-height:1.12;margin-bottom:12px}
+.s-title em{font-style:italic;color:var(--rose)}
+.s-desc{font-size:0.94rem;color:var(--muted);font-weight:300;line-height:1.75;max-width:520px}
+.tc{text-align:center}.tc .s-desc{margin:0 auto}
+
+/* CATALOG / GALLERY */
+#gallery{background:var(--white);padding:80px 0}
+#gallery .wrap{max-width:1200px}
+.filter-wrap{padding:0 24px}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:28px 0 32px}
+.fb{padding:9px 22px;border-radius:50px;cursor:pointer;
+  font-size:0.76rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;
+  border:1.5px solid var(--border);color:var(--muted);background:transparent;transition:all 0.2s}
+.fb.on,.fb:hover{background:var(--rose);border-color:var(--rose);color:#fff;
+  box-shadow:0 4px 16px rgba(201,125,148,0.35)}
+.masonry{columns:4;column-gap:12px;padding:0 24px}
+.g-item{break-inside:avoid;margin-bottom:12px;border-radius:14px;overflow:hidden;
+  position:relative;cursor:pointer;box-shadow:0 2px 12px rgba(200,120,150,0.09);
+  transition:transform 0.35s,box-shadow 0.35s,opacity 0.3s}
+.g-item:hover{transform:scale(1.025);box-shadow:0 12px 36px rgba(200,120,150,0.22)}
+.g-item img{width:100%;display:block;transition:transform 0.55s}
+.g-item:hover img{transform:scale(1.06)}
+.g-ph{width:100%;display:block;transition:transform 0.55s}
+.g-item:hover .g-ph{transform:scale(1.06)}
+.g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(30,8,18,0.72) 0%,rgba(30,8,18,0.1) 50%,transparent 100%);
+  opacity:0;transition:opacity 0.35s;display:flex;align-items:flex-end;padding:16px 14px}
+.g-item:hover .g-overlay{opacity:1}
+.g-cat-badge{position:absolute;top:10px;left:10px;background:rgba(255,255,255,0.93);
+  border-radius:50px;padding:4px 12px;font-size:0.67rem;font-weight:700;
+  letter-spacing:0.07em;text-transform:uppercase;color:var(--rose);
+  backdrop-filter:blur(6px);box-shadow:0 2px 8px rgba(200,100,130,0.12)}
+.g-label{color:#fff;font-family:Georgia,serif;font-size:0.88rem;font-style:italic;
+  font-weight:400;letter-spacing:0.02em;line-height:1.3;
+  text-shadow:0 1px 6px rgba(0,0,0,0.6)}
+.g-hidden{opacity:0.12;pointer-events:none;transform:scale(0.97)}
+.ig-link{text-align:center;margin-top:36px;padding:0 24px}
+.ig-link a{display:inline-flex;align-items:center;gap:9px;font-size:0.84rem;font-weight:600;
+  color:var(--rose);border:1.5px solid var(--border);border-radius:50px;
+  padding:11px 26px;background:var(--cream);transition:all 0.2s}
+.ig-link a:hover{background:var(--rose-light);border-color:var(--rose)}
+
+/* ABOUT */
+#about{background:linear-gradient(135deg,#FFF0F6 0%,#F8E8F0 100%)}
+.about-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:center;margin-top:40px}
+.about-img{border-radius:24px;overflow:hidden;aspect-ratio:4/5;background:linear-gradient(135deg,var(--rose-light),#E8B8CC);
+  position:relative;box-shadow:0 16px 48px rgba(201,125,148,0.22)}
+.about-img img{object-position:center top}
+.about-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  font-size:4rem;background:linear-gradient(135deg,#F9D8E3,#C97D94)}
+.about-facts{display:flex;gap:20px;margin:28px 0;flex-wrap:wrap}
+.fact{background:var(--white);border-radius:14px;padding:16px 20px;flex:1;min-width:110px;
+  box-shadow:0 2px 12px rgba(201,125,148,0.1);text-align:center;border:1px solid var(--border)}
+.fact-n{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--rose)}
+.fact-l{font-size:0.72rem;color:var(--muted);margin-top:2px;line-height:1.3}
+.about-text{font-size:0.95rem;color:var(--muted);line-height:1.8;font-weight:300;margin-bottom:22px}
+.about-text strong{color:var(--text);font-weight:600}
+
+/* SMAKI */
+#smaki{background:var(--white);padding:0;overflow:hidden}
+.smaki-split{display:grid;grid-template-columns:1fr 1fr;min-height:600px}
+.smaki-left{padding:72px 56px 72px 80px;display:flex;flex-direction:column;justify-content:center;
+  background:var(--white)}
+.smaki-big{font-size:clamp(4rem,9vw,8rem);font-weight:900;line-height:0.88;
+  letter-spacing:-0.03em;color:var(--text);margin:0 0 8px;font-family:Georgia,serif}
+.smaki-sub{font-size:0.75rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:36px}
+.smaki-list{list-style:none;padding:0;margin:0;columns:2;column-gap:18px}
+.smaki-list li{padding:7px 0;border-bottom:1px solid var(--border);font-size:0.74rem;
+  font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text);
+  display:flex;align-items:center;gap:8px;break-inside:avoid}
+.smaki-list li::before{content:'';display:block;width:7px;height:7px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rose),var(--gold));flex-shrink:0}
+.smaki-list li.smak-hit{color:var(--rose)}
+.smaki-list li.smak-hit::before{background:linear-gradient(135deg,var(--gold),#e8a040)}
+.smaki-right{position:relative;overflow:hidden;min-height:520px}
+.smaki-right img{width:100%;height:100%;object-fit:cover;object-position:center top;
+  display:block;transition:opacity 0.8s ease}
+.smaki-right-overlay{position:absolute;inset:0;background:linear-gradient(
+  to right,rgba(255,255,255,0.18) 0%,transparent 30%)}
+.smak{background:var(--white);border:1px solid var(--border);border-radius:12px;
+  padding:13px 16px;display:flex;align-items:center;gap:10px;
+  transition:border-color 0.2s,box-shadow 0.2s,transform 0.2s}
+.smak:hover{border-color:var(--rose);box-shadow:0 4px 16px rgba(200,120,150,0.13);transform:translateY(-2px)}
+.smak-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--rose),var(--gold))}
+.smak-dot.g{background:linear-gradient(135deg,var(--gold),#E8D5A3)}
+.smak-name{font-size:0.85rem;font-weight:500;color:var(--text)}
+.smak-note{font-size:0.72rem;color:var(--muted);margin-top:1px}
+
+/* HOW */
+#how{background:var(--white)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:0;margin-top:44px;max-width:840px;margin-left:auto;margin-right:auto;position:relative}
+.steps::before{content:'';position:absolute;top:28px;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),var(--border),transparent)}
+.step{text-align:center;padding:0 12px;position:relative;z-index:1}
+.step-n{width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rose-light),#F0C0D0);
+  border:3px solid var(--white);box-shadow:0 0 0 1px var(--border),0 6px 18px rgba(201,125,148,0.22);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
+  font-family:'Great Vibes',cursive;font-size:1.6rem;color:var(--rose)}
+.step-t{font-weight:600;font-size:0.9rem;margin-bottom:5px}
+.step-d{font-size:0.78rem;color:var(--muted);line-height:1.55}
+
+/* REVIEWS */
+#reviews{background:linear-gradient(135deg,#FFF5F8 0%,#F5EEF8 100%)}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:40px}
+.review-card{background:var(--white);border-radius:18px;padding:26px;
+  border:1px solid var(--border);box-shadow:0 4px 18px rgba(201,125,148,0.08);
+  transition:transform 0.3s,box-shadow 0.3s}
+.review-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(201,125,148,0.16)}
+.review-stars{color:var(--gold);font-size:1rem;margin-bottom:12px;letter-spacing:2px}
+.review-text{font-size:0.88rem;line-height:1.75;color:var(--muted);margin-bottom:16px;font-style:italic}
+.review-author{display:flex;align-items:center;gap:10px}
+.review-avatar{width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rose-light),#E8B8CC);
+  display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.review-name{font-weight:600;font-size:0.85rem;color:var(--text)}
+.review-date{font-size:0.72rem;color:var(--muted)}
+
+/* CONTACT */
+#contact{background:linear-gradient(135deg,#2D1520 0%,#3D1F2B 100%);text-align:center;padding:80px 24px 64px}
+#contact .s-label{color:var(--rose-light)}
+#contact .s-title{color:#fff}
+#contact .s-title em{color:#F9D8E3}
+#contact .s-desc{color:rgba(255,255,255,0.5);margin:0 auto}
+.contact-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+.cb{display:flex;flex-direction:column;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(249,216,227,0.15);
+  border-radius:18px;padding:22px 26px;min-width:150px;transition:all 0.25s}
+.cb:hover{background:rgba(201,125,148,0.15);border-color:rgba(201,125,148,0.4);transform:translateY(-4px)}
+.cb-icon{font-size:1.8rem}
+.cb-label{font-size:0.66rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4)}
+.cb-val{font-size:0.86rem;font-weight:600;color:#fff}
+.contact-info{margin-top:34px;font-size:0.84rem;color:rgba(255,255,255,0.35);line-height:2}
+.contact-info strong{color:rgba(255,255,255,0.6);font-weight:500}
+
+/* FOOTER */
+footer{background:#200D16;text-align:center;padding:18px;font-size:0.76rem;color:rgba(255,255,255,0.28)}
+footer span{color:var(--rose-light)}
+
+/* FLOAT */
+.tg-float{position:fixed;bottom:22px;right:22px;z-index:300;
+  width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,#2AABEE,#229ED9);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 22px rgba(42,171,238,0.45);transition:transform 0.3s,box-shadow 0.3s}
+.tg-float:hover{transform:scale(1.12);box-shadow:0 10px 30px rgba(42,171,238,0.55)}
+
+/* LIGHTBOX */
+.lb{display:none;position:fixed;inset:0;background:rgba(15,5,10,0.95);z-index:1000;
+  align-items:center;justify-content:center;backdrop-filter:blur(10px)}
+.lb.open{display:flex}
+.lb img{max-width:92vw;max-height:88vh;border-radius:14px;object-fit:contain;
+  box-shadow:0 24px 80px rgba(0,0,0,0.6)}
+.lb-x{position:fixed;top:18px;right:18px;width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,0.12);color:#fff;font-size:1.2rem;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background 0.2s}
+.lb-x:hover{background:rgba(255,255,255,0.25)}
+.lb-caption{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  color:#fff;font-family:Georgia,serif;font-size:0.95rem;font-style:italic;
+  letter-spacing:0.04em;text-align:center;background:rgba(0,0,0,0.45);
+  padding:8px 22px;border-radius:50px;backdrop-filter:blur(6px);
+  pointer-events:none;max-width:80vw}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .masonry{columns:3}
+  .about-grid{grid-template-columns:1fr;gap:32px}
+  .about-img{aspect-ratio:16/9}
+}
+@media(max-width:780px){
+  #hero{grid-template-columns:1fr;min-height:auto;padding:80px 16px 36px;gap:32px}
+  .hero-left{padding-right:0;text-align:center}
+  .hero-stats{justify-content:center}
+  .hero-right{grid-template-columns:1fr 1fr}
+  .cake-card.big{grid-row:span 1}
+  .cake-card.big .cake-ph{min-height:180px}
+  .cake-card:not(.big) .cake-ph{height:140px}
+  .masonry{columns:2}
+  .steps::before{display:none}
+  .steps{gap:28px}
+  section{padding:64px 16px}
+  .smaki-split{grid-template-columns:1fr}
+  .smaki-right{min-height:300px;order:-1}
+  .smaki-left{padding:48px 24px}
+  .smaki-big{font-size:clamp(3rem,12vw,5rem)}
+}
+@media(max-width:440px){
+  .masonry{columns:1}
+  .smaki-list{columns:1}
+  .lang-btn span{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav id="navbar">
+  <span class="logo">Gula Cake</span>
+  <div class="nav-right">
+    <div class="lang-switcher" id="langSwitcher">
+      <button class="lang-btn" id="langBtn" aria-label="Language">
+        <span class="lang-flag" id="currentFlag">🇵🇱</span>
+        <span id="currentCode">PL</span>
+        <span class="arrow">▾</span>
+      </button>
+      <div class="lang-dropdown" id="langDropdown">
+        <div class="lang-option active" data-lang="pl"><span class="lang-flag">🇵🇱</span> Polski</div>
+        <div class="lang-option" data-lang="ru"><span class="lang-flag">🇷🇺</span> Русский</div>
+        <div class="lang-option" data-lang="en"><span class="lang-flag">🇬🇧</span> English</div>
+        <div class="lang-option" data-lang="uk"><span class="lang-flag">🇺🇦</span> Українська</div>
+        <div class="lang-option" data-lang="by"><span class="lang-flag">🇧🇾</span> Беларуская</div>
+      </div>
+    </div>
+    <a href="#contact" class="nav-order" data-i18n="nav.order">Zamów teraz</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="position:relative;overflow:hidden">
+  <div class="particles" id="particles"></div>
+
+  <div class="hero-left">
+    <div class="welcome-chip" data-i18n="hero.chip">Witamy!</div>
+    <div class="hero-script">Gula Cake</div>
+    <p class="hero-tagline" data-i18n="hero.tagline">Torty na wyjątkowe chwile</p>
+    <p class="hero-desc" data-i18n-html="hero.desc">Cześć! Jestem <strong>Olena</strong> — tworzę <strong>autorskie torty</strong> na każdą okazję.<br>Warszawa, Białołęka · Realizacja nawet za <strong>24h</strong></p>
+    <a href="https://t.me/gulacake_warszawa" target="_blank" class="hero-cta">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.83.941z"/></svg>
+      <span data-i18n="hero.cta">Zamów przez Telegram</span>
+    </a>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-n">5+</div><div class="hero-stat-l" data-i18n="stat.years">Lat</div></div>
+      <div class="hero-stat"><div class="hero-stat-n">500+</div><div class="hero-stat-l" data-i18n="stat.clients">Klientów</div></div>
+      <div class="hero-stat"><div class="hero-stat-n">24h</div><div class="hero-stat-l" data-i18n="stat.speed">Realizacja</div></div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <a href="#gallery" class="cake-card big" data-cat="torty">
+      <div class="cake-ph ph-1"><img src="images/tort-black18.svg" alt="Torty"></div>
+      <span class="cake-emoji">🎂</span>
+      <div class="cake-label">
+        <span class="cake-label-name" data-i18n="card.torty">Torty</span>
+        <span class="cake-label-sub" data-i18n="card.torty_sub">Urodzinowe, okolicznościowe</span>
+      </div>
+    </a>
+    <a href="#gallery" class="cake-card" data-cat="bento">
+      <div class="cake-ph ph-2"><img src="images/tort-gula23.svg" alt="Bento"></div>
+      <span class="cake-emoji">🎁</span>
+      <div class="cake-label">
+        <span class="cake-label-name" data-i18n="card.bento">Bento Cakes</span>
+        <span class="cake-label-sub" data-i18n="card.bento_sub">Mini z dedykacją</span>
+      </div>
+    </a>
+    <a href="#gallery" class="cake-card" data-cat="weselne">
+      <div class="cake-ph ph-3"><img src="images/tort-pearls-bow.svg" alt="Weselne"></div>
+      <span class="cake-emoji">💍</span>
+      <div class="cake-label">
+        <span class="cake-label-name" data-i18n="card.weselne">Torty Weselne</span>
+        <span class="cake-label-sub" data-i18n="card.weselne_sub">Na szczególny dzień</span>
+      </div>
+    </a>
+    <a href="#gallery" class="cake-card" data-cat="tematyczne">
+      <div class="cake-ph ph-4"><img src="images/tort-cat-yarn.svg" alt="Tematyczne"></div>
+      <span class="cake-emoji">🎨</span>
+      <div class="cake-label">
+        <span class="cake-label-name" data-i18n="card.tematyczne">Tematyczne</span>
+        <span class="cake-label-sub" data-i18n="card.tematyczne_sub">Unikalne projekty</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- GALLERY / CATALOG -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="tc filter-wrap">
+      <span class="s-label" data-i18n="gallery.label">Portfolio</span>
+      <h2 class="s-title">Nasze <em data-i18n="gallery.title_em">realizacje</em></h2>
+    </div>
+    <div class="filter-row" id="filterRow">
+      <button class="fb on" data-f="all" data-i18n="filter.all">Wszystkie</button>
+      <button class="fb" data-f="torty" data-i18n="filter.torty">Torty</button>
+      <button class="fb" data-f="bento" data-i18n="filter.bento">Bento</button>
+      <button class="fb" data-f="weselne" data-i18n="filter.weselne">Weselne</button>
+      <button class="fb" data-f="tematyczne" data-i18n="filter.tematyczne">Tematyczne</button>
+      <button class="fb" data-f="kap" data-i18n="filter.kap">Kapkejki</button>
+    </div>
+    <div class="masonry" id="masonry"></div>
+    <div class="ig-link">
+      <a href="https://www.instagram.com/gulacake_warszawa/" target="_blank">
+        📸 <span data-i18n="gallery.ig">Więcej realizacji na Instagram @gulacake_warszawa</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT OLENA -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-img">
+        <img src="images/olena-white.svg" alt="Olena — Gula Cake">
+      </div>
+      <div>
+        <span class="s-label" data-i18n="about.label">O mnie</span>
+        <h2 class="s-title" data-i18n="about.title">Cześć, jestem <em>Olena</em></h2>
+        <p class="about-text" data-i18n="about.desc">Jestem cukiernikiem z pasją. Od 2019 roku tworzę autorskie torty na zamówienie w Warszawie. Każdy tort to dla mnie małe dzieło sztuki — wkładam w nie serce, doświadczenie i najlepsze składniki. Mieszkam i pracuję na Białołęce, realizuję zamówienia nawet za 24h.</p>
+        <div class="about-facts">
+          <div class="fact"><div class="fact-n">5+</div><div class="fact-l" data-i18n="stat.years">Lat doświadczenia</div></div>
+          <div class="fact"><div class="fact-n">500+</div><div class="fact-l" data-i18n="about.f2">Szczęśliwych klientów</div></div>
+          <div class="fact"><div class="fact-n">24h</div><div class="fact-l" data-i18n="about.f3">Ekspresowa realizacja</div></div>
+        </div>
+        <a href="https://www.instagram.com/gulacake_warszawa/" target="_blank" class="hero-cta" style="margin-top:8px">
+          📸 <span data-i18n="about.cta">Zobacz więcej na Instagram</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SMAKI -->
+<section id="smaki">
+  <div class="smaki-split">
+    <div class="smaki-left">
+      <div class="smaki-sub" data-i18n="smaki.label">Gula Cake — Menu</div>
+      <h2 class="smaki-big" data-i18n="smaki.heading">SMAKI</h2>
+      <ul class="smaki-list">
+        <li>Napoleon</li>
+        <li>Miodownik</li>
+        <li>Spartak</li>
+        <li>Kijwski (Kievski Tort)</li>
+        <li>Owocowy</li>
+        <li>Red Velvet <span style="font-weight:400;text-transform:none;font-size:0.7em">(Czerwony Aksamit)</span></li>
+        <li>Oreo</li>
+        <li>Mleczna Dziewczynka</li>
+        <li>Marchewkowe z Maliną</li>
+        <li>Bubble Gum</li>
+        <li>Snickers</li>
+        <li>Czekolada–Kokos</li>
+        <li>Bounty</li>
+        <li>Milka</li>
+        <li class="smak-hit">Dubaj Chocolate ✦</li>
+        <li>Jagodowe Rafaello</li>
+        <li>Truskawkowe Oreo</li>
+        <li>Kinder Bueno</li>
+        <li>Truskawka–Mango</li>
+        <li>Pistacja–Malina</li>
+        <li>Pistacja–Wiśnia</li>
+        <li>Borówka–Mak</li>
+        <li>Jagodowy z Warstwą Musu</li>
+        <li>Red Velvet z Coulis <span style="font-weight:400;text-transform:none;font-size:0.7em">(truskawkową/malinową)</span></li>
+        <li>Mascarpone–Truskawka</li>
+        <li>Mascarpone–Brzoskwinia</li>
+      </ul>
+    </div>
+    <div class="smaki-right" id="smaki-photo">
+      <img id="smaki-img" src="images/olena-photo.jpg" alt="Olena — Gula Cake"
+        onerror="this.src='images/Новая папка/Снимок экрана 2026-06-15 в 07.20.33.png'">
+      <div class="smaki-right-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO ORDER -->
+<section id="how">
+  <div class="wrap">
+    <div class="tc">
+      <span class="s-label" data-i18n="how.label">Jak zamówić?</span>
+      <h2 class="s-title"><em data-i18n="how.title_em">Proste</em> 4 kroki</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-n">1</div><div class="step-t" data-i18n="step1.t">Napisz do nas</div><div class="step-d" data-i18n="step1.d">Telegram, WhatsApp lub Instagram</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-t" data-i18n="step2.t">Opisz wizję</div><div class="step-d" data-i18n="step2.d">Smak, wygląd, okazja, porcje</div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-t" data-i18n="step3.t">Potwierdzamy</div><div class="step-d" data-i18n="step3.d">Termin, cena, zaliczka</div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-t" data-i18n="step4.t">Odbierasz tort</div><div class="step-d" data-i18n="step4.d">Odbiór w Białołęce</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="tc">
+      <span class="s-label" data-i18n="reviews.label">Opinie</span>
+      <h2 class="s-title"><em data-i18n="reviews.title_em">Szczęśliwi</em> klienci</h2>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text" data-i18n="review1.text">"Zamawiałam tort weselny i jestem absolutnie zachwycona! Olena to prawdziwa artystka — tort był piękny i pyszny. Goście nie mogli wyjść z podziwu!"</p>
+        <div class="review-author"><div class="review-avatar">👰</div><div><div class="review-name">Karolina M.</div><div class="review-date" data-i18n="review1.date">Tort weselny · 2024</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text" data-i18n="review2.text">"Tort urodzinowy z jednorożcem dla mojej córeczki był jak z bajki! Szybka realizacja, miła obsługa. Na pewno wrócimy po więcej!"</p>
+        <div class="review-author"><div class="review-avatar">🎂</div><div><div class="review-name">Agnieszka K.</div><div class="review-date" data-i18n="review2.date">Tort urodzinowy · 2024</div></div></div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text" data-i18n="review3.text">"Polecam z całego serca! Tort lepszy niż na zdjęciach, smak niebiański. Ekspresowa realizacja za 24h — Olena uratowała moje urodziny!"</p>
+        <div class="review-author"><div class="review-avatar">🌸</div><div><div class="review-name">Joanna W.</div><div class="review-date" data-i18n="review3.date">Tort urodzinowy · 2025</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <span class="s-label" data-i18n="contact.label">Kontakt</span>
+  <h2 class="s-title" data-i18n="contact.title">Zamów swój <em>tort</em></h2>
+  <p class="s-desc" data-i18n="contact.desc">Napisz — odpowiemy szybko i omówimy wszystkie szczegóły</p>
+  <div class="contact-btns">
+    <a href="https://t.me/gulacake_warszawa" target="_blank" class="cb">
+      <span class="cb-icon">✈️</span>
+      <span class="cb-label">Telegram</span>
+      <span class="cb-val">@gulacake_warszawa</span>
+    </a>
+    <a href="https://wa.me/48XXXXXXXXX" target="_blank" class="cb" id="waLink">
+      <span class="cb-icon">💬</span>
+      <span class="cb-label">WhatsApp</span>
+      <span class="cb-val" data-i18n="wa.val">Napisz teraz</span>
+    </a>
+    <a href="https://www.instagram.com/gulacake_warszawa/" target="_blank" class="cb">
+      <span class="cb-icon">📸</span>
+      <span class="cb-label">Instagram</span>
+      <span class="cb-val">@gulacake_warszawa</span>
+    </a>
+  </div>
+  <div class="contact-info">
+    <strong>📍</strong> <span data-i18n="contact.loc">Warszawa, Białołęka</span> &nbsp;·&nbsp;
+    <strong>⏰</strong> <span data-i18n="contact.hours">Realizacja nawet za 24h</span>
+  </div>
+</section>
+
+<footer>© 2025 Gula Cake <span>✦</span> <span data-i18n="footer.text">Torty na zamówienie · Warszawa</span></footer>
+
+<a href="https://t.me/gulacake_warszawa" target="_blank" class="tg-float" aria-label="Telegram">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.83.941z"/></svg>
+</a>
+
+<div class="lb" id="lb">
+  <button class="lb-x" id="lbClose">✕</button>
+  <img id="lb-img" src="" alt="">
+  <div class="lb-caption" id="lb-caption"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+/* ═══════════════════════════════════════════════
+   TRANSLATIONS
+═══════════════════════════════════════════════ */
+const T = {
+pl:{
+  'nav.order':'Zamów teraz','hero.chip':'Witamy!','hero.tagline':'Torty na wyjątkowe chwile',
+  'hero.cta':'Zamów przez Telegram','stat.years':'Lat','stat.clients':'Klientów','stat.speed':'Realizacja',
+  'card.torty':'Torty','card.torty_sub':'Urodzinowe, okolicznościowe',
+  'card.bento':'Bento Cakes','card.bento_sub':'Mini z dedykacją',
+  'card.weselne':'Torty Weselne','card.weselne_sub':'Na szczególny dzień',
+  'card.tematyczne':'Tematyczne','card.tematyczne_sub':'Unikalne projekty',
+  'gallery.label':'Portfolio','gallery.title_em':'realizacje',
+  'filter.all':'Wszystkie','filter.torty':'Torty','filter.bento':'Bento',
+  'filter.weselne':'Weselne','filter.tematyczne':'Tematyczne','filter.kap':'Kapkejki',
+  'cake.angel':'Tort z aniołami','cake.unicorn':'Tort z jednorożcem',
+  'cake.floral':'Tort z kwiatami','cake.black18':'Tort urodzinowy 18',
+  'cake.gula23':'Bento cake · 23','cake.olena':'Tort weselny',
+  'cake.pearls':'Tort z perłami','cake.cat':'Tort dla dzieci','cake.christ':'Tort na chrzest',
+  'cake.komunia':'Tort na Komunię','cake.heart':'Tort w kształcie serca','cake.leopard':'Tort w cętki','cake.orchid':'Tort z orchideą','cake.ny':'Tort tematyczny NY',
+  'cake.vintage':'Tort urodzinowy vintage','cake.bowcake':'Tort z kokardą','cake.baptism':'Tort na chrzest z piórami','cake.strawberry':'Tort z truskawkami','cake.stork':'Tort z bocianem',
+  'cake.blueheart':'Tort serce niebieski','cake.bmw':'Tort BMW','cake.money':'Tort z pieniędzmi','cake.easter':'Babeczka wielkanocna ХВ','cake.redcream':'Tort vintage czerwono-kremowy',
+  'cake.pleated':'Tort z różami w plisach','cake.babyboy':'Tort Baby Boy','cake.bows2':'Tort z kokardkami nr 2','cake.baptismsofia':'Chrzest Sofii','cake.bunny':'Tort z króliczkiem',
+  'cake.pleated21':'Tort urodzinowy 21 w plisach',
+  'cake.redheart24':'Tort serce czerwony 24','cake.greencream':'Tort ślubny zielono-kremowy','cake.princess':'Tort z księżniczkami','cake.meringue':'Tort bezowy z płatkami',
+  'cake.strawwhite':'Tort z truskawkami na biało',
+  'gallery.ig':'Więcej realizacji na Instagram @gulacake_warszawa',
+  'about.label':'O mnie','about.title':'Cześć, jestem','about.desc':'Jestem cukiernikiem z pasją. Od 2019 roku tworzę autorskie torty na zamówienie w Warszawie. Każdy tort to dla mnie małe dzieło sztuki — wkładam w nie serce, doświadczenie i najlepsze składniki. Mieszkam i pracuję na Białołęce, realizuję zamówienia nawet za 24h.',
+  'about.f2':'Szczęśliwych klientów','about.f3':'Ekspresowa realizacja','about.cta':'Zobacz więcej na Instagram',
+  'smaki.label':'Gula Cake — Menu','smaki.heading':'SMAKI','smaki.title_em':'Autorskie','smaki.desc':'Od klasyki po zaskakujące kompozycje — każdy znajdzie swój ulubiony',
+  'smak.1':'Truskawka–Mango','smak.1n':'Świeże, owocowe',
+  'smak.2':'Pistacja–Malina','smak.2n':'Zielono-różowe',
+  'smak.3':'Pistacja–Wiśnia','smak.3n':'Kwaskowo-słodkie',
+  'smak.4':'Borówka–Mak','smak.4n':'Delikatne, kremowe',
+  'smak.5':'Jagodowy z musem','smak.5n':'Z warstwą jagodowego musu',
+  'smak.6':'Red Velvet','smak.6n':'Z truskawkową coulis',
+  'smak.7':'Mascarpone–Truskawka','smak.7n':'Lekkie, kremowe',
+  'smak.8':'Mascarpone–Brzoskwinia','smak.8n':'Letnie, aksamitne',
+  'smak.9':'Napoleon','smak.9n':'Klasyczny, warstwowy',
+  'smak.10':'Miodowy','smak.10n':'Delikatny miodowy',
+  'smak.11':'Snickers','smak.11n':'Karmel, orzech, czekolada',
+  'smak.12':'Dubaj Czekolada ✨','smak.12n':'Hit sezonu!',
+  'how.label':'Jak zamówić?','how.title_em':'Proste',
+  'step1.t':'Napisz do nas','step1.d':'Telegram, WhatsApp lub Instagram',
+  'step2.t':'Opisz wizję','step2.d':'Smak, wygląd, okazja, porcje',
+  'step3.t':'Potwierdzamy','step3.d':'Termin, cena, zaliczka',
+  'step4.t':'Odbierasz tort','step4.d':'Odbiór w Białołęce',
+  'reviews.label':'Opinie','reviews.title_em':'Szczęśliwi',
+  'review1.text':'"Zamawiałam tort weselny i jestem absolutnie zachwycona! Olena to prawdziwa artystka — tort był piękny i pyszny. Goście nie mogli wyjść z podziwu!"',
+  'review1.date':'Tort weselny · 2024',
+  'review2.text':'"Tort urodzinowy z jednorożcem dla mojej córeczki był jak z bajki! Szybka realizacja, miła obsługa. Na pewno wrócimy po więcej!"',
+  'review2.date':'Tort urodzinowy · 2024',
+  'review3.text':'"Polecam z całego serca! Tort lepszy niż na zdjęciach, smak niebiański. Ekspresowa realizacja za 24h — Olena uratowała moje urodziny!"',
+  'review3.date':'Tort urodzinowy · 2025',
+  'contact.label':'Kontakt','contact.title':'Zamów swój tort',
+  'contact.desc':'Napisz — odpowiemy szybko i omówimy wszystkie szczegóły',
+  'wa.val':'Napisz teraz','contact.loc':'Warszawa, Białołęka','contact.hours':'Realizacja nawet za 24h',
+  'footer.text':'Torty na zamówienie · Warszawa'
+},
+ru:{
+  'nav.order':'Заказать','hero.chip':'Добро пожаловать!','hero.tagline':'Торты на особые моменты',
+  'hero.cta':'Заказать в Telegram','stat.years':'Лет','stat.clients':'Клиентов','stat.speed':'Готовность',
+  'card.torty':'Торты','card.torty_sub':'Дни рождения, праздники',
+  'card.bento':'Бенто-торты','card.bento_sub':'Мини с посвящением',
+  'card.weselne':'Свадебные торты','card.weselne_sub':'На особый день',
+  'card.tematyczne':'Тематические','card.tematyczne_sub':'Уникальные проекты',
+  'gallery.label':'Портфолио','gallery.title_em':'работы',
+  'filter.all':'Все','filter.torty':'Торты','filter.bento':'Бенто',
+  'filter.weselne':'Свадебные','filter.tematyczne':'Тематические','filter.kap':'Капкейки',
+  'cake.angel':'Торт с ангелами','cake.unicorn':'Торт с единорогом',
+  'cake.floral':'Торт с цветами','cake.black18':'День рождения 18',
+  'cake.gula23':'Бенто · 23','cake.olena':'Свадебный торт',
+  'cake.pearls':'Торт с жемчугом','cake.cat':'Детский торт','cake.christ':'Торт на крестины',
+  'cake.komunia':'Торт на Причастие','cake.heart':'Торт-сердце','cake.leopard':'Торт в леопард','cake.orchid':'Торт с орхидеями','cake.ny':'Тематический торт NY',
+  'cake.vintage':'Торт в стиле ретро','cake.bowcake':'Торт с бантом','cake.baptism':'Торт крестины с перьями','cake.strawberry':'Торт с клубникой','cake.stork':'Торт с аистом',
+  'cake.blueheart':'Торт сердце синий','cake.bmw':'Торт BMW','cake.money':'Торт с деньгами','cake.easter':'Пасхальная бабочка ХВ','cake.redcream':'Торт vintage красно-кремовый',
+  'cake.pleated':'Торт с розами и плиссе','cake.babyboy':'Торт Baby Boy','cake.bows2':'Торт с бантиками №2','cake.baptismsofia':'Крестины Софии','cake.bunny':'Торт с зайчиком',
+  'cake.pleated21':'Торт 21 в плиссе',
+  'cake.redheart24':'Торт сердце красный 24','cake.greencream':'Свадебный зелёно-кремовый','cake.princess':'Торт с принцессами','cake.meringue':'Безейный торт с лепестками',
+  'cake.strawwhite':'Белый торт с клубникой',
+  'gallery.ig':'Больше работ в Instagram @gulacake_warszawa',
+  'about.label':'Обо мне','about.title':'Привет, я','about.desc':'Я кондитер по призванию. С 2019 года создаю авторские торты на заказ в Варшаве. Каждый торт — это маленькое произведение искусства, в которое я вкладываю душу, опыт и лучшие ингредиенты. Работаю в районе Белоленка, выполняю заказы даже за 24 часа.',
+  'about.f2':'Довольных клиентов','about.f3':'Экспресс-изготовление','about.cta':'Посмотреть в Instagram',
+  'smaki.label':'Gula Cake — Меню','smaki.heading':'ВКУСЫ','smaki.title_em':'Авторские','smaki.desc':'От классики до неожиданных сочетаний — каждый найдёт любимый',
+  'smak.1':'Клубника–Манго','smak.1n':'Свежее, фруктовое',
+  'smak.2':'Фисташка–Малина','smak.2n':'Зелёно-розовое',
+  'smak.3':'Фисташка–Вишня','smak.3n':'Кисло-сладкое',
+  'smak.4':'Черника–Мак','smak.4n':'Нежное, кремовое',
+  'smak.5':'Черничный с муссом','smak.5n':'С прослойкой черничного мусса',
+  'smak.6':'Ред Вельвет','smak.6n':'С клубничным кули',
+  'smak.7':'Маскарпоне–Клубника','smak.7n':'Лёгкое, кремовое',
+  'smak.8':'Маскарпоне–Персик','smak.8n':'Летнее, бархатное',
+  'smak.9':'Наполеон','smak.9n':'Классический слоёный',
+  'smak.10':'Медовик','smak.10n':'Нежный медовый',
+  'smak.11':'Сникерс','smak.11n':'Карамель, орех, шоколад',
+  'smak.12':'Дубайский шоколад ✨','smak.12n':'Хит сезона!',
+  'how.label':'Как заказать?','how.title_em':'Простые',
+  'step1.t':'Напишите нам','step1.d':'Telegram, WhatsApp или Instagram',
+  'step2.t':'Опишите идею','step2.d':'Вкус, вид, повод, порции',
+  'step3.t':'Подтверждаем','step3.d':'Дата, цена, предоплата',
+  'step4.t':'Забираете торт','step4.d':'Самовывоз в Белоленке',
+  'reviews.label':'Отзывы','reviews.title_em':'Довольные',
+  'review1.text':'"Заказывала свадебный торт и в полном восторге! Олена — настоящий художник. Торт был невероятно красивым и вкусным. Гости не могли нарадоваться!"',
+  'review1.date':'Свадебный торт · 2024',
+  'review2.text':'"Торт с единорогом для дочки был как из сказки! Быстрое исполнение, приятное общение. Обязательно закажем ещё!"',
+  'review2.date':'Торт на день рождения · 2024',
+  'review3.text':'"Рекомендую от всего сердца! Торт лучше, чем на фото, вкус — небесный. Экспресс за 24ч — Олена спасла мой день рождения!"',
+  'review3.date':'Торт на день рождения · 2025',
+  'contact.label':'Контакты','contact.title':'Закажите свой торт',
+  'contact.desc':'Напишите — ответим быстро и обсудим все детали',
+  'wa.val':'Написать сейчас','contact.loc':'Варшава, Белоленка','contact.hours':'Изготовление за 24ч',
+  'footer.text':'Торты на заказ · Варшава'
+},
+en:{
+  'nav.order':'Order now','hero.chip':'Welcome!','hero.tagline':'Cakes for special moments',
+  'hero.cta':'Order via Telegram','stat.years':'Years','stat.clients':'Clients','stat.speed':'Delivery',
+  'card.torty':'Cakes','card.torty_sub':'Birthday, celebrations',
+  'card.bento':'Bento Cakes','card.bento_sub':'Mini with dedication',
+  'card.weselne':'Wedding Cakes','card.weselne_sub':'For a special day',
+  'card.tematyczne':'Themed','card.tematyczne_sub':'Unique designs',
+  'gallery.label':'Portfolio','gallery.title_em':'creations',
+  'filter.all':'All','filter.torty':'Cakes','filter.bento':'Bento',
+  'filter.weselne':'Wedding','filter.tematyczne':'Themed','filter.kap':'Cupcakes',
+  'cake.angel':'Angel cake','cake.unicorn':'Unicorn cake',
+  'cake.floral':'Floral cake','cake.black18':'Birthday cake 18',
+  'cake.gula23':'Bento cake · 23','cake.olena':'Wedding cake',
+  'cake.pearls':'Pearl cake','cake.cat':'Kids cake','cake.christ':'Christening cake',
+  'cake.komunia':'Communion cake','cake.heart':'Heart cake','cake.leopard':'Leopard cake','cake.orchid':'Orchid cake','cake.ny':'New York cake',
+  'cake.vintage':'Vintage birthday cake','cake.bowcake':'Bow cake','cake.baptism':'Christening feather cake','cake.strawberry':'Strawberry cake','cake.stork':'Stork cake',
+  'cake.blueheart':'Blue heart cake','cake.bmw':'BMW cake','cake.money':'Money cake','cake.easter':'Easter cupcake ХВ','cake.redcream':'Red & cream vintage cake',
+  'cake.pleated':'Cake with roses & pleats','cake.babyboy':'Baby Boy cake','cake.bows2':'Bow cake No. 2','cake.baptismsofia':'Baptism Sofia','cake.bunny':'Bunny birthday cake',
+  'cake.pleated21':'Birthday cake 21 pleated',
+  'cake.redheart24':'Red heart cake 24','cake.greencream':'Green & cream wedding cake','cake.princess':'Disney Princess cake','cake.meringue':'Petal meringue cake',
+  'cake.strawwhite':'White strawberry cake',
+  'gallery.ig':'More on Instagram @gulacake_warszawa',
+  'about.label':'About me','about.title':'Hi, I\'m','about.desc':'I\'m a passionate pastry chef. Since 2019 I\'ve been creating custom cakes in Warsaw. Every cake is a little work of art — I put my heart, experience and the finest ingredients into each one. Based in Białołęka, ready in as little as 24h.',
+  'about.f2':'Happy clients','about.f3':'Express creation','about.cta':'See more on Instagram',
+  'smaki.label':'Gula Cake — Menu','smaki.heading':'FLAVOURS','smaki.title_em':'Signature','smaki.desc':'From classics to surprising combinations — everyone finds their favourite',
+  'smak.1':'Strawberry–Mango','smak.1n':'Fresh, fruity',
+  'smak.2':'Pistachio–Raspberry','smak.2n':'Green-pink',
+  'smak.3':'Pistachio–Cherry','smak.3n':'Sweet-sour',
+  'smak.4':'Blueberry–Poppy','smak.4n':'Delicate, creamy',
+  'smak.5':'Blueberry Mousse','smak.5n':'With blueberry mousse layer',
+  'smak.6':'Red Velvet','smak.6n':'With strawberry coulis',
+  'smak.7':'Mascarpone–Strawberry','smak.7n':'Light, creamy',
+  'smak.8':'Mascarpone–Peach','smak.8n':'Summer, velvety',
+  'smak.9':'Napoleon','smak.9n':'Classic layered',
+  'smak.10':'Honey cake','smak.10n':'Delicate honey',
+  'smak.11':'Snickers','smak.11n':'Caramel, nut, chocolate',
+  'smak.12':'Dubai Chocolate ✨','smak.12n':'Season hit!',
+  'how.label':'How to order?','how.title_em':'Simple',
+  'step1.t':'Contact us','step1.d':'Telegram, WhatsApp or Instagram',
+  'step2.t':'Describe your vision','step2.d':'Flavour, look, occasion, servings',
+  'step3.t':'We confirm','step3.d':'Date, price, deposit',
+  'step4.t':'Pick up your cake','step4.d':'Collection in Białołęka',
+  'reviews.label':'Reviews','reviews.title_em':'Happy',
+  'review1.text':'"I ordered a wedding cake and I\'m absolutely thrilled! Olena is a true artist — the cake was stunning and delicious. Guests couldn\'t stop admiring it!"',
+  'review1.date':'Wedding cake · 2024',
+  'review2.text':'"The unicorn birthday cake for my daughter was like a fairy tale! Fast delivery, lovely service. We will definitely order again!"',
+  'review2.date':'Birthday cake · 2024',
+  'review3.text':'"Highly recommend! The cake was even better than in the photos, heavenly taste. Express delivery in 24h — Olena saved my birthday!"',
+  'review3.date':'Birthday cake · 2025',
+  'contact.label':'Contact','contact.title':'Order your cake',
+  'contact.desc':'Write to us — we\'ll respond quickly and discuss all details',
+  'wa.val':'Write now','contact.loc':'Warsaw, Białołęka','contact.hours':'Ready in 24h',
+  'footer.text':'Custom cakes · Warsaw'
+},
+uk:{
+  'nav.order':'Замовити','hero.chip':'Ласкаво просимо!','hero.tagline':'Торти на особливі моменти',
+  'hero.cta':'Замовити в Telegram','stat.years':'Років','stat.clients':'Клієнтів','stat.speed':'Готовність',
+  'card.torty':'Торти','card.torty_sub':'Дні народження, свята',
+  'card.bento':'Бенто-торти','card.bento_sub':'Міні з присвятою',
+  'card.weselne':'Весільні торти','card.weselne_sub':'На особливий день',
+  'card.tematyczne':'Тематичні','card.tematyczne_sub':'Унікальні проекти',
+  'gallery.label':'Портфоліо','gallery.title_em':'роботи',
+  'filter.all':'Всі','filter.torty':'Торти','filter.bento':'Бенто',
+  'filter.weselne':'Весільні','filter.tematyczne':'Тематичні','filter.kap':'Капкейки',
+  'cake.angel':'Торт з ангелами','cake.unicorn':'Торт з єдинорогом',
+  'cake.floral':'Торт з квітами','cake.black18':'День народження 18',
+  'cake.gula23':'Бенто · 23','cake.olena':'Весільний торт',
+  'cake.pearls':'Торт з перлами','cake.cat':'Дитячий торт','cake.christ':'Торт на хрестини',
+  'cake.komunia':'Торт на Причастя','cake.heart':'Торт-серце','cake.leopard':'Леопардовий торт','cake.orchid':'Торт з орхідеєю','cake.ny':'Тематичний торт NY',
+  'cake.vintage':'Вінтажний торт','cake.bowcake':'Торт з бантом','cake.baptism':'Торт хрещення з пір\'ям','cake.strawberry':'Торт з полуницею','cake.stork':'Торт з лелекою',
+  'cake.blueheart':'Торт серце синє','cake.bmw':'Торт BMW','cake.money':'Торт з грошима','cake.easter':'Великодня бабуся ХВ','cake.redcream':'Торт vintage червоно-кремовий',
+  'cake.pleated':'Торт з трояндами і плісе','cake.babyboy':'Торт Baby Boy','cake.bows2':'Торт з бантиками №2','cake.baptismsofia':'Хрещення Софії','cake.bunny':'Торт із зайченям',
+  'cake.pleated21':'Торт 21 у плісе',
+  'cake.redheart24':'Торт серце червоне 24','cake.greencream':'Весільний зелено-кремовий','cake.princess':'Торт з принцесами','cake.meringue':'Безейний торт з пелюстками',
+  'cake.strawwhite':'Білий торт з полуницею',
+  'gallery.ig':'Більше робіт в Instagram @gulacake_warszawa',
+  'about.label':'Про мене','about.title':'Привіт, я','about.desc':'Я кондитер із покликанням. З 2019 року створюю авторські торти на замовлення у Варшаві. Кожен торт — це маленький витвір мистецтва, у який я вкладаю душу, досвід та найкращі інгредієнти. Живу та працюю на Білоленці, виконую замовлення навіть за 24 години.',
+  'about.f2':'Щасливих клієнтів','about.f3':'Експрес-виготовлення','about.cta':'Більше в Instagram',
+  'smaki.label':'Gula Cake — Меню','smaki.heading':'СМАКИ','smaki.title_em':'Авторські','smaki.desc':'Від класики до несподіваних поєднань — кожен знайде свій улюблений',
+  'smak.1':'Полуниця–Манго','smak.1n':'Свіже, фруктове',
+  'smak.2':'Фісташка–Малина','smak.2n':'Зелено-рожеве',
+  'smak.3':'Фісташка–Вишня','smak.3n':'Кисло-солодке',
+  'smak.4':'Чорниця–Мак','smak.4n':'Ніжне, кремове',
+  'smak.5':'Чорничний з мусом','smak.5n':'З прошарком чорничного мусу',
+  'smak.6':'Ред Вельвет','smak.6n':'З полуничним кулі',
+  'smak.7':'Маскарпоне–Полуниця','smak.7n':'Легке, кремове',
+  'smak.8':'Маскарпоне–Персик','smak.8n':'Літнє, оксамитне',
+  'smak.9':'Наполеон','smak.9n':'Класичний шаруватий',
+  'smak.10':'Медовик','smak.10n':'Ніжний медовий',
+  'smak.11':'Снікерс','smak.11n':'Карамель, горіх, шоколад',
+  'smak.12':'Дубайський шоколад ✨','smak.12n':'Хіт сезону!',
+  'how.label':'Як замовити?','how.title_em':'Прості',
+  'step1.t':'Напишіть нам','step1.d':'Telegram, WhatsApp або Instagram',
+  'step2.t':'Опишіть ідею','step2.d':'Смак, вигляд, привід, порції',
+  'step3.t':'Підтверджуємо','step3.d':'Дата, ціна, передоплата',
+  'step4.t':'Забираєте торт','step4.d':'Самовивіз у Білоленці',
+  'reviews.label':'Відгуки','reviews.title_em':'Щасливі',
+  'review1.text':'"Замовляла весільний торт і в повному захваті! Олена — справжній художник. Торт був неймовірно красивий і смачний!"',
+  'review1.date':'Весільний торт · 2024',
+  'review2.text':'"Торт з єдинорогом для донечки був як із казки! Швидке виконання, приємне спілкування. Обов\'язково замовимо ще!"',
+  'review2.date':'Торт на день народження · 2024',
+  'review3.text':'"Рекомендую від щирого серця! Торт кращий ніж на фото, смак — небесний. Експрес за 24 години — Олена врятувала мій день народження!"',
+  'review3.date':'Торт на день народження · 2025',
+  'contact.label':'Контакти','contact.title':'Замовте свій торт',
+  'contact.desc':'Напишіть — відповімо швидко і обговоримо всі деталі',
+  'wa.val':'Написати зараз','contact.loc':'Варшава, Білоленка','contact.hours':'Виготовлення за 24 год',
+  'footer.text':'Торти на замовлення · Варшава'
+},
+by:{
+  'nav.order':'Замовіць','hero.chip':'Сардэчна запрашаем!','hero.tagline':'Торты для асаблівых момантаў',
+  'hero.cta':'Замовіць у Telegram','stat.years':'Гадоў','stat.clients':'Кліентаў','stat.speed':'Гатоўнасць',
+  'card.torty':'Торты','card.torty_sub':'Дні нараджэння, святы',
+  'card.bento':'Бэнта-торты','card.bento_sub':'Міні з прысвячэннем',
+  'card.weselne':'Вясельныя торты','card.weselne_sub':'На асаблівы дзень',
+  'card.tematyczne':'Тэматычныя','card.tematyczne_sub':'Унікальныя праекты',
+  'gallery.label':'Партфоліа','gallery.title_em':'работы',
+  'filter.all':'Усе','filter.torty':'Торты','filter.bento':'Бэнта',
+  'filter.weselne':'Вясельныя','filter.tematyczne':'Тэматычныя','filter.kap':'Капкейкі',
+  'cake.angel':'Торт з анёламі','cake.unicorn':'Торт з аднарогам',
+  'cake.floral':'Торт з кветкамі','cake.black18':'Дзень нараджэння 18',
+  'cake.gula23':'Бэнта · 23','cake.olena':'Вясельны торт',
+  'cake.pearls':'Торт з пэрламі','cake.cat':'Дзіцячы торт','cake.christ':'Торт на хрэсьбіны',
+  'cake.komunia':'Торт на Камунію','cake.heart':'Торт-сэрца','cake.leopard':'Леапардавы торт','cake.orchid':'Торт з архідэяй','cake.ny':'Тэматычны торт NY',
+  'cake.vintage':'Вінтажны торт','cake.bowcake':'Торт з бантам','cake.baptism':'Торт хрышчэння з пёрамі','cake.strawberry':'Торт з суніцамі','cake.stork':'Торт з бусьлам',
+  'cake.blueheart':'Торт сэрца сіняе','cake.bmw':'Торт BMW','cake.money':'Торт з грашыма','cake.easter':'Велікодняя бабка ХВ','cake.redcream':'Торт vintage чырвона-крэмавы',
+  'cake.pleated':'Торт з ружамі і плісэ','cake.babyboy':'Торт Baby Boy','cake.bows2':'Торт з бантамі №2','cake.baptismsofia':'Хрышчэнне Сафіі','cake.bunny':'Торт з зайкам',
+  'cake.pleated21':'Торт 21 у плісэ',
+  'cake.redheart24':'Торт сэрца чырвонае 24','cake.greencream':'Вясельны зялёна-крэмавы','cake.princess':'Торт з прынцэсамі','cake.meringue':'Бэзавы торт з пялёсткамі',
+  'cake.strawwhite':'Белы торт з суніцамі',
+  'gallery.ig':'Больш работ у Instagram @gulacake_warszawa',
+  'about.label':'Пра мяне','about.title':'Прывітанне, я','about.desc':'Я кандытар па пакліканні. З 2019 года ствараю аўтарскія торты на замову ў Варшаве. Кожны торт — гэта маленькі твор мастацтва, у які я ўкладаю душу, вопыт і найлепшыя інгрэдыенты. Жыву і працую на Беляленцы, выконваю заказы нават за 24 гадзіны.',
+  'about.f2':'Шчаслівых кліентаў','about.f3':'Экспрэс-вырабленне','about.cta':'Больш у Instagram',
+  'smaki.label':'Gula Cake — Меню','smaki.heading':'СМАКІ','smaki.title_em':'Аўтарскія','smaki.desc':'Ад класікі да нечаканых спалучэнняў — кожны знойдзе свой любімы',
+  'smak.1':'Суніца–Манга','smak.1n':'Свежае, фруктовае',
+  'smak.2':'Фісташка–Маліна','smak.2n':'Зялёна-ружовае',
+  'smak.3':'Фісташка–Вішня','smak.3n':'Кісла-салодкае',
+  'smak.4':'Чарніца–Мак','smak.4n':'Далікатнае, крэмавае',
+  'smak.5':'Чарнічны з мусам','smak.5n':'З пластом чарнічнага мусу',
+  'smak.6':'Рэд Вельвет','smak.6n':'З суніцавым кулі',
+  'smak.7':'Маскарпонэ–Суніца','smak.7n':'Лёгкае, крэмавае',
+  'smak.8':'Маскарпонэ–Персік','smak.8n':'Летняе, аксамітнае',
+  'smak.9':'Напалеон','smak.9n':'Класічны слаісты',
+  'smak.10':'Меднік','smak.10n':'Далікатны медавы',
+  'smak.11':'Снікерс','smak.11n':'Карамель, арэх, шакалад',
+  'smak.12':'Дубайскі шакалад ✨','smak.12n':'Хіт сезону!',
+  'how.label':'Як замовіць?','how.title_em':'Простыя',
+  'step1.t':'Напішыце нам','step1.d':'Telegram, WhatsApp або Instagram',
+  'step2.t':'Апішыце ідэю','step2.d':'Смак, выгляд, нагода, порцыі',
+  'step3.t':'Пацвярджаем','step3.d':'Дата, цана, папярэдняя аплата',
+  'step4.t':'Забіраеце торт','step4.d':'Самавываз у Беляленцы',
+  'reviews.label':'Водгукі','reviews.title_em':'Шчаслівыя',
+  'review1.text':'"Замаўляла вясельны торт і ў поўным захапленні! Алена — сапраўдны мастак. Торт быў неверагодна прыгожы і смачны!"',
+  'review1.date':'Вясельны торт · 2024',
+  'review2.text':'"Торт з аднарогам для дачушкі быў як з казкі! Хуткае выкананне, прыемнае зносіны. Абавязкова замовім яшчэ!"',
+  'review2.date':'Торт на дзень нараджэння · 2024',
+  'review3.text':'"Раю ад усяго сэрца! Торт лепшы чым на фота, смак — нябесны. Экспрэс за 24 гадзіны — Алена выратавала мой дзень нараджэння!"',
+  'review3.date':'Торт на дзень нараджэння · 2025',
+  'contact.label':'Кантакты','contact.title':'Замовіце свой торт',
+  'contact.desc':'Напішыце — адкажам хутка і абмяркуем усе дэталі',
+  'wa.val':'Напісаць зараз','contact.loc':'Варшава, Беляленка','contact.hours':'Вырабленне за 24 г',
+  'footer.text':'Торты на замову · Варшава'
+}
+};
+
+/* ═══════════════════════════════════════════════
+   LANGUAGE SYSTEM
+═══════════════════════════════════════════════ */
+const FLAGS={pl:'🇵🇱',ru:'🇷🇺',en:'🇬🇧',uk:'🇺🇦',by:'🇧🇾'};
+const CODES={pl:'PL',ru:'RU',en:'EN',uk:'UK',by:'BY'};
+
+function setLang(lang){
+  const tr=T[lang];if(!tr)return;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.dataset.i18n;if(tr[k]!==undefined)el.textContent=tr[k];
+  });
+  document.getElementById('currentFlag').textContent=FLAGS[lang];
+  document.getElementById('currentCode').textContent=CODES[lang];
+  document.documentElement.lang=lang;
+  document.documentElement.dataset.lang=lang;
+  document.querySelectorAll('.lang-option').forEach(o=>{
+    o.classList.toggle('active',o.dataset.lang===lang);
+  });
+  localStorage.setItem('gc-lang',lang);
+}
+
+/* Lang dropdown */
+const langBtn=document.getElementById('langBtn');
+const langDropdown=document.getElementById('langDropdown');
+langBtn.addEventListener('click',e=>{e.stopPropagation();langDropdown.classList.toggle('open');langBtn.querySelector('.arrow').style.transform=langDropdown.classList.contains('open')?'rotate(180deg)':'';});
+document.addEventListener('click',()=>{langDropdown.classList.remove('open');langBtn.querySelector('.arrow').style.transform='';});
+document.querySelectorAll('.lang-option').forEach(o=>{
+  o.addEventListener('click',e=>{e.stopPropagation();setLang(o.dataset.lang);langDropdown.classList.remove('open');langBtn.querySelector('.arrow').style.transform='';});
+});
+
+/* Init language */
+const savedLang=localStorage.getItem('gc-lang')||'pl';
+setLang(savedLang);
+
+/* ═══════════════════════════════════════════════
+   PARTICLES
+═══════════════════════════════════════════════ */
+(function(){
+  const container=document.getElementById('particles');
+  const colors=['#F9D8E3','#C97D94','#C9A84C','#F0C8D8','#E8A8BC'];
+  for(let i=0;i<22;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const size=Math.random()*8+3;
+    const dur=Math.random()*12+8;
+    const delay=Math.random()*10;
+    const left=Math.random()*100;
+    p.style.cssText=`width:${size}px;height:${size}px;left:${left}%;bottom:-20px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${dur}s;animation-delay:-${delay}s;opacity:${Math.random()*0.5+0.2}`;
+    container.appendChild(p);
+  }
+})();
+
+/* ═══════════════════════════════════════════════
+   SCROLL PROGRESS
+═══════════════════════════════════════════════ */
+const prog=document.getElementById('progress');
+window.addEventListener('scroll',()=>{
+  const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100;
+  prog.style.width=pct+'%';
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>40);
+},{passive:true});
+
+/* ═══════════════════════════════════════════════
+   HERO CARD CLICKS
+═══════════════════════════════════════════════ */
+document.querySelectorAll('.cake-card[data-cat]').forEach(card=>{
+  card.addEventListener('click',e=>{
+    e.preventDefault();
+    const cat=card.dataset.cat;
+    filterGallery(cat);
+    document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+  });
+});
+
+/* ═══════════════════════════════════════════════
+   AUTO-LOADING CATALOG
+   Кидаешь фото в папку images/ — каталог сам их находит.
+   Имена файлов:
+     • Просто номера:  1.jpg 2.jpg 3.jpg ...        → показываются во "Все"
+     • С категорией:   weselne-1.jpg  bento-1.jpg   → попадают в нужный фильтр
+       Префиксы: torty- bento- weselne- tematyczne- kap-
+   Поддержка: .jpg .jpeg .png .webp
+═══════════════════════════════════════════════ */
+const masonry=document.getElementById('masonry');
+const IMG_DIR='images/';
+const EXTS=['jpg','jpeg','png','webp'];
+const CATS=['','torty','bento','weselne','tematyczne','kap'];
+const MAX_PER_CAT=80;
+const MISS_STOP=4;
+
+/* Реальные фотки Олены — с красивыми именами и категориями */
+const REAL_DIR='images/Новая папка/';
+const REAL_PHOTOS=[
+  {f:'Снимок экрана 2026-06-15 в 07.20.33.png',n:'Tort z Perłami i Kokardą',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.20.44.png',n:'Tort z Różową Kokardą',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.20.52.png',n:'Chrzest — Anielskie Pióra',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.21.00.png',n:'Tort z Truskawkami',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.21.09.png',n:'Tort Bocian — Narodziny',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.21.18.png',n:'Tort Serce Niebieskie',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.21.29.png',n:'Tort Tematyczny BMW',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.00.png',n:'Tort z Pieniędzmi',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.07.png',n:'Tort Wielkanocny ХВ',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.19.png',n:'Tort Vintage Bordo',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.26.png',n:'Tort Plisowany z Różami',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.33.png',n:'Tort Baby Boy',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.42.png',n:'Tort z Kokardkami',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.49.png',n:'Chrzest Sofii',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.22.57.png',n:'Tort Różowy Króliczek',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.03.png',n:'Tort na Pierwszą Komunię',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.11.png',n:'Tort Serce Różowe',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.17.png',n:'Tort w Cętki Leoparda',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.22.png',n:'Tort z Białą Orchideą',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.32.png',n:'Tort Nowy Jork',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.40.png',n:'Tort Vintage Różowy',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.45.png',n:'Tort z Kokardą i Perłami',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.23.50.png',n:'Chrzest — Białe Pióra',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.02.png',n:'Tort z Truskawkami i Kwiatami',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.07.png',n:'Tort Bocian Biały',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.15.png',n:'Tort Serce Czerwone — 24 lata',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.20.png',n:'Tort Zielony Krem',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.26.png',n:'Tort Księżniczka',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.32.png',n:'Tort z Płatkami Bezy',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.38.png',n:'Tort Plisowany — 21 lat',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.24.44.png',n:'Tort Biały Plisowany',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.02.png',n:'Tort Urodzinowy z Kremem',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.08.png',n:'Tort Piętrowy Elegancki',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.19.png',n:'Tort Czekoladowy Luksus',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.28.png',n:'Tort Kwiatowy Pastelowy',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.35.png',n:'Tort dla Dziewczynki',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.42.png',n:'Tort Urodzinowy Złoty',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.49.png',n:'Tort Bento z Kwiatem',cat:'bento'},
+  {f:'Снимок экрана 2026-06-15 в 07.25.59.png',n:'Tort Motylkowy',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.06.png',n:'Tort Weselny Biały',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.11.png',n:'Tort Urodzinowy Malinowy',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.17.png',n:'Tort Bento Serce',cat:'bento'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.23.png',n:'Tort Arabski Złoty',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.32.png',n:'Tort z Muszelkami i Różami',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.38.png',n:'Tort Kwiatowy Biały',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.43.png',n:'Tort dla Chłopca',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.48.png',n:'Tort Szkolny',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.26.54.png',n:'Tort Piętrowy Floral',cat:'weselne'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.00.png',n:'Tort Makaroniki i Kwiaty',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.05.png',n:'Tort Anioł',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.11.png',n:'Tort Bento Urodzinowy',cat:'bento'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.22.png',n:'Tort Waniliowy z Różami',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.27.png',n:'Tort Porzeczkowy',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.33.png',n:'Tort na Jubileusz',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.39.png',n:'Tort Bento z Napisem',cat:'bento'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.47.png',n:'Tort Jednorożec',cat:'tematyczne'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.54.png',n:'Tort na 18-stkę',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.27.59.png',n:'Tort z Różami Cukrowymi',cat:'torty'},
+  {f:'Снимок экрана 2026-06-15 в 07.28.09.png',n:'Tort Piętrowy z Kwiatami',cat:'weselne'}
+];
+
+/* Запасные SVG-иллюстрации, если реальных фото ещё нет */
+const FALLBACK=[
+  {src:'tort-strawberry-white.svg',cat:'torty',label:'cake.strawwhite'},
+  {src:'tort-red-heart-24.svg',cat:'torty',label:'cake.redheart24'},
+  {src:'tort-green-cream.svg',cat:'weselne',label:'cake.greencream'},
+  {src:'tort-princess.svg',cat:'tematyczne',label:'cake.princess'},
+  {src:'tort-meringue-petals.svg',cat:'torty',label:'cake.meringue'},
+  {src:'tort-pleated-21.svg',cat:'torty',label:'cake.pleated21'},
+  {src:'tort-white-pleated.svg',cat:'torty',label:'cake.pleated'},
+  {src:'tort-baby-boy.svg',cat:'tematyczne',label:'cake.babyboy'},
+  {src:'tort-pink-bows-2.svg',cat:'torty',label:'cake.bows2'},
+  {src:'tort-baptism-sofia.svg',cat:'tematyczne',label:'cake.baptismsofia'},
+  {src:'tort-bunny-pink.svg',cat:'torty',label:'cake.bunny'},
+  {src:'tort-blue-heart.svg',cat:'torty',label:'cake.blueheart'},
+  {src:'tort-bmw.svg',cat:'tematyczne',label:'cake.bmw'},
+  {src:'tort-money-green.svg',cat:'tematyczne',label:'cake.money'},
+  {src:'tort-easter-xv.svg',cat:'torty',label:'cake.easter'},
+  {src:'tort-red-cream.svg',cat:'torty',label:'cake.redcream'},
+  {src:'tort-vintage-pink.svg',cat:'torty',label:'cake.vintage'},
+  {src:'tort-bow-pink.svg',cat:'torty',label:'cake.bowcake'},
+  {src:'tort-baptism-feather.svg',cat:'tematyczne',label:'cake.baptism'},
+  {src:'tort-strawberry.svg',cat:'torty',label:'cake.strawberry'},
+  {src:'tort-stork.svg',cat:'tematyczne',label:'cake.stork'},
+  {src:'tort-komunia.svg',cat:'torty',label:'cake.komunia'},
+  {src:'tort-heart-pink.svg',cat:'torty',label:'cake.heart'},
+  {src:'tort-leopard.svg',cat:'tematyczne',label:'cake.leopard'},
+  {src:'tort-orchid-white.svg',cat:'weselne',label:'cake.orchid'},
+  {src:'tort-newyork.svg',cat:'tematyczne',label:'cake.ny'},
+  {src:'tort-pearls-bow.svg',cat:'weselne',label:'cake.pearls'},
+  {src:'tort-cat-yarn.svg',cat:'tematyczne',label:'cake.cat'},
+  {src:'tort-christening.svg',cat:'tematyczne',label:'cake.christ'},
+  {src:'tort-unicorn.svg',cat:'tematyczne',label:'cake.unicorn'},
+  {src:'tort-black18.svg',cat:'torty',label:'cake.black18'},
+  {src:'tort-angel.svg',cat:'torty',label:'cake.angel'},
+  {src:'tort-floral.svg',cat:'weselne',label:'cake.floral'},
+  {src:'tort-gula23.svg',cat:'bento',label:'cake.gula23'},
+  {src:'olena-white.svg',cat:'weselne',label:'cake.olena'}
+];
+
+let loadedCount=0;
+
+/* Попытка загрузить картинку: перебирает расширения */
+function tryLoad(base){
+  return new Promise(resolve=>{
+    let i=0;
+    const attempt=()=>{
+      if(i>=EXTS.length){resolve(null);return;}
+      const url=IMG_DIR+base+'.'+EXTS[i];
+      const img=new Image();
+      img.onload=()=>resolve(url);
+      img.onerror=()=>{i++;attempt();};
+      img.src=url;
+    };
+    attempt();
+  });
+}
+
+function catLabel(cat){
+  const map={torty:'filter.torty',bento:'filter.bento',weselne:'filter.weselne',
+    tematyczne:'filter.tematyczne',kap:'filter.kap'};
+  return map[cat]||'filter.all';
+}
+
+function addItem(url,cat){
+  const item=document.createElement('div');
+  item.className='g-item';
+  item.dataset.cat=cat||'all';
+  const badgeKey=catLabel(cat||'all');
+  item.innerHTML=
+    '<img src="'+url+'" alt="Tort Gula Cake" loading="lazy">'+
+    (cat?'<div class="g-cat-badge" data-i18n="'+badgeKey+'"></div>':'');
+  item.addEventListener('click',()=>{lbImg.src=url;document.getElementById('lb-caption').textContent='';lb.classList.add('open');});
+  masonry.appendChild(item);
+  loadedCount++;
+  if(typeof gsap!=='undefined'){
+    gsap.from(item,{opacity:0,y:24,scale:0.94,duration:0.5,ease:'power3.out',
+      scrollTrigger:{trigger:item,start:'top 95%',once:true}});
+  }
+  // обновить перевод бейджа
+  if(cat){const b=item.querySelector('.g-cat-badge');const tr=T[document.documentElement.dataset.lang||'pl'];if(b&&tr[badgeKey])b.textContent=tr[badgeKey];}
+}
+
+/* Сканируем одну категорию по номерам */
+async function scanCat(prefix){
+  let misses=0;
+  for(let n=1;n<=MAX_PER_CAT;n++){
+    const base=prefix?prefix+'-'+n:String(n);
+    const url=await tryLoad(base);
+    if(url){addItem(url,prefix);misses=0;}
+    else{misses++;if(misses>=MISS_STOP)break;}
+  }
+}
+
+async function buildCatalog(){
+  // Сначала показываем настоящие фотки если они есть
+  if(REAL_PHOTOS.length>0){
+    const lang=document.documentElement.dataset.lang||'pl';
+    const tr=T[lang]||T['pl'];
+    REAL_PHOTOS.forEach(photo=>{
+      const url=REAL_DIR+photo.f;
+      const item=document.createElement('div');
+      item.className='g-item';
+      item.dataset.cat=photo.cat||'all';
+      const badgeKey=catLabel(photo.cat);
+      const badgeText=tr[badgeKey]||photo.cat||'';
+      item.innerHTML=
+        '<img src="'+url+'" alt="'+photo.n+'" loading="lazy">'+
+        '<div class="g-overlay"><span class="g-label">'+photo.n+'</span></div>'+
+        (photo.cat?'<div class="g-cat-badge">'+badgeText+'</div>':'');
+      item.addEventListener('click',()=>{
+        lbImg.src=url;
+        document.getElementById('lb-caption').textContent=photo.n;
+        lb.classList.add('open');
+      });
+      masonry.appendChild(item);
+      loadedCount++;
+      if(typeof gsap!=='undefined'){
+        gsap.from(item,{opacity:0,y:24,scale:0.94,duration:0.5,ease:'power3.out',
+          scrollTrigger:{trigger:item,start:'top 95%',once:true}});
+      }
+    });
+    if(typeof ScrollTrigger!=='undefined')ScrollTrigger.refresh();
+    return;
+  }
+  // Если нет реальных — сканируем пронумерованные файлы
+  for(const c of CATS){await scanCat(c);}
+  // Если и тех нет — показать запасные SVG иллюстрации
+  if(loadedCount===0){
+    FALLBACK.forEach(f=>{
+      const item=document.createElement('div');
+      item.className='g-item';
+      item.dataset.cat=f.cat;
+      const tr=T[document.documentElement.dataset.lang||'pl'];
+      item.innerHTML='<img src="'+IMG_DIR+f.src+'" alt="Tort">'+
+        '<div class="g-cat-badge" data-i18n="'+catLabel(f.cat)+'">'+(tr[catLabel(f.cat)]||'')+'</div>'+
+        '<div class="g-overlay"><span class="g-label" data-i18n="'+f.label+'">'+(tr[f.label]||'')+'</span></div>';
+      item.addEventListener('click',()=>{lbImg.src=IMG_DIR+f.src;document.getElementById('lb-caption').textContent=tr[f.label]||'';lb.classList.add('open');});
+      masonry.appendChild(item);
+    });
+  }
+  if(typeof ScrollTrigger!=='undefined')ScrollTrigger.refresh();
+}
+
+/* ═══════════════════════════════════════════════
+   GALLERY FILTER
+═══════════════════════════════════════════════ */
+function filterGallery(cat){
+  document.querySelectorAll('.fb').forEach(b=>b.classList.toggle('on',b.dataset.f===cat));
+  document.querySelectorAll('.g-item').forEach(item=>{
+    const show=cat==='all'||item.dataset.cat===cat;
+    item.classList.toggle('g-hidden',!show);
+  });
+}
+document.querySelectorAll('.fb').forEach(btn=>{
+  btn.addEventListener('click',()=>filterGallery(btn.dataset.f));
+});
+
+/* ═══════════════════════════════════════════════
+   LIGHTBOX
+═══════════════════════════════════════════════ */
+const lb=document.getElementById('lb');
+const lbImg=document.getElementById('lb-img');
+document.getElementById('lbClose').addEventListener('click',()=>lb.classList.remove('open'));
+lb.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open')});
+
+/* Запуск каталога */
+buildCatalog();
+
+/* Ротация фото в разделе SMAKI */
+(function(){
+  const smakiImg=document.getElementById('smaki-img');
+  if(!smakiImg||REAL_PHOTOS.length<2)return;
+  const picks=[0,2,10,17,20,27,30,38,45];
+  let si=0;
+  setInterval(()=>{
+    si=(si+1)%picks.length;
+    const idx=picks[si]%REAL_PHOTOS.length;
+    const next=new Image();
+    next.src=REAL_DIR+REAL_PHOTOS[idx].f;
+    next.onload=()=>{smakiImg.style.opacity='0';setTimeout(()=>{smakiImg.src=next.src;smakiImg.style.opacity='1';},400);};
+  },4000);
+})();
+
+/* ═══════════════════════════════════════════════
+   GSAP ANIMATIONS
+═══════════════════════════════════════════════ */
+if(typeof gsap!=='undefined'){
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* Hero */
+  gsap.from('.welcome-chip',{opacity:0,y:16,duration:0.6,ease:'power3.out',delay:0.2});
+  gsap.from('.hero-script',  {opacity:0,y:28,duration:0.9,ease:'power3.out',delay:0.35});
+  gsap.from('.hero-tagline', {opacity:0,y:16,duration:0.6,ease:'power3.out',delay:0.55});
+  gsap.from('.hero-desc',    {opacity:0,y:14,duration:0.6,ease:'power3.out',delay:0.7});
+  gsap.from('.hero-cta',     {opacity:0,y:14,duration:0.6,ease:'power3.out',delay:0.85});
+  gsap.from('.hero-stats',   {opacity:0,y:10,duration:0.5,ease:'power3.out',delay:1.0});
+  gsap.from('.cake-card',    {opacity:0,y:32,scale:0.92,duration:0.7,ease:'power3.out',stagger:0.1,delay:0.45});
+
+  /* Scroll reveals */
+  const revealEls=['.s-title','.s-label','.s-desc','.ig-link a','.about-text'];
+  revealEls.forEach(sel=>{
+    gsap.utils.toArray(sel).forEach(el=>{
+      gsap.from(el,{opacity:0,y:24,duration:0.7,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+    });
+  });
+
+  /* Gallery items animate on creation (see buildCatalog) */
+
+  /* Smak cards */
+  gsap.utils.toArray('.smak').forEach((el,i)=>{
+    gsap.from(el,{opacity:0,y:16,duration:0.4,ease:'power2.out',
+      delay:(i%4)*0.035,scrollTrigger:{trigger:el,start:'top 92%',once:true}});
+  });
+
+  /* Steps */
+  gsap.utils.toArray('.step').forEach((el,i)=>{
+    gsap.from(el,{opacity:0,y:24,duration:0.6,ease:'power3.out',delay:i*0.13,
+      scrollTrigger:{trigger:'#how',start:'top 82%',once:true}});
+  });
+
+  /* Review cards */
+  gsap.utils.toArray('.review-card').forEach((el,i)=>{
+    gsap.from(el,{opacity:0,y:28,duration:0.6,ease:'power3.out',delay:i*0.12,
+      scrollTrigger:{trigger:'#reviews',start:'top 82%',once:true}});
+  });
+
+  /* Contact buttons */
+  gsap.utils.toArray('.cb').forEach((el,i)=>{
+    gsap.from(el,{opacity:0,y:20,duration:0.5,ease:'power3.out',delay:i*0.1,
+      scrollTrigger:{trigger:'#contact',start:'top 82%',once:true}});
+  });
+
+  /* About facts */
+  gsap.utils.toArray('.fact').forEach((el,i)=>{
+    gsap.from(el,{opacity:0,scale:0.88,duration:0.5,ease:'back.out(1.5)',delay:i*0.1,
+      scrollTrigger:{trigger:'.about-facts',start:'top 85%',once:true}});
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,398 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <!-- Background gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#FAFAF8"/>
+      <stop offset="100%" stop-color="#F0EDE6"/>
+    </radialGradient>
+
+    <!-- Cake body gradient (very subtle) -->
+    <linearGradient id="cakeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EDE9E0"/>
+      <stop offset="30%" stop-color="#F4F2EC"/>
+      <stop offset="70%" stop-color="#F4F2EC"/>
+      <stop offset="100%" stop-color="#E8E4DA"/>
+    </linearGradient>
+
+    <!-- Board gradient -->
+    <linearGradient id="boardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F5F3EE"/>
+      <stop offset="100%" stop-color="#E8E4DC"/>
+    </linearGradient>
+
+    <!-- Sphere gradient -->
+    <radialGradient id="sphereGrad1" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="40%" stop-color="#F5F2EA"/>
+      <stop offset="100%" stop-color="#D8D2C4"/>
+    </radialGradient>
+    <radialGradient id="sphereGrad2" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="40%" stop-color="#F0EDE4"/>
+      <stop offset="100%" stop-color="#D0CAB8"/>
+    </radialGradient>
+    <radialGradient id="sphereGrad3" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="40%" stop-color="#ECE9E0"/>
+      <stop offset="100%" stop-color="#C8C2B0"/>
+    </radialGradient>
+
+    <!-- Gold gradient for text shine -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E0C060"/>
+      <stop offset="50%" stop-color="#C9A84C"/>
+      <stop offset="100%" stop-color="#A88030"/>
+    </linearGradient>
+
+    <!-- Angel wing gradient -->
+    <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E8E4DC"/>
+    </linearGradient>
+
+    <!-- Shadow filter for cake depth -->
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="2" dy="4" stdDeviation="6" flood-color="#C0B8A8" flood-opacity="0.35"/>
+    </filter>
+    <filter id="boardShadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#B0A898" flood-opacity="0.3"/>
+    </filter>
+    <filter id="sphereShadow">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#A09888" flood-opacity="0.4"/>
+    </filter>
+    <filter id="angelShadow">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#C0B8A0" flood-opacity="0.4"/>
+    </filter>
+    <filter id="textShadow">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#806820" flood-opacity="0.4"/>
+    </filter>
+
+    <!-- Clip for cake body -->
+    <clipPath id="cakeClip">
+      <rect x="100" y="100" width="200" height="280" rx="8"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bgGrad)"/>
+
+  <!-- Subtle background texture dots -->
+  <g opacity="0.18">
+    <circle cx="30" cy="40" r="1.5" fill="#C8C0B0"/>
+    <circle cx="60" cy="20" r="1" fill="#C8C0B0"/>
+    <circle cx="90" cy="60" r="1.2" fill="#C8C0B0"/>
+    <circle cx="340" cy="30" r="1.5" fill="#C8C0B0"/>
+    <circle cx="370" cy="70" r="1" fill="#C8C0B0"/>
+    <circle cx="20" cy="430" r="1.2" fill="#C8C0B0"/>
+    <circle cx="380" cy="450" r="1.5" fill="#C8C0B0"/>
+    <circle cx="50" cy="470" r="1" fill="#C8C0B0"/>
+    <circle cx="360" cy="410" r="1.2" fill="#C8C0B0"/>
+  </g>
+
+  <!-- === FLAT ROUND BOARD AT BOTTOM === -->
+  <ellipse cx="200" cy="408" rx="115" ry="14" fill="url(#boardGrad)" filter="url(#boardShadow)"/>
+  <!-- Board edge highlight -->
+  <ellipse cx="200" cy="405" rx="115" ry="11" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.7"/>
+  <!-- Board rim accent -->
+  <ellipse cx="200" cy="408" rx="115" ry="14" fill="none" stroke="#D4CFC4" stroke-width="1"/>
+
+  <!-- === CAKE BODY === -->
+  <!-- Main cake rectangle with rounded top corners -->
+  <rect x="100" y="108" width="200" height="295" rx="8" ry="8" fill="url(#cakeGrad)" filter="url(#softShadow)"/>
+
+  <!-- Cake surface rough texture — base layer -->
+  <rect x="100" y="108" width="200" height="295" rx="8" ry="8" fill="#F0EEE8"/>
+
+  <!-- Rough plaster/coconut texture: irregular small marks clipped to cake -->
+  <g clip-path="url(#cakeClip)" opacity="0.65">
+    <!-- Horizontal texture rows simulating rough surface -->
+    <!-- Row 1 -->
+    <ellipse cx="120" cy="120" rx="4" ry="1.5" fill="#E0DCD2" opacity="0.7" transform="rotate(-8 120 120)"/>
+    <ellipse cx="138" cy="117" rx="3" ry="1.2" fill="#D8D4C8" opacity="0.6" transform="rotate(5 138 117)"/>
+    <ellipse cx="155" cy="122" rx="5" ry="1.5" fill="#E4E0D4" opacity="0.5" transform="rotate(-12 155 122)"/>
+    <ellipse cx="175" cy="118" rx="3.5" ry="1.2" fill="#DDD9CD" opacity="0.65" transform="rotate(7 175 118)"/>
+    <ellipse cx="195" cy="123" rx="4.5" ry="1.4" fill="#E0DCD0" opacity="0.55" transform="rotate(-5 195 123)"/>
+    <ellipse cx="215" cy="119" rx="3" ry="1.3" fill="#D8D4C8" opacity="0.6" transform="rotate(10 215 119)"/>
+    <ellipse cx="232" cy="124" rx="4" ry="1.5" fill="#E4E0D4" opacity="0.5" transform="rotate(-9 232 124)"/>
+    <ellipse cx="250" cy="120" rx="3.5" ry="1.2" fill="#DDD9CD" opacity="0.65" transform="rotate(6 250 120)"/>
+    <ellipse cx="268" cy="116" rx="4" ry="1.4" fill="#E0DCD2" opacity="0.55" transform="rotate(-7 268 116)"/>
+    <ellipse cx="285" cy="121" rx="3" ry="1.3" fill="#D8D4C8" opacity="0.6" transform="rotate(8 285 121)"/>
+
+    <!-- Row 2 -->
+    <ellipse cx="112" cy="133" rx="3.5" ry="1.3" fill="#E4E0D4" opacity="0.5" transform="rotate(6 112 133)"/>
+    <ellipse cx="130" cy="130" rx="4.5" ry="1.5" fill="#DDD9CD" opacity="0.6" transform="rotate(-10 130 130)"/>
+    <ellipse cx="150" cy="135" rx="3" ry="1.2" fill="#E0DCD2" opacity="0.55" transform="rotate(7 150 135)"/>
+    <ellipse cx="170" cy="131" rx="5" ry="1.6" fill="#D8D4C8" opacity="0.5" transform="rotate(-8 170 131)"/>
+    <ellipse cx="192" cy="136" rx="3.5" ry="1.3" fill="#E4E0D4" opacity="0.6" transform="rotate(9 192 136)"/>
+    <ellipse cx="212" cy="132" rx="4" ry="1.4" fill="#DDD9CD" opacity="0.55" transform="rotate(-6 212 132)"/>
+    <ellipse cx="230" cy="137" rx="3" ry="1.2" fill="#E0DCD2" opacity="0.5" transform="rotate(11 230 137)"/>
+    <ellipse cx="248" cy="133" rx="4.5" ry="1.5" fill="#D8D4C8" opacity="0.6" transform="rotate(-9 248 133)"/>
+    <ellipse cx="267" cy="130" rx="3.5" ry="1.3" fill="#E4E0D4" opacity="0.55" transform="rotate(5 267 130)"/>
+    <ellipse cx="284" cy="135" rx="4" ry="1.4" fill="#DDD9CD" opacity="0.5" transform="rotate(-7 284 135)"/>
+    <ellipse cx="295" cy="131" rx="2.5" ry="1.1" fill="#E0DCD2" opacity="0.6" transform="rotate(8 295 131)"/>
+
+    <!-- Row 3 -->
+    <ellipse cx="115" cy="147" rx="4" ry="1.5" fill="#D8D4C8" opacity="0.55" transform="rotate(-9 115 147)"/>
+    <ellipse cx="134" cy="144" rx="3" ry="1.2" fill="#E4E0D4" opacity="0.5" transform="rotate(7 134 144)"/>
+    <ellipse cx="153" cy="149" rx="4.5" ry="1.5" fill="#DDD9CD" opacity="0.6" transform="rotate(-6 153 149)"/>
+    <ellipse cx="172" cy="145" rx="3.5" ry="1.3" fill="#E0DCD2" opacity="0.55" transform="rotate(10 172 145)"/>
+    <ellipse cx="191" cy="150" rx="3" ry="1.2" fill="#D8D4C8" opacity="0.5" transform="rotate(-8 191 150)"/>
+    <ellipse cx="210" cy="146" rx="5" ry="1.6" fill="#E4E0D4" opacity="0.6" transform="rotate(6 210 146)"/>
+    <ellipse cx="230" cy="151" rx="3.5" ry="1.3" fill="#DDD9CD" opacity="0.55" transform="rotate(-11 230 151)"/>
+    <ellipse cx="248" cy="147" rx="4" ry="1.4" fill="#E0DCD2" opacity="0.5" transform="rotate(9 248 147)"/>
+    <ellipse cx="266" cy="144" rx="3" ry="1.2" fill="#D8D4C8" opacity="0.6" transform="rotate(-7 266 144)"/>
+    <ellipse cx="283" cy="149" rx="4.5" ry="1.5" fill="#E4E0D4" opacity="0.55" transform="rotate(5 283 149)"/>
+
+    <!-- Rows 4-8: continue the texture pattern -->
+    <ellipse cx="118" cy="161" rx="3.5" ry="1.3" fill="#E0DCD2" opacity="0.5" transform="rotate(8 118 161)"/>
+    <ellipse cx="137" cy="158" rx="4" ry="1.4" fill="#D8D4C8" opacity="0.55" transform="rotate(-9 137 158)"/>
+    <ellipse cx="157" cy="163" rx="3" ry="1.2" fill="#E4E0D4" opacity="0.6" transform="rotate(6 157 163)"/>
+    <ellipse cx="177" cy="159" rx="4.5" ry="1.5" fill="#DDD9CD" opacity="0.5" transform="rotate(-7 177 159)"/>
+    <ellipse cx="196" cy="164" rx="3.5" ry="1.3" fill="#E0DCD2" opacity="0.55" transform="rotate(10 196 164)"/>
+    <ellipse cx="215" cy="160" rx="4" ry="1.4" fill="#D8D4C8" opacity="0.6" transform="rotate(-8 215 160)"/>
+    <ellipse cx="234" cy="165" rx="3" ry="1.2" fill="#E4E0D4" opacity="0.5" transform="rotate(7 234 165)"/>
+    <ellipse cx="252" cy="161" rx="4.5" ry="1.5" fill="#DDD9CD" opacity="0.55" transform="rotate(-6 252 161)"/>
+    <ellipse cx="270" cy="158" rx="3.5" ry="1.3" fill="#E0DCD2" opacity="0.5" transform="rotate(9 270 158)"/>
+    <ellipse cx="288" cy="163" rx="4" ry="1.4" fill="#D8D4C8" opacity="0.6" transform="rotate(-10 288 163)"/>
+
+    <!-- More rows for middle section -->
+    <ellipse cx="110" cy="178" rx="4" ry="1.5" fill="#E4E0D4" opacity="0.5" transform="rotate(-7 110 178)"/>
+    <ellipse cx="128" cy="175" rx="3" ry="1.2" fill="#DDD9CD" opacity="0.55" transform="rotate(8 128 175)"/>
+    <ellipse cx="147" cy="180" rx="4.5" ry="1.5" fill="#E0DCD2" opacity="0.6" transform="rotate(-9 147 180)"/>
+    <ellipse cx="167" cy="176" rx="3.5" ry="1.3" fill="#D8D4C8" opacity="0.5" transform="rotate(6 167 176)"/>
+    <ellipse cx="186" cy="181" rx="3" ry="1.2" fill="#E4E0D4" opacity="0.55" transform="rotate(-8 186 181)"/>
+    <ellipse cx="205" cy="177" rx="5" ry="1.6" fill="#DDD9CD" opacity="0.5" transform="rotate(10 205 177)"/>
+    <ellipse cx="225" cy="182" rx="3.5" ry="1.3" fill="#E0DCD2" opacity="0.6" transform="rotate(-6 225 182)"/>
+    <ellipse cx="244" cy="178" rx="4" ry="1.4" fill="#D8D4C8" opacity="0.55" transform="rotate(7 244 178)"/>
+    <ellipse cx="262" cy="175" rx="3" ry="1.2" fill="#E4E0D4" opacity="0.5" transform="rotate(-9 262 175)"/>
+    <ellipse cx="280" cy="180" rx="4.5" ry="1.5" fill="#DDD9CD" opacity="0.6" transform="rotate(5 280 180)"/>
+    <ellipse cx="295" cy="177" rx="2.5" ry="1.1" fill="#E0DCD2" opacity="0.55" transform="rotate(-7 295 177)"/>
+
+    <!-- Scattered dots for stipple effect -->
+    <circle cx="125" cy="190" r="1.5" fill="#D8D4C8" opacity="0.45"/>
+    <circle cx="145" cy="194" r="1.2" fill="#E0DCD0" opacity="0.4"/>
+    <circle cx="165" cy="188" r="1.8" fill="#D4D0C4" opacity="0.5"/>
+    <circle cx="188" cy="196" r="1.3" fill="#DDD9CD" opacity="0.45"/>
+    <circle cx="210" cy="191" r="1.6" fill="#D8D4C8" opacity="0.4"/>
+    <circle cx="230" cy="197" r="1.2" fill="#E0DCD0" opacity="0.5"/>
+    <circle cx="252" cy="192" r="1.8" fill="#D4D0C4" opacity="0.45"/>
+    <circle cx="272" cy="188" r="1.3" fill="#DDD9CD" opacity="0.4"/>
+    <circle cx="290" cy="193" r="1.5" fill="#D8D4C8" opacity="0.5"/>
+
+    <!-- Lower section texture -->
+    <ellipse cx="113" cy="320" rx="3.5" ry="1.3" fill="#E4E0D4" opacity="0.5" transform="rotate(8 113 320)"/>
+    <ellipse cx="132" cy="316" rx="4" ry="1.4" fill="#DDD9CD" opacity="0.55" transform="rotate(-9 132 316)"/>
+    <ellipse cx="150" cy="322" rx="3" ry="1.2" fill="#E0DCD2" opacity="0.6" transform="rotate(7 150 322)"/>
+    <ellipse cx="170" cy="318" rx="4.5" ry="1.5" fill="#D8D4C8" opacity="0.5" transform="rotate(-6 170 318)"/>
+    <ellipse cx="192" cy="323" rx="3.5" ry="1.3" fill="#E4E0D4" opacity="0.55" transform="rotate(10 192 323)"/>
+    <ellipse cx="212" cy="319" rx="4" ry="1.4" fill="#DDD9CD" opacity="0.6" transform="rotate(-8 212 319)"/>
+    <ellipse cx="232" cy="324" rx="3" ry="1.2" fill="#E0DCD2" opacity="0.5" transform="rotate(6 232 324)"/>
+    <ellipse cx="250" cy="320" rx="4.5" ry="1.5" fill="#D8D4C8" opacity="0.55" transform="rotate(-7 250 320)"/>
+    <ellipse cx="268" cy="317" rx="3.5" ry="1.3" fill="#E4E0D4" opacity="0.5" transform="rotate(9 268 317)"/>
+    <ellipse cx="287" cy="322" rx="4" ry="1.4" fill="#DDD9CD" opacity="0.6" transform="rotate(-10 287 322)"/>
+
+    <!-- Lower rows -->
+    <ellipse cx="118" cy="335" rx="4" ry="1.5" fill="#E0DCD2" opacity="0.5" transform="rotate(-7 118 335)"/>
+    <ellipse cx="138" cy="332" rx="3" ry="1.2" fill="#D8D4C8" opacity="0.55" transform="rotate(8 138 332)"/>
+    <ellipse cx="158" cy="337" rx="4.5" ry="1.5" fill="#E4E0D4" opacity="0.6" transform="rotate(-9 158 337)"/>
+    <ellipse cx="178" cy="333" rx="3.5" ry="1.3" fill="#DDD9CD" opacity="0.5" transform="rotate(6 178 333)"/>
+    <ellipse cx="198" cy="338" rx="3" ry="1.2" fill="#E0DCD2" opacity="0.55" transform="rotate(-8 198 338)"/>
+    <ellipse cx="218" cy="334" rx="5" ry="1.6" fill="#D8D4C8" opacity="0.5" transform="rotate(10 218 334)"/>
+    <ellipse cx="238" cy="339" rx="3.5" ry="1.3" fill="#E4E0D4" opacity="0.6" transform="rotate(-6 238 339)"/>
+    <ellipse cx="257" cy="335" rx="4" ry="1.4" fill="#DDD9CD" opacity="0.55" transform="rotate(7 257 335)"/>
+    <ellipse cx="275" cy="332" rx="3" ry="1.2" fill="#E0DCD2" opacity="0.5" transform="rotate(-9 275 332)"/>
+    <ellipse cx="292" cy="337" rx="4.5" ry="1.5" fill="#D8D4C8" opacity="0.6" transform="rotate(5 292 337)"/>
+
+    <ellipse cx="112" cy="350" rx="3.5" ry="1.3" fill="#E4E0D4" opacity="0.5" transform="rotate(9 112 350)"/>
+    <ellipse cx="130" cy="347" rx="4" ry="1.4" fill="#DDD9CD" opacity="0.55" transform="rotate(-8 130 347)"/>
+    <ellipse cx="149" cy="352" rx="3" ry="1.2" fill="#E0DCD2" opacity="0.6" transform="rotate(7 149 352)"/>
+    <ellipse cx="168" cy="348" rx="4.5" ry="1.5" fill="#D8D4C8" opacity="0.5" transform="rotate(-6 168 348)"/>
+    <ellipse cx="188" cy="353" rx="3.5" ry="1.3" fill="#E4E0D4" opacity="0.55" transform="rotate(10 188 353)"/>
+    <ellipse cx="208" cy="349" rx="4" ry="1.4" fill="#DDD9CD" opacity="0.6" transform="rotate(-9 208 349)"/>
+    <ellipse cx="228" cy="354" rx="3" ry="1.2" fill="#E0DCD2" opacity="0.5" transform="rotate(7 228 354)"/>
+    <ellipse cx="247" cy="350" rx="4.5" ry="1.5" fill="#D8D4C8" opacity="0.55" transform="rotate(-8 247 350)"/>
+    <ellipse cx="266" cy="347" rx="3.5" ry="1.3" fill="#E4E0D4" opacity="0.5" transform="rotate(6 266 347)"/>
+    <ellipse cx="284" cy="352" rx="4" ry="1.4" fill="#DDD9CD" opacity="0.6" transform="rotate(-7 284 352)"/>
+    <ellipse cx="296" cy="349" rx="2.5" ry="1.1" fill="#E0DCD2" opacity="0.55" transform="rotate(8 296 349)"/>
+
+    <ellipse cx="115" cy="365" rx="4" ry="1.5" fill="#D8D4C8" opacity="0.5" transform="rotate(-9 115 365)"/>
+    <ellipse cx="134" cy="362" rx="3" ry="1.2" fill="#E4E0D4" opacity="0.55" transform="rotate(8 134 362)"/>
+    <ellipse cx="153" cy="367" rx="4.5" ry="1.5" fill="#DDD9CD" opacity="0.6" transform="rotate(-6 153 367)"/>
+    <ellipse cx="172" cy="363" rx="3.5" ry="1.3" fill="#E0DCD2" opacity="0.5" transform="rotate(10 172 363)"/>
+    <ellipse cx="192" cy="368" rx="3" ry="1.2" fill="#D8D4C8" opacity="0.55" transform="rotate(-8 192 368)"/>
+    <ellipse cx="212" cy="364" rx="5" ry="1.6" fill="#E4E0D4" opacity="0.6" transform="rotate(6 212 364)"/>
+    <ellipse cx="232" cy="369" rx="3.5" ry="1.3" fill="#DDD9CD" opacity="0.5" transform="rotate(-10 232 369)"/>
+    <ellipse cx="250" cy="365" rx="4" ry="1.4" fill="#E0DCD2" opacity="0.55" transform="rotate(8 250 365)"/>
+    <ellipse cx="268" cy="362" rx="3" ry="1.2" fill="#D8D4C8" opacity="0.6" transform="rotate(-7 268 362)"/>
+    <ellipse cx="286" cy="367" rx="4.5" ry="1.5" fill="#E4E0D4" opacity="0.5" transform="rotate(5 286 367)"/>
+
+    <ellipse cx="118" cy="380" rx="3.5" ry="1.3" fill="#DDD9CD" opacity="0.5" transform="rotate(9 118 380)"/>
+    <ellipse cx="138" cy="377" rx="4" ry="1.4" fill="#E0DCD2" opacity="0.55" transform="rotate(-8 138 377)"/>
+    <ellipse cx="157" cy="382" rx="3" ry="1.2" fill="#D8D4C8" opacity="0.6" transform="rotate(7 157 382)"/>
+    <ellipse cx="177" cy="378" rx="4.5" ry="1.5" fill="#E4E0D4" opacity="0.5" transform="rotate(-6 177 378)"/>
+    <ellipse cx="196" cy="383" rx="3.5" ry="1.3" fill="#DDD9CD" opacity="0.55" transform="rotate(10 196 383)"/>
+    <ellipse cx="215" cy="379" rx="4" ry="1.4" fill="#E0DCD2" opacity="0.6" transform="rotate(-9 215 379)"/>
+    <ellipse cx="235" cy="384" rx="3" ry="1.2" fill="#D8D4C8" opacity="0.5" transform="rotate(7 235 384)"/>
+    <ellipse cx="253" cy="380" rx="4.5" ry="1.5" fill="#E4E0D4" opacity="0.55" transform="rotate(-8 253 380)"/>
+    <ellipse cx="272" cy="377" rx="3.5" ry="1.3" fill="#DDD9CD" opacity="0.5" transform="rotate(6 272 377)"/>
+    <ellipse cx="290" cy="382" rx="4" ry="1.4" fill="#E0DCD2" opacity="0.6" transform="rotate(-10 290 382)"/>
+  </g>
+
+  <!-- Right side highlight on cake -->
+  <rect x="278" y="112" width="20" height="287" rx="8" fill="#FFFFFF" opacity="0.12"/>
+
+  <!-- Left side shadow on cake -->
+  <rect x="100" y="112" width="18" height="287" rx="8" fill="#C8C0B0" opacity="0.1"/>
+
+  <!-- Cake top surface -->
+  <ellipse cx="200" cy="110" rx="100" ry="10" fill="#F5F3EC"/>
+  <ellipse cx="200" cy="108" rx="100" ry="9" fill="#FAFAF5"/>
+  <ellipse cx="200" cy="107" rx="98" ry="8" fill="#FFFFFF" opacity="0.6"/>
+
+  <!-- === SPHERE ARC on LEFT SIDE === -->
+  <!-- Spheres arc from bottom-left upward along left edge -->
+  <!-- Bottom sphere (largest, near base) -->
+  <circle cx="108" cy="375" r="14" fill="url(#sphereGrad1)" filter="url(#sphereShadow)"/>
+  <circle cx="104" cy="370" r="4" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="100" cy="348" r="11" fill="url(#sphereGrad2)" filter="url(#sphereShadow)"/>
+  <circle cx="97" cy="344" r="3" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="97" cy="325" r="13" fill="url(#sphereGrad3)" filter="url(#sphereShadow)"/>
+  <circle cx="94" cy="321" r="3.5" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="97" cy="300" r="10" fill="url(#sphereGrad1)" filter="url(#sphereShadow)"/>
+  <circle cx="95" cy="297" r="2.8" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="99" cy="278" r="12" fill="url(#sphereGrad2)" filter="url(#sphereShadow)"/>
+  <circle cx="96" cy="274" r="3.2" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="102" cy="254" r="9" fill="url(#sphereGrad3)" filter="url(#sphereShadow)"/>
+  <circle cx="100" cy="251" r="2.5" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="106" cy="234" r="11" fill="url(#sphereGrad1)" filter="url(#sphereShadow)"/>
+  <circle cx="103" cy="230" r="3" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="112" cy="213" r="8" fill="url(#sphereGrad2)" filter="url(#sphereShadow)"/>
+  <circle cx="110" cy="210" r="2.2" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="118" cy="195" r="10" fill="url(#sphereGrad3)" filter="url(#sphereShadow)"/>
+  <circle cx="115" cy="192" r="2.8" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="126" cy="178" r="7" fill="url(#sphereGrad1)" filter="url(#sphereShadow)"/>
+  <circle cx="124" cy="176" r="2" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="134" cy="162" r="9" fill="url(#sphereGrad2)" filter="url(#sphereShadow)"/>
+  <circle cx="131" cy="159" r="2.5" fill="#FFFFFF" opacity="0.55"/>
+
+  <circle cx="144" cy="148" r="7" fill="url(#sphereGrad3)" filter="url(#sphereShadow)"/>
+  <circle cx="142" cy="146" r="2" fill="#FFFFFF" opacity="0.55"/>
+
+  <!-- === GOLD FOIL ACCENT FLAKES === -->
+  <g opacity="0.85">
+    <!-- Gold flakes scattered around text area -->
+    <ellipse cx="158" cy="210" rx="6" ry="2.5" fill="#C9A84C" opacity="0.6" transform="rotate(-25 158 210)"/>
+    <ellipse cx="255" cy="205" rx="4" ry="1.8" fill="#D4B050" opacity="0.55" transform="rotate(15 255 205)"/>
+    <ellipse cx="160" cy="290" rx="5" ry="2" fill="#C9A84C" opacity="0.5" transform="rotate(30 160 290)"/>
+    <ellipse cx="258" cy="285" rx="3.5" ry="1.6" fill="#D4B050" opacity="0.55" transform="rotate(-20 258 285)"/>
+    <ellipse cx="163" cy="310" rx="4.5" ry="1.8" fill="#C0A040" opacity="0.5" transform="rotate(10 163 310)"/>
+    <ellipse cx="252" cy="316" rx="4" ry="1.6" fill="#D4B050" opacity="0.55" transform="rotate(-35 252 316)"/>
+    <!-- Small flake dots -->
+    <circle cx="155" cy="230" r="2" fill="#C9A84C" opacity="0.5"/>
+    <circle cx="260" cy="225" r="1.8" fill="#D4B050" opacity="0.55"/>
+    <circle cx="157" cy="270" r="2.2" fill="#C9A84C" opacity="0.45"/>
+    <circle cx="258" cy="265" r="1.6" fill="#D4B050" opacity="0.5"/>
+    <ellipse cx="170" cy="222" rx="3" ry="1.2" fill="#C9A84C" opacity="0.45" transform="rotate(40 170 222)"/>
+    <ellipse cx="245" cy="295" rx="3.5" ry="1.4" fill="#D4B050" opacity="0.5" transform="rotate(-15 245 295)"/>
+  </g>
+
+  <!-- === GOLD TEXT === -->
+  <text x="200" y="240"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="26"
+        font-style="italic"
+        font-weight="bold"
+        fill="url(#goldGrad)"
+        text-anchor="middle"
+        filter="url(#textShadow)"
+        letter-spacing="1">Таїнство</text>
+
+  <text x="200" y="278"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="24"
+        font-style="italic"
+        font-weight="bold"
+        fill="url(#goldGrad)"
+        text-anchor="middle"
+        filter="url(#textShadow)"
+        letter-spacing="1">Хрещення</text>
+
+  <text x="200" y="314"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="30"
+        font-style="italic"
+        font-weight="bold"
+        fill="url(#goldGrad)"
+        text-anchor="middle"
+        filter="url(#textShadow)"
+        letter-spacing="2">Софії</text>
+
+  <!-- Gold decorative line under text -->
+  <line x1="160" y1="325" x2="240" y2="325" stroke="url(#goldGrad)" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="158" cy="325" r="2" fill="#C9A84C" opacity="0.7"/>
+  <circle cx="242" cy="325" r="2" fill="#C9A84C" opacity="0.7"/>
+
+  <!-- === ANGEL / CHERUB ON TOP === -->
+  <g transform="translate(200, 62)" filter="url(#angelShadow)">
+    <!-- Halo -->
+    <ellipse cx="0" cy="-36" rx="14" ry="5" fill="none" stroke="#C9A84C" stroke-width="2.5" opacity="0.9"/>
+    <ellipse cx="0" cy="-36" rx="14" ry="5" fill="none" stroke="#F0D878" stroke-width="1" opacity="0.6"/>
+
+    <!-- Left wing -->
+    <path d="M -6,-28 C -22,-35 -28,-22 -22,-12 C -16,-5 -10,-8 -6,-14 Z"
+          fill="url(#wingGrad)" stroke="#DDD8CE" stroke-width="0.8"/>
+    <path d="M -6,-28 C -18,-30 -22,-20 -16,-14"
+          fill="none" stroke="#E8E4DA" stroke-width="0.6" opacity="0.8"/>
+
+    <!-- Right wing -->
+    <path d="M 6,-28 C 22,-35 28,-22 22,-12 C 16,-5 10,-8 6,-14 Z"
+          fill="url(#wingGrad)" stroke="#DDD8CE" stroke-width="0.8"/>
+    <path d="M 6,-28 C 18,-30 22,-20 16,-14"
+          fill="none" stroke="#E8E4DA" stroke-width="0.6" opacity="0.8"/>
+
+    <!-- Body/robe -->
+    <ellipse cx="0" cy="-5" rx="8" ry="12" fill="#F5F3EE" stroke="#E0DCD4" stroke-width="0.8"/>
+
+    <!-- Head -->
+    <circle cx="0" cy="-26" r="10" fill="#F7F4EE" stroke="#E4E0D8" stroke-width="0.8"/>
+
+    <!-- Face features -->
+    <circle cx="-3" cy="-27" r="1.2" fill="#C8B8A0" opacity="0.7"/>
+    <circle cx="3" cy="-27" r="1.2" fill="#C8B8A0" opacity="0.7"/>
+    <!-- Smile -->
+    <path d="M -3,-22 Q 0,-20 3,-22" fill="none" stroke="#C8B8A0" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+
+    <!-- Arms/hands -->
+    <path d="M -8,-8 C -14,-6 -14,-2 -10,0" fill="none" stroke="#E8E4DC" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 8,-8 C 14,-6 14,-2 10,0" fill="none" stroke="#E8E4DC" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Curly hair -->
+    <path d="M -8,-32 C -10,-36 -6,-38 -4,-35" fill="none" stroke="#DDD0B8" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M -4,-34 C -5,-37 -1,-39 0,-36" fill="none" stroke="#DDD0B8" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M 4,-34 C 5,-37 8,-36 8,-33" fill="none" stroke="#DDD0B8" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- === BOTTOM LABEL === -->
+  <text x="200" y="478"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="13"
+        font-style="italic"
+        fill="#C0A84A"
+        text-anchor="middle"
+        letter-spacing="4"
+        opacity="0.85">CHRZEST</text>
+
+  <!-- Subtle decorative dots flanking label -->
+  <circle cx="138" cy="474" r="2" fill="#C9A84C" opacity="0.5"/>
+  <circle cx="262" cy="474" r="2" fill="#C9A84C" opacity="0.5"/>
+</svg>

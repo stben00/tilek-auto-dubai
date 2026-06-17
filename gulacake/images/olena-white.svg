@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FEF8FF"/><stop offset="100%" stop-color="#F5EEFA"/></linearGradient>
+  <linearGradient id="cake" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#F8F0F4"/></linearGradient>
+  <linearGradient id="dress" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#F0EAF5"/></linearGradient>
+  <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F5CEB0"/><stop offset="100%" stop-color="#E8B898"/></linearGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#C97D94" flood-opacity="0.15"/></filter>
+  <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="400" height="500" fill="url(#bg)"/>
+<!-- Soft background circles -->
+<circle cx="80" cy="120" r="130" fill="#F9D8E3" opacity="0.2"/>
+<circle cx="330" cy="400" r="110" fill="#F0E8FF" opacity="0.22"/>
+<!-- Light rays/soft bokeh background -->
+<circle cx="200" cy="200" r="180" fill="white" opacity="0.12"/>
+<!-- Figure of woman in white dress (simplified elegant silhouette) -->
+<!-- Dress / body lower part -->
+<path d="M140 430 Q155 380 155 340 L170 320 L200 325 L230 320 L245 340 Q245 380 260 430 Z" fill="url(#dress)"/>
+<!-- Dress details -->
+<path d="M160 380 Q180 390 200 385 Q220 390 240 380" stroke="#EDD8E8" stroke-width="1" fill="none"/>
+<path d="M155 350 Q175 358 200 355 Q225 358 245 350" stroke="#EDD8E8" stroke-width="0.8" fill="none"/>
+<!-- Arms -->
+<!-- Right arm (holding cake towards viewer) -->
+<path d="M230 325 Q248 330 255 320 Q262 310 270 315 Q275 320 268 328 Q260 335 255 345 L245 342 Z" fill="url(#skin)"/>
+<!-- Left arm -->
+<path d="M170 325 Q152 330 145 320 Q138 310 130 315 Q125 320 132 328 Q140 335 145 345 L155 342 Z" fill="url(#skin)"/>
+<!-- Torso/dress top -->
+<path d="M170 320 Q170 290 175 270 L200 265 L225 270 Q230 290 230 320 Z" fill="url(#dress)" stroke="#EDD8E8" stroke-width="0.8"/>
+<!-- Neck -->
+<rect x="192" y="248" width="16" height="22" rx="6" fill="url(#skin)"/>
+<!-- Head -->
+<circle cx="200" cy="228" r="34" fill="url(#skin)" stroke="#E8C8B0" stroke-width="1"/>
+<!-- Hair (dark brown waves) -->
+<path d="M168 220 Q165 190 175 175 Q185 162 200 160 Q215 162 225 175 Q235 190 232 220 Q228 200 220 195 Q210 188 200 190 Q190 188 180 195 Q172 200 168 220Z" fill="#3a2010"/>
+<!-- Hair sides flowing -->
+<path d="M168 220 Q160 240 162 260 Q165 250 168 240Z" fill="#3a2010"/>
+<path d="M232 220 Q240 240 238 260 Q235 250 232 240Z" fill="#3a2010"/>
+<!-- Face details -->
+<!-- Eyes -->
+<ellipse cx="190" cy="226" rx="5" ry="4" fill="#3a2010"/>
+<ellipse cx="210" cy="226" rx="5" ry="4" fill="#3a2010"/>
+<circle cx="191" cy="225" r="1.5" fill="white"/>
+<circle cx="211" cy="225" r="1.5" fill="white"/>
+<!-- Eyebrows -->
+<path d="M184 218 Q189 215 196 218" stroke="#3a2010" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+<path d="M204 218 Q209 215 216 218" stroke="#3a2010" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+<!-- Nose -->
+<path d="M198 232 Q200 236 202 232" stroke="#D4A888" stroke-width="1" fill="none"/>
+<!-- Smile -->
+<path d="M193 240 Q200 246 207 240" stroke="#C87070" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+<!-- Lips slight fill -->
+<path d="M194 241 Q200 245 206 241 Q200 248 194 241Z" fill="#E09090" opacity="0.5"/>
+<!-- Earrings (small gold drops) -->
+<circle cx="168" cy="230" r="3" fill="#C9A84C"/>
+<ellipse cx="168" cy="236" rx="2" ry="3" fill="#C9A84C"/>
+<!-- Elegant white cake held in hands -->
+<!-- Cake board/plate in hands area -->
+<ellipse cx="200" cy="342" rx="72" ry="10" fill="#E8E0F0" filter="url(#sh)"/>
+<!-- Cake body (tall elegant) -->
+<rect x="140" y="240" width="120" height="104" rx="8" fill="url(#cake)" stroke="#EDD8E8" stroke-width="1.5" filter="url(#sh)"/>
+<!-- Cake top surface -->
+<ellipse cx="200" cy="240" rx="60" ry="8" fill="white" stroke="#EDD8E8" stroke-width="1"/>
+<!-- Gold wire decorations on cake -->
+<path d="M152 280 Q160 268 168 280 Q176 268 184 280 Q192 268 200 280 Q208 268 216 280 Q224 268 232 280 Q240 268 248 280" stroke="#C9A84C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+<path d="M152 300 Q158 292 165 302 Q172 292 180 300 Q188 292 196 300 Q204 292 212 300 Q220 292 228 300 Q235 292 242 302" stroke="#C9A84C" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+<!-- Vertical thin gold lines -->
+<line x1="165" y1="244" x2="165" y2="342" stroke="#C9A84C" stroke-width="0.7" opacity="0.5"/>
+<line x1="200" y1="244" x2="200" y2="342" stroke="#C9A84C" stroke-width="0.7" opacity="0.5"/>
+<line x1="235" y1="244" x2="235" y2="342" stroke="#C9A84C" stroke-width="0.7" opacity="0.5"/>
+<!-- Small gold flower on top -->
+<g transform="translate(200 230)" filter="url(#glow)">
+  <circle cx="0" cy="0" r="8" fill="#C9A84C" opacity="0.85"/>
+  <circle cx="0" cy="-11" r="5" fill="#C9A84C" opacity="0.7"/>
+  <circle cx="0" cy="11" r="5" fill="#C9A84C" opacity="0.7"/>
+  <circle cx="-11" cy="0" r="5" fill="#C9A84C" opacity="0.7"/>
+  <circle cx="11" cy="0" r="5" fill="#C9A84C" opacity="0.7"/>
+  <circle cx="0" cy="0" r="4" fill="white"/>
+</g>
+<!-- Floating gold sparkles -->
+<text x="110" y="260" font-size="12" fill="#C9A84C" opacity="0.55" filter="url(#glow)">✦</text>
+<text x="282" y="255" font-size="12" fill="#C9A84C" opacity="0.55" filter="url(#glow)">✦</text>
+<text x="95" y="310" font-size="9" fill="#C97D94" opacity="0.4">✦</text>
+<text x="298" y="300" font-size="9" fill="#C97D94" opacity="0.4">✦</text>
+<!-- Label -->
+<rect x="128" y="462" width="144" height="24" rx="12" fill="rgba(201,125,148,0.12)"/>
+<text x="200" y="478" font-family="Georgia,serif" font-size="11" fill="#C97D94" text-anchor="middle" letter-spacing="1.5">TORT WESELNY</text>
+</svg>

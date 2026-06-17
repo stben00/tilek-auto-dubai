@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <!-- Background gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#FDE8EE"/>
+      <stop offset="100%" stop-color="#F8D0DC"/>
+    </radialGradient>
+
+    <!-- Cake body gradient -->
+    <linearGradient id="cakeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F0A8C0"/>
+      <stop offset="30%" stop-color="#F9C0D0"/>
+      <stop offset="70%" stop-color="#FDD0DC"/>
+      <stop offset="100%" stop-color="#F0A0BC"/>
+    </linearGradient>
+
+    <!-- Cake top gradient -->
+    <radialGradient id="cakeTopGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FDD8E8"/>
+      <stop offset="100%" stop-color="#F4B0C8"/>
+    </radialGradient>
+
+    <!-- Stand gradient -->
+    <linearGradient id="standGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EEE8E8"/>
+      <stop offset="40%" stop-color="#FFFFFF"/>
+      <stop offset="70%" stop-color="#F8F0F0"/>
+      <stop offset="100%" stop-color="#E8E0E0"/>
+    </linearGradient>
+
+    <!-- Column gradient -->
+    <linearGradient id="columnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E0D8D8"/>
+      <stop offset="50%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E0D8D8"/>
+    </linearGradient>
+
+    <!-- Ribbon gradient -->
+    <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F4A0C0"/>
+      <stop offset="50%" stop-color="#E878A8"/>
+      <stop offset="100%" stop-color="#D86090"/>
+    </linearGradient>
+
+    <!-- Candle gradient -->
+    <linearGradient id="candleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C8A820"/>
+      <stop offset="50%" stop-color="#F0D040"/>
+      <stop offset="100%" stop-color="#C8A820"/>
+    </linearGradient>
+
+    <!-- Flame gradient -->
+    <radialGradient id="flameGrad" cx="50%" cy="80%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="40%" stop-color="#FFF080"/>
+      <stop offset="80%" stop-color="#F0A020"/>
+      <stop offset="100%" stop-color="#E07010"/>
+    </radialGradient>
+
+    <!-- Cherry gradient -->
+    <radialGradient id="cherryGrad" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#E03050"/>
+      <stop offset="60%" stop-color="#B01030"/>
+      <stop offset="100%" stop-color="#800020"/>
+    </radialGradient>
+
+    <!-- Distress filter -->
+    <filter id="distress">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Soft shadow -->
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#C07090" flood-opacity="0.25"/>
+    </filter>
+
+    <!-- Bow shadow -->
+    <filter id="bowShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#A05070" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- ========== BACKGROUND ========== -->
+  <rect width="400" height="500" fill="url(#bgGrad)"/>
+
+  <!-- Subtle background circles / polka dots -->
+  <circle cx="30" cy="40" r="18" fill="#F4C0CC" opacity="0.4"/>
+  <circle cx="370" cy="60" r="22" fill="#F0B8C8" opacity="0.35"/>
+  <circle cx="15" cy="200" r="12" fill="#F4C0CC" opacity="0.3"/>
+  <circle cx="385" cy="220" r="16" fill="#F0B0C4" opacity="0.3"/>
+  <circle cx="50" cy="440" r="20" fill="#F4C0CC" opacity="0.4"/>
+  <circle cx="360" cy="420" r="14" fill="#F0B8C8" opacity="0.35"/>
+  <circle cx="200" cy="20" r="25" fill="#FDD0DC" opacity="0.35"/>
+  <circle cx="100" cy="470" r="10" fill="#F4C0CC" opacity="0.3"/>
+  <circle cx="310" cy="475" r="15" fill="#F0B8C8" opacity="0.3"/>
+
+  <!-- Tiny decorative dots scattered -->
+  <circle cx="80" cy="100" r="3" fill="#E890B0" opacity="0.4"/>
+  <circle cx="320" cy="130" r="3" fill="#E890B0" opacity="0.4"/>
+  <circle cx="60" cy="320" r="3" fill="#E890B0" opacity="0.4"/>
+  <circle cx="340" cy="360" r="3" fill="#E890B0" opacity="0.4"/>
+  <circle cx="120" cy="470" r="2.5" fill="#E890B0" opacity="0.4"/>
+  <circle cx="280" cy="55" r="2.5" fill="#E890B0" opacity="0.4"/>
+
+  <!-- ========== VINTAGE CAKE STAND ========== -->
+  <!-- Base ellipse (foot) -->
+  <ellipse cx="200" cy="460" rx="90" ry="14" fill="url(#standGrad)" filter="url(#distress)" stroke="#D0C0C0" stroke-width="1"/>
+  <ellipse cx="200" cy="460" rx="90" ry="14" fill="none" stroke="#C8B8B8" stroke-width="1.5" opacity="0.6"/>
+  <!-- Distressed edge detail on base -->
+  <path d="M115,458 Q130,454 145,458 Q160,462 175,458 Q190,454 205,458 Q220,462 235,458 Q250,454 265,458 Q280,462 285,458" fill="none" stroke="#D0C0C0" stroke-width="1" opacity="0.7"/>
+
+  <!-- Column / pedestal -->
+  <rect x="180" y="410" width="40" height="55" rx="4" fill="url(#columnGrad)" filter="url(#distress)" stroke="#D0C0C0" stroke-width="0.8"/>
+  <!-- Column highlight line -->
+  <line x1="200" y1="413" x2="200" y2="462" stroke="#FFFFFF" stroke-width="1.5" opacity="0.6"/>
+  <line x1="188" y1="413" x2="188" y2="462" stroke="#E8E0E0" stroke-width="0.8" opacity="0.5"/>
+  <line x1="212" y1="413" x2="212" y2="462" stroke="#E8E0E0" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- Plate top of stand -->
+  <ellipse cx="200" cy="415" rx="110" ry="16" fill="url(#standGrad)" filter="url(#distress)" stroke="#D0C0C0" stroke-width="1.2"/>
+  <!-- Plate rim highlight -->
+  <ellipse cx="200" cy="413" rx="105" ry="11" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.7"/>
+  <!-- Plate decorative scallop edge -->
+  <path d="M95,415 Q100,408 110,415 Q120,422 130,415 Q140,408 150,415 Q160,422 170,415 Q180,408 190,415 Q200,422 210,415 Q220,408 230,415 Q240,422 250,415 Q260,408 270,415 Q280,422 290,415 Q300,408 305,415" fill="none" stroke="#E0D0D0" stroke-width="1.2" opacity="0.8"/>
+
+  <!-- ========== CAKE BODY ========== -->
+  <!-- Cake cylinder sides -->
+  <rect x="105" y="175" width="190" height="230" rx="8" fill="url(#cakeGrad)" filter="url(#softShadow)"/>
+
+  <!-- Subtle vertical shadow lines on cake -->
+  <line x1="140" y1="175" x2="140" y2="405" stroke="#E898B4" stroke-width="1" opacity="0.3"/>
+  <line x1="175" y1="175" x2="175" y2="405" stroke="#EAA0B8" stroke-width="0.8" opacity="0.2"/>
+  <line x1="260" y1="175" x2="260" y2="405" stroke="#E898B4" stroke-width="1" opacity="0.3"/>
+  <line x1="225" y1="175" x2="225" y2="405" stroke="#EAA0B8" stroke-width="0.8" opacity="0.2"/>
+
+  <!-- Cake top ellipse -->
+  <ellipse cx="200" cy="178" rx="95" ry="16" fill="url(#cakeTopGrad)"/>
+  <ellipse cx="200" cy="178" rx="95" ry="16" fill="none" stroke="#F0A8C0" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Cake bottom ellipse (merging with stand) -->
+  <ellipse cx="200" cy="403" rx="95" ry="13" fill="#F0A8C0" opacity="0.6"/>
+
+  <!-- ========== BOTTOM RUFFLE BORDER ========== -->
+  <!-- Cream swirl rosettes - bottom band -->
+  <g opacity="0.92">
+    <!-- Swirl row 1 (bottom) -->
+    <path d="M108,390 Q115,378 125,385 Q132,392 120,398 Q110,403 108,390 Z" fill="#E890B0"/>
+    <path d="M122,388 Q130,375 141,382 Q148,390 136,397 Q125,402 122,388 Z" fill="#ED98B8"/>
+    <path d="M137,387 Q145,374 157,381 Q164,389 151,396 Q140,401 137,387 Z" fill="#E890B0"/>
+    <path d="M153,387 Q161,374 172,381 Q179,389 167,396 Q155,401 153,387 Z" fill="#ED98B8"/>
+    <path d="M168,387 Q176,374 188,381 Q195,389 182,396 Q171,401 168,387 Z" fill="#E890B0"/>
+    <path d="M184,387 Q192,374 203,381 Q210,389 198,396 Q186,401 184,387 Z" fill="#ED98B8"/>
+    <path d="M199,387 Q207,374 218,381 Q225,389 213,396 Q201,401 199,387 Z" fill="#E890B0"/>
+    <path d="M214,387 Q222,374 233,381 Q240,389 228,396 Q216,401 214,387 Z" fill="#ED98B8"/>
+    <path d="M229,387 Q237,374 248,381 Q255,389 243,396 Q231,401 229,387 Z" fill="#E890B0"/>
+    <path d="M244,388 Q252,375 263,382 Q270,390 258,397 Q246,402 244,388 Z" fill="#ED98B8"/>
+    <path d="M259,389 Q267,376 278,383 Q284,391 272,398 Q260,403 259,389 Z" fill="#E890B0"/>
+    <path d="M272,391 Q279,379 289,386 Q295,394 283,400 Q273,404 272,391 Z" fill="#ED98B8"/>
+  </g>
+
+  <!-- Ruffle highlight overlaps -->
+  <g opacity="0.5">
+    <path d="M113,394 Q120,386 130,391" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+    <path d="M143,392 Q150,384 160,389" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+    <path d="M173,392 Q180,384 190,389" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+    <path d="M203,392 Q210,384 220,389" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+    <path d="M233,392 Q240,384 250,389" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+    <path d="M263,393 Q270,385 279,390" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+  </g>
+
+  <!-- ========== TOP RUFFLE BORDER ========== -->
+  <g opacity="0.92">
+    <!-- Swirl row top -->
+    <path d="M108,195 Q115,183 125,190 Q132,197 120,203 Q110,208 108,195 Z" fill="#E890B0"/>
+    <path d="M122,193 Q130,180 141,187 Q148,195 136,202 Q125,207 122,193 Z" fill="#ED98B8"/>
+    <path d="M137,192 Q145,179 157,186 Q164,194 151,201 Q140,206 137,192 Z" fill="#E890B0"/>
+    <path d="M153,192 Q161,179 172,186 Q179,194 167,201 Q155,206 153,192 Z" fill="#ED98B8"/>
+    <path d="M168,192 Q176,179 188,186 Q195,194 182,201 Q171,206 168,192 Z" fill="#E890B0"/>
+    <path d="M184,192 Q192,179 203,186 Q210,194 198,201 Q186,206 184,192 Z" fill="#ED98B8"/>
+    <path d="M199,192 Q207,179 218,186 Q225,194 213,201 Q201,206 199,192 Z" fill="#E890B0"/>
+    <path d="M214,192 Q222,179 233,186 Q240,194 228,201 Q216,206 214,192 Z" fill="#ED98B8"/>
+    <path d="M229,192 Q237,179 248,186 Q255,194 243,201 Q231,206 229,192 Z" fill="#E890B0"/>
+    <path d="M244,193 Q252,180 263,187 Q270,195 258,202 Q246,207 244,193 Z" fill="#ED98B8"/>
+    <path d="M259,194 Q267,181 278,188 Q284,196 272,203 Q260,208 259,194 Z" fill="#E890B0"/>
+    <path d="M272,196 Q279,184 289,191 Q295,199 283,205 Q273,209 272,196 Z" fill="#ED98B8"/>
+  </g>
+
+  <!-- Top ruffle highlights -->
+  <g opacity="0.5">
+    <path d="M113,199 Q120,191 130,196" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+    <path d="M143,197 Q150,189 160,194" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+    <path d="M173,197 Q180,189 190,194" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+    <path d="M203,197 Q210,189 220,194" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+    <path d="M233,197 Q240,189 250,194" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+    <path d="M263,198 Q270,190 279,195" fill="none" stroke="#FFFFFF" stroke-width="1.2"/>
+  </g>
+
+  <!-- ========== "HAPPY BIRTHDAY" TEXT ON CAKE ========== -->
+  <!-- Decorative lines around text -->
+  <line x1="120" y1="278" x2="160" y2="278" stroke="#D870A0" stroke-width="1" opacity="0.6"/>
+  <line x1="240" y1="278" x2="280" y2="278" stroke="#D870A0" stroke-width="1" opacity="0.6"/>
+  <text x="200" y="270" font-family="Georgia, 'Times New Roman', serif" font-size="16" font-style="italic" font-weight="bold" text-anchor="middle" fill="#D060A0" opacity="0.9">Happy</text>
+  <text x="200" y="295" font-family="Georgia, 'Times New Roman', serif" font-size="18" font-style="italic" font-weight="bold" text-anchor="middle" fill="#C85098" opacity="0.9">Birthday</text>
+  <!-- Small heart decorations -->
+  <path d="M148,280 Q150,275 153,280 Q156,275 158,280 Q158,285 153,290 Q148,285 148,280 Z" fill="#D870A0" opacity="0.7"/>
+  <path d="M242,280 Q244,275 247,280 Q250,275 252,280 Q252,285 247,290 Q242,285 242,280 Z" fill="#D870A0" opacity="0.7"/>
+
+  <!-- Small floral / star motifs on cake -->
+  <circle cx="150" cy="340" r="3" fill="#E878A8" opacity="0.5"/>
+  <circle cx="250" cy="340" r="3" fill="#E878A8" opacity="0.5"/>
+  <path d="M147,340 L150,333 L153,340 L160,340 L154,345 L156,352 L150,348 L144,352 L146,345 L140,340 Z" fill="#EE98C0" opacity="0.35"/>
+  <path d="M247,340 L250,333 L253,340 L260,340 L254,345 L256,352 L250,348 L244,352 L246,345 L240,340 Z" fill="#EE98C0" opacity="0.35"/>
+
+  <!-- ========== CHERRIES ON TOP ========== -->
+  <!-- Cherry stems -->
+  <path d="M155,178 Q153,165 148,155" fill="none" stroke="#2D7020" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M170,175 Q170,162 168,150" fill="none" stroke="#2D7020" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M185,174 Q186,161 185,150" fill="none" stroke="#2D7020" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M200,173 Q202,160 203,150" fill="none" stroke="#2D7020" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M216,174 Q218,161 220,150" fill="none" stroke="#2D7020" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M232,176 Q233,163 236,153" fill="none" stroke="#2D7020" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Small leaf detail -->
+  <path d="M168,150 Q173,145 175,152" fill="#3A8A2A" opacity="0.8"/>
+  <path d="M200,150 Q205,145 207,152" fill="#3A8A2A" opacity="0.8"/>
+  <path d="M232,153 Q237,148 239,155" fill="#3A8A2A" opacity="0.8"/>
+  <!-- Cherry fruits -->
+  <circle cx="148" cy="148" r="9" fill="url(#cherryGrad)"/>
+  <circle cx="145" cy="144" r="3" fill="#E05070" opacity="0.5"/>
+  <circle cx="168" cy="143" r="9" fill="url(#cherryGrad)"/>
+  <circle cx="165" cy="139" r="3" fill="#E05070" opacity="0.5"/>
+  <circle cx="185" cy="142" r="9" fill="url(#cherryGrad)"/>
+  <circle cx="182" cy="138" r="3" fill="#E05070" opacity="0.5"/>
+  <circle cx="203" cy="142" r="9" fill="url(#cherryGrad)"/>
+  <circle cx="200" cy="138" r="3" fill="#E05070" opacity="0.5"/>
+  <circle cx="220" cy="143" r="9" fill="url(#cherryGrad)"/>
+  <circle cx="217" cy="139" r="3" fill="#E05070" opacity="0.5"/>
+  <circle cx="237" cy="146" r="9" fill="url(#cherryGrad)"/>
+  <circle cx="234" cy="142" r="3" fill="#E05070" opacity="0.5"/>
+
+  <!-- ========== PINK SATIN RIBBON BOW ========== -->
+  <!-- Left streamer hanging down -->
+  <path d="M182,345 Q174,365 172,385 Q170,400 175,410" fill="none" stroke="#D860A0" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+  <path d="M182,345 Q174,365 172,385 Q170,400 175,410" fill="none" stroke="#F0A0C8" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Right streamer hanging down -->
+  <path d="M218,345 Q226,365 228,385 Q230,400 225,410" fill="none" stroke="#D860A0" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+  <path d="M218,345 Q226,365 228,385 Q230,400 225,410" fill="none" stroke="#F0A0C8" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Left bow loop -->
+  <path d="M200,330 Q185,310 168,315 Q150,320 152,335 Q154,350 170,348 Q188,346 200,340 Z" fill="url(#ribbonGrad)" filter="url(#bowShadow)"/>
+  <path d="M200,330 Q185,310 168,315 Q150,320 152,335 Q154,350 170,348 Q188,346 200,340 Z" fill="none" stroke="#C04888" stroke-width="1"/>
+  <!-- Left loop highlight -->
+  <path d="M185,318 Q172,322 166,333" fill="none" stroke="#F8C0DC" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Right bow loop -->
+  <path d="M200,330 Q215,310 232,315 Q250,320 248,335 Q246,350 230,348 Q212,346 200,340 Z" fill="url(#ribbonGrad)" filter="url(#bowShadow)"/>
+  <path d="M200,330 Q215,310 232,315 Q250,320 248,335 Q246,350 230,348 Q212,346 200,340 Z" fill="none" stroke="#C04888" stroke-width="1"/>
+  <!-- Right loop highlight -->
+  <path d="M215,318 Q228,322 234,333" fill="none" stroke="#F8C0DC" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Center knot -->
+  <ellipse cx="200" cy="335" rx="12" ry="10" fill="#C8407A"/>
+  <ellipse cx="200" cy="335" rx="12" ry="10" fill="none" stroke="#B03060" stroke-width="1"/>
+  <ellipse cx="200" cy="333" rx="6" ry="4" fill="#E070A8" opacity="0.7"/>
+
+  <!-- ========== GOLD CANDLESTICK ========== -->
+  <!-- Candlestick base -->
+  <ellipse cx="128" cy="206" rx="18" ry="5" fill="#B89018" opacity="0.9"/>
+  <!-- Candlestick stem -->
+  <path d="M120,206 Q116,185 118,165 Q119,155 128,155 Q137,155 138,165 Q140,185 136,206 Z" fill="url(#candleGrad)"/>
+  <!-- Candlestick cup -->
+  <path d="M118,165 Q122,158 128,156 Q134,158 138,165 Q135,168 128,169 Q121,168 118,165 Z" fill="#D4A020"/>
+  <!-- Stem detail lines -->
+  <line x1="128" y1="158" x2="128" y2="202" stroke="#F0D040" stroke-width="1" opacity="0.4"/>
+  <!-- Candle wax on stick -->
+  <rect x="122" y="130" width="12" height="28" rx="2" fill="#FFF8E0"/>
+  <rect x="123" y="131" width="4" height="26" rx="1" fill="#FFFFFF" opacity="0.5"/>
+  <!-- Candle wick -->
+  <line x1="128" y1="130" x2="128" y2="123" stroke="#403020" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Flame -->
+  <path d="M128,123 Q122,115 124,107 Q126,100 128,96 Q130,100 132,107 Q134,115 128,123 Z" fill="url(#flameGrad)"/>
+  <path d="M128,121 Q124,115 125,109 Q127,103 128,99 Q129,103 131,109 Q132,115 128,121 Z" fill="#FFF8A0" opacity="0.7"/>
+  <!-- Glow -->
+  <circle cx="128" cy="110" r="8" fill="#FFF080" opacity="0.15"/>
+
+  <!-- ========== BOTTOM LABEL ========== -->
+  <rect x="85" y="472" width="230" height="24" rx="5" fill="#E070A8" opacity="0.85"/>
+  <rect x="87" y="474" width="226" height="20" rx="4" fill="none" stroke="#F4A0C8" stroke-width="1" opacity="0.6"/>
+  <text x="200" y="489" font-family="Georgia, 'Times New Roman', serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#FFFFFF" letter-spacing="2">TORT URODZINOWY</text>
+
+  <!-- ========== DECORATIVE CORNER ORNAMENTS ========== -->
+  <!-- Top left -->
+  <path d="M20,20 Q25,10 35,15 Q25,20 30,30 Q20,25 20,20 Z" fill="#E890B0" opacity="0.5"/>
+  <!-- Top right -->
+  <path d="M380,20 Q375,10 365,15 Q375,20 370,30 Q380,25 380,20 Z" fill="#E890B0" opacity="0.5"/>
+  <!-- Bottom left -->
+  <path d="M20,480 Q25,490 35,485 Q25,480 30,470 Q20,475 20,480 Z" fill="#E890B0" opacity="0.5"/>
+  <!-- Bottom right -->
+  <path d="M380,480 Q375,490 365,485 Q375,480 370,470 Q380,475 380,480 Z" fill="#E890B0" opacity="0.5"/>
+</svg>

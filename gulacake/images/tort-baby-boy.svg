@@ -1,0 +1,238 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <!-- Background -->
+    <linearGradient id="bg-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#EEF4F8"/>
+      <stop offset="100%" stop-color="#E0EDF5"/>
+    </linearGradient>
+    <!-- Cake body gradient -->
+    <linearGradient id="cake-blue" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#60A8B8"/>
+      <stop offset="20%" stop-color="#88C8D8"/>
+      <stop offset="80%" stop-color="#88C8D8"/>
+      <stop offset="100%" stop-color="#60A8B8"/>
+    </linearGradient>
+    <!-- Cake top gradient -->
+    <radialGradient id="top-blue" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#A0D8E8"/>
+      <stop offset="100%" stop-color="#70B8C8"/>
+    </radialGradient>
+    <!-- Stand gradient -->
+    <linearGradient id="stand-grad2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C8CCCC"/>
+      <stop offset="50%" stop-color="#F0F4F4"/>
+      <stop offset="100%" stop-color="#C8CCCC"/>
+    </linearGradient>
+    <!-- Bear body gradient -->
+    <radialGradient id="bear-body" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#D09860"/>
+      <stop offset="100%" stop-color="#A06830"/>
+    </radialGradient>
+    <!-- Bear face gradient -->
+    <radialGradient id="bear-face" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#C89050"/>
+      <stop offset="100%" stop-color="#9A6028"/>
+    </radialGradient>
+    <!-- Cube gradient -->
+    <linearGradient id="cube-face" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F0EEE8"/>
+    </linearGradient>
+    <!-- Balloon gradient -->
+    <radialGradient id="balloon-grad" cx="35%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#C8E8F0" stop-opacity="0.7"/>
+    </radialGradient>
+    <filter id="drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#00000025"/>
+    </filter>
+    <filter id="bear-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#00000035"/>
+    </filter>
+    <filter id="text-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#C9A84C" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bg-blue)"/>
+
+  <!-- Soft background bokeh circles -->
+  <circle cx="340" cy="60" r="45" fill="#C8DFE8" opacity="0.18"/>
+  <circle cx="60" cy="80" r="30" fill="#C8DFE8" opacity="0.15"/>
+  <circle cx="360" cy="300" r="25" fill="#C8DFE8" opacity="0.12"/>
+  <circle cx="30" cy="380" r="20" fill="#C8DFE8" opacity="0.1"/>
+
+  <!-- === CAKE STAND === -->
+  <!-- Stand shadow -->
+  <ellipse cx="200" cy="412" rx="105" ry="9" fill="#00000018"/>
+  <!-- Stand plate -->
+  <rect x="100" y="396" width="200" height="14" rx="7" fill="url(#stand-grad2)" filter="url(#drop-shadow)"/>
+  <!-- Stand plate highlight -->
+  <rect x="106" y="397" width="188" height="5" rx="2.5" fill="#FFFFFF" opacity="0.65"/>
+  <!-- Distressed marks -->
+  <line x1="120" y1="402" x2="135" y2="402" stroke="#B8BCBC" stroke-width="0.8" opacity="0.4"/>
+  <line x1="265" y1="404" x2="280" y2="404" stroke="#B8BCBC" stroke-width="0.8" opacity="0.4"/>
+  <!-- Column -->
+  <rect x="185" y="405" width="30" height="38" rx="5" fill="url(#stand-grad2)"/>
+  <rect x="190" y="407" width="8" height="34" rx="2" fill="#FFFFFF" opacity="0.5"/>
+  <!-- Base -->
+  <rect x="155" y="439" width="90" height="16" rx="8" fill="url(#stand-grad2)" filter="url(#drop-shadow)"/>
+  <rect x="162" y="440" width="76" height="6" rx="3" fill="#FFFFFF" opacity="0.5"/>
+  <!-- "Gula Cake" label -->
+  <text x="200" y="452" font-family="Georgia, serif" font-size="7" fill="#7A8A90" text-anchor="middle" letter-spacing="1">Gula Cake</text>
+
+  <!-- === CAKE BODY === -->
+  <!-- Cake shadow -->
+  <ellipse cx="200" cy="400" rx="98" ry="8" fill="#00000015"/>
+  <!-- Cake main cylinder -->
+  <rect x="105" y="200" width="190" height="200" rx="4" fill="url(#cake-blue)" filter="url(#drop-shadow)"/>
+
+  <!-- White pearl dots scattered on cake -->
+  <circle cx="130" cy="230" r="4" fill="white" opacity="0.8"/>
+  <circle cx="148" cy="260" r="3" fill="white" opacity="0.7"/>
+  <circle cx="125" cy="295" r="3.5" fill="white" opacity="0.75"/>
+  <circle cx="142" cy="328" r="3" fill="white" opacity="0.7"/>
+  <circle cx="132" cy="360" r="4" fill="white" opacity="0.8"/>
+  <circle cx="152" cy="385" r="3" fill="white" opacity="0.65"/>
+
+  <circle cx="170" cy="218" r="3.5" fill="white" opacity="0.7"/>
+  <circle cx="178" cy="248" r="3" fill="white" opacity="0.65"/>
+  <circle cx="165" cy="280" r="4" fill="white" opacity="0.75"/>
+  <circle cx="175" cy="315" r="3" fill="white" opacity="0.7"/>
+  <circle cx="168" cy="345" r="3.5" fill="white" opacity="0.7"/>
+  <circle cx="180" cy="378" r="3" fill="white" opacity="0.65"/>
+
+  <circle cx="215" cy="225" r="3" fill="white" opacity="0.7"/>
+  <circle cx="225" cy="258" r="4" fill="white" opacity="0.75"/>
+  <circle cx="210" cy="292" r="3" fill="white" opacity="0.65"/>
+  <circle cx="222" cy="330" r="3.5" fill="white" opacity="0.7"/>
+  <circle cx="218" cy="365" r="3" fill="white" opacity="0.65"/>
+  <circle cx="230" cy="390" r="4" fill="white" opacity="0.7"/>
+
+  <circle cx="252" cy="215" r="4" fill="white" opacity="0.8"/>
+  <circle cx="262" cy="248" r="3" fill="white" opacity="0.7"/>
+  <circle cx="255" cy="278" r="3.5" fill="white" opacity="0.75"/>
+  <circle cx="268" cy="312" r="3" fill="white" opacity="0.65"/>
+  <circle cx="258" cy="348" r="4" fill="white" opacity="0.7"/>
+  <circle cx="272" cy="382" r="3" fill="white" opacity="0.65"/>
+
+  <!-- Shimmer highlights on cake -->
+  <rect x="115" y="205" width="12" height="190" rx="3" fill="white" opacity="0.12"/>
+  <rect x="280" y="205" width="8" height="190" rx="3" fill="white" opacity="0.08"/>
+
+  <!-- === "Baby Boy" ACRYLIC SCRIPT TOPPER === -->
+  <!-- Gold shadow text -->
+  <text x="202" y="268" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-style="italic" font-weight="bold" fill="#C9A84C" text-anchor="middle" opacity="0.4">Baby</text>
+  <!-- Dark main text -->
+  <text x="200" y="265" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-style="italic" font-weight="bold" fill="#1a1a2a" text-anchor="middle" filter="url(#text-glow)">Baby</text>
+
+  <text x="202" y="302" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-style="italic" font-weight="bold" fill="#C9A84C" text-anchor="middle" opacity="0.4">Boy</text>
+  <text x="200" y="299" font-family="Georgia, 'Times New Roman', serif" font-size="26" font-style="italic" font-weight="bold" fill="#1a1a2a" text-anchor="middle" filter="url(#text-glow)">Boy</text>
+
+  <!-- Decorative underline -->
+  <path d="M155,308 Q200,315 245,308" stroke="#C9A84C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Cake top ellipse -->
+  <ellipse cx="200" cy="200" rx="95" ry="12" fill="url(#top-blue)" stroke="#60A8B8" stroke-width="1.5"/>
+  <!-- Snowflake/star sprinkles on top -->
+  <text x="168" cy="10" y="198" font-size="9" fill="#FFFFFF" text-anchor="middle" opacity="0.8">❄</text>
+  <text x="185" y="196" font-size="7" fill="#FFFFFF" text-anchor="middle" opacity="0.7">✦</text>
+  <text x="200" y="200" font-size="9" fill="#FFFFFF" text-anchor="middle" opacity="0.8">❄</text>
+  <text x="216" y="196" font-size="7" fill="#FFFFFF" text-anchor="middle" opacity="0.7">✦</text>
+  <text x="228" y="199" font-size="9" fill="#FFFFFF" text-anchor="middle" opacity="0.8">❄</text>
+  <text x="245" y="196" font-size="7" fill="#A8D4E0" text-anchor="middle" opacity="0.8">✦</text>
+  <text x="155" y="196" font-size="7" fill="#A8D4E0" text-anchor="middle" opacity="0.8">✦</text>
+
+  <!-- === LETTER CUBE TOPPERS (right side, stacked) === -->
+  <!-- Cube B (bottom) -->
+  <g transform="translate(298, 310)" filter="url(#drop-shadow)">
+    <rect x="-18" y="-18" width="36" height="36" rx="4" fill="url(#cube-face)" stroke="#D8D0C4" stroke-width="1"/>
+    <!-- Top face (perspective) -->
+    <path d="M-18,-18 L18,-18 L24,-24 L-12,-24 Z" fill="#FAFAFA" stroke="#D8D0C4" stroke-width="0.8"/>
+    <!-- Right face -->
+    <path d="M18,-18 L24,-24 L24,12 L18,18 Z" fill="#E8E4DC" stroke="#D8D0C4" stroke-width="0.8"/>
+    <text x="0" y="7" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#C9A84C" text-anchor="middle" filter="url(#text-glow)">B</text>
+  </g>
+  <!-- Cube A -->
+  <g transform="translate(298, 268)" filter="url(#drop-shadow)">
+    <rect x="-18" y="-18" width="36" height="36" rx="4" fill="url(#cube-face)" stroke="#D8D0C4" stroke-width="1"/>
+    <path d="M-18,-18 L18,-18 L24,-24 L-12,-24 Z" fill="#FAFAFA" stroke="#D8D0C4" stroke-width="0.8"/>
+    <path d="M18,-18 L24,-24 L24,12 L18,18 Z" fill="#E8E4DC" stroke="#D8D0C4" stroke-width="0.8"/>
+    <text x="0" y="7" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#C9A84C" text-anchor="middle" filter="url(#text-glow)">A</text>
+  </g>
+  <!-- Cube B2 -->
+  <g transform="translate(298, 226)" filter="url(#drop-shadow)">
+    <rect x="-18" y="-18" width="36" height="36" rx="4" fill="url(#cube-face)" stroke="#D8D0C4" stroke-width="1"/>
+    <path d="M-18,-18 L18,-18 L24,-24 L-12,-24 Z" fill="#FAFAFA" stroke="#D8D0C4" stroke-width="0.8"/>
+    <path d="M18,-18 L24,-24 L24,12 L18,18 Z" fill="#E8E4DC" stroke="#D8D0C4" stroke-width="0.8"/>
+    <text x="0" y="7" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#C9A84C" text-anchor="middle" filter="url(#text-glow)">B</text>
+  </g>
+  <!-- Cube Y (top) -->
+  <g transform="translate(298, 184)" filter="url(#drop-shadow)">
+    <rect x="-18" y="-18" width="36" height="36" rx="4" fill="url(#cube-face)" stroke="#D8D0C4" stroke-width="1"/>
+    <path d="M-18,-18 L18,-18 L24,-24 L-12,-24 Z" fill="#FAFAFA" stroke="#D8D0C4" stroke-width="0.8"/>
+    <path d="M18,-18 L24,-24 L24,12 L18,18 Z" fill="#E8E4DC" stroke="#D8D0C4" stroke-width="0.8"/>
+    <text x="0" y="7" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="#C9A84C" text-anchor="middle" filter="url(#text-glow)">Y</text>
+  </g>
+
+  <!-- === TEDDY BEAR (top center) === -->
+  <g transform="translate(175, 160)" filter="url(#bear-shadow)">
+    <!-- Bear body -->
+    <ellipse cx="0" cy="20" rx="26" ry="30" fill="url(#bear-body)"/>
+    <!-- Belly patch -->
+    <ellipse cx="0" cy="24" rx="16" ry="18" fill="#D4A870" opacity="0.7"/>
+    <!-- Left arm -->
+    <ellipse cx="-22" cy="12" rx="10" ry="15" fill="#B87848" transform="rotate(-20,-22,12)"/>
+    <!-- Right arm (holding balloon) -->
+    <ellipse cx="22" cy="8" rx="10" ry="15" fill="#B87848" transform="rotate(25,22,8)"/>
+    <!-- Left leg -->
+    <ellipse cx="-14" cy="44" rx="10" ry="14" fill="#B07040" transform="rotate(10,-14,44)"/>
+    <!-- Right leg -->
+    <ellipse cx="14" cy="44" rx="10" ry="14" fill="#B07040" transform="rotate(-10,14,44)"/>
+    <!-- Paw pads -->
+    <ellipse cx="-14" cy="54" rx="8" ry="5" fill="#A06030" opacity="0.7"/>
+    <ellipse cx="14" cy="54" rx="8" ry="5" fill="#A06030" opacity="0.7"/>
+    <!-- Bear head -->
+    <circle cx="0" cy="-18" r="22" fill="url(#bear-face)"/>
+    <!-- Left ear -->
+    <circle cx="-16" cy="-36" r="10" fill="#B07840"/>
+    <circle cx="-16" cy="-36" r="6" fill="#C8906A" opacity="0.7"/>
+    <!-- Right ear -->
+    <circle cx="16" cy="-36" r="10" fill="#B07840"/>
+    <circle cx="16" cy="-36" r="6" fill="#C8906A" opacity="0.7"/>
+    <!-- Eyes -->
+    <circle cx="-8" cy="-22" r="4" fill="#2A1A0A"/>
+    <circle cx="8" cy="-22" r="4" fill="#2A1A0A"/>
+    <!-- Eye shine -->
+    <circle cx="-7" cy="-23" r="1.5" fill="white" opacity="0.9"/>
+    <circle cx="9" cy="-23" r="1.5" fill="white" opacity="0.9"/>
+    <!-- Muzzle -->
+    <ellipse cx="0" cy="-11" rx="10" ry="7" fill="#C8906A" opacity="0.8"/>
+    <!-- Nose -->
+    <ellipse cx="0" cy="-14" rx="4" ry="3" fill="#3A1A08"/>
+    <!-- Mouth -->
+    <path d="M-5,-9 Q0,-6 5,-9" stroke="#3A1A08" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <!-- Blush cheeks -->
+    <ellipse cx="-14" cy="-12" rx="6" ry="4" fill="#E8A070" opacity="0.5"/>
+    <ellipse cx="14" cy="-12" rx="6" ry="4" fill="#E8A070" opacity="0.5"/>
+    <!-- White bow tie -->
+    <path d="M-10,4 L-4,1 L-10,-2 Z" fill="white"/>
+    <path d="M10,4 L4,1 L10,-2 Z" fill="white"/>
+    <circle cx="0" cy="1" r="3" fill="white"/>
+    <circle cx="0" cy="1" r="1.5" fill="#E8C0C8"/>
+    <!-- Balloon string (from right paw) -->
+    <path d="M30,5 Q45,-15 42,-45" stroke="#888888" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+    <!-- Balloon -->
+    <ellipse cx="42" cy="-55" rx="14" ry="17" fill="url(#balloon-grad)" stroke="#90C8D8" stroke-width="1.5"/>
+    <!-- Balloon shine -->
+    <ellipse cx="38" cy="-63" rx="5" ry="4" fill="white" opacity="0.6"/>
+    <!-- Balloon knot -->
+    <ellipse cx="42" cy="-38" rx="3" ry="2" fill="#80B8C8"/>
+  </g>
+
+  <!-- === BOTTOM LABEL === -->
+  <text x="200" y="480" font-family="Georgia, serif" font-size="10" fill="#5090A8" text-anchor="middle" letter-spacing="2" font-weight="bold">TORT BABY BOY</text>
+  <line x1="138" y1="484" x2="262" y2="484" stroke="#5090A8" stroke-width="0.8" opacity="0.5"/>
+  <line x1="155" y1="487" x2="245" y2="487" stroke="#5090A8" stroke-width="0.5" opacity="0.35"/>
+</svg>

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FBFAF8"/><stop offset="100%" stop-color="#F0EEEA"/></linearGradient>
+  <linearGradient id="cake" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#F4F0EC"/></linearGradient>
+  <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#B01838"/><stop offset="50%" stop-color="#D8203F"/><stop offset="100%" stop-color="#A01030"/></linearGradient>
+  <linearGradient id="standMetal" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D8D4CC"/><stop offset="50%" stop-color="#B0A89C"/><stop offset="100%" stop-color="#908878"/></linearGradient>
+  <radialGradient id="pearl" cx="0.35" cy="0.3" r="0.7"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="60%" stop-color="#F0EDE8"/><stop offset="100%" stop-color="#D8D2C8"/></radialGradient>
+  <filter id="sh"><feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#8a7a6a" flood-opacity="0.18"/></filter>
+</defs>
+<rect width="400" height="500" fill="url(#bg)"/>
+<circle cx="70" cy="100" r="120" fill="#EFEBE4" opacity="0.4"/>
+<circle cx="340" cy="410" r="100" fill="#EAE5DC" opacity="0.35"/>
+<!-- Candle on gold holder (left) -->
+<rect x="58" y="60" width="11" height="150" rx="4" fill="#FBFAF6" stroke="#E8E2D8" stroke-width="1"/>
+<rect x="61" y="48" width="5" height="16" rx="2" fill="#C9A84C"/>
+<path d="M63.5 48 Q66 40 63.5 34 Q61 40 63.5 48Z" fill="#FFB347"/>
+<path d="M63.5 42 Q65 38 63.5 35 Q62 38 63.5 42Z" fill="#FFE082"/>
+<!-- Gold candle holder -->
+<rect x="52" y="208" width="23" height="10" rx="3" fill="#C9A84C"/>
+<rect x="60" y="216" width="7" height="40" fill="#C9A84C"/>
+<ellipse cx="63.5" cy="258" rx="22" ry="7" fill="#B89838"/>
+<ellipse cx="63.5" cy="255" rx="22" ry="6" fill="#C9A84C"/>
+<!-- Cake stand (brushed metal pedestal) -->
+<ellipse cx="200" cy="452" rx="60" ry="11" fill="#9a9082" opacity="0.6"/>
+<rect x="188" y="410" width="24" height="42" rx="4" fill="url(#standMetal)"/>
+<ellipse cx="200" cy="410" rx="105" ry="14" fill="url(#standMetal)" filter="url(#sh)"/>
+<ellipse cx="200" cy="406" rx="102" ry="12" fill="#E6E2DA"/>
+<ellipse cx="200" cy="405" rx="95" ry="10" fill="#F2EEE8"/>
+<!-- Cake body (tall, white) -->
+<rect x="118" y="170" width="164" height="238" rx="10" fill="url(#cake)" filter="url(#sh)"/>
+<ellipse cx="200" cy="170" rx="82" ry="12" fill="#FFFFFF"/>
+<ellipse cx="200" cy="170" rx="74" ry="9" fill="#F6F2EE"/>
+<!-- Pearls scattered (denser at top, fading down) -->
+<g>
+  <circle cx="160" cy="195" r="7" fill="url(#pearl)"/><circle cx="185" cy="188" r="9" fill="url(#pearl)"/>
+  <circle cx="212" cy="192" r="8" fill="url(#pearl)"/><circle cx="238" cy="198" r="7" fill="url(#pearl)"/>
+  <circle cx="145" cy="210" r="6" fill="url(#pearl)"/><circle cx="172" cy="212" r="9" fill="url(#pearl)"/>
+  <circle cx="200" cy="208" r="10" fill="url(#pearl)"/><circle cx="226" cy="214" r="8" fill="url(#pearl)"/>
+  <circle cx="252" cy="210" r="6" fill="url(#pearl)"/>
+  <circle cx="158" cy="232" r="7" fill="url(#pearl)"/><circle cx="190" cy="234" r="6" fill="url(#pearl)"/>
+  <circle cx="218" cy="232" r="7" fill="url(#pearl)"/><circle cx="244" cy="236" r="5" fill="url(#pearl)"/>
+  <circle cx="138" cy="248" r="5" fill="url(#pearl)"/><circle cx="174" cy="254" r="5" fill="url(#pearl)"/>
+  <circle cx="206" cy="252" r="6" fill="url(#pearl)"/><circle cx="236" cy="256" r="4" fill="url(#pearl)"/>
+  <circle cx="160" cy="275" r="4" fill="url(#pearl)"/><circle cx="196" cy="278" r="4" fill="url(#pearl)"/>
+  <circle cx="228" cy="276" r="4" fill="url(#pearl)"/>
+  <circle cx="180" cy="298" r="3" fill="url(#pearl)"/><circle cx="214" cy="300" r="3" fill="url(#pearl)"/>
+</g>
+<!-- Red satin ribbon band -->
+<rect x="118" y="330" width="164" height="30" fill="url(#ribbon)"/>
+<rect x="118" y="330" width="164" height="6" fill="#FFFFFF" opacity="0.18"/>
+<!-- Bow center -->
+<g>
+  <path d="M200 345 Q170 322 150 330 Q138 336 142 350 Q146 362 168 360 Q188 358 200 345Z" fill="url(#ribbon)" stroke="#8a1028" stroke-width="1"/>
+  <path d="M200 345 Q230 322 250 330 Q262 336 258 350 Q254 362 232 360 Q212 358 200 345Z" fill="url(#ribbon)" stroke="#8a1028" stroke-width="1"/>
+  <path d="M178 350 L160 392 L172 388 L182 358Z" fill="url(#ribbon)"/>
+  <path d="M222 350 L240 392 L228 388 L218 358Z" fill="url(#ribbon)"/>
+  <ellipse cx="200" cy="345" rx="13" ry="11" fill="#C01838" stroke="#8a1028" stroke-width="1"/>
+  <ellipse cx="196" cy="341" rx="4" ry="3" fill="#FFFFFF" opacity="0.3"/>
+</g>
+<!-- Pearl border at base -->
+<g>
+  <circle cx="128" cy="402" r="5" fill="url(#pearl)"/><circle cx="146" cy="405" r="5" fill="url(#pearl)"/>
+  <circle cx="164" cy="406" r="5" fill="url(#pearl)"/><circle cx="182" cy="407" r="5" fill="url(#pearl)"/>
+  <circle cx="200" cy="407" r="5" fill="url(#pearl)"/><circle cx="218" cy="407" r="5" fill="url(#pearl)"/>
+  <circle cx="236" cy="406" r="5" fill="url(#pearl)"/><circle cx="254" cy="405" r="5" fill="url(#pearl)"/>
+  <circle cx="272" cy="402" r="5" fill="url(#pearl)"/>
+</g>
+<!-- Gula Cake plate text -->
+<text x="200" y="404" font-family="Georgia,serif" font-size="8" fill="#9a9082" text-anchor="middle" letter-spacing="1" opacity="0.7">Gula Cake</text>
+<!-- Label -->
+<rect x="124" y="466" width="152" height="24" rx="12" fill="rgba(176,24,56,0.10)"/>
+<text x="200" y="482" font-family="Georgia,serif" font-size="11" fill="#B01838" text-anchor="middle" letter-spacing="1.5">TORT Z PERŁAMI</text>
+</svg>
