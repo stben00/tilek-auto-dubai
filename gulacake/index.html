@@ -69,6 +69,7 @@ nav.scrolled{border-color:var(--border);box-shadow:0 4px 24px rgba(201,125,148,0
 .particle{position:absolute;border-radius:50%;animation:float linear infinite}
 @keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}
   10%{opacity:1}90%{opacity:0.6}100%{transform:translateY(-100px) scale(1.2);opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px) scale(0.96)}to{opacity:1;transform:none}}
 
 /* HERO */
 #hero{min-height:100vh;padding:74px 24px 32px;position:relative;
@@ -140,6 +141,12 @@ section{padding:80px 24px}
 .fb.on,.fb:hover{background:var(--rose);border-color:var(--rose);color:#fff;
   box-shadow:0 4px 16px rgba(201,125,148,0.35)}
 .masonry{columns:4;column-gap:12px;padding:0 24px}
+.cat-section{break-inside:avoid;margin-bottom:4px;width:100%}
+.cat-section-title{font-family:'Playfair Display',serif;font-size:0.72rem;font-weight:600;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--rose);padding:18px 0 6px;
+  display:flex;align-items:center;gap:10px;break-inside:avoid}
+.cat-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.g-item.reveal{animation:fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) both}
 .g-item{break-inside:avoid;margin-bottom:12px;border-radius:14px;overflow:hidden;
   position:relative;cursor:pointer;box-shadow:0 2px 12px rgba(200,120,150,0.09);
   transition:transform 0.35s,box-shadow 0.35s,opacity 0.3s}
@@ -365,7 +372,7 @@ footer span{color:var(--rose-light)}
 
   <div class="hero-right">
     <a href="#gallery" class="cake-card big" data-cat="torty">
-      <div class="cake-ph ph-1"><img src="images/tort-black18.svg" alt="Torty"></div>
+      <div class="cake-ph ph-1"><img src="images/Новая папка/Снимок экрана 2026-06-15 в 07.24.38.png" alt="Torty"></div>
       <span class="cake-emoji">🎂</span>
       <div class="cake-label">
         <span class="cake-label-name" data-i18n="card.torty">Torty</span>
@@ -373,7 +380,7 @@ footer span{color:var(--rose-light)}
       </div>
     </a>
     <a href="#gallery" class="cake-card" data-cat="bento">
-      <div class="cake-ph ph-2"><img src="images/tort-gula23.svg" alt="Bento"></div>
+      <div class="cake-ph ph-2"><img src="images/Новая папка/Снимок экрана 2026-06-15 в 07.25.49.png" alt="Bento"></div>
       <span class="cake-emoji">🎁</span>
       <div class="cake-label">
         <span class="cake-label-name" data-i18n="card.bento">Bento Cakes</span>
@@ -381,7 +388,7 @@ footer span{color:var(--rose-light)}
       </div>
     </a>
     <a href="#gallery" class="cake-card" data-cat="weselne">
-      <div class="cake-ph ph-3"><img src="images/tort-pearls-bow.svg" alt="Weselne"></div>
+      <div class="cake-ph ph-3"><img src="images/Новая папка/Снимок экрана 2026-06-15 в 07.20.33.png" alt="Weselne"></div>
       <span class="cake-emoji">💍</span>
       <div class="cake-label">
         <span class="cake-label-name" data-i18n="card.weselne">Torty Weselne</span>
@@ -389,7 +396,7 @@ footer span{color:var(--rose-light)}
       </div>
     </a>
     <a href="#gallery" class="cake-card" data-cat="tematyczne">
-      <div class="cake-ph ph-4"><img src="images/tort-cat-yarn.svg" alt="Tematyczne"></div>
+      <div class="cake-ph ph-4"><img src="images/Новая папка/Снимок экрана 2026-06-15 в 07.23.17.png" alt="Tematyczne"></div>
       <span class="cake-emoji">🎨</span>
       <div class="cake-label">
         <span class="cake-label-name" data-i18n="card.tematyczne">Tematyczne</span>
@@ -1101,33 +1108,53 @@ async function scanCat(prefix){
   }
 }
 
+const CAT_ORDER=['torty','weselne','tematyczne','bento'];
+const CAT_LABELS_PL={torty:'Torty urodzinowe',weselne:'Torty weselne',tematyczne:'Tematyczne',bento:'Bento Cakes',kap:'Kapkejki'};
+
+function addCatHeader(cat){
+  const div=document.createElement('div');
+  div.className='cat-section-title';
+  div.dataset.catHeader=cat;
+  div.textContent=CAT_LABELS_PL[cat]||cat;
+  masonry.appendChild(div);
+}
+
 async function buildCatalog(){
   // Сначала показываем настоящие фотки если они есть
   if(REAL_PHOTOS.length>0){
     const lang=document.documentElement.dataset.lang||'pl';
     const tr=T[lang]||T['pl'];
-    REAL_PHOTOS.forEach(photo=>{
-      const url=REAL_DIR+photo.f;
-      const item=document.createElement('div');
-      item.className='g-item';
-      item.dataset.cat=photo.cat||'all';
-      const badgeKey=catLabel(photo.cat);
-      const badgeText=tr[badgeKey]||photo.cat||'';
-      item.innerHTML=
-        '<img src="'+url+'" alt="'+photo.n+'" loading="lazy">'+
-        '<div class="g-overlay"><span class="g-label">'+photo.n+'</span></div>'+
-        (photo.cat?'<div class="g-cat-badge">'+badgeText+'</div>':'');
-      item.addEventListener('click',()=>{
-        lbImg.src=url;
-        document.getElementById('lb-caption').textContent=photo.n;
-        lb.classList.add('open');
+    // Группируем по категориям в нужном порядке
+    const grouped={};
+    REAL_PHOTOS.forEach(p=>{const c=p.cat||'torty';if(!grouped[c])grouped[c]=[];grouped[c].push(p);});
+    CAT_ORDER.forEach(cat=>{
+      if(!grouped[cat]||!grouped[cat].length)return;
+      addCatHeader(cat);
+      grouped[cat].forEach((photo,idx)=>{
+        const url=REAL_DIR+photo.f;
+        const item=document.createElement('div');
+        item.className='g-item';
+        item.dataset.cat=photo.cat||'all';
+        const badgeKey=catLabel(photo.cat);
+        const badgeText=tr[badgeKey]||photo.cat||'';
+        item.innerHTML=
+          '<img src="'+url+'" alt="'+photo.n+'" loading="lazy">'+
+          '<div class="g-overlay"><span class="g-label">'+photo.n+'</span></div>'+
+          (photo.cat?'<div class="g-cat-badge">'+badgeText+'</div>':'');
+        item.addEventListener('click',()=>{
+          lbImg.src=url;
+          document.getElementById('lb-caption').textContent=photo.n;
+          lb.classList.add('open');
+        });
+        masonry.appendChild(item);
+        loadedCount++;
+        // Animate with delay stagger
+        setTimeout(()=>{item.classList.add('reveal');},idx*35);
+        if(typeof gsap!=='undefined'){
+          gsap.from(item,{opacity:0,y:28,scale:0.95,duration:0.55,ease:'power3.out',
+            scrollTrigger:{trigger:item,start:'top 96%',once:true}});
+        }
       });
-      masonry.appendChild(item);
-      loadedCount++;
-      if(typeof gsap!=='undefined'){
-        gsap.from(item,{opacity:0,y:24,scale:0.94,duration:0.5,ease:'power3.out',
-          scrollTrigger:{trigger:item,start:'top 95%',once:true}});
-      }
     });
     if(typeof ScrollTrigger!=='undefined')ScrollTrigger.refresh();
     return;
@@ -1159,6 +1186,11 @@ function filterGallery(cat){
   document.querySelectorAll('.g-item').forEach(item=>{
     const show=cat==='all'||item.dataset.cat===cat;
     item.classList.toggle('g-hidden',!show);
+    if(show){item.style.animationDelay=Math.random()*0.15+'s';item.classList.remove('reveal');void item.offsetWidth;item.classList.add('reveal');}
+  });
+  // Show/hide category headers
+  document.querySelectorAll('[data-cat-header]').forEach(h=>{
+    h.style.display=(cat==='all')?'':'none';
   });
 }
 document.querySelectorAll('.fb').forEach(btn=>{
@@ -1198,54 +1230,88 @@ buildCatalog();
 if(typeof gsap!=='undefined'){
   gsap.registerPlugin(ScrollTrigger);
 
-  /* Hero */
-  gsap.from('.welcome-chip',{opacity:0,y:16,duration:0.6,ease:'power3.out',delay:0.2});
-  gsap.from('.hero-script',  {opacity:0,y:28,duration:0.9,ease:'power3.out',delay:0.35});
-  gsap.from('.hero-tagline', {opacity:0,y:16,duration:0.6,ease:'power3.out',delay:0.55});
-  gsap.from('.hero-desc',    {opacity:0,y:14,duration:0.6,ease:'power3.out',delay:0.7});
-  gsap.from('.hero-cta',     {opacity:0,y:14,duration:0.6,ease:'power3.out',delay:0.85});
-  gsap.from('.hero-stats',   {opacity:0,y:10,duration:0.5,ease:'power3.out',delay:1.0});
-  gsap.from('.cake-card',    {opacity:0,y:32,scale:0.92,duration:0.7,ease:'power3.out',stagger:0.1,delay:0.45});
+  /* Hero — staggered entrance */
+  const heroTl=gsap.timeline({defaults:{ease:'power3.out'}});
+  heroTl
+    .from('.welcome-chip',{opacity:0,y:16,duration:0.6},0.15)
+    .from('.hero-script',  {opacity:0,y:36,duration:1.0},0.28)
+    .from('.hero-tagline', {opacity:0,y:14,duration:0.6},0.50)
+    .from('.hero-desc',    {opacity:0,y:12,duration:0.6},0.65)
+    .from('.hero-cta',     {opacity:0,y:12,duration:0.6},0.80)
+    .from('.hero-stats',   {opacity:0,y:8, duration:0.5},0.95)
+    .from('.cake-card',    {opacity:0,y:36,scale:0.9,duration:0.7,stagger:0.08},0.32);
 
-  /* Scroll reveals */
+  /* Parallax on hero cards while scrolling */
+  gsap.to('.hero-right',{
+    y:-60,ease:'none',
+    scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}
+  });
+
+  /* Animated number counters in stats */
+  document.querySelectorAll('.hero-stat-n').forEach(el=>{
+    const raw=el.textContent.trim();
+    const num=parseInt(raw);
+    if(!num)return;
+    const suf=raw.replace(/[0-9]/g,'');
+    const obj={val:0};
+    gsap.to(obj,{val:num,duration:1.8,ease:'power2.out',
+      scrollTrigger:{trigger:el,start:'top 90%',once:true},
+      onUpdate:()=>{el.textContent=Math.round(obj.val)+suf;}
+    });
+    el.textContent='0'+suf;
+  });
+
+  /* Scroll reveals — slide up */
   const revealEls=['.s-title','.s-label','.s-desc','.ig-link a','.about-text'];
   revealEls.forEach(sel=>{
     gsap.utils.toArray(sel).forEach(el=>{
-      gsap.from(el,{opacity:0,y:24,duration:0.7,ease:'power3.out',
-        scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+      gsap.from(el,{opacity:0,y:30,duration:0.75,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 90%',once:true}});
     });
   });
 
-  /* Gallery items animate on creation (see buildCatalog) */
+  /* Gallery section title */
+  gsap.from('#gallery .s-title',{opacity:0,y:24,duration:0.7,ease:'power3.out',
+    scrollTrigger:{trigger:'#gallery',start:'top 80%',once:true}});
 
-  /* Smak cards */
-  gsap.utils.toArray('.smak').forEach((el,i)=>{
-    gsap.from(el,{opacity:0,y:16,duration:0.4,ease:'power2.out',
-      delay:(i%4)*0.035,scrollTrigger:{trigger:el,start:'top 92%',once:true}});
-  });
+  /* SMAKI section — left/right slide in */
+  gsap.from('.smaki-left',{opacity:0,x:-50,duration:0.9,ease:'power3.out',
+    scrollTrigger:{trigger:'#smaki',start:'top 75%',once:true}});
+  gsap.from('.smaki-right',{opacity:0,x:50,duration:0.9,ease:'power3.out',
+    scrollTrigger:{trigger:'#smaki',start:'top 75%',once:true}});
 
   /* Steps */
   gsap.utils.toArray('.step').forEach((el,i)=>{
-    gsap.from(el,{opacity:0,y:24,duration:0.6,ease:'power3.out',delay:i*0.13,
+    gsap.from(el,{opacity:0,y:30,duration:0.65,ease:'power3.out',delay:i*0.12,
       scrollTrigger:{trigger:'#how',start:'top 82%',once:true}});
   });
 
-  /* Review cards */
+  /* Review cards — pop in */
   gsap.utils.toArray('.review-card').forEach((el,i)=>{
-    gsap.from(el,{opacity:0,y:28,duration:0.6,ease:'power3.out',delay:i*0.12,
+    gsap.from(el,{opacity:0,y:32,scale:0.95,duration:0.65,ease:'back.out(1.2)',delay:i*0.14,
       scrollTrigger:{trigger:'#reviews',start:'top 82%',once:true}});
   });
 
   /* Contact buttons */
   gsap.utils.toArray('.cb').forEach((el,i)=>{
-    gsap.from(el,{opacity:0,y:20,duration:0.5,ease:'power3.out',delay:i*0.1,
+    gsap.from(el,{opacity:0,y:20,duration:0.5,ease:'power3.out',delay:i*0.08,
       scrollTrigger:{trigger:'#contact',start:'top 82%',once:true}});
   });
 
-  /* About facts */
+  /* About facts — scale bounce */
   gsap.utils.toArray('.fact').forEach((el,i)=>{
-    gsap.from(el,{opacity:0,scale:0.88,duration:0.5,ease:'back.out(1.5)',delay:i*0.1,
+    gsap.from(el,{opacity:0,scale:0.85,duration:0.55,ease:'back.out(2)',delay:i*0.1,
       scrollTrigger:{trigger:'.about-facts',start:'top 85%',once:true}});
+  });
+
+  /* Category cards in gallery — stagger as they appear */
+  ScrollTrigger.create({
+    trigger:'#masonry',start:'top 85%',once:true,
+    onEnter:()=>{
+      gsap.utils.toArray('.cat-section-title').forEach((el,i)=>{
+        gsap.from(el,{opacity:0,x:-20,duration:0.5,ease:'power3.out',delay:i*0.08});
+      });
+    }
   });
 }
 </script>
